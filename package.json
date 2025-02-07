@@ -13,12 +13,31 @@
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.47",
         "tailwindcss": "^3.4.13",
-        "vite": "^6.0.11"
+        "vite": "^6.1.0"
     },
     "dependencies": {
         "cross-env": "^7.0.3",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
-        "react-router-dom": "^7.1.4"
-    }
+        "react-router-dom": "^7.1.4",
+        "tailwind": "^4.0.0"
+    },
+    "name": "jomnouy",
+    "version": "1.0.0",
+    "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
+    "main": "postcss.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TechTheMoneyTeam/jomnouy.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/TechTheMoneyTeam/jomnouy/issues"
+    },
+    "homepage": "https://github.com/TechTheMoneyTeam/jomnouy#readme"
 }
