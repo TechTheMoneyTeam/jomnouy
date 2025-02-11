@@ -15,6 +15,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
 </head>
 <body>
-    <div id="app"></div>
+    <div id="root"></div>
+    
+    <!-- Ensure Vite loads the scripts properly -->
+    @vite(['resources/js/app.jsx'])
 </body>
 </html>

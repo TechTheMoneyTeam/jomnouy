@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .hero {
+    @apply relative bg-orange-500 text-white;
+  }
+
+  .hero-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24;
+  }
+
+  .hero-content {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-8 items-center;
+  }
+
+  .hero-text {
+    @apply space-y-6;
+  }
+
+  .hero-title {
+    @apply text-4xl md:text-5xl font-bold;
+  }
+
+  .hero-description {
+    @apply text-xl;
+  }
+
+  .hero-button {
+    @apply bg-white text-orange-500 px-8 py-3 rounded-md text-lg font-semibold hover:bg-orange-50 transition-colors;
+  }
+
+  .hero-image-container {
+    @apply hidden md:block;
+  }
+
+  .hero-image {
+    @apply rounded-lg shadow-xl;
+  }
+}

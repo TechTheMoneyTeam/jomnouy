@@ -1,16 +1,18 @@
-import './bootstrap';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './components/App';
-import { BrowserRouter} from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import AppRoutes from './router';
+import './App.css';
 
-const root = ReactDOM.createRoot(document.getElementById('app'));
 
-root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-        <App/>
-        </BrowserRouter>
-        
-    </React.StrictMode>
+const App = () => {
+  return <AppRoutes />;
+};
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
+
+export default App;
