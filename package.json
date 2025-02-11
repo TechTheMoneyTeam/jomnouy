@@ -16,9 +16,12 @@
         "vite": "^6.0.11"
     },
     "dependencies": {
+        "@tailwindcss/forms": "^0.5.10",
         "cross-env": "^7.0.3",
+        "lucide-react": "^0.475.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
-        "react-router-dom": "^7.1.4"
+        "react-router-dom": "^7.1.5"
     }
+    
 }
