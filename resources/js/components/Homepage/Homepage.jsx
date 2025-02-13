@@ -56,7 +56,7 @@ const Home = () => {
             <div className="hero-content">
                 <div className="hero-text-section">
                     <div className="hero-text-background"></div>
-                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិតរបស់អ្នកជាមួយ</h1>
+                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
                     <p className="hero-description">
                     របស់អ្នក
                     </p>
