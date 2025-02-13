@@ -1,7 +1,9 @@
+
+// pages/Home.jsx
 import React from 'react';
 import Header from '../components/Header/Header';
 import Hero from '../components/Hero/Hero';
-import Projectcard from '../components/Projectcard/Projectcard';
+import ProjectCard from '../components/ProjectCard/ProjectCard';
 import Footer from '../components/Footer/Footer';
 
 const Home = () => {
@@ -9,7 +11,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <Hero />
-      <Projectcard />
+      <ProjectCard />
       <Footer />
     </div>
   );

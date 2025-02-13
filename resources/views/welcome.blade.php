@@ -16,8 +16,5 @@
 </head>
 <body>
     <div id="root"></div>
-    
-    <!-- Ensure Vite loads the scripts properly -->
-    @vite(['resources/js/app.jsx'])
 </body>
 </html>

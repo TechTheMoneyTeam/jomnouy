@@ -11,10 +11,9 @@ export default defineConfig({
         react(),
     ],
     server: {
-'/api': {
-            target: 'http://localhost:8000', // Ensure this matches your Laravel server
-            changeOrigin: true,
-            secure: false,
+        proxy: {
+            // Proxy all requests to Laravel
+            '/': 'http://localhost:8000',  // Adjust this URL if Laravel is running on a different port
         },
     },
 });

@@ -1,16 +1,20 @@
-import './bootstrap';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './pages/Home';
-import { BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes';
+import Navbar from './components/Navbar';
+import './App.css';
 
-const root = ReactDOM.createRoot(document.getElementById('app'));
+const App = () => {
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-100">
+        <Navbar />
+        <main className="container mx-auto px-4 py-8">
+          <AppRoutes />
+        </main>
+      </div>
+    </BrowserRouter>
+  );
+};
 
-root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-        <App/>
-        </BrowserRouter>
-        
-    </React.StrictMode>
-);
+export default App;
