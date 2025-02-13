@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin } from 'lucide-react';
+import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin, Search } from 'lucide-react';
 import './Home.css';
 
 const Home = () => {
+    const [language, setLanguage] = useState('en');
+
+    const toggleLanguage = () => {
+        setLanguage(prev => (prev === 'en' ? 'km' : 'en'));
+    };
+
     const Header = () => (
         <header className="header">
             <nav className="nav-container">
                 <Link to="/" className="logo">Jomnouy</Link>
+                <div className="nav-links">
+                    <Link to="/" className={`nav-link ${language === 'en' ? 'home-yellow' : ''}`}>Home</Link>
+                    <Link to="/services" className="nav-link">Services</Link>
+                    <Link to="/about" className="nav-link">About</Link>
+                </div>
                 <div className="button-group">
                     <button className="login-button">Login</button>
-                    <Link to="/projectlist" className="view-projects">View Projects</Link>
+                    <button className="search-button">
+                        <Search />
+                    </button>
+                    {/* <Link to="/projectlist" className="view-projects">View Projects</Link> */}
+                    <button onClick={toggleLanguage} className="language-button">
+                        <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
+                    </button>
+
                 </div>
             </nav>
         </header>
