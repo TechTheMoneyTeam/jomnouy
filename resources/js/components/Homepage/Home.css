@@ -25,70 +25,77 @@
     @apply text-black text-lg font-medium hover:text-yellow-500 transition-colors;
 }
 
-/* Always yellow with underline on Home */
-.home-yellow {
-    @apply text-yellow-500 underline underline-offset-4 font-semibold;
-}
-
 /* Button Group */
 .button-group {
     @apply flex items-center gap-4;
 }
-
-/* Search Button */
-.search-button {
-    @apply bg-transparent border-none text-black px-3 py-2 rounded-md hover:text-gray-700 transition-colors;
-}
-
-/* Language Switch Button */
-.language-button {
-    @apply flex items-center bg-transparent border border-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-200 transition;
-}
-
-/* Login and View Projects Buttons */
-.login-button {
-    @apply bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition;
-}
-
-.view-projects {
-    @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition;
-}
-
-/* Hero Section */
 .hero {
-    @apply bg-gray-100 py-16;
+    @apply relative min-h-[500px] w-full overflow-hidden mt-8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero-container {
-    @apply container mx-auto flex flex-col md:flex-row items-center px-6;
+/* Orange Background */
+.hero-background {
+    @apply absolute inset-0;
+    background-color: #F07900;
+    border-radius: 0px 187px 0px 431px;
+    z-index: 1; /* Behind everything */
 }
 
-.hero-text {
-    @apply flex-1 text-center md:text-left;
+/* Hero Content Section */
+.hero-content {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 p-8;
 }
 
+/* Hero Text Section */
+.hero-text-section {
+    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20; /* Ensure z-index is higher */
+    padding: 20px;
+}
+
+/* White Text Background */
+.hero-text-background {
+    @apply absolute inset-0;
+    background-color: white;
+    border-radius: 0px 193px 0px 193px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+    
+  
+   
+    z-index: 10; 
+}
+
+/* Text Styles */
 .hero-title {
-    @apply text-4xl font-bold text-gray-900;
+    @apply text-4xl font-bold text-gray-900 relative z-30;
+    margin-left: 10px; /* Ensure text is on top */
 }
 
 .hero-description {
-    @apply text-lg text-gray-600 mt-2;
+    @apply text-xl text-gray-800 relative z-30;
+    margin-left: 35px;
+
+    /* Ensure text is on top */
 }
 
 .hero-button {
-    @apply bg-blue-600 text-white px-6 py-3 rounded-md mt-4 inline-block hover:bg-blue-700 transition;
+    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+    position: relative; /* Ensure button is in the stacking context */
+    z-index: 30;
+    margin-left: 35%; /* Make sure it's above the background */
 }
 
-/* Hero Image */
+/* Hero Visual Section */
 .hero-image-wrapper {
-    @apply flex-1 flex justify-center;
+    @apply relative flex justify-center items-center;
 }
 
-.hero-image {
-    @apply rounded-lg shadow-lg;
+.analytics-image {
+    @apply w-full max-w-[400px] h-auto;
 }
 
-/* Footer */
 .footer {
     @apply bg-custom-orange text-white py-10 mt-16;
 }
