@@ -1,16 +1,16 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
+import { Routes, Route } from 'react-router-dom'
+import Home from '../pages/Home'
 
-const AppRoutes = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
 
-      </Routes>
-    </BrowserRouter>
-  );
-};
+const Index = () => {
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                
+            </Routes>
+        </div>
+    )
+}
 
-export default AppRoutes;
+export default Index
