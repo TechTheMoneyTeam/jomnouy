@@ -67,7 +67,7 @@ const Home = () => {
                 </div>
                 <div className="hero-image-wrapper">
                     <img
-                        src="/img/hero.png" // Replace with actual image path
+                        src="/img/hero.png" 
                         alt="Illustration of investment opportunities"
                         className="analytics-image"
                     />
