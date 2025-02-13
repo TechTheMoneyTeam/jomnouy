@@ -123,18 +123,18 @@ button {
 
 .hero-title {
     @apply text-4xl font-bold text-gray-900 relative z-30;
-    margin-left: 10px;
+    
 }
 
 .hero-description {
-    @apply text-xl text-gray-800 relative z-30;
-    margin-left: 35px;
+    @apply text-3xl font-bold text-gray-800 relative z-30;
+    /* margin-left: 35px; */
 
 
 }
 
 .hero-button {
-    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
     position: relative;
     z-index: 30;
     margin-left: 35%;
@@ -146,7 +146,7 @@ button {
 }
 
 .analytics-image {
-    @apply w-full max-w-[400px] h-auto;
+    @apply w-full max-w-[600px] h-auto;
 }
 
 .footer {

@@ -56,14 +56,14 @@ const Home = () => {
             <div className="hero-content">
                 <div className="hero-text-section">
                     <div className="hero-text-background"></div>
-                    <h1 className="hero-title">Jom-nouy</h1>
+                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិតរបស់អ្នកជាមួយ</h1>
                     <p className="hero-description">
-                        Find Your Next Investment Opportunity
+                    របស់អ្នក
                     </p>
                     <p className="hero-description">
-                        Connect with innovative startups and make impactful investments in Cambodia's future.
+                    ជាមួយ Jom-nouy
                     </p>
-                    <a href="/projectlist" className="hero-button">Start Now</a>
+                    <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
                 </div>
                 <div className="hero-image-wrapper">
                     <img
