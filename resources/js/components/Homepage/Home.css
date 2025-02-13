@@ -3,32 +3,90 @@
 @tailwind utilities;
 
 /* Header */
+/* General Header Styling */
 .header {
-    @apply bg-white py-4 relative;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+    @apply bg-white text-white py-4 px-6; /* Dark background, white text, padding */
+    position: sticky;
+    top: 0; /* Fix header at the top */
+    z-index: 50; /* Ensure it stays on top of other content */
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
 
+/* Navigation Container */
 .nav-container {
-    @apply container mx-auto flex justify-between items-center px-6;
+    @apply flex justify-between items-center; /* Flexbox for spacing and alignment */
 }
 
+/* Logo */
 .logo {
-    @apply text-2xl font-bold text-gray-800;
+    @apply text-2xl font-bold text-custom-orange; /* Logo styling */
+    text-decoration: none;
 }
 
-/* Navbar Links */
+/* Navigation Links */
 .nav-links {
-    @apply flex space-x-8;
+    @apply flex space-x-6; /* Flex container with spacing between links */
 }
-
 .nav-link {
-    @apply text-black text-lg font-medium hover:text-yellow-500 transition-colors;
+    @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200; /* Link styling */
+    text-decoration: none; /* No underline by default */
 }
 
-/* Button Group */
-.button-group {
-    @apply flex items-center gap-4;
+.nav-link:hover {
+    text-decoration: underline; /* Add underline on hover */
 }
+
+/* Fixed underline and yellow text for active link */
+.active-link {
+    text-decoration: none; /* No underline for active link */
+    border-bottom: 2px solid #F07900; /* Fixed underline for active link */
+    color: #F07900; /* Change text color to yellow for active link */
+}
+
+.nav-link.active-link:hover {
+    text-decoration: none; /* Ensure no underline on hover for active link */
+    color: #F07900; /* Ensure the text stays yellow on hover */
+}
+
+
+
+
+/* Button Group Styling */
+.button-group {
+    @apply flex space-x-4 items-center; /* Flex container for buttons with spacing */
+}
+
+/* Buttons Styling */
+button {
+    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200; /* General button styling */
+}
+
+/* Login Button */
+.login-button {
+    @apply bg-custom-orange hover:bg-blue-700; /* Blue background for login */
+}
+
+/* Search Button */
+.search-button {
+    @apply hover:bg-gray-600;
+    color: #F07900; /* Dark button for search */
+}
+
+/* Language Toggle Button */
+.language-button {
+    @apply  hover:bg-green-700; 
+    border-radius: 10px;
+    color: #F07900;
+    border-color: black;
+    border-width: 1px;
+
+}
+
+/* Flag Icon */
+.flag-icon {
+    @apply mr-2; /* Add some margin to the right of the flag */
+}
+
 .hero {
     @apply relative min-h-[500px] w-full overflow-hidden mt-8;
     display: flex;
