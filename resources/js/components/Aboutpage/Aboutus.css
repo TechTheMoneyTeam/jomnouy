@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .header {
+        @apply bg-white text-white py-4 px-6;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+    }
+    
+    .nav-container {
+        @apply flex justify-between items-center;
+    }
+    
+    .logo {
+        @apply text-2xl font-bold text-custom-orange;
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        @apply flex space-x-6;
+    }
+    
+    .nav-link {
+        @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
+        text-decoration: none;
+    }
+    
+    .nav-link:hover {
+        text-decoration: underline;
+    }
+    
+    .active-link {
+        text-decoration: none;
+        border-bottom: 2px solid #F07900;
+        color: #F07900;
+    }
+    
+    .nav-link.active-link:hover {
+        text-decoration: none;
+        color: #F07900;
+    }
+    
+    .button-group {
+        @apply flex space-x-4 items-center;
+    }
+    
+    button {
+        @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 ;
+        z-index: 100;
+    }
+    
+    .login-button {
+        @apply bg-custom-orange hover:bg-blue-700;
+    }
+    
+    .search-button {
+        @apply hover:bg-gray-600;
+        color: #F07900;
+    }
+    
+
+    
+    .language-button {
+        @apply hover:bg-green-700;
+        border-radius: 10px;
+        color: #F07900;
+        border-color: black;
+        border-width: 1px;
+    }
+    
+    .flag-icon {
+        @apply mr-2;
+    }
+
+    .footer {
+        @apply bg-custom-orange text-white py-10 mt-16;
+    }
+
+    .footer-grid {
+        @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
+    }
+
+    .footer-title {
+        @apply text-lg font-bold;
+    }
+
+    .footer-list {
+        @apply space-y-2;
+    }
+
+    .footer-link {
+        @apply text-white hover:text-yellow-300 transition;
+    }
+
+    .footer-contact {
+        @apply flex items-center space-x-2;
+    }
+
+    .footer-social {
+        @apply flex justify-center space-x-4 mt-4;
+    }
+
+    .social-icon {
+        @apply text-white hover:text-black transition;
+    }
+
+}
+

@@ -2,33 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Header */
+
 .header {
-    @apply bg-white py-4 relative;
+    @apply bg-white text-white py-4 px-6;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+}
+.hero-button1 {
+    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+    position: absolute;
+    right: 15rem; 
+    top: 72%; 
+    transform: translateY(-50%);
+    z-index: 50;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
 
+
+
 .nav-container {
-    @apply container mx-auto flex justify-between items-center px-6;
+    @apply flex justify-between items-center;
 }
+
 
 .logo {
-    @apply text-2xl font-bold text-gray-800;
+    @apply text-2xl font-bold text-custom-orange;
+    text-decoration: none;
 }
 
-/* Navbar Links */
+
 .nav-links {
-    @apply flex space-x-8;
+    @apply flex space-x-6;
 }
 
 .nav-link {
-    @apply text-black text-lg font-medium hover:text-yellow-500 transition-colors;
+    @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
+    text-decoration: none;
 }
 
-/* Button Group */
-.button-group {
-    @apply flex items-center gap-4;
+.nav-link:hover {
+    text-decoration: underline;
 }
+
+
+.active-link {
+    text-decoration: none;
+    border-bottom: 2px solid #F07900;
+    color: #F07900;
+}
+
+.nav-link.active-link:hover {
+    text-decoration: none;
+    color: #F07900;
+}
+
+
+.button-group {
+    @apply flex space-x-4 items-center;
+}
+
+
+button {
+    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
+}
+
+.login-button {
+    @apply bg-custom-orange hover:bg-blue-700;
+}
+
+
+.search-button {
+    @apply hover:bg-gray-600;
+    color: #F07900;
+}
+
+
+.language-button {
+    @apply hover:bg-green-700;
+    border-radius: 10px;
+    color: #F07900;
+    border-color: black;
+    border-width: 1px;
+
+}
+
+
+.flag-icon {
+    @apply mr-2;
+}
+
 .hero {
     @apply relative min-h-[500px] w-full overflow-hidden mt-8;
     display: flex;
@@ -36,65 +100,61 @@
     justify-content: center;
 }
 
-/* Orange Background */
+
 .hero-background {
     @apply absolute inset-0;
     background-color: #F07900;
     border-radius: 0px 187px 0px 431px;
-    z-index: 1; /* Behind everything */
+    z-index: 1;
 }
 
-/* Hero Content Section */
+
 .hero-content {
     @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 p-8;
 }
 
-/* Hero Text Section */
+
 .hero-text-section {
-    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20; /* Ensure z-index is higher */
+    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20;
     padding: 20px;
 }
 
-/* White Text Background */
 .hero-text-background {
     @apply absolute inset-0;
     background-color: white;
-    width: 450px;
     border-radius: 0px 193px 0px 193px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-    
-  
-   
-    z-index: 10; 
+
+    z-index: 10;
 }
 
-/* Text Styles */
+
 .hero-title {
-    @apply text-4xl font-bold text-gray-900 relative z-30;
-    margin-left: 10px; /* Ensure text is on top */
+    @apply text-5xl font-bold text-gray-900 relative z-30;
+    
 }
 
 .hero-description {
-    @apply text-xl text-gray-800 relative z-30;
-    margin-left: 35px;
+    @apply text-3xl font-bold text-gray-800 relative z-30;
 
-    /* Ensure text is on top */
+
+
 }
 
 .hero-button {
-    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
-    position: relative; /* Ensure button is in the stacking context */
-    z-index: 30;
-    margin-left: 35%; /* Make sure it's above the background */
+    @apply inline-block rounded-lg bg-black px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+    position: relative;
+    z-index: 50;
+    margin-left: 35%;
 }
 
-/* Hero Visual Section */
+
 .hero-image-wrapper {
     @apply relative flex justify-center items-center;
 }
 
 .analytics-image {
-    @apply w-full max-w-[400px] h-auto;
+    @apply w-full max-w-[600px] h-auto;
 }
 
 .footer {
@@ -121,7 +181,7 @@
     @apply flex items-center space-x-2;
 }
 
-/* Footer Bottom Section */
+
 .footer-bottom {
     @apply mt-6 text-center text-white;
 }
