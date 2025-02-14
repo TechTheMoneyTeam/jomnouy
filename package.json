@@ -4,16 +4,24 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
+<<<<<<< HEAD
         "watch": "vite build --watch"
+=======
+        "watch": "vite build --watch",
+        
+        
+        
+>>>>>>> 2dd4266a9e14a739b351d571800617ac96d253d6
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
+        "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.47",
-        "tailwindcss": "^3.4.13",
+        "tailwindcss": "^3.4.17",
         "vite": "^6.0.11"
     },
     "dependencies": {
@@ -24,4 +32,8 @@
         "react-dom": "^19.0.0",
         "react-router-dom": "^7.1.5"
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2dd4266a9e14a739b351d571800617ac96d253d6
