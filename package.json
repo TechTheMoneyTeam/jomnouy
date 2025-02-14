@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
@@ -23,5 +24,4 @@
         "react-dom": "^19.0.0",
         "react-router-dom": "^7.1.5"
     }
-    
 }
