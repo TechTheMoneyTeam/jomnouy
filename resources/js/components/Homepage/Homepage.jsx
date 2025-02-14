@@ -31,7 +31,7 @@ const Home = () => {
                         </Link>
                         <Link 
                             to="/about" 
-                            className={`nav-link ${location.pathname === '/about' ? 'active-link' : ''}`}
+                            className={`nav-link ${location.pathname === '/About' ? 'active-link' : ''}`}
                         >
                             About
                         </Link>
