@@ -1,35 +1,81 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link,useLocation } from 'react-router-dom';
+import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin, Search } from 'lucide-react';
 import './Home.css';
 
 const Home = () => {
-    const Header = () => (
-        <header className="header">
-            <nav className="nav-container">
-                <Link to="/" className="logo">Jomnouy</Link>
-                <div className="button-group">
-                    <button className="login-button">Login</button>
-                    <Link to="/projectlist" className="view-projects">View Projects</Link>
-                </div>
-            </nav>
-        </header>
-    );
+    const [language, setLanguage] = useState('en');
 
+    const toggleLanguage = () => {
+        setLanguage(prev => (prev === 'en' ? 'km' : 'en'));
+    };
+    const Header = () => {
+        const location = useLocation();
+    
+        return (
+            <header className="header">
+                <nav className="nav-container">
+                    <Link to="/" className="logo">Jomnouy</Link>
+                    <div className="nav-links">
+                        <Link 
+                            to="/" 
+                            className={`nav-link ${location.pathname === '/' ? 'active-link' : ''}`}
+                        >
+                            Home
+                        </Link>
+                        <Link 
+                            to="/services" 
+                            className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
+                        >
+                            Services
+                        </Link>
+                        <Link 
+                            to="/about" 
+                            className={`nav-link ${location.pathname === '/About' ? 'active-link' : ''}`}
+                        >
+                            About
+                        </Link>
+                    </div>
+                    <div className="button-group">
+                        <button className="login-button">Login</button>
+                        <button className="search-button">
+                            <Search />
+                        </button>
+                        <button onClick={toggleLanguage} className="language-button">
+                            <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
+                        </button>
+                    </div>
+                </nav>
+            </header>
+        );
+    }
+    
     const Hero = () => (
         <section className="hero">
-            <div className="hero-container">
-                <div className="hero-text">
-                    <h1 className="hero-title">Find Your Next Investment Opportunity</h1>
-                    <p className="hero-description">Connect with innovative startups and make impactful investments in Cambodia's future</p>
-                    <Link to="/projectlist" className="hero-button">Start Now</Link>
+            <div className="hero-background"></div>
+            <div className="hero-content">
+                <div className="hero-text-section">
+                    <div className="hero-text-background"></div>
+                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
+                    <p className="hero-description">
+                    របស់អ្នក
+                    </p>
+                    <p className="hero-description">
+                    ជាមួយ Jom-nouy
+                    </p>
+                    <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
                 </div>
                 <div className="hero-image-wrapper">
-                    <img src="/api/placeholder/600/400" alt="Investment Concept" className="hero-image" />
+                    <img
+                        src="/img/hero.png" 
+                        alt="Illustration of investment opportunities"
+                        className="analytics-image"
+                    />
                 </div>
             </div>
         </section>
     );
+    
 
     const Footer = () => (
         <footer className="footer">
@@ -64,14 +110,14 @@ const Home = () => {
                 <div>
                     <h3 className="footer-title">Contact</h3>
                     <ul className="footer-list">
-                        <li className="footer-contact"><MapPin /> 417 Fifth Avenue, NY</li>
-                        <li className="footer-contact"><Phone /> (855) 748-2422</li>
+                        <li className="footer-contact"><MapPin /> National Road 6a Bridge No2 IDRI Building CADT, PP</li>
+                        <li className="footer-contact"><Phone /> (+855) 12 222 333</li>
                         <li className="footer-contact"><Mail /> support@jomnouy.com</li>
                     </ul>
                 </div>
             </div>
             <div className="footer-bottom">
-                <p>© 2024 Jom-nouy. All Rights Reserved.</p>
+                <p>© 2025 Jomnouy. All Rights Reserved.</p>
                 <div className="footer-social">
                     <Link to="#" className="social-icon"><Facebook /></Link>
                     <Link to="#" className="social-icon"><Linkedin /></Link>

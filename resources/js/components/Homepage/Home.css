@@ -2,68 +2,167 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .header {
-    @apply bg-white shadow-md py-4;
+    @apply bg-white text-white py-4 px-6;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
+.hero-button1 {
+    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+    position: absolute;
+    right: 15rem; 
+    top: 72%; 
+    transform: translateY(-50%);
+    z-index: 50;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+
 
 .nav-container {
-    @apply container mx-auto flex justify-between items-center px-4;
+    @apply flex justify-between items-center;
 }
+
 
 .logo {
-    @apply text-2xl font-bold text-gray-800;
+    @apply text-2xl font-bold text-custom-orange;
+    text-decoration: none;
 }
 
+
+.nav-links {
+    @apply flex space-x-6;
+}
+
+.nav-link {
+    @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+
+.active-link {
+    text-decoration: none;
+    border-bottom: 2px solid #F07900;
+    color: #F07900;
+}
+
+.nav-link.active-link:hover {
+    text-decoration: none;
+    color: #F07900;
+}
+
+
 .button-group {
-    @apply flex gap-4;
+    @apply flex space-x-4 items-center;
+}
+
+
+button {
+    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
 }
 
 .login-button {
-    @apply bg-gray-700 text-white px-4 py-2 rounded-md;
+    @apply bg-custom-orange hover:bg-blue-700;
 }
 
-.view-projects {
-    @apply bg-blue-600 text-white px-4 py-2 rounded-md;
+
+.search-button {
+    @apply hover:bg-gray-600;
+    color: #F07900;
+}
+
+
+.language-button {
+    @apply hover:bg-green-700;
+    border-radius: 10px;
+    color: #F07900;
+    border-color: black;
+    border-width: 1px;
+
+}
+
+
+.flag-icon {
+    @apply mr-2;
 }
 
 .hero {
-    @apply bg-gray-100 py-16;
+    @apply relative min-h-[500px] w-full overflow-hidden mt-8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero-container {
-    @apply container mx-auto flex flex-col md:flex-row items-center;
+
+.hero-background {
+    @apply absolute inset-0;
+    background-color: #F07900;
+    border-radius: 0px 187px 0px 431px;
+    z-index: 1;
 }
 
-.hero-text {
-    @apply flex-1 text-center md:text-left;
+
+.hero-content {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 p-8;
 }
+
+
+.hero-text-section {
+    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20;
+    padding: 20px;
+}
+
+.hero-text-background {
+    @apply absolute inset-0;
+    background-color: white;
+    border-radius: 0px 123px 0px 123px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+
+    z-index: 10;
+}
+
 
 .hero-title {
-    @apply text-4xl font-bold text-gray-900;
+    @apply text-5xl font-bold text-gray-900 relative z-30;
+    
 }
 
 .hero-description {
-    @apply text-lg text-gray-600 mt-2;
+    @apply text-3xl font-bold text-gray-800 relative z-30;
+
+
+
 }
 
 .hero-button {
-    @apply bg-blue-600 text-white px-6 py-3 rounded-md mt-4 inline-block;
+    @apply inline-block rounded-lg bg-black px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+    position: relative;
+    z-index: 50;
+    margin-left: 35%;
 }
+
 
 .hero-image-wrapper {
-    @apply flex-1 flex justify-center;
+    @apply relative flex justify-center items-center;
 }
 
-.hero-image {
-    @apply rounded-lg shadow-lg;
+.analytics-image {
+    @apply w-full max-w-[600px] h-auto;
 }
 
 .footer {
-    @apply bg-gray-800 text-white py-10 mt-16;
+    @apply bg-custom-orange text-white py-10 mt-16;
 }
 
 .footer-grid {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6;
+    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
 }
 
 .footer-title {
@@ -75,15 +174,16 @@
 }
 
 .footer-link {
-    @apply text-gray-300 hover:text-white;
+    @apply text-white hover:text-yellow-300 transition;
 }
 
 .footer-contact {
     @apply flex items-center space-x-2;
 }
 
+
 .footer-bottom {
-    @apply mt-6 text-center text-gray-400;
+    @apply mt-6 text-center text-white;
 }
 
 .footer-social {
@@ -91,5 +191,5 @@
 }
 
 .social-icon {
-    @apply text-gray-400 hover:text-white;
+    @apply text-white hover:text-black transition;
 }
