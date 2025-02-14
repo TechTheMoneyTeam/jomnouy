@@ -36,7 +36,7 @@ const About = () => {
 
   const ImageSections = () => (
     <div className="w-full flex flex-col gap-8">
-      {/* First Image Section */}
+
       <div className="w-full h-[400px] relative">
         <img 
           src="/img/about.png" 
@@ -46,7 +46,7 @@ const About = () => {
         <div className="absolute inset-0 bg-black/50 pointer-events-none" />
       </div>
       
-      {/* Second Image Section with Button */}
+
       <div className="w-full h-[500px] relative">
         <img 
           src="/img/bottomabout.png" 
@@ -54,7 +54,7 @@ const About = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 pointer-events-none" />
-        <a href="/projectlist" className="hero-button1">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
+        <a href="/projectlist" className="hero-button1">CONTACT US </a>
         
  
       </div>
