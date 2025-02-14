@@ -59,6 +59,7 @@
 .hero-text-background {
     @apply absolute inset-0;
     background-color: white;
+    width: 450px;
     border-radius: 0px 193px 0px 193px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
     

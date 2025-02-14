@@ -16,7 +16,7 @@ const Home = () => {
                 <Link to="/" className="logo">Jomnouy</Link>
                 <div className="nav-links">
                     <Link to="/" className={`nav-link ${language === 'en' ? 'home-yellow' : ''}`}>Home</Link>
-                    <Link to="/services" className="nav-link">Services</Link>
+                    <Link to="/Servicepage" className="nav-link">Services</Link>
                     <Link to="/about" className="nav-link">About</Link>
                 </div>
                 <div className="button-group">

@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "watch": "vite build --watch",
+        "dev:all": "php artisan serve & npm run watch"
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
