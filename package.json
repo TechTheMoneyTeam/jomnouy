@@ -4,6 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite"
+        
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
