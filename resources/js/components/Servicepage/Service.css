@@ -173,11 +173,11 @@ button {
 
 
 .hero-btn-primary1 {
-  @apply bg-custom-orange text-white px-10 py-2 rounded-[10px_0px_0px_10px] transition duration-300 border border-custom-orange hover:bg-white hover:text-custom-orange;
+  @apply bg-custom-orange text-white px-10 py-2 rounded-[100px_100px_100px_100px] transition duration-300 border border-custom-orange hover:bg-white hover:text-custom-orange;
 }
 
 .hero-btn-secondary1 {
-  @apply bg-white text-custom-orange px-5 py-2 rounded-[0px_10px_10px_0px] transition duration-300 border border-custom-orange hover:bg-custom-orange hover:text-white;
+  @apply bg-white text-custom-orange px-5 py-2 rounded-[100px_100px_100px_100px] transition duration-300 border border-custom-orange hover:bg-custom-orange hover:text-white;
 }
 @keyframes slideInUp {
   from {
