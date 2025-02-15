@@ -32,33 +32,6 @@
     text-decoration: none;
 }
 
-
-.nav-links {
-    @apply flex space-x-6;
-}
-
-.nav-link {
-    @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
-    text-decoration: none;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
-}
-
-
-.active-link {
-    text-decoration: none;
-    border-bottom: 2px solid #F07900;
-    color: #F07900;
-}
-
-.nav-link.active-link:hover {
-    text-decoration: none;
-    color: #F07900;
-}
-
-
 .button-group {
     @apply flex space-x-4 items-center;
 }
@@ -68,9 +41,9 @@ button {
     @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
 }
 
-.login-button {
+/* .login-button {
     @apply bg-custom-orange hover:bg-blue-700;
-}
+} */
 
 
 .search-button {
