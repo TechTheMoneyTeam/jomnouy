@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('project_existing', function (Blueprint $table) {
-            $table->foreign(['project_id'], 'project_existing_project_id_fkey')->references(['project_id'])->on('project')->onUpdate('no action')->onDelete('cascade');
+            // Check if the 'project_id' column exists and add foreign key if necessary
+            if (Schema::hasColumn('project_existing', 'project_id')) {
+                $table->foreign('project_id', 'project_existing_project_id_fkey')
+                    ->references('id')  // Changed from 'project_id' to 'id'
+                    ->on('project')
+                    ->onUpdate('no action')
+                    ->onDelete('cascade');
+            }
         });
     }
 
@@ -22,6 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('project_existing', function (Blueprint $table) {
+            // Drop foreign key constraint if it exists
             $table->dropForeign('project_existing_project_id_fkey');
         });
     }

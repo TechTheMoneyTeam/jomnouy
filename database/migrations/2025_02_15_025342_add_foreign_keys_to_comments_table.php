@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->foreign(['project_id'], 'comments_project_id_fkey')->references(['project_id'])->on('project')->onUpdate('no action')->onDelete('cascade');
-            $table->foreign(['user_id'], 'comments_user_id_fkey')->references(['user_id'])->on('users')->onUpdate('no action')->onDelete('cascade');
+            // Add the user_id column if it doesn't already exist
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            
+            // Add foreign key for project_id
+            $table->foreign('project_id', 'comments_project_id_fkey')
+                  ->references('id')->on('project')
+                  ->onUpdate('no action')
+                  ->onDelete('cascade');
         });
     }
 
@@ -25,6 +31,7 @@ return new class extends Migration
         Schema::table('comments', function (Blueprint $table) {
             $table->dropForeign('comments_project_id_fkey');
             $table->dropForeign('comments_user_id_fkey');
+            $table->dropColumn('user_id'); // Drop the user_id column
         });
     }
 };

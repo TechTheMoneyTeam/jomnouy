@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('investment', function (Blueprint $table) {
             $table->increments('investment_id');
             $table->integer('project_id')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->integer('id')->nullable();
             $table->float('amount')->nullable();
             $table->string('status', 20)->nullable();
             $table->timestamp('investment_data')->nullable()->useCurrent();
-            $table->integer('equilty')->nullable();
+            $table->integer('equity')->nullable();
         });
     }
 

@@ -1,0 +1,58 @@
+.project-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .form-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .subtitle {
+    color: #666;
+    margin-bottom: 24px;
+  }
+  
+  .project-form {
+    margin-top: 24px;
+  }
+  
+  .next-button {
+    float: right;
+    background-color: #f76707;
+    border-color: #f76707;
+  }
+  
+  .next-button:hover {
+    background-color: #e85f00;
+    border-color: #e85f00;
+  }
+  
+  /* Ant Design customizations */
+  .ant-form-item-label > label {
+    font-weight: 500;
+  }
+  
+  .ant-input-number {
+    width: 100%;
+  }
+  
+  .ant-upload {
+    width: 100%;
+  }
+  
+  .ant-upload-select {
+    display: block;
+  }
+  
+  .ant-btn-icon-only {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Money input styling */
+  .ant-input-number-handler-wrap {
+    display: none;
+  }

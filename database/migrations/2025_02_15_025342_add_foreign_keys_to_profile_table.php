@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('profile', function (Blueprint $table) {
-            $table->foreign(['user_id'], 'profile_user_id_fkey')->references(['user_id'])->on('users')->onUpdate('no action')->onDelete('cascade');
+            // Check if the 'user_id' column exists before adding the foreign key
+            if (!Schema::hasColumn('profile', 'user_id')) {
+                $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('no action');
+            }
         });
     }
 
@@ -22,7 +25,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('profile', function (Blueprint $table) {
+            // Drop the foreign key constraint if it exists
             $table->dropForeign('profile_user_id_fkey');
+            
+            // Optionally, drop the column if needed
+            $table->dropColumn('user_id');
         });
     }
 };

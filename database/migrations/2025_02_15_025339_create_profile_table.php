@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profile', function (Blueprint $table) {
-            $table->increments('profile_id');
-            $table->integer('user_id')->nullable();
-            $table->string('contact_info', 100)->nullable();
-            $table->string('phone', 100)->nullable();
-            $table->string('bio')->nullable();
+            $table->id(); // Primary key
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table
+            $table->string('contact_info')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('bio')->nullable();
+            $table->timestamps(); // Optional for created_at and updated_at
         });
     }
 

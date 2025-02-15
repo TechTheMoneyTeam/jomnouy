@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_type', function (Blueprint $table) {
-            $table->increments('project_type_id');
-            $table->string('name', 100)->nullable();
+            $table->increments('project_type_id'); // Primary key
+            $table->string('name', 100)->nullable()->unique(); // Make 'name' unique
             $table->timestamp('create_at')->nullable()->useCurrent();
+
+
+
         });
     }
 

@@ -24,7 +24,7 @@ const Home = () => {
                             Home
                         </Link>
                         <Link 
-                            to="/services" 
+                            to="/projectsubmit" 
                             className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
                         >
                             Services
@@ -63,7 +63,7 @@ const Home = () => {
                     <p className="hero-description">
                     ជាមួយ Jom-nouy
                     </p>
-                    <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
+                    <a href="/projectsubmit" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
                 </div>
                 <div className="hero-image-wrapper">
                     <img

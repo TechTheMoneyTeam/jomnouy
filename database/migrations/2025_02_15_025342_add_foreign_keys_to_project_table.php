@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('project', function (Blueprint $table) {
-            $table->foreign(['project_type'], 'project_project_type_fkey')->references(['project_type_id'])->on('project_type')->onUpdate('no action')->onDelete('set null');
+            // Check if the 'project_type' column exists
+            if (Schema::hasColumn('project', 'project_type')) {
+                $table->foreign('project_type', 'project_project_type_fkey')
+                    ->references('name') // Reference the 'name' column in project_type
+                    ->on('project_type')
+                    ->onUpdate('no action')
+                    ->onDelete('set null');
+            }
         });
     }
 
@@ -22,6 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('project', function (Blueprint $table) {
+            // Drop the foreign key constraint if it exists
             $table->dropForeign('project_project_type_fkey');
         });
     }
