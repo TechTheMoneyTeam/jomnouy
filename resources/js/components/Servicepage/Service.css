@@ -173,12 +173,28 @@ button {
 
 
 .hero-btn-primary1 {
-  @apply bg-custom-orange text-white px-10 py-2 rounded-[100px_100px_100px_100px] transition duration-300 border border-custom-orange hover:bg-white hover:text-custom-orange;
+  @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
+}
+
+.hero-btn-primary1::before {
+  content: "";
+  @apply absolute top-0 left-[-100%] w-full h-full bg-white transition-all duration-300 text-custom-orange;
+}
+
+.hero-btn-primary1:hover::before {
+  @apply left-0;
+}
+.hero-btn-primary1 span {
+  @apply relative z-10 transition-colors duration-300 ease-in-out;
+}
+.hero-btn-primary1:hover span {
+  @apply text-custom-orange;
 }
 
 .hero-btn-secondary1 {
-  @apply bg-white text-custom-orange px-5 py-2 rounded-[100px_100px_100px_100px] transition duration-300 border border-custom-orange hover:bg-custom-orange hover:text-white;
+  @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-custom-orange hover:bg-custom-orange hover:text-white;
 }
+
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -236,7 +252,7 @@ button {
 
 .hero-title1, .hero-title2, .hero-text1, .hero-btn-primary1, .hero-btn-secondary1 {
   @apply opacity-0;
-  animation-duration: 0.8s;
+  animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
 }
@@ -326,18 +342,18 @@ button {
     gap: 60px;
     align-items: center;
     justify-items: center;
-    margin-top: 100px;/* Centering the cards */
+    margin-top: 30px;/* Centering the cards */
 }
 
 /* Tailwind classes for .service-card */
 .service-card {
-  @apply w-[80%] max-w-[350px] p-5 bg-[#f5f5f5] rounded-lg shadow-md text-center transform transition-transform duration-300 ease-in-out;
+  @apply w-[80%] max-w-[350px] p-5 bg-[#f5f5f5] rounded-lg shadow-md text-center transform transition-transform duration-200 ease-in-out hover:shadow-lg ;
+}
+.service-card:hover {
+  transform: translateY(-20px) !important;
 }
 
 /* Tailwind classes for hover effect */
-.service-card:hover {
-  @apply translate-y-2 shadow-lg;
-}
 
 
 
@@ -376,7 +392,7 @@ button {
 .service-card {
   opacity: 0;
   transform: translateY(50px); /* Start off-screen */
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .service-card.show {

@@ -129,7 +129,7 @@ const Service = () => {
                 </p>
 
                 <div className="hero-buttons">
-                    <button className="hero-btn-primary1">Become a member</button>
+                    <button className="hero-btn-primary1"><span>Become a member</span></button>
                     <button className="hero-btn-secondary1">Learn More</button>
                 </div>
             </div>
