@@ -22,7 +22,6 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            // Generate a token for the user
             $token = $user->createToken('YourAppName')->accessToken;
             return response()->json(['token' => $token]);
         }
