@@ -12,11 +12,14 @@ class TestDatabaseSeeder extends Seeder
     public function run()
     {
         try {
-            // Truncate tables
+            // Truncate tables to reset the database
             $this->truncateTables();
 
             // Insert project types
             $this->createProjectTypes();
+
+            // Insert categories (ensure category_id = 1 exists)
+            $this->createCategories();
 
             // Insert a user and get the user_id
             $userId = $this->createUser();
@@ -54,8 +57,9 @@ class TestDatabaseSeeder extends Seeder
             'investment',
             'comments',
             'project_type',
+            'category',
         ];
-        
+
         foreach ($tables as $table) {
             DB::table($table)->truncate();
         }
@@ -63,6 +67,7 @@ class TestDatabaseSeeder extends Seeder
 
     private function createProjectTypes()
     {
+        // Ensure the project_type table is populated with necessary data
         DB::table('project_type')->insert([
             ['name' => 'startup'],
             ['name' => 'business'],
@@ -70,10 +75,20 @@ class TestDatabaseSeeder extends Seeder
         ]);
     }
 
+    private function createCategories()
+    {
+        // Insert category data if category table is empty
+        DB::table('category')->insert([
+            ['id' => 1, 'name' => 'Technology'],
+            ['id' => 2, 'name' => 'Healthcare'],
+            ['id' => 3, 'name' => 'Education'],
+        ]);
+    }
+
     private function createUser()
     {
         return DB::table('users')->insertGetId([
-            'first_name' => 'Test',
+            'first_name' => 'Nova',
             'last_name' => 'User',
             'user_name' => 'testuser',
             'email' => 'test@example.com',
@@ -97,17 +112,28 @@ class TestDatabaseSeeder extends Seeder
 
     private function createProject($userId)
     {
-        return DB::table('project')->insertGetId([
-            'user_id' => $userId,
-            'title' => 'Test Project',
-            'funding_goal' => 10000.00,
-            'status' => 'active',
-            'created_at' => now(),
-            'project_type' => 'startup', // Must match a value in project_type
-            'project_des' => 'Test project description',
-            'project_img' => 'test.jpg',
-            'reverse_price' => 5000.00,
-        ]);
+        // Fetch the project_type_id for 'startup'
+        $projectType = DB::table('project_type')->where('name', 'startup')->first();
+
+        // Ensure the project_type is found before inserting the project
+        if ($projectType) {
+            // Insert a project with valid project_type_id and category_id
+            return DB::table('project')->insertGetId([
+                'user_id' => $userId,
+                'title' => 'Test Project',
+                'funding_goal' => 10000.00,
+                'status' => 'active',
+                'created_at' => now(),
+                'project_type_id' => $projectType->id, // Correctly using the project_type_id
+                'category_id' => 1,  // Ensure category_id exists in the category table
+                'project_des' => 'Test project description',
+                'project_img' => 'test.jpg',
+                'reverse_price' => 5000.00,
+            ]);
+        } else {
+            // Handle the error if the project_type is not found
+            throw new \Exception('Project type "startup" not found.');
+        }
     }
 
     private function createProjectExisting($projectId)

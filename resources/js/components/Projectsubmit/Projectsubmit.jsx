@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Form, 
   Input, 
@@ -8,80 +8,139 @@ import {
   Button,
   Card,
   Typography,
-  message
+  message,
+  Spin
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
-const ProjectSubmit= () => {
+const ProjectSubmit = () => {
   const [form] = Form.useForm();
-  const [imageUrl, setImageUrl] = useState('');
-  const [videoUrl, setVideoUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [projectTypes, setProjectTypes] = useState([]);
+  const [fileList, setFileList] = useState({
+    image: [],
+    video: []
+  });
 
+  useEffect(() => {
+    fetchProjectTypes();
+  }, []);
+
+  const fetchProjectTypes = async () => {
+    try {
+      const response = await fetch('/api/project-types');
+      if (response.ok) {
+        const data = await response.json();
+        setProjectTypes(data);
+      } else {
+        throw new Error('Failed to fetch project types');
+      }
+    } catch (error) {
+      message.error('Failed to load project types');
+      console.error(error);
+    }
+  };
+
+  const beforeUpload = (file, type) => {
+    const isImage = type === 'image' && file.type.startsWith('image/');
+    const isVideo = type === 'video' && file.type.startsWith('video/');
+    const isLt10M = file.size / 1024 / 1024 < 10;
+
+    if (!isImage && !isVideo) {
+      message.error(`Please upload ${type} file only!`);
+      return false;
+    }
+
+    if (!isLt10M) {
+      message.error('File must be smaller than 10MB!');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleUpload = async ({ file, onSuccess, onError }) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) throw new Error('Upload failed');
+
+      const data = await response.json();
+      onSuccess(data, file);
+    } catch (error) {
+      onError(error);
+    }
+  };
+
+  // Define the onFinish function here
   const onFinish = async (values) => {
     try {
+      setLoading(true);
+      console.log('Form submitted:', values);
+
+      const selectedProjectType = projectTypes.find(type => type.name === values.project_type);
+      console.log('Selected project type:', selectedProjectType);
+
       const formData = {
         ...values,
-        project_image: imageUrl,
-        project_video: videoUrl,
-        status: 'pending', // default status
-        user_id: 1, // replace with actual user ID from auth
+        project_type_id: selectedProjectType ? selectedProjectType.id : null,
+        project_img: fileList.image[0]?.response?.url,
+        project_video: fileList.video[0]?.response?.url,
+        status: 'pending',
+        funding_goal: parseFloat(values.funding_goal),
+        reverse_price: parseFloat(values.reverse_price)
       };
+
+      console.log('Form data sent to server:', formData);
 
       const response = await fetch('/api/projects', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
+
+      const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok) {
         message.success('Project created successfully');
         form.resetFields();
+        setFileList({ image: [], video: [] });
       } else {
-        message.error('Failed to create project');
+        throw new Error(data.message || 'Failed to create project');
       }
     } catch (error) {
-      message.error('Error creating project');
-      console.error('Error:', error);
+      message.error(error.message);
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const uploadProps = {
-    name: 'file',
-    action: '/api/upload', // Replace with your upload endpoint
-    headers: {
-      authorization: 'Bearer your-token', // Replace with actual auth token
-    },
-    onChange(info) {
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-        // Update the respective URL state based on file type
-        if (info.file.type?.startsWith('image')) {
-          setImageUrl(info.file.response.url);
-        } else if (info.file.type?.startsWith('video')) {
-          setVideoUrl(info.file.response.url);
-        }
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
   return (
-    <div className="project-form-container">
-      <Card className="form-card">
+    <div className="max-w-3xl mx-auto p-6">
+      <Card>
         <Title level={2}>Create New Project</Title>
-        <p className="subtitle">Fill in the details to create your project</p>
-
         <Form
           form={form}
           layout="vertical"
-          onFinish={onFinish}
-          className="project-form"
+          onFinish={onFinish} // Call onFinish when the form is submitted
+          disabled={loading}
         >
           <Form.Item
             label="Project Title"
@@ -100,14 +159,15 @@ const ProjectSubmit= () => {
           </Form.Item>
 
           <Form.Item
-            label="Project Type"
+            label="Project Type (Optional)"
             name="project_type"
-            rules={[{ required: true, message: 'Please select project type!' }]}
           >
-            <Select placeholder="Select project type">
-              <Select.Option value={1}>Type 1</Select.Option>
-              <Select.Option value={2}>Type 2</Select.Option>
-              <Select.Option value={3}>Type 3</Select.Option>
+            <Select placeholder="Select project type (Optional)">
+              {projectTypes.map(type => (
+                <Select.Option key={type.id} value={type.name}>
+                  {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -120,6 +180,7 @@ const ProjectSubmit= () => {
               style={{ width: '100%' }}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
+              min={0}
               placeholder="Enter funding goal"
             />
           </Form.Item>
@@ -133,30 +194,42 @@ const ProjectSubmit= () => {
               style={{ width: '100%' }}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
+              min={0}
               placeholder="Enter reserve price"
             />
           </Form.Item>
 
-          <Form.Item
-            label="Project Image"
-            name="project_image"
-          >
-            <Upload {...uploadProps} accept="image/*">
-              <Button icon={<UploadOutlined />}>Upload Project Image</Button>
+          <Form.Item label="Project Image">
+            <Upload
+              customRequest={handleUpload}
+              beforeUpload={file => beforeUpload(file, 'image')}
+              fileList={fileList.image}
+              onChange={({ fileList }) => setFileList(prev => ({ ...prev, image: fileList }))}
+              maxCount={1}
+            >
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
             </Upload>
           </Form.Item>
 
-          <Form.Item
-            label="Project Video"
-            name="project_video"
-          >
-            <Upload {...uploadProps} accept="video/*">
-              <Button icon={<UploadOutlined />}>Upload Project Video</Button>
+          <Form.Item label="Project Video">
+            <Upload
+              customRequest={handleUpload}
+              beforeUpload={file => beforeUpload(file, 'video')}
+              fileList={fileList.video}
+              onChange={({ fileList }) => setFileList(prev => ({ ...prev, video: fileList }))}
+              maxCount={1}
+            >
+              <Button icon={<UploadOutlined />}>Upload Video</Button>
             </Upload>
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="next-button">
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              loading={loading}
+              block
+            >
               Create Project
             </Button>
           </Form.Item>

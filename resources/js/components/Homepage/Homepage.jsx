@@ -37,7 +37,11 @@ const Home = () => {
                         </Link>
                     </div>
                     <div className="button-group">
-                        <button className="login-button">Login</button>
+                     
+                        <Link to="/login">
+                            <button className="login-button">Login</button>
+                        </Link>
+                   
                         <button className="search-button">
                             <Search />
                         </button>
