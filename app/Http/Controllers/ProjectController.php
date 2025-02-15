@@ -9,7 +9,6 @@ class ProjectController extends Controller
 {
     public function store(Request $request)
     {
-        // Validation
         $request->validate([
             'title' => 'required|string|max:255',
             'project_des' => 'required|string',
@@ -19,9 +18,9 @@ class ProjectController extends Controller
             'project_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ]);
 
-        // Create Project
+       
         $project = new Project();
-        $project->user_id = auth()->id();  // Get the authenticated user
+        $project->user_id = auth()->id();  
         $project->title = $request->title;
         $project->project_des = $request->project_des;
         $project->funding_goal = $request->funding_goal;
@@ -39,14 +38,14 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project created successfully', 'project' => $project]);
     }
 
-    // File Upload Function (if needed for video or other file types)
+    
     public function uploadFile(Request $request)
     {
         $request->validate([
             'file' => 'required|file|max:10240',
         ]);
 
-        // Process the file upload
+       
         $path = $request->file('file')->store('uploads', 'public');
 
         return response()->json(['message' => 'File uploaded successfully', 'file_path' => $path]);
