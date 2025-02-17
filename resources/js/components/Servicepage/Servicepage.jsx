@@ -10,6 +10,7 @@ import {
     Search,
 } from "lucide-react";
 import "./Service.css";
+import { colors } from "laravel-mix/src/Log";
 
 const Service = () => {
     const [language, setLanguage] = useState("en");
@@ -162,6 +163,51 @@ const Service = () => {
             </div>
         </div>
     );
+    const About = () => (
+        <div className="about-section">
+            <h2 className="about-title">Who Uses Looking For Sponsor?</h2>
+            <p className="about-text">
+                ជំនួយ-Jom<span>nouy</span> is a platform that connects creators with companies looking to sponsor them. We help creators find sponsors and investors to support their projects. Our mission is to empower creators to turn their ideas into reality by providing them with the resources they need to succeed.
+            </p>
+            <div className="about-container">
+            <div className="about-card">
+                <img src="/img/creator.png" className="about-image" />  
+                <h3 className="about-card-title">Creators</h3>  
+                <p className="about-card-text">
+                    Find sponsors and investors to support your projects.
+                    </p>
+            </div>
+            <div className="about-card">
+                <img src="/img/creator.png" className="about-image" />  
+                <h3 className="about-card-title">Creators</h3>  
+                <p className="about-card-text">
+                    Find sponsors and investors to support your projects.
+                    </p>
+            </div>
+            <div className="about-card">
+                <img src="/img/creator.png" className="about-image" />  
+                <h3 className="about-card-title">Creators</h3>  
+                <p className="about-card-text">
+                    Find sponsors and investors to support your projects.
+                    </p>
+            </div>
+            <div className="about-card">
+                <img src="/img/investor.png" className="about-image" />  
+                <h3 className="about-card-title">Creators</h3>  
+                <p className="about-card-text">
+                    Find sponsors and investors to support your projects.
+                    </p>
+            </div>
+            
+            
+        </div>
+        </div>
+        
+                
+
+           
+  
+    );
 
     const Footer = () => (
         <footer className="footer">
@@ -248,7 +294,9 @@ const Service = () => {
             <Header />
             <Hero />
             <Services />
+            <About/>
             <Footer />
+            
         </>
     );
 };

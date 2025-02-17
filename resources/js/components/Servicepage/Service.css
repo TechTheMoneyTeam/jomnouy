@@ -400,18 +400,50 @@ button {
   transform: translateY(0); /* Move to normal position */
 }
 
+.about-section {
+  @apply bg-gray-100 p-8 text-center;
+}
 
+.about-title {
+  @apply text-3xl font-semibold mb-4 text-gray-800;
+}
 
+.about-text {
+  @apply text-base text-gray-600 mt-10;
+}
 
+.about-container {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-10 place-items-center;
+  padding: 0px 200px 0px 200px;
+}
 
+.about-card {
+  @apply bg-white rounded-lg shadow-md p-6 flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[480px];
+}
+
+.about-image {
+  @apply w-full h-auto max-w-[150px] mb-4 rounded-full;
+}
+
+.about-card-title {
+  @apply text-lg font-semibold mb-2 text-gray-800;
+}
+
+.about-card-text {
+  @apply text-sm text-gray-600 text-center;
+}
+
+.about-text span {
+  @apply font-semibold text-custom-orange;
+}
 
 
 .analytics-image {
-    @apply w-full max-w-[600px] h-auto;
+    @apply w-full max-w-[600px] h-[[650px]];
 }
 
 .footer {
-    @apply bg-custom-orange text-white py-10 mt-16;
+    @apply bg-custom-orange text-white py-10 mt-0;
 }
 
 .footer-grid {
