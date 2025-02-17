@@ -5,7 +5,7 @@ import './Projectsubmit.css';
 const ProjectSubmitForm = () => {
     const [formData, setFormData] = useState({
         project_id: '',
-        user_id: '',
+        user_id: '',  // Set this manually or leave it empty
         title: '',
         funding_goal: '',
         status: '',
@@ -27,10 +27,15 @@ const ProjectSubmitForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/projects', formData);
+            const response = await axios.post('/api/projects', formData, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });
             console.log('Project submitted:', response.data);
         } catch (error) {
-            console.error('There was an error submitting the project!', error);
+            console.error('There was an error submitting the project!', error.response);
         }
     };
 
@@ -38,8 +43,19 @@ const ProjectSubmitForm = () => {
         <div className="project-submit-form">
             <h2>Submit Your Project</h2>
             <form onSubmit={handleSubmit}>
+            <label>
+                    User ID:
+                    <input
+                        type="text"
+                        name="user_id"
+                        value={formData.user__id}
+                        onChange={handleChange}
+                        placeholder="User ID"
+                  
+                    />
+                </label>
                 <label>
-                ID:
+                    Project ID:
                     <input
                         type="text"
                         name="project_id"
@@ -48,6 +64,8 @@ const ProjectSubmitForm = () => {
                         placeholder="Project ID"
                         required
                     />
+                </label>
+                <label>
                     Title:
                     <input
                         type="text"

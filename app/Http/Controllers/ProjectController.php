@@ -40,4 +40,14 @@ class ProjectController extends Controller
 
         return response()->json($project, 201);
     }
+    public function index()
+{
+    try {
+        // Fetch all projects
+        $projects = Project::all();
+        return response()->json($projects, 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to fetch projects: ' . $e->getMessage()], 500);
+    }
+}
 }
