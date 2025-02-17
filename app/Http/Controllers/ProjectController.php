@@ -19,9 +19,11 @@ class ProjectController extends Controller
             'project_img' => 'nullable|string',
             'reserve_price' => 'nullable|numeric',
             'project_categoryId' => 'nullable|integer',
+            'project_id' => 'required|integer|unique:projects,project_id',
         ]);
 
         $project = Project::create([
+            'project_id' => $request->project_id,
             'user_id' => $request->user_id,
             'title' => $request->title,
             'funding_goal' => $request->funding_goal,
@@ -31,6 +33,9 @@ class ProjectController extends Controller
             'project_img' => $request->project_img,
             'reserve_price' => $request->reserve_price,
             'project_categoryId' => $request->project_categoryId,
+            'created_at' => now(), // Manually set
+            'updated_at' => now(), // Manually set
+
         ]);
 
         return response()->json($project, 201);

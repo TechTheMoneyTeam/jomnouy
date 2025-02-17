@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Projectsubmit.css'; // Import CSS file
+import './Projectsubmit.css';
 
 const ProjectSubmitForm = () => {
     const [formData, setFormData] = useState({
+        project_id: '',
         user_id: '',
         title: '',
         funding_goal: '',
@@ -38,6 +39,15 @@ const ProjectSubmitForm = () => {
             <h2>Submit Your Project</h2>
             <form onSubmit={handleSubmit}>
                 <label>
+                ID:
+                    <input
+                        type="text"
+                        name="project_id"
+                        value={formData.project_id}
+                        onChange={handleChange}
+                        placeholder="Project ID"
+                        required
+                    />
                     Title:
                     <input
                         type="text"
