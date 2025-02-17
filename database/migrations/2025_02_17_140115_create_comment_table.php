@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('startup_prototype', function (Blueprint $table) {
-            $table->integer('min_equity')->nullable();
-            $table->integer('max_equity')->nullable();
+        Schema::create('comment', function (Blueprint $table) {
+            $table->integer('comment_id')->primary();
             $table->integer('project_id')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->string('description', 1000)->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('startup_prototype');
+        Schema::dropIfExists('comment');
     }
 };

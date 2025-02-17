@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_auction', function (Blueprint $table) {
-            $table->increments('auction_id');
+            $table->integer('auction_id')->primary();
             $table->integer('project_id')->nullable();
-            $table->float('currect_bid')->nullable();
-            $table->string('status', 25)->nullable();
+            $table->float('current_bid')->nullable();
+            $table->string('status', 20)->nullable();
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
             $table->integer('target')->nullable();
