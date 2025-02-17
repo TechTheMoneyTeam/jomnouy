@@ -1,73 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>Laravel</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
+
+    <!-- Styles / Scripts -->
+    @viteReactRefresh
+    @vite(['resources/js/app.jsx'])
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>Create New Project</h1>
-        <form id="projectForm">
-            @csrf
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-            </div>
-            <div class="mb-3">
-                <label for="project_des" class="form-label">Project Description</label>
-                <textarea class="form-control" id="project_des" name="project_des" required minlength="50"></textarea>
-            </div>
-
-
-            <div class="mb-3">
-                <label for="funding_goal" class="form-label">Funding Goal</label>
-                <input type="number" class="form-control" id="funding_goal" name="funding_goal" required min="1">
-            </div>
-            <div class="mb-3">
-                <label for="reverse_price" class="form-label">Reverse Price</label>
-                <input type="number" class="form-control" id="reverse_price" name="reverse_price" required min="0">
-            </div>
-            <div class="mb-3">
-                <label for="project_img" class="form-label">Project Image URL</label>
-                <input type="url" class="form-control" id="project_img" name="project_img" required>
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option value="draft">Draft</option>
-                    <option value="published">Published</option>
-                    <option value="closed">Closed</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Create Project</button>
-        </form>
-    </div>
-
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-        document.getElementById('projectForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-
-            fetch('{{ route('projects.store') }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
+    <div id="app"></div>
 </body>
 </html>
