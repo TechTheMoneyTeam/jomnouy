@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Project</title>
-
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
     <div class="container mt-5">
@@ -19,8 +19,22 @@
                 <label for="project_des" class="form-label">Project Description</label>
                 <textarea class="form-control" id="project_des" name="project_des" required minlength="50"></textarea>
             </div>
-
-
+            <div class="mb-3">
+                <label for="project_type_id" class="form-label">Project Type</label>
+                <select class="form-select" id="project_type_id" name="project_type_id" required>
+                    @foreach ($projectTypes as $projectType)
+                        <option value="{{ $projectType->id }}">{{ $projectType->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="category_id" class="form-label">Category</label>
+                <select class="form-select" id="category_id" name="category_id" required>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="mb-3">
                 <label for="funding_goal" class="form-label">Funding Goal</label>
                 <input type="number" class="form-control" id="funding_goal" name="funding_goal" required min="1">

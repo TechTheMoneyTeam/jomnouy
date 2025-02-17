@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { 
   Form, 
   Input, 
@@ -8,49 +9,48 @@ import {
   Button,
   Card,
   Typography,
-  message,
-  Spin
+  message
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
+// Configure axios
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+
 const ProjectSubmit = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState([]);
   const [projectTypes, setProjectTypes] = useState([]);
-  const [fileList, setFileList] = useState({
-    image: [],
-    video: []
-  });
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetchProjectTypes();
+    const fetchData = async () => {
+      try {
+        const [projectTypesResponse, categoriesResponse] = await Promise.all([
+          axios.get('/project-types'),
+          axios.get('/categories')
+        ]);
+        
+        setProjectTypes(projectTypesResponse.data);
+        setCategories(categoriesResponse.data);
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+        message.error('Failed to fetch project types or categories');
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const fetchProjectTypes = async () => {
-    try {
-      const response = await fetch('/api/project-types');
-      if (response.ok) {
-        const data = await response.json();
-        setProjectTypes(data);
-      } else {
-        throw new Error('Failed to fetch project types');
-      }
-    } catch (error) {
-      message.error('Failed to load project types');
-      console.error(error);
-    }
-  };
-
-  const beforeUpload = (file, type) => {
-    const isImage = type === 'image' && file.type.startsWith('image/');
-    const isVideo = type === 'video' && file.type.startsWith('video/');
+  const beforeUpload = (file) => {
+    const isImage = file.type.startsWith('image/');
     const isLt10M = file.size / 1024 / 1024 < 10;
 
-    if (!isImage && !isVideo) {
-      message.error(`Please upload ${type} file only!`);
+    if (!isImage) {
+      message.error('You can only upload image files!');
       return false;
     }
 
@@ -66,67 +66,42 @@ const ProjectSubmit = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: formData
+      const response = await axios.post('/project/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
-
-      if (!response.ok) throw new Error('Upload failed');
-
-      const data = await response.json();
-      onSuccess(data, file);
+      onSuccess(response.data, file);
     } catch (error) {
+      console.error('Upload failed:', error);
       onError(error);
+      message.error('Upload failed');
     }
   };
 
-  // Define the onFinish function here
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      console.log('Form submitted:', values);
-
-      const selectedProjectType = projectTypes.find(type => type.name === values.project_type);
-      console.log('Selected project type:', selectedProjectType);
+      
+      if (!fileList[0]?.response?.url) {
+        message.error('Please upload a project image');
+        return;
+      }
 
       const formData = {
         ...values,
-        project_type_id: selectedProjectType ? selectedProjectType.id : null,
-        project_img: fileList.image[0]?.response?.url,
-        project_video: fileList.video[0]?.response?.url,
+        project_img: fileList[0].response.url,
         status: 'pending',
         funding_goal: parseFloat(values.funding_goal),
         reverse_price: parseFloat(values.reverse_price)
       };
-
-      console.log('Form data sent to server:', formData);
-
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
-      console.log('Response data:', data);
-
-      if (response.ok) {
-        message.success('Project created successfully');
-        form.resetFields();
-        setFileList({ image: [], video: [] });
-      } else {
-        throw new Error(data.message || 'Failed to create project');
-      }
+      
+      await axios.post('/project', formData);
+      
+      message.success('Project created successfully');
+      form.resetFields();
+      setFileList([]);
     } catch (error) {
-      message.error(error.message);
-      console.error(error);
+      console.error('Failed to create project:', error);
+      message.error(error.response?.data?.message || 'Failed to create project');
     } finally {
       setLoading(false);
     }
@@ -136,90 +111,93 @@ const ProjectSubmit = () => {
     <div className="max-w-3xl mx-auto p-6">
       <Card>
         <Title level={2}>Create New Project</Title>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish} // Call onFinish when the form is submitted
+        <Form 
+          form={form} 
+          layout="vertical" 
+          onFinish={onFinish} 
           disabled={loading}
         >
-          <Form.Item
-            label="Project Title"
-            name="title"
-            rules={[{ required: true, message: 'Please input project title!', max: 100 }]}
+          <Form.Item 
+            label="Project Title" 
+            name="title" 
+            rules={[{ required: true, message: 'Please input project title!' }]}
           >
             <Input placeholder="Enter project title" />
           </Form.Item>
 
-          <Form.Item
-            label="Project Description"
-            name="project_des"
+          <Form.Item 
+            label="Project Description" 
+            name="project_des" 
             rules={[{ required: true, message: 'Please input project description!' }]}
           >
             <TextArea rows={4} placeholder="Enter project description" />
           </Form.Item>
 
-          <Form.Item
-            label="Project Type (Optional)"
-            name="project_type"
+          <Form.Item 
+            label="Project Type" 
+            name="project_type_id" 
+            rules={[{ required: true, message: 'Please select project type!' }]}
           >
-            <Select placeholder="Select project type (Optional)">
+            <Select placeholder="Select project type">
               {projectTypes.map(type => (
-                <Select.Option key={type.id} value={type.name}>
-                  {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+                <Select.Option key={type.id} value={type.id}>
+                  {type.name}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
 
-          <Form.Item
-            label="Funding Goal"
-            name="funding_goal"
+          <Form.Item 
+            label="Category" 
+            name="category_id" 
+            rules={[{ required: true, message: 'Please select a category!' }]}
+          >
+            <Select placeholder="Select category">
+              {categories.map(category => (
+                <Select.Option key={category.id} value={category.id}>
+                  {category.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item 
+            label="Funding Goal" 
+            name="funding_goal" 
             rules={[{ required: true, message: 'Please enter funding goal!' }]}
           >
-            <InputNumber
-              style={{ width: '100%' }}
-              formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={value => value.replace(/\$\s?|(,*)/g, '')}
-              min={0}
-              placeholder="Enter funding goal"
+            <InputNumber 
+              style={{ width: '100%' }} 
+              min={0} 
+              placeholder="Enter funding goal" 
             />
           </Form.Item>
 
-          <Form.Item
-            label="Reserve Price"
-            name="reverse_price"
+          <Form.Item 
+            label="Reserve Price" 
+            name="reverse_price" 
             rules={[{ required: true, message: 'Please enter reserve price!' }]}
           >
-            <InputNumber
-              style={{ width: '100%' }}
-              formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={value => value.replace(/\$\s?|(,*)/g, '')}
-              min={0}
-              placeholder="Enter reserve price"
+            <InputNumber 
+              style={{ width: '100%' }} 
+              min={0} 
+              placeholder="Enter reserve price" 
             />
           </Form.Item>
 
-          <Form.Item label="Project Image">
-            <Upload
+          <Form.Item 
+            label="Project Image" 
+            name="project_img" 
+            rules={[{ required: true, message: 'Please upload a project image!' }]}
+          >
+            <Upload 
               customRequest={handleUpload}
-              beforeUpload={file => beforeUpload(file, 'image')}
-              fileList={fileList.image}
-              onChange={({ fileList }) => setFileList(prev => ({ ...prev, image: fileList }))}
+              beforeUpload={beforeUpload}
+              fileList={fileList}
+              onChange={({ fileList }) => setFileList(fileList)}
               maxCount={1}
             >
               <Button icon={<UploadOutlined />}>Upload Image</Button>
-            </Upload>
-          </Form.Item>
-
-          <Form.Item label="Project Video">
-            <Upload
-              customRequest={handleUpload}
-              beforeUpload={file => beforeUpload(file, 'video')}
-              fileList={fileList.video}
-              onChange={({ fileList }) => setFileList(prev => ({ ...prev, video: fileList }))}
-              maxCount={1}
-            >
-              <Button icon={<UploadOutlined />}>Upload Video</Button>
             </Upload>
           </Form.Item>
 
@@ -227,7 +205,7 @@ const ProjectSubmit = () => {
             <Button 
               type="primary" 
               htmlType="submit" 
-              loading={loading}
+              loading={loading} 
               block
             >
               Create Project
