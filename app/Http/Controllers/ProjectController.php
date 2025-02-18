@@ -33,8 +33,8 @@ class ProjectController extends Controller
             'project_img' => $request->project_img,
             'reserve_price' => $request->reserve_price,
             'project_categoryId' => $request->project_categoryId,
-            'created_at' => now(), // Manually set
-            'updated_at' => now(), // Manually set
+            'created_at' => now(), 
+            'updated_at' => now(), 
 
         ]);
 
