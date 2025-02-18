@@ -9,46 +9,47 @@ const Home = () => {
     const toggleLanguage = () => {
         setLanguage(prev => (prev === 'en' ? 'km' : 'en'));
     };
-    const Header = () => {
-        const location = useLocation();
-    
-        return (
-            <header className="header">
-                <nav className="nav-container">
-                    <Link to="/" className="logo">Jomnouy</Link>
-                    <div className="nav-links">
-                        <Link 
-                            to="/" 
-                            className={`nav-link ${location.pathname === '/' ? 'active-link' : ''}`}
-                        >
-                            Home
-                        </Link>
-                        <Link 
-                            to="/services" 
-                            className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
-                        >
-                            Services
-                        </Link>
-                        <Link 
-                            to="/about" 
-                            className={`nav-link ${location.pathname === '/About' ? 'active-link' : ''}`}
-                        >
-                            About
-                        </Link>
-                    </div>
-                    <div className="button-group">
-                        <button className="login-button">Login</button>
-                        <button className="search-button">
-                            <Search />
-                        </button>
-                        <button onClick={toggleLanguage} className="language-button">
-                            <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
-                        </button>
-                    </div>
-                </nav>
-            </header>
-        );
-    }
+  const Header = () => {
+          const location = useLocation();
+      
+          return (
+              <header className="header">
+                  <nav className="nav-container">
+                      <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
+                      <div className="nav-links">
+                          <Link 
+                              to="/" 
+                              className={`nav-link ${location.pathname === '/' ? 'active-link' : ''}`}
+                          >
+                              Home
+                          </Link>
+                          <Link 
+                              to="/services" 
+                              className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
+                          >
+                              Services
+                          </Link>
+                          <Link 
+                              to="/about" 
+                              className={`nav-link ${location.pathname === '/About' ? 'active-link' : ''}`}
+                          >
+                              About
+                          </Link>
+                          <button className="login-button"><span>Login</span></button>
+                      </div>
+                      <div className="button-group">
+                          
+                          <button className="search-button">
+                              <Search />
+                          </button>
+                          <button onClick={toggleLanguage} className="language-button">
+                              <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
+                          </button>
+                      </div>
+                  </nav>
+              </header>
+          );
+      }
     
     const Hero = () => (
         <section className="hero">
