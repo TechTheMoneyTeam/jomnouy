@@ -4,15 +4,16 @@ import Projectlist from '../components/Projectlist/Projectlist'
 import About from '../components/Aboutpage/Aboutus'
 import Service from '../components/Servicepage/Servicepage'
 import ProjectSubmitForm from '../components/Projectsubmit/Projectsubmit'
+import ProjectListing from '../components/Projects/Projectlist1'
 
 const Index = () => {
     return (
         <div>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/projectlist" element={<Projectlist />} />
+                <Route path="/projectlist1" element={<ProjectListing />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/services" element={<ProjectSubmitForm />} />
+                <Route path="/services" element={<ProjectListing />} />
                 <Route path="/home" element={<Home />} />
             </Routes>
         </div>
