@@ -9,5 +9,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/services', function () {
-    return view('welco');
+    return view('welcome');
+});
+Route::get('/about', function () {
+    return view('welcome');
+});
+Route::get('/projectlist1', function () {
+    return view('welcome');
+});
+Route::get('/projectsubmit', function () {
+    return view('welcome');
 });
