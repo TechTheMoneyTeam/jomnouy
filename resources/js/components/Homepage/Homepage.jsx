@@ -64,7 +64,7 @@ const Home = () => {
                     <p className="hero-description">
                     ជាមួយ Jom-nouy
                     </p>
-                    <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
+                    <Link to="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </Link>
                 </div>
                 <div className="hero-image-wrapper">
                     <img
@@ -76,7 +76,7 @@ const Home = () => {
             </div>
         </section>
     );
-    
+
 
     const Footer = () => (
         <footer className="footer">
