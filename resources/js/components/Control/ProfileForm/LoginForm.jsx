@@ -32,13 +32,18 @@ const LoginForm = () => {
             setMessage('Login successful!');
             console.log(response.data);
             
+            // Save user data to localStorage
+            if (response.data.user) {
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            }
+            
             // Clear the form
             resetForm();
             
             // Show success message briefly before redirecting
             setTimeout(() => {
                 navigate('/projectlist1'); // Redirect to home page
-            }, 500); // Wait 1 second before redirecting
+            }, 500); // Wait 0.5 second before redirecting
 
         } catch (error) {
             setMessage('Incorrect credentials');
@@ -64,7 +69,7 @@ const LoginForm = () => {
                                 id="email"
                                 name="email"
                                 className="custom-input"
-                                placeholder="sal@gmail.com"
+                                placeholder="example@gmail.com"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required

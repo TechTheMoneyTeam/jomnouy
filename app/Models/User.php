@@ -23,4 +23,8 @@ class User extends Model
     {
         return $this->hasOne(Profile::class, 'user_id', 'user_id');
     }
+    public function projects()
+{
+    return $this->hasMany(Project::class, 'user_id', 'user_id');
+}
 }

@@ -21,4 +21,8 @@ class Project extends Model
         'reserve_price',
         'project_categoryId',
     ];
+    public function user()
+{
+    return $this->belongsTo(User::class, 'user_id', 'user_id');
+}
 }
