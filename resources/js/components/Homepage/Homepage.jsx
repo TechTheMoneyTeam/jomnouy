@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link,useLocation } from 'react-router-dom';
 import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin, Search } from 'lucide-react';
 import './Home.css';
-// import'../Servicepage/Service.css';
+
 
 const Home = () => {
     const [language, setLanguage] = useState('en');
@@ -73,32 +73,7 @@ const Home = () => {
         </section>
       );
 
-      const Services = () => (
-        <div className="services-section">
-            <h2 className="services-title">Our Services</h2>
-            <div className="services-container">
-                <div className="service-card">
-                    <img src="/img/findsponsor.png" className="service-image" />
-                    <h3 className="service-title">Find Sponsors</h3>
-                    <p className="service-description">
-                    Explore our Sponsorship List featuring companies ready to sponsor creators.
-                    </p>
-                </div>
-                <div className="service-card">
-                    <img src="/img/investor.png" className="service-image" />
-                    <h3 className="service-title">Investor</h3>
-                    <p className="service-description">
-                    Check out our Sponsorship List of companies seeking creators to sponsor.                    </p>
-                </div>
-                <div className="service-card">
-                    <img src="/img/projectstartup.png" className="service-image" />
-                    <h3 className="service-title">Project Start-Up</h3>
-                    <p className="service-description">
-                    Explore our Sponsorship List—companies eager to sponsor creators.                    </p>
-                </div>
-            </div>
-        </div>
-    );
+   
     const Footer = () => (
         <footer className="footer">
             <div className="footer-grid">
@@ -153,7 +128,6 @@ const Home = () => {
         <>
             <Header />
             <Hero />
-            <Serivces />
             <Footer />
             
         </>
