@@ -97,7 +97,12 @@ const Home = () => {
                     <h3 className="footer-title">Resources</h3>
                     <ul className="footer-list">
                         <li><Link to="#" className="footer-link">Pricing</Link></li>
-                        <li><Link to="#" className="footer-link">Request Demo</Link></li>
+                        <li>     <Link
+                            to="/projectsubmit"
+                        
+                        >
+                            Submit Project
+                        </Link></li>
                         <li><Link to="#" className="footer-link">Customers</Link></li>
                         <li><Link to="#" className="footer-link">Press</Link></li>
                     </ul>
