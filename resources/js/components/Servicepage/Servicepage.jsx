@@ -22,7 +22,7 @@ const Service = () => {
     // Intersection Observer to detect when service cards come into view
     useEffect(() => {
         const heroService = document.querySelector('.hero-service');
-        const heroContent = document.querySelector('.hero-content');
+        const heroContent = document.querySelector('.hero-content-service');
         const serviceCards = document.querySelectorAll('.service-card'); // Select all service cards
 
         const observer = new IntersectionObserver((entries) => {
@@ -101,10 +101,11 @@ const Service = () => {
                         >
                             About
                         </Link>
-                        <button className="login-button">
-                            <span>Login</span>
-                        </button>
+                     <Link to="/login" className="login-button">
+                       <button><span>Login</span></button>
+                     </Link>
                     </div>
+
                     <div className="button-group">
                         <button className="search-button">
                             <Search />
@@ -118,11 +119,10 @@ const Service = () => {
             </header>
         );
     };
-
     const Hero = () => (
         <div className="hero-service">
             <img src="/img/serviceimg.png" alt="Hero Background" />
-            <div className="hero-content">
+            <div className="hero-content-service">
                 <h1 className="hero-title1">Opportunities don't happen.</h1>
                 <h1 className="hero-title2">You create them.</h1>
                 <p className="hero-text1">
@@ -130,13 +130,15 @@ const Service = () => {
                 </p>
 
                 <div className="hero-buttons">
-                    <Link to="/projectsubmit" className="hero-btn-primary1">
-                        <button><span>Submit a Project</span></button>
+
+                    <Link to="/signup" className="hero-btn-primary1">
+                        <button><span>Become a member</span></button>
                     </Link>
-                    <Link to="/projectlist1" className="hero-btn-secondary1">
-                        <button><span>View Project</span></button>
+
+
+                    <Link to="/about" className="hero-btn-secondary1">
+                        <button><span>Learn More</span></button>
                     </Link>
-                
                 </div>
             </div>
         </div>
@@ -191,6 +193,7 @@ const Service = () => {
                 </div>
                 <div className="about-card">
                     <img src="/img/creator.png" className="about-image" />
+
                     <h3 className="about-card-title">Creators</h3>
                     <p className="about-card-text">
                         Find sponsors and investors to support your projects.
@@ -288,6 +291,7 @@ const Service = () => {
                 <div className="footer-social">
                     <Link to="#" className="social-icon"><Facebook /></Link>
                     <Link to="#" className="social-icon"><Linkedin /></Link>
+
                     <Link to="#" className="social-icon"><Twitter /></Link>
                 </div>
             </div>

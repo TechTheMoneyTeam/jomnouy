@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './LoginForm.css';
 
 const LoginForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
     const [message, setMessage] = useState('');
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('/api/login', formData);
-            setMessage('Login successful!');
-        } catch (error) {
-            setMessage('Incorrect credentials');
-        }
-    };
 
     const handleChange = (e) => {
         setFormData({
@@ -25,33 +18,83 @@ const LoginForm = () => {
         });
     };
 
+    const resetForm = () => {
+        setFormData({
+            email: '',
+            password: ''
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/login', formData);
+            setMessage('Login successful!');
+            console.log(response.data);
+            
+            // Clear the form
+            resetForm();
+            
+            // Show success message briefly before redirecting
+            setTimeout(() => {
+                navigate('/projectlist1'); // Redirect to home page
+            }, 500); // Wait 1 second before redirecting
+
+        } catch (error) {
+            setMessage('Incorrect credentials');
+            console.error('Login error:', error);
+        }
+    };
+
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-6">Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        className="w-full p-2 border rounded"
-                        onChange={handleChange}
-                    />
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <h1 className="title">
+                JOM-<span className="highlight">NOUY</span>
+            </h1>
+            <div className="card-container">
+                <div className="card">
+                    <div className="text-left">Welcome back to JOMNOUY</div>
+                    <form onSubmit={handleSubmit} className="form">
+                        <div className="form-group">
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className="custom-input"
+                                placeholder="sal@gmail.com"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                className="custom-input"
+                                placeholder="Enter your password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <a href="#" className="text-end underline">Forgot password?</a>
+                        <button type="submit" className="submit-btn">Login</button>
+                    </form>
+                    {message && (
+                        <div className={`mt-4 text-center ${message.includes('successful') ? 'text-green-600' : 'text-red-600'}`}>
+                            {message}
+                        </div>
+                    )}
                 </div>
-                <div className="mb-4">
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        className="w-full p-2 border rounded"
-                        onChange={handleChange}
-                    />
-                </div>
-                <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-                    Login
-                </button>
-            </form>
-            {message && <p className="mt-4 text-center">{message}</p>}
+            </div>
         </div>
     );
 };

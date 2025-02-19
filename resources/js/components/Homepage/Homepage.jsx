@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link,useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin, Search } from 'lucide-react';
 import './Home.css';
+
 
 const Home = () => {
     const [language, setLanguage] = useState('en');
@@ -9,69 +10,66 @@ const Home = () => {
     const toggleLanguage = () => {
         setLanguage(prev => (prev === 'en' ? 'km' : 'en'));
     };
-  const Header = () => {
-          const location = useLocation();
-      
-          return (
-              <header className="header">
-                  <nav className="nav-container">
-                      <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
-                      <div className="nav-links">
-                          <Link 
-                              to="/" 
-                              className={`nav-link ${location.pathname === '/' ? 'active-link' : ''}`}
-                          >
-                              Home
-                          </Link>
-                          <Link 
-                              to="/services" 
-                              className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
-                          >
-                              Services
-                          </Link>
-                          <Link 
-                              to="/about" 
-                              className={`nav-link ${location.pathname === '/About' ? 'active-link' : ''}`}
-                          >
-                              About
-                          </Link>
-                                              <Link to="/signup" className="login-button">
-                                              <button className="login-button"><span>Login</span></button>
-                                              </Link>
-                    
-                      </div>
-                      <div className="button-group">
-                          
-                          <button className="search-button">
-                              <Search />
-                          </button>
-                          <button onClick={toggleLanguage} className="language-button">
-                              <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
-                          </button>
-                      </div>
-                  </nav>
-              </header>
-          );
-      }
-    
+    const Header = () => {
+        const location = useLocation();
+
+        return (
+            <header className="header">
+                <nav className="nav-container">
+                    <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
+                    <div className="nav-links">
+                        <Link
+                            to="/"
+                            className={`nav-link ${location.pathname === '/' ? 'active-link' : ''}`}
+                        >
+                            Home
+                        </Link>
+                        <Link
+                            to="/services"
+                            className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
+                        >
+                            Services
+                        </Link>
+                        <Link
+                            to="/about"
+                            className={`nav-link ${location.pathname === '/about' ? 'active-link' : ''}`}
+                        >
+                            About
+                        </Link>
+                        <Link to="/login" className="login-button">
+                            <button><span>Login</span></button>
+                        </Link>
+                    </div>
+                    <div className="button-group">
+
+                        <button className="search-button">
+                            <Search />
+                        </button>
+                        <button onClick={toggleLanguage} className="language-button">
+                            <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
+                        </button>
+                    </div>
+                </nav>
+            </header>
+        );
+    }
+
     const Hero = () => (
         <section className="hero">
             <div className="hero-background"></div>
             <div className="hero-content">
                 <div className="hero-text-section">
-                    <div className="hero-text-background"></div>
                     <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
-                    <p className="hero-description">
-                    របស់អ្នក
-                    </p>
-                    <p className="hero-description">
-                    ជាមួយ Jom-nouy
-                    </p>
-                    <Link to="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </Link>
+                    <p className="hero-description">របស់អ្នក</p>
+                    <p className="hero-description">ជាមួយ Jom-nouy</p>
+                    <Link to="/signup" className="hero-button">
+                        <button><span>ចាប់ផ្តើមឥឡូវនេះ ➜</span></button>
+                    </Link>
+
                 </div>
                 <div className="hero-image-wrapper">
                     <img
-                        src="/img/hero.png" 
+                        src="/img/hero.png"
                         alt="Illustration of investment opportunities"
                         className="analytics-image"
                     />
@@ -79,6 +77,7 @@ const Home = () => {
             </div>
         </section>
     );
+
 
 
     const Footer = () => (
@@ -136,6 +135,7 @@ const Home = () => {
             <Header />
             <Hero />
             <Footer />
+
         </>
     );
 };

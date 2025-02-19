@@ -36,7 +36,9 @@ const About = () => {
             >
               About
             </Link>
-            <button className="login-button"><span>Login</span></button>
+            <Link to="/login" className="login-button">
+              <button><span>Login</span></button>
+            </Link>
           </div>
           <div className="button-group">
 

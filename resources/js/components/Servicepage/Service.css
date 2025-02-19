@@ -57,11 +57,8 @@
   }
   
   .nav-link.active-link {
-    @apply text-custom-orange font-semibold ;
-    
-     /* Optional, just in case */
+    @apply text-custom-orange font-semibold;
   }
-  
   
 
 
@@ -84,7 +81,7 @@
 
 
 button {
-    @apply py-2 px-4 rounded-lg text-black font-semibold transition-all duration-200 z-50;
+    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
 }
 
   
@@ -154,21 +151,25 @@ button {
   animation: none; /* Remove any animation */
 }
 
-.hero-content {
-  @apply relative z-10 flex flex-col items-center justify-center h-full text-center text-white;
+.hero-content-service {
+  @apply relative z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
 }
 
+
 .hero-title1 {
-  @apply text-6xl font-bold  text-black;
+  @apply relative text-6xl font-bold  text-black;
+  bottom: 20px
 }
 .hero-title2 {
   @apply relative text-6xl font-bold text-black ;
-  bottom: 20px;
+  
 }
 
 
 .hero-text1 {
-  @apply text-lg text-black mb-6;
+  @apply relative text-lg text-black mb-6;
+  top: 20px;
+
 }
 
 
@@ -192,8 +193,9 @@ button {
 }
 
 .hero-btn-secondary1 {
-  @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-custom-orange hover:bg-custom-orange hover:text-white;
+  @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
 }
+
 
 @keyframes slideInUp {
   from {
@@ -315,12 +317,12 @@ button {
   transform: translateY(0); /* Move to normal position */
 }
 
-.hero-content {
+.hero-content-service {
   opacity: 0;
   transform: translateY(50px); /* Start off-screen */
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.hero-content.show-hero {
+.hero-content-service.show-hero {
   opacity: 1;
   transform: translateY(0); /* Move to normal position */
 }
@@ -416,6 +418,7 @@ button {
   @apply grid grid-cols-1 sm:grid-cols-2 gap-10 place-items-center;
   padding: 0px 200px 0px 200px;
 }
+
 
 .about-card {
   @apply bg-white rounded-lg shadow-md p-6 flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[480px];

@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from '../components/Homepage/Homepage';
-import Projectlist from '../components/Projectlist/Projectlist';
 import About from '../components/Aboutpage/Aboutus';
 import Service from '../components/Servicepage/Servicepage';
 import ProjectSubmitForm from '../components/Projectsubmit/Projectsubmit';
@@ -15,7 +14,6 @@ const Index = () => {
             <Routes>
                 {/* Main Routes */}
                 <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Service/>} />
                 

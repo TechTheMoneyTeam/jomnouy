@@ -11,6 +11,12 @@ Route::get('/', function () {
 Route::get('/services', function () {
     return view('welcome');
 });
+Route::get('/login', function () {
+    return view('welcome');
+});
+Route::get('/signup', function () {
+    return view('welcome');
+});
 Route::get('/about', function () {
     return view('welcome');
 });
