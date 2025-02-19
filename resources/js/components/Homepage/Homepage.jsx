@@ -35,7 +35,10 @@ const Home = () => {
                           >
                               About
                           </Link>
-                          <button className="login-button"><span>Login</span></button>
+                                              <Link to="/signup" className="login-button">
+                                              <button className="login-button"><span>Login</span></button>
+                                              </Link>
+                    
                       </div>
                       <div className="button-group">
                           

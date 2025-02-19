@@ -20,3 +20,8 @@ Route::get('/projectlist1', function () {
 Route::get('/projectsubmit', function () {
     return view('welcome');
 });
+use App\Http\Controllers\UserController;
+
+Route::post('/api/signup', [UserController::class, 'signup']);
+Route::post('/api/login', [UserController::class, 'login']);
+Route::get('/api/profile/{userId}', [UserController::class, 'getProfile']);

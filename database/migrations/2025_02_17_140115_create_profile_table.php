@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('profile', function (Blueprint $table) {
             $table->integer('profile_id')->primary();
@@ -17,13 +14,13 @@ return new class extends Migration
             $table->string('contact_info')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('bio', 500)->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('profile');
     }
