@@ -3,15 +3,15 @@ import axios from 'axios';
 
 const SignupForm = () => {
     const [formData, setFormData] = useState({
-        username: '',  // Added back as required by backend
+        username: '',  
         first_name: '',
         last_name: '',
         email: '',
         password: '',
         confirmPassword: '',
-        contact_info: '',  // Added back as required by backend
-        phone: '',        // Added back as required by backend
-        bio: ''          // Added back as required by backend
+        contact_info: '',  
+        phone: '',        
+        bio: ''          
     });
     const [message, setMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -25,10 +25,10 @@ const SignupForm = () => {
         }
 
         try {
-            // Create submission data without confirmPassword
+           
             const submissionData = {
                 ...formData,
-                // Don't send confirmPassword to backend
+              
                 confirmPassword: undefined
             };
 
@@ -152,13 +152,13 @@ const SignupForm = () => {
                     />
                 </div>
 
-                {/* Hidden fields that might be required by backend */}
+              
                 <input type="hidden" name="contact_info" value={formData.contact_info} />
                 <input type="hidden" name="bio" value={formData.bio} />
 
                 <button 
                     type="submit" 
-                    className="w-full p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                    className="w-full p-3 bg-orange-500 text-black rounded-lg hover:bg-orange-600 transition-colors"
                 >
                     Create Account
                 </button>
