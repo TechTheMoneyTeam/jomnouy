@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('likes', function (Blueprint $table) {
-            $table->increments('like_id');
+        Schema::create('investment', function (Blueprint $table) {
+            $table->integer('investment_id')->primary();
             $table->integer('project_id')->nullable();
             $table->integer('user_id')->nullable();
-            $table->timestamp('create_at')->nullable()->useCurrent();
+            $table->float('amount')->nullable();
+            $table->string('status', 20)->nullable();
+            $table->timestamp('investment_date')->nullable();
+            $table->integer('equity')->nullable();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('investment');
     }
 };

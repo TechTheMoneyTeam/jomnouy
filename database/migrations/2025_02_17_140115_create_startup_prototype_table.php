@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('profile', function (Blueprint $table) {
-            $table->foreign(['user_id'], 'profile_user_id_fkey')->references(['user_id'])->on('users')->onUpdate('no action')->onDelete('cascade');
+        Schema::create('startup_prototype', function (Blueprint $table) {
+            $table->integer('project_id')->primary();
+            $table->float('min_equity')->nullable();
+            $table->float('max_equity')->nullable();
+            $table->float('required_funding')->nullable();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('profile', function (Blueprint $table) {
-            $table->dropForeign('profile_user_id_fkey');
-        });
+        Schema::dropIfExists('startup_prototype');
     }
 };

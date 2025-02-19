@@ -19,14 +19,14 @@ const Header = () => {
                     <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
                     <div className="nav-links">
                         <Link 
-                            to="/" 
+                            to="/home" 
                             className={`nav-link ${location.pathname === '/home' ? 'active-link' : ''}`}
                         >
                             Home
                         </Link>
                         <Link 
                             to="/services" 
-                            className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
+                            className={`nav-link ${location.pathname === '/service' ? 'active-link' : ''}`}
                         >
                             Services
                         </Link>

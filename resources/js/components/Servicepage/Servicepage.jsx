@@ -22,7 +22,7 @@ const Service = () => {
     // Intersection Observer to detect when service cards come into view
     useEffect(() => {
         const heroService = document.querySelector('.hero-service');
-        const heroContent = document.querySelector('.hero-content');
+        const heroContent = document.querySelector('.hero-content-service');
         const serviceCards = document.querySelectorAll('.service-card'); // Select all service cards
     
         const observer = new IntersectionObserver((entries) => {
@@ -75,7 +75,7 @@ const Service = () => {
     
     const Header = () => {
         const location = useLocation();
-
+    
         return (
             <header className="header">
                 <nav className="nav-container">
@@ -84,8 +84,8 @@ const Service = () => {
                     </Link>
                     <div className="nav-links">
                         <Link
-                            to="/"
-                            className={`nav-link ${location.pathname === "/" ? "active-link" : ""}`}
+                            to="/home"
+                            className={`nav-link ${location.pathname === "/home" ? "active-link" : ""}`}
                         >
                             Home
                         </Link>
@@ -118,11 +118,10 @@ const Service = () => {
             </header>
         );
     };
-
-    const Hero = () => (
+        const Hero = () => (
         <div className="hero-service">
             <img src="/img/serviceimg.png" alt="Hero Background" />
-            <div className="hero-content">
+            <div className="hero-content-service">
                 <h1 className="hero-title1">Opportunities don't happen.</h1>
                 <h1 className="hero-title2">You create them.</h1>
                 <p className="hero-text1">

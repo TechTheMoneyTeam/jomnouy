@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_existing', function (Blueprint $table) {
-            $table->integer('equity')->nullable();
+        Schema::create('project_bidding', function (Blueprint $table) {
+            $table->integer('bid_id')->primary();
             $table->integer('project_id')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->float('bid_amount')->nullable();
+            $table->timestamp('bid_time')->nullable();
+            $table->integer('auction_id')->nullable();
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_existing');
+        Schema::dropIfExists('project_bidding');
     }
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link,useLocation } from 'react-router-dom';
 import { Facebook, Linkedin, Twitter, Phone, Mail, MapPin, Search } from 'lucide-react';
 import './Home.css';
+// import'../Servicepage/Service.css';
 
 const Home = () => {
     const [language, setLanguage] = useState('en');
@@ -31,7 +32,7 @@ const Home = () => {
                           </Link>
                           <Link 
                               to="/about" 
-                              className={`nav-link ${location.pathname === '/About' ? 'active-link' : ''}`}
+                              className={`nav-link ${location.pathname === '/about' ? 'active-link' : ''}`}
                           >
                               About
                           </Link>
@@ -51,33 +52,53 @@ const Home = () => {
           );
       }
     
-    const Hero = () => (
+      const Hero = () => (
         <section className="hero">
-            <div className="hero-background"></div>
-            <div className="hero-content">
-                <div className="hero-text-section">
-                    <div className="hero-text-background"></div>
-                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
-                    <p className="hero-description">
-                    របស់អ្នក
+          <div className="hero-background"></div>
+          <div className="hero-content">
+            <div className="hero-text-section">
+              <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
+              <p className="hero-description">របស់អ្នក</p>
+              <p className="hero-description">ជាមួយ Jom-nouy</p>
+              <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
+            </div>
+            <div className="hero-image-wrapper">
+              <img
+                src="/img/hero.png"
+                alt="Illustration of investment opportunities"
+                className="analytics-image"
+              />
+            </div>
+          </div>
+        </section>
+      );
+
+      const Services = () => (
+        <div className="services-section">
+            <h2 className="services-title">Our Services</h2>
+            <div className="services-container">
+                <div className="service-card">
+                    <img src="/img/findsponsor.png" className="service-image" />
+                    <h3 className="service-title">Find Sponsors</h3>
+                    <p className="service-description">
+                    Explore our Sponsorship List featuring companies ready to sponsor creators.
                     </p>
-                    <p className="hero-description">
-                    ជាមួយ Jom-nouy
-                    </p>
-                    <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
                 </div>
-                <div className="hero-image-wrapper">
-                    <img
-                        src="/img/hero.png" 
-                        alt="Illustration of investment opportunities"
-                        className="analytics-image"
-                    />
+                <div className="service-card">
+                    <img src="/img/investor.png" className="service-image" />
+                    <h3 className="service-title">Investor</h3>
+                    <p className="service-description">
+                    Check out our Sponsorship List of companies seeking creators to sponsor.                    </p>
+                </div>
+                <div className="service-card">
+                    <img src="/img/projectstartup.png" className="service-image" />
+                    <h3 className="service-title">Project Start-Up</h3>
+                    <p className="service-description">
+                    Explore our Sponsorship List—companies eager to sponsor creators.                    </p>
                 </div>
             </div>
-        </section>
+        </div>
     );
-    
-
     const Footer = () => (
         <footer className="footer">
             <div className="footer-grid">
@@ -132,7 +153,9 @@ const Home = () => {
         <>
             <Header />
             <Hero />
+            <Serivces />
             <Footer />
+            
         </>
     );
 };
