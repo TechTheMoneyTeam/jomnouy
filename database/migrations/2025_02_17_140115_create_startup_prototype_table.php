@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('startup_prototype', function (Blueprint $table) {
-            $table->integer('min_equity')->nullable();
-            $table->integer('max_equity')->nullable();
-            $table->integer('project_id')->nullable();
+            $table->integer('project_id')->primary();
+            $table->float('min_equity')->nullable();
+            $table->float('max_equity')->nullable();
+            $table->float('required_funding')->nullable();
         });
     }
 

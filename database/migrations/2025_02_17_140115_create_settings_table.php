@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_existing', function (Blueprint $table) {
-            $table->integer('equity')->nullable();
-            $table->integer('project_id')->nullable();
+        Schema::create('settings', function (Blueprint $table) {
+            $table->integer('setting_id')->primary();
+            $table->integer('user_id')->nullable();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_existing');
+        Schema::dropIfExists('settings');
     }
 };

@@ -4,14 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-<<<<<<< HEAD
         "watch": "vite build --watch"
-=======
-        "watch": "vite build --watch",
-        
-        
-        
->>>>>>> 2dd4266a9e14a739b351d571800617ac96d253d6
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
@@ -26,14 +19,25 @@
     },
     "dependencies": {
         "@tailwindcss/forms": "^0.5.10",
+        "bcryptjs": "^3.0.2",
+        "body-parser": "^1.20.3",
+        "cors": "^2.8.5",
         "cross-env": "^7.0.3",
+        "express": "^4.21.2",
         "lucide-react": "^0.475.0",
+        "mysql2": "^3.12.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-router-dom": "^7.1.5"
-    }
-<<<<<<< HEAD
+    },
+    "name": "jomnouy",
+    "version": "1.0.0",
+    "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
+    "main": "postcss.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
 }
-=======
-}
->>>>>>> 2dd4266a9e14a739b351d571800617ac96d253d6

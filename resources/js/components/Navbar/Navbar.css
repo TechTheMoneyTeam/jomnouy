@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+               margin: 60px 200px 200px 200px;
+}
+
+.navbar-container {
+               @apply flex;
+}
+
+.navbar-logo {
+               @apply text-3xl font-bold text-black;
+}
+
+.logo {
+               @apply text-black;
+}
+
+.logo-highlight {
+               @apply text-[#F07900];
+}
+
+.search-input {
+               @apply w-[500px] placeholder-[#C0C0C0] py-2.5 pl-10 text-sm text-[#333] border border-[#D7DBDD] rounded-lg focus:ring-[#ebab6c] focus:border-[#ebab6c] transition-all duration-300 ease-in-out;
+}
+
+.search-icon {
+               @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-[#C0C0C0] w-6 h-6 peer-focus:text-black;
+}
+
+.form-search {
+               @apply flex items-center justify-center flex-1;
+}
+
+.navbar-button {
+               @apply px-5 py-2.5 text-sm text-white bg-[#F07900] rounded-lg hover:bg-[#d86600] focus:ring-4 focus:ring-blue-300;
+}
+
+.profile {
+               @apply flex items-center ml-6 space-x-4;
+}
+
+.avatar-image {
+               @apply w-8 h-8 rounded-full ring-2 ring-gray-300 dark:ring-gray-500;
+}
+.categories-container{
+               @apply mt-10 space-x-4 pl-10 rounded-lg bg-[#C0C0C0] bg-opacity-15;
+}
+.category-item {
+               @apply font-semibold text-sm hover:text-[#F07900] hover:underline transition-all duration-300;
+}
