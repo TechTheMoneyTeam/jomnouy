@@ -8,6 +8,9 @@ Route::get('/api/projects', [ProjectController::class, 'index']);
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/user', function () {
+    return view('welcome');
+});
 Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
 Route::get('/services', function () {
     return view('welcome');
