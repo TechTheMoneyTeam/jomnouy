@@ -1,19 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@layer components {
+               .font-montserrate {
+                              font-family: 'montserrate', sans-serif;
+               }
+}
 @font-face {
                font-family: 'montserrate';
-               src: url('../font/Montserrat-VariableFont_wght.ttf');
+               src: url('../../font/Montserrat-VariableFont_wght.ttf');
 }
 
 * {
-               @apply font-[montserrate] m-0 p-0 box-border;
+               font-family: 'montserrate', sans-serif;
 }
 
-body {
+/* body {
                @apply overflow-hidden font-[montserrate];
-}
+} */
 
 .title {
                @apply mt-10 mb-8 text-center text-3xl font-bold text-[50px];
@@ -23,9 +27,8 @@ body {
                @apply text-[#F07900];
 }
 
-.text-left-signup {
-               @apply text-3xl;
-               font-size: 30px;
+.text-left {
+               @apply text-2xl;
 }
 
 .custom-input {

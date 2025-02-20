@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,11 +24,11 @@ body {
 }
 
 .search-input {
-               @apply w-[500px] placeholder-[#C0C0C0] py-2.5 pl-10 text-sm text-[#333] border border-[#D7DBDD] rounded-lg focus:ring-[#ebab6c] focus:border-[#ebab6c] transition-all duration-300 ease-in-out;
+               @apply w-[500px]  placeholder-[#C0C0C0] py-2.5 pl-10 text-sm text-[#333] border border-[#D7DBDD] rounded-lg focus:ring-[#ebab6c] focus:border-[#ebab6c] transition-all duration-300 ease-in-out;
 }
 
 .search-icon {
-               @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-[#C0C0C0] w-6 h-6 peer-focus:text-black;
+               @apply relative left-3 top-1/2 transform -translate-y-1/2 text-[#C0C0C0] w-6 h-6 peer-focus:text-black;
 }
 
 .form-search {
@@ -45,9 +46,11 @@ body {
 .avatar-image {
                @apply w-8 h-8 rounded-full ring-2 ring-gray-300 dark:ring-gray-500;
 }
-.categories-container{
+
+.categories-container {
                @apply mt-10 space-x-4 pl-10 rounded-lg bg-[#C0C0C0] bg-opacity-15;
 }
+
 .category-item {
                @apply font-semibold text-sm hover:text-[#F07900] hover:underline transition-all duration-300;
 }

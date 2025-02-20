@@ -20,7 +20,7 @@
         text-decoration: none;
     }
     
-    .nav-links {
+    /* .nav-links {
         @apply flex space-x-6;
     }
     
@@ -42,7 +42,7 @@
     .nav-link.active-link:hover {
         text-decoration: none;
         color: #F07900;
-    }
+    } */
     
     .button-group {
         @apply flex space-x-4 items-center;
@@ -53,9 +53,9 @@
         z-index: 100;
     }
     
-    .login-button {
+    /* .login-button {
         @apply bg-custom-orange hover:bg-blue-700;
-    }
+    } */
     
     .search-button {
         @apply hover:bg-gray-600;

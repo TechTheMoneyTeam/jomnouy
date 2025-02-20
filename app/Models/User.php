@@ -2,22 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'user_id';
+    public $timestamps = false;
+    
+    protected $fillable = [
+        'username',
+        'user_id',
+        'first_name',
+        'last_name',
+        'email',
+        'user_type',
+        'password',
+        'user_type'
+    ];
 
-    protected $table = 'users'; // Define table name explicitly
-
-    protected $primaryKey = 'user_id'; // Set primary key
-
-    public $timestamps = false; // Enable timestamps
-
-    protected $fillable = ['user_id', 'username', 'first_name', 'last_name', 'profile_id', 'email', 'user_type', 'password'];
-
-    protected $hidden = ['password']; // Hide password from JSON responses
-
-    // public $incrementing = false; // Set to false if the primary key is not auto-incrementing
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'user_id', 'user_id');
+    }
+    public function projects()
+{
+    return $this->hasMany(Project::class, 'user_id', 'user_id');
+}
 }

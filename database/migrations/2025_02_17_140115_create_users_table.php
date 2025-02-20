@@ -12,17 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            // $table->increments('user_id'); // Auto-increment the user_id
-            $table->string('username');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->integer('profile_id');
-            $table->string('email');
-            $table->string('user_type');
+            $table->integer('user_id')->primary();
+            $table->string('username', 50)->unique('username');
+            $table->string('first_name', 50)->nullable();
+            $table->string('last_name', 50)->nullable();
+            $table->string('profile_id', 50)->nullable();
+            $table->string('email', 100)->unique('email');
+            $table->enum('user_type', ['investor', 'entrepreneur', 'startup'])->nullable();
             $table->string('password');
-            $table->timestamps();
         });
-
     }
 
     /**

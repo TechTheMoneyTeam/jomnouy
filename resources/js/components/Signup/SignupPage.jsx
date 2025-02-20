@@ -48,9 +48,9 @@ const SignUpCard = () => {
                                              </h1>
                                              <div className="card-container">
                                                             <div className="card">
-                                                                           <div className="text-left">Sign up</div>
+                                                                           <div className="text-left-signup">Sign up</div>
                                                                            <form onSubmit={handleSubmit} className="form">
-                                                                                         
+
                                                                                           <div className="form-group">
                                                                                                          <label htmlFor="username">Username</label>
                                                                                                          <input
@@ -90,7 +90,7 @@ const SignUpCard = () => {
                                                                                                                         />
                                                                                                          </div>
                                                                                           </div>
-                                                                                         
+
                                                                                           <div className="form-group">
                                                                                                          <label htmlFor="email">Email</label>
                                                                                                          <input
@@ -104,7 +104,7 @@ const SignUpCard = () => {
                                                                                                                         required
                                                                                                          />
                                                                                           </div>
-                                                                                         
+
                                                                                           <div className="form-group">
                                                                                                          <label htmlFor="password">Password</label>
                                                                                                          <input
