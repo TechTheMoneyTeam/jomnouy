@@ -196,6 +196,7 @@ button {
   @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
 }
 
+
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -417,6 +418,7 @@ button {
   @apply grid grid-cols-1 sm:grid-cols-2 gap-10 place-items-center;
   padding: 0px 200px 0px 200px;
 }
+
 
 .about-card {
   @apply bg-white rounded-lg shadow-md p-6 flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[480px];

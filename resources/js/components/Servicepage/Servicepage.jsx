@@ -23,8 +23,9 @@ const Service = () => {
     useEffect(() => {
         const heroService = document.querySelector('.hero-service');
         const heroContent = document.querySelector('.hero-content-service');
+        const heroContent = document.querySelector('.hero-content-service');
         const serviceCards = document.querySelectorAll('.service-card'); // Select all service cards
-    
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.target === heroService) {
@@ -34,7 +35,7 @@ const Service = () => {
                         heroService.classList.remove('show-hero');
                     }
                 }
-    
+
                 if (entry.target === heroContent) {
                     if (entry.isIntersecting) {
                         heroContent.classList.add('show-hero');
@@ -42,7 +43,7 @@ const Service = () => {
                         heroContent.classList.remove('show-hero');
                     }
                 }
-    
+
                 // Observe each service card for visibility
                 if (entry.target.classList.contains('service-card')) {
                     if (entry.isIntersecting) {
@@ -55,14 +56,14 @@ const Service = () => {
         }, {
             threshold: 0.5,  // Adjust threshold as needed
         });
-    
+
         // Observe the elements
         if (heroService) observer.observe(heroService);
         if (heroContent) observer.observe(heroContent);
         serviceCards.forEach(card => {
             observer.observe(card); // Observe each service card
         });
-    
+
         // Cleanup on unmount
         return () => {
             if (heroService) observer.unobserve(heroService);
@@ -72,7 +73,7 @@ const Service = () => {
             });
         };
     }, []);
-    
+
     const Header = () => {
         const location = useLocation();
     
@@ -101,10 +102,11 @@ const Service = () => {
                         >
                             About
                         </Link>
-                        <button className="login-button">
-                            <span>Login</span>
-                        </button>
+                     <Link to="/login" className="login-button">
+                       <button><span>Login</span></button>
+                     </Link>
                     </div>
+
                     <div className="button-group">
                         <button className="search-button">
                             <Search />
@@ -118,7 +120,8 @@ const Service = () => {
             </header>
         );
     };
-        const Hero = () => (
+
+    const Hero = () => (
         <div className="hero-service">
             <img src="/img/serviceimg.png" alt="Hero Background" />
             <div className="hero-content-service">
@@ -129,8 +132,15 @@ const Service = () => {
                 </p>
 
                 <div className="hero-buttons">
-                    <button className="hero-btn-primary1"><span>Become a member</span></button>
-                    <button className="hero-btn-secondary1">Learn More</button>
+
+                    <Link to="/signup" className="hero-btn-primary1">
+                        <button><span>Become a member</span></button>
+                    </Link>
+
+
+                    <Link to="/about" className="hero-btn-secondary1">
+                        <button><span>Learn More</span></button>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -144,20 +154,20 @@ const Service = () => {
                     <img src="/img/findsponsor.png" className="service-image" />
                     <h3 className="service-title">Find Sponsors</h3>
                     <p className="service-description">
-                    Explore our Sponsorship List featuring companies ready to sponsor creators.
+                        Explore our Sponsorship List featuring companies ready to sponsor creators.
                     </p>
                 </div>
                 <div className="service-card">
                     <img src="/img/investor.png" className="service-image" />
                     <h3 className="service-title">Investor</h3>
                     <p className="service-description">
-                    Check out our Sponsorship List of companies seeking creators to sponsor.                    </p>
+                        Check out our Sponsorship List of companies seeking creators to sponsor.                    </p>
                 </div>
                 <div className="service-card">
                     <img src="/img/projectstartup.png" className="service-image" />
                     <h3 className="service-title">Project Start-Up</h3>
                     <p className="service-description">
-                    Explore our Sponsorship List—companies eager to sponsor creators.                    </p>
+                        Explore our Sponsorship List—companies eager to sponsor creators.                    </p>
                 </div>
             </div>
         </div>
@@ -169,43 +179,44 @@ const Service = () => {
                 ជំនួយ-Jom<span>nouy</span> is a platform that connects creators with companies looking to sponsor them. We help creators find sponsors and investors to support their projects. Our mission is to empower creators to turn their ideas into reality by providing them with the resources they need to succeed.
             </p>
             <div className="about-container">
-            <div className="about-card">
-                <img src="/img/creator.png" className="about-image" />  
-                <h3 className="about-card-title">Creators</h3>  
-                <p className="about-card-text">
-                    Find sponsors and investors to support your projects.
+                <div className="about-card">
+                    <img src="/img/creator.png" className="about-image" />
+                    <h3 className="about-card-title">Creators</h3>
+                    <p className="about-card-text">
+                        Find sponsors and investors to support your projects.
                     </p>
-            </div>
-            <div className="about-card">
-                <img src="/img/creator.png" className="about-image" />  
-                <h3 className="about-card-title">Creators</h3>  
-                <p className="about-card-text">
-                    Find sponsors and investors to support your projects.
+                </div>
+                <div className="about-card">
+                    <img src="/img/creator.png" className="about-image" />
+                    <h3 className="about-card-title">Creators</h3>
+                    <p className="about-card-text">
+                        Find sponsors and investors to support your projects.
                     </p>
-            </div>
-            <div className="about-card">
-                <img src="/img/creator.png" className="about-image" />  
-                <h3 className="about-card-title">Creators</h3>  
-                <p className="about-card-text">
-                    Find sponsors and investors to support your projects.
-                    </p>
-            </div>
-            <div className="about-card">
-                <img src="/img/investor.png" className="about-image" />  
-                <h3 className="about-card-title">Creators</h3>  
-                <p className="about-card-text">
-                    Find sponsors and investors to support your projects.
-                    </p>
-            </div>
-            
-            
-        </div>
-        </div>
-        
-                
+                </div>
+                <div className="about-card">
+                    <img src="/img/creator.png" className="about-image" />
 
-           
-  
+                    <h3 className="about-card-title">Creators</h3>
+                    <p className="about-card-text">
+                        Find sponsors and investors to support your projects.
+                    </p>
+                </div>
+                <div className="about-card">
+                    <img src="/img/investor.png" className="about-image" />
+                    <h3 className="about-card-title">Creators</h3>
+                    <p className="about-card-text">
+                        Find sponsors and investors to support your projects.
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
     );
 
     const Footer = () => (
@@ -282,6 +293,7 @@ const Service = () => {
                 <div className="footer-social">
                     <Link to="#" className="social-icon"><Facebook /></Link>
                     <Link to="#" className="social-icon"><Linkedin /></Link>
+
                     <Link to="#" className="social-icon"><Twitter /></Link>
                 </div>
             </div>
@@ -293,9 +305,9 @@ const Service = () => {
             <Header />
             <Hero />
             <Services />
-            <About/>
+            <About />
             <Footer />
-            
+
         </>
     );
 };

@@ -56,25 +56,27 @@ const Header = () => {
     <div className="w-full flex flex-col gap-8">
 
       <div className="w-full h-[400px] relative">
-        <img 
-          src="/img/about.png" 
+        <img
+          src="/img/about.png"
           alt="About 1"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 pointer-events-none" />
       </div>
-      
+
 
       <div className="w-full h-[500px] relative">
-        <img 
-          src="/img/bottomabout.png" 
+        <img
+          src="/img/bottomabout.png"
           alt="About 2"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 pointer-events-none" />
-        <a href="/projectlist" className="hero-button1">CONTACT US </a>
-        
- 
+
+        <Link to="https://t.me/jomnouy" className="hero-button1">
+          <button><span>Contact Us</span></button>
+        </Link>
+
       </div>
     </div>
   );
