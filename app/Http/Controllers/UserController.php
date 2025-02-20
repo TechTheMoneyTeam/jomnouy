@@ -23,7 +23,8 @@ class UserController extends Controller
                 'password' => 'required|string|min:6',
                 'phone' => 'nullable|string|max:15',
                 'contact_info' => 'nullable|string|max:255',
-                'bio' => 'nullable|string|max:1000'
+                'bio' => 'nullable|string|max:1000',
+                'user_type' => 'nullable|string|in:investor,entrepreneur,startup'
             ]);
 
             if ($validator->fails()) {
@@ -63,7 +64,8 @@ class UserController extends Controller
                 'last_name' => $validatedData['last_name'],
                 'email' => $validatedData['email'],
                 'user_type' => 'user',
-                'password' => Hash::make($validatedData['password'])
+                'password' => Hash::make($validatedData['password']),
+                'user_type' => $validatedData['user_type'] ?? null
             ]);
     
             // Create profile with the same ID
@@ -144,4 +146,37 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+    public function updateUserType(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'username' => 'nullable|exists:users,username',
+                'user_type' => 'required|in:investor,entrepreneur,startup'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $user = User::where('username', $request->username)->first();
+            $user->user_type = $request->user_type;
+            $user->save();
+
+            return response()->json([
+                'message' => 'User type updated successfully',
+                'user' => $user->makeHidden(['password'])
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update user type',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 }

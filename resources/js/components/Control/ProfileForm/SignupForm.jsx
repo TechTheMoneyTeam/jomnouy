@@ -71,14 +71,12 @@ const SignupForm = () => {
             const { confirmPassword, ...submitData } = formData;
             const response = await axios.post('/api/signup', submitData);
             setMessage('Account created successfully!');
+            
+            // Store the user ID in localStorage or state management
+            localStorage.setItem('tempUserId', response.data.user.username);
 
-            // Reset the form
-            resetForm();
-
-            // Redirect after a brief message
-            setTimeout(() => {
-                navigate('/login'); // Redirect to login page
-            }, 500); // Wait 0.5 seconds before redirecting
+            // Redirect to user type selection
+            navigate('/user');
 
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
@@ -88,7 +86,6 @@ const SignupForm = () => {
             }
         }
     };
-
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
             <h1 className="title">

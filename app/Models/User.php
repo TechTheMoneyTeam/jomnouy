@@ -16,7 +16,8 @@ class User extends Model
         'last_name',
         'email',
         'user_type',
-        'password'
+        'password',
+        'user_type'
     ];
 
     public function profile()

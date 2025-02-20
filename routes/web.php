@@ -31,6 +31,7 @@ Route::get('/projectsubmit', function () {
     return view('welcome');
 });
 use App\Http\Controllers\UserController;
+Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);
 Route::post('/api/login', [UserController::class, 'login']);
