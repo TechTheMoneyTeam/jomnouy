@@ -114,7 +114,7 @@ const Home = () => {
     return (
       <div className="project-container">
         {/* Title for the project section */}
-        <h2 className="project-title-section">Popular Projects</h2>
+        <h2 className="project-title-section">All Projects</h2>
 
         {/* Navigation buttons */}
         <div className="project-nav">

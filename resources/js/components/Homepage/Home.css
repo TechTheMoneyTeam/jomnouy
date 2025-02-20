@@ -162,65 +162,32 @@ button {
 
 .project-grid {
   @apply flex transition-transform ease-in-out duration-500; /* Smooth sliding of cards */
-  opacity: 0;
-  animation: slideInUp 0.8s forwards;
 }
 
-@keyframes slideInUp {
+/* Animation for Project Cards (slide in from the left) */
+@keyframes slideInProjectCard {
   0% {
+    transform: translateX(-100px);
     opacity: 0;
-    transform: translateY(50px);
   }
   100% {
+    transform: translateX(0);
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* Project Cards Animation */
-@keyframes projectCardFadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Add animation to the project cards */
 .project-card {
-  @apply flex-shrink-0 w-[280px] h-max mb-8 mr-6 rounded-lg transition-all duration-300 ease-in-out;
-  animation: projectCardFadeUp 0.6s ease-out;
+  flex-shrink: 0; /* Prevent cards from shrinking */
+  width: 280px;
+  height: max-content; /* Width of each card */
+  margin-right: 10px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  animation: slideInProjectCard 1s ease-out; /* Apply slide-in animation */
 }
 
-.project-card:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-.project-card:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.project-card:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.project-card:nth-child(4) {
-  animation-delay: 0.8s;
-}
-
-.project-card:nth-child(5) {
-  animation-delay: 1s;
-}
-
-.project-card:nth-child(6) {
-  animation-delay: 1.2s;
-}
-
-.project-card:nth-child(7) {
-  animation-delay: 1.4s;
+.project-image {
+  @apply w-full h-40 object-cover rounded-lg;
 }
 
 .project-title {
