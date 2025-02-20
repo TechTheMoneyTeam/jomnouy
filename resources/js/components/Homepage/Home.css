@@ -35,8 +35,7 @@ button {
 .language-button {
   @apply hover:bg-green-700 rounded-lg text-custom-orange border border-black;
 }
-  @apply hover:bg-green-700 rounded-lg text-custom-orange border border-black;
-}
+ 
 
 .flag-icon {
   @apply mr-2;
