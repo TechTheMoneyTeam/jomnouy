@@ -15,7 +15,8 @@ class Profile extends Model
         'user_id',
         'contact_info',
         'phone',
-        'bio'
+        'bio',
+        'username'
     ];
 
     public function user()

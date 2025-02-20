@@ -9,6 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('profile', function (Blueprint $table) {
+            $table->string('username', 50)->nullable();
             $table->integer('profile_id')->primary();
             $table->integer('user_id')->nullable();
             $table->string('contact_info')->nullable();

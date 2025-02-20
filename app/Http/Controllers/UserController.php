@@ -53,7 +53,8 @@ class UserController extends Controller
             }
 
             // Generate profile_id
-            $profileId = $userId; // Using the same ID for profile_id
+            $profileId = $userId;
+             // Using the same ID for profile_id
     
             // Create user with hashed password
             $user = User::create([
@@ -67,14 +68,17 @@ class UserController extends Controller
                 'password' => Hash::make($validatedData['password']),
                 'user_type' => $validatedData['user_type'] ?? null
             ]);
+            $userName = $validatedData['username'];
     
             // Create profile with the same ID
             $profile = Profile::create([
                 'user_id' => $userId,
-                'profile_id' => $profileId, // Make sure this matches the user's profile_id
+                'profile_id' => $profileId,
+                'username' => $userName,
                 'contact_info' => $validatedData['contact_info'] ?? '',
                 'phone' => $validatedData['phone'] ?? '',
-                'bio' => $validatedData['bio'] ?? ''
+                'bio' => $validatedData['bio'] ?? '',
+                
             ]);
     
             // Remove password from response
