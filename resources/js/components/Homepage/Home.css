@@ -3,28 +3,23 @@
 @tailwind utilities;
 
 /* Header */
-/* Header */
 .header {
   @apply bg-white text-white py-4 px-6 sticky top-0 z-50 shadow-md;
 }
 
 .nav-container {
   @apply flex justify-between items-center;
-  @apply flex justify-between items-center;
 }
 
 .logo {
-  @apply text-2xl font-bold text-custom-orange no-underline;
   @apply text-2xl font-bold text-custom-orange no-underline;
 }
 
 .button-group {
   @apply flex space-x-4 items-center;
-  @apply flex space-x-4 items-center;
 }
 
 button {
-  @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
   @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
 }
 
@@ -35,14 +30,11 @@ button {
 .language-button {
   @apply hover:bg-green-700 rounded-lg text-custom-orange border border-black;
 }
- 
 
 .flag-icon {
   @apply mr-2;
-  @apply mr-2;
 }
 
-/* Hero Section */
 /* Hero Section */
 .hero {
   @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 min-h-[700px];
@@ -93,7 +85,6 @@ button {
 
 .hero-content {
   @apply relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full max-w-7xl px-6 md:px-12;
-  @apply relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full max-w-7xl px-6 md:px-12;
 }
 
 .hero-text-section {
@@ -138,46 +129,82 @@ button {
 }
 
 .hero-image-wrapper {
-    @apply relative flex justify-center items-center;
+  @apply flex justify-center items-center relative z-10;
+  left: 70px;
+  animation: slideInRight 1s ease-out; /* Animation for image sliding in */
 }
 
 .analytics-image {
-    @apply w-full max-w-[600px] h-auto;
+  @apply w-full max-w-[700px] h-auto;
 }
 
-.footer {
-    @apply bg-custom-orange text-white py-10 mt-16;
+/* Project Section */
+.project-container {
+  @apply relative p-8 mt-8 mb-2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1); /* Top and Bottom shadows */
 }
 
-.footer-grid {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
+.project-slider {
+  @apply overflow-hidden w-full relative flex justify-center mb-8; /* Ensure it's centered and hide overflow */
 }
 
-.footer-title {
-    @apply text-lg font-bold;
+.project-nav {
+  @apply absolute top-0 right-0 p-4 z-50 flex space-x-4;
 }
 
-.footer-list {
-    @apply space-y-2;
+.nav-button {
+  @apply p-2 bg-gray-800 text-white rounded-full shadow-md hover:bg-gray-600;
 }
 
-.footer-link {
-    @apply text-white hover:text-yellow-300 transition;
+.project-grid-wrapper {
+  @apply flex justify-center items-center w-full; /* Center the grid inside the container */
 }
 
-.footer-contact {
-    @apply flex items-center space-x-2;
+.project-grid {
+  @apply flex transition-transform ease-in-out duration-500; /* Smooth sliding of cards */
 }
 
-
-.footer-bottom {
-    @apply mt-6 text-center text-white;
+/* Animation for Project Cards (slide in from the left) */
+@keyframes slideInProjectCard {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.footer-social {
-    @apply flex justify-center space-x-4 mt-4;
+.project-card {
+  flex-shrink: 0; /* Prevent cards from shrinking */
+  width: 280px;
+  height: max-content; /* Width of each card */
+  margin-right: 10px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  animation: slideInProjectCard 1s ease-out; /* Apply slide-in animation */
 }
 
-.social-icon {
-    @apply text-white hover:text-black transition;
+.project-image {
+  @apply w-full h-40 object-cover rounded-lg;
+}
+
+.project-title {
+  @apply mt-2 text-lg font-bold;
+}
+
+.project-username {
+  @apply text-sm text-gray-600;
+}
+
+.project-description {
+  @apply mt-1 text-sm text-gray-700 line-clamp-2;
+}
+
+.project-title-section {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 50px;
+  text-align: center;
 }

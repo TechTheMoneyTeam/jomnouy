@@ -23,7 +23,6 @@ const Service = () => {
     useEffect(() => {
         const heroService = document.querySelector('.hero-service');
         const heroContent = document.querySelector('.hero-content-service');
-        const heroContent = document.querySelector('.hero-content-service');
         const serviceCards = document.querySelectorAll('.service-card'); // Select all service cards
 
         const observer = new IntersectionObserver((entries) => {
