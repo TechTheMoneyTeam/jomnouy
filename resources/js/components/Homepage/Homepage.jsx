@@ -66,7 +66,7 @@ const Home = () => {
             <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
             <p className="hero-description">របស់អ្នកជាមួយ</p>
             <p className="hero-description2">"Jom<span>nouy"</span></p>
-            <a href="/projectlist" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
+            <a href="/signup" className="hero-button">ចាប់ផ្តើមឥឡូវនេះ ➜ </a>
           </div>
           <div className="hero-image-wrapper">
             <img src="/img/hero.png" alt="Illustration of investment opportunities" className="analytics-image" />
