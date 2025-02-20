@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './LoginForm.css';
 
 const LoginForm = () => {
@@ -92,6 +93,12 @@ const LoginForm = () => {
                         </div>
                         <a href="#" className="text-end underline">Forgot password?</a>
                         <button type="submit" className="submit-btn">Login</button>
+                        <div className="text-center mt-2 text-gray-500 text-xs">
+                                                                                                         <span>Don't have an account? </span>
+                                                                                                         <Link to="/signup" className="text-blue-600">
+                                                                                                                        Create account
+                                                                                                         </Link>
+                                                                                          </div>
                     </form>
                     {message && (
                         <div className={`mt-4 text-center ${message.includes('successful') ? 'text-green-600' : 'text-red-600'}`}>

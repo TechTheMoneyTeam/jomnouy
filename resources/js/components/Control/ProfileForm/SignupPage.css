@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+               .font-montserrate {
+                              font-family: 'montserrate', sans-serif;
+               }
+}
+@font-face {
+               font-family: 'montserrate';
+               src: url('../../font/Montserrat-VariableFont_wght.ttf');
+}
+
+* {
+               font-family: 'montserrate', sans-serif;
+}
+
+/* body {
+               @apply overflow-hidden font-[montserrate];
+} */
+
+.title {
+               @apply mt-10 mb-8 text-center text-3xl font-bold text-[50px];
+}
+
+.title .highlight {
+               @apply text-[#F07900];
+}
+
+.text-left {
+               @apply text-2xl;
+}
+
+.custom-input {
+               @apply border-transparent transition-all duration-300 shadow-md;
+}
+
+/* .custom-input {
+               @apply rounded-[20px] shadow-lg transition-all duration-300 border-none;
+} */
+.custom-input:focus {
+               @apply focus:ring-1 focus:ring-[#ebab6c] focus:border-[#ebab6c] focus:shadow-lg;
+}
+
+.custom-input::placeholder {
+               @apply text-[#000000] text-xs placeholder:font-[montserrate] opacity-50;
+}
+
+.card-container {
+               @apply flex justify-center items-center h-screen;
+}
+
+.card {
+               @apply w-full max-w-[600px] p-8 bg-white rounded-lg shadow-md -mt-[250px];
+}
+
+.form {
+               @apply flex flex-col gap-4 pt-8;
+}
+
+.form-row {
+               @apply flex justify-between gap-2;
+}
+
+.form-group {
+               @apply flex flex-col text-[15px];
+}
+
+.submit-btn {
+               @apply bg-[#F07900] text-white rounded py-2 px-4 mt-4 hover:bg-white border border-[#F07900] hover:text-[#F07900] text-base font-normal;
+               font-family: 'montserrate';
+}
+
+.text-end {
+               @apply text-right font-semibold text-[#F07900] text-sm;
+}
+
+.text-center {
+               @apply flex items-center justify-center space-x-2 font-medium;
+}

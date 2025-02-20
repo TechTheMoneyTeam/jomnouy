@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-
+import './SignupPage.css';
+import { FaFacebook } from "react-icons/fa";
 
 const SignupForm = () => {
     const navigate = useNavigate();
@@ -93,7 +94,7 @@ const SignupForm = () => {
             </h1>
             <div className="card-container-signup">
                 <div className="card-signup">
-                    <div className="text-left">Join us at JOMNOUY</div>
+                    <div className="text-left text-2xl">Sign up</div>
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
                             <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">
@@ -111,6 +112,7 @@ const SignupForm = () => {
                             />
                             {errors.username && <p className="text-red-600">{errors.username}</p>}
                         </div>
+                        <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">
                                 First Name
@@ -142,6 +144,7 @@ const SignupForm = () => {
                                 required
                             />
                             {errors.last_name && <p className="text-red-600">{errors.last_name}</p>}
+                        </div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
@@ -191,6 +194,7 @@ const SignupForm = () => {
                             />
                             {errors.confirmPassword && <p className="text-red-600">{errors.confirmPassword}</p>}
                         </div>
+                        <Link to="/login" className="text-end underline">Already have an account?</Link>
                         <button type="submit" className="submit-btn">Sign Up</button>
                     </form>
                     {message && (
@@ -198,12 +202,9 @@ const SignupForm = () => {
                             {message}
                         </div>
                     )}
-                    <div className="text-center mt-4">
-                        <p className="text-gray-600">
-                            Already have an account? 
-                            <Link to="/login" className="text-orange-500 ml-1 hover:text-orange-600">Login</Link>
-                        </p>
-                    </div>
+                    <a href="#" className="text-center mt-4">
+                                                                                                         <FaFacebook size="20" /><span> Continue with Facebook</span>
+                                                                                          </a>
                 </div>
             </div>
         </div>

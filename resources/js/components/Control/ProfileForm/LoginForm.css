@@ -24,7 +24,7 @@
 }
 
 .text-left {
-               @apply text-xl font-medium;
+               @apply text-sm font-medium;
 }
 
 .custom-input {
@@ -33,11 +33,11 @@
                /* Add font-family here */
 }
 .card-container-signup {
-               @apply flex justify-center items-center h-screen;
+               @apply flex justify-center items-center ;
 }
 
 .card-signup {
-               @apply w-full max-w-3xl p-8 bg-white rounded-lg shadow-md mt-2;
+               @apply w-full max-w-3xl p-5 bg-white rounded-lg shadow-md;
 }
 .card-container-login {
     @apply flex justify-center items-center ;
@@ -48,7 +48,7 @@
 }
 
 .form {
-               @apply flex flex-col gap-4 pt-8;
+               @apply flex flex-col gap-4 pt-2;
 }
 
 .form-row {
