@@ -7,10 +7,6 @@
   @apply bg-white text-white py-4 px-6 sticky top-0 z-50 shadow-md;
 }
 
-.hero-button1 {
-  @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00] absolute right-60 top-[72%] translate-y-[-50%] z-50 shadow-md;
-}
-
 .nav-container {
   @apply flex justify-between items-center;
 }
@@ -44,10 +40,50 @@ button {
   @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 min-h-[700px];
 }
 
+/* Animation for hero background (slide and fade in) */
+@keyframes heroBackgroundSlide {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for text and title (slide left to right) */
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for analytics image (slide right to left) */
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .hero-background {
-  @apply absolute inset-0 bg-custom-orange z-10;
-  height: 900px;
-  border-radius: 0 300px 0 500px;
+  @apply absolute inset-0 bg-custom-orange z-10 mt-5;
+  border-top-right-radius: 20% 187px;
+  border-bottom-left-radius: 28% 431px;
+  animation: heroBackgroundSlide 1s ease-out;
 }
 
 .hero-content {
@@ -55,62 +91,133 @@ button {
 }
 
 .hero-text-section {
-  @apply relative bg-white p-8 rounded-[0_123px_0_123px] shadow-xl max-w-lg;
+  @apply relative bg-white p-8 max-w-lg px-10 h-[530px] overflow-hidden;
+  border-top-right-radius: 45% 193px;
+  border-bottom-left-radius: 45% 193px;
+  animation: slideInLeft 1s ease-out;
+  /* Animation for text sliding in */
 }
 
 .hero-title {
-  @apply text-5xl md:text-6xl font-bold text-gray-900 leading-tight;
+  @apply md:text-7xl font-bold text-gray-900 leading-tight ml-5 mb-12 mt-5;
 }
 
 .hero-description {
-  @apply text-xl md:text-2xl text-gray-700 mt-4 leading-relaxed;
+  @apply md:text-5xl text-gray-700 mt-12 leading-relaxed ml-5;
+}
+
+.hero-description2 {
+  @apply md:text-5xl text-black font-bold leading-relaxed ml-5 mt-8;
+}
+
+.hero-description2 span {
+  @apply text-custom-orange font-bold;
 }
 
 .hero-button {
-  @apply mt-6 inline-block bg-black text-white py-3 px-10 rounded-full font-semibold transition hover:bg-[#E65C00];
+  @apply relative inline-block bg-black text-white py-3 px-12 rounded-full font-semibold transition-all duration-300 ease-in-out;
+  left: 50px;
+  top: 100px;
+  animation: slideInLeft 1s ease-out 0.2s;
+  /* Add slight delay for button */
+}
+
+.hero-button:hover {
+  transform: translateX(10px);
+  @apply bg-custom-orange;
+}
+
+.hero-button1 {
+  @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+  @apply absolute right-60 top-[72%] translate-y-[-50%] z-50 shadow-md;
 }
 
 .hero-image-wrapper {
   @apply flex justify-center items-center relative z-10;
+  left: 70px;
+  animation: slideInRight 1s ease-out;
+  /* Animation for image sliding in */
 }
 
 .analytics-image {
-  @apply w-full max-w-[600px] h-auto;
+  @apply w-full max-w-[700px] h-auto;
 }
 
-/* Footer */
-.footer {
-  @apply bg-custom-orange text-white py-10 mt-16 relative;
+/* Project Section */
+.project-container {
+  @apply relative p-8 mt-8 mb-2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1);
+  /* Top and Bottom shadows */
 }
 
-.footer-grid {
-  @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
+.project-slider {
+  @apply overflow-hidden w-full relative flex justify-center mb-8;
+  /* Ensure it's centered and hide overflow */
 }
 
-.footer-title {
-  @apply text-lg font-bold;
+.project-nav {
+  @apply absolute top-0 right-0 p-4 z-50 flex space-x-4;
 }
 
-.footer-list {
-  @apply space-y-2;
+.nav-button {
+  @apply p-2 bg-gray-800 text-white rounded-full shadow-md hover:bg-gray-600;
 }
 
-.footer-link {
-  @apply text-white hover:text-yellow-300 transition;
+.project-grid-wrapper {
+  @apply flex justify-center items-center w-full;
+  /* Center the grid inside the container */
 }
 
-.footer-contact {
-  @apply flex items-center space-x-2;
+.project-grid {
+  @apply flex transition-transform ease-in-out duration-500;
+  /* Smooth sliding of cards */
 }
 
-.footer-bottom {
-  @apply mt-6 text-center text-white;
+/* Animation for Project Cards (slide in from the left) */
+@keyframes slideInProjectCard {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.footer-social {
-  @apply flex justify-center space-x-4 mt-4;
+.project-card {
+  flex-shrink: 0;
+  /* Prevent cards from shrinking */
+  width: 280px;
+  height: max-content;
+  /* Width of each card */
+  margin-right: 10px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  animation: slideInProjectCard 1s ease-out;
+  /* Apply slide-in animation */
 }
 
-.social-icon {
-  @apply text-white hover:text-black transition;
+.project-image {
+  @apply w-full h-40 object-cover rounded-lg;
+}
+
+.project-title {
+  @apply mt-2 text-lg font-bold;
+}
+
+.project-username {
+  @apply text-sm text-gray-600;
+}
+
+.project-description {
+  @apply mt-1 text-sm text-gray-700 line-clamp-2;
+}
+
+.project-title-section {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 50px;
+  text-align: center;
 }
