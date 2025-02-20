@@ -8,7 +8,7 @@
 }
 @font-face {
                font-family: 'montserrate';
-               src: url('../font/Montserrat-VariableFont_wght.ttf');
+               src: url('../../font/Montserrat-VariableFont_wght.ttf');
 }
 
 * {
@@ -32,12 +32,19 @@
                font-family: 'montserrate', sans-serif;
                /* Add font-family here */
 }
-.card-container {
+.card-container-signup {
                @apply flex justify-center items-center h-screen;
 }
 
-.card {
-               @apply w-full max-w-3xl p-8 bg-white rounded-lg shadow-md -mt-64;
+.card-signup {
+               @apply w-full max-w-3xl p-8 bg-white rounded-lg shadow-md mt-2;
+}
+.card-container-login {
+    @apply flex justify-center items-center ;
+}
+
+.card-login {
+    @apply w-full max-w-3xl p-8 bg-white rounded-lg shadow-md ;
 }
 
 .form {

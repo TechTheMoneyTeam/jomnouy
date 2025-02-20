@@ -91,8 +91,8 @@ const SignupForm = () => {
             <h1 className="title">
                 JOM-<span className="highlight">NOUY</span>
             </h1>
-            <div className="card-container">
-                <div className="card">
+            <div className="card-container-signup">
+                <div className="card-signup">
                     <div className="text-left">Join us at JOMNOUY</div>
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">

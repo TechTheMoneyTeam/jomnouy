@@ -56,8 +56,8 @@ const LoginForm = () => {
             <h1 className="title">
                 JOM-<span className="highlight">NOUY</span>
             </h1>
-            <div className="card-container">
-                <div className="card">
+            <div className="card-container-login">
+                <div className="card-login">
                     <div className="text-left">Welcome back to JOMNOUY</div>
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
