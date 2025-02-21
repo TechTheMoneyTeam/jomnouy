@@ -36,7 +36,9 @@ const Home = () => {
                         <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active-link' : ''}`}>Home</Link>
                         <Link to="/services" className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}>Services</Link>
                         <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active-link' : ''}`}>About</Link>
-                        <button className="login-button"><span>Login</span></button>
+                             <Link to="/login" className="login-button">
+                                      <button><span>Login</span></button>
+                                    </Link>
                     </div>
                     <div className="button-group">
                         <button className="search-button"><Search /></button>
