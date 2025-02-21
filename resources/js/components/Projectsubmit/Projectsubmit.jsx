@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Navbar2 from '../Navbar/Navbarforsubmit';
+import '../Navbar/Navbar.css';
 
 const ProjectSubmitForm = () => {
     const [formData, setFormData] = useState({
@@ -91,13 +93,11 @@ const ProjectSubmitForm = () => {
     }
 
     return (
-        <div className="w-full max-w-2xl mx-auto p-6">
+        <><Navbar2 /><div className="w-full max-w-2xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-6 text-center">Submit Your Project</h2>
-            
+
             {message.text && (
-                <div className={`p-4 mb-4 rounded ${
-                    message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                }`}>
+                <div className={`p-4 mb-4 rounded ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                     {message.text}
                 </div>
             )}
@@ -111,8 +111,7 @@ const ProjectSubmitForm = () => {
                             name="user_id"
                             value={formData.user_id}
                             className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-100 p-2 cursor-not-allowed"
-                            disabled
-                        />
+                            disabled />
                         <span className="text-xs text-gray-500">Automatically set to your user ID</span>
                     </label>
                 </div>
@@ -126,8 +125,7 @@ const ProjectSubmitForm = () => {
                             value={formData.title}
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                            required
-                        />
+                            required />
                     </label>
                 </div>
 
@@ -140,8 +138,7 @@ const ProjectSubmitForm = () => {
                             value={formData.funding_goal}
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                            required
-                        />
+                            required />
                     </label>
                 </div>
 
@@ -154,8 +151,7 @@ const ProjectSubmitForm = () => {
                             value={formData.project_type}
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                            required
-                        />
+                            required />
                     </label>
                 </div>
 
@@ -168,8 +164,7 @@ const ProjectSubmitForm = () => {
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2"
                             rows="4"
-                            required
-                        />
+                            required />
                     </label>
                 </div>
 
@@ -181,8 +176,7 @@ const ProjectSubmitForm = () => {
                             name="project_img"
                             value={formData.project_img}
                             onChange={handleChange}
-                            className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                        />
+                            className="mt-1 block w-full rounded-md border border-gray-300 p-2" />
                     </label>
                 </div>
 
@@ -195,8 +189,7 @@ const ProjectSubmitForm = () => {
                             value={formData.reserve_price}
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                            required
-                        />
+                            required />
                     </label>
                 </div>
 
@@ -209,8 +202,7 @@ const ProjectSubmitForm = () => {
                             value={formData.project_categoryId}
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                            required
-                        />
+                            required />
                     </label>
                 </div>
 
@@ -221,7 +213,7 @@ const ProjectSubmitForm = () => {
                     Submit Project
                 </button>
             </form>
-        </div>
+        </div></>
     );
 };
 

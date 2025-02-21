@@ -3,7 +3,7 @@ import './Navbar.css';
 import { IoSearchOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar2 = () => {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const Navbar = () => {
         <div style={{ margin: '60px 200px 0px 200px' }}>
             <nav className="navbar">
                 <div className="navbar-container">
-                    <a href="/" className="navbar-logo">
+                    <a href="/projectlist1" className="navbar-logo">
                         <h1 className="logo text-black">
                             JOM-<span className="logo-highlight">NOUY</span>
                         </h1>
@@ -50,15 +50,9 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            <div className="categories-container py-4 flex space-x-4">
-                {['Music', 'Sport', 'Technologies', 'Art', 'Fashions', 'Games', 'Theater', 'Publishing', 'Design', 'Food & Beverage', 'Health & Fitness', 'Education', 'Photograph'].map((category) => (
-                    <div className="category-item" key={category}>
-                        <a href="#" className="text-semibold">{category}</a>
-                    </div>
-                ))}
-            </div>
+         
         </div>
     );
 };
 
-export default Navbar;
+export default Navbar2;
