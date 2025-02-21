@@ -130,26 +130,49 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
-
     public function getProfile($userId)
     {
-        $user = User::with('profile')
-            ->where('user_id', $userId)
-            ->first();
-        
-        if (!$user) {
+        try {
+            // Debug the incoming userId
+            \Log::info('Fetching profile for user_id: ' . $userId);
+    
+            $user = User::where('user_id', $userId)
+                ->first();
+    
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found',
+                    'error' => 'No user found with ID: ' . $userId
+                ], 404);
+            }
+    
+            // Get the associated profile
+            $profile = Profile::where('user_id', $userId)->first();
+    
+            if (!$profile) {
+                return response()->json([
+                    'message' => 'Profile not found',
+                    'error' => 'No profile found for user ID: ' . $userId
+                ], 404);
+            }
+    
+            // Combine user and profile data
+            $profileData = array_merge(
+                $user->makeHidden(['password'])->toArray(),
+                $profile->toArray()
+            );
+    
+            return response()->json($profileData);
+    
+        } catch (\Exception $e) {
+            \Log::error('Profile fetch error: ' . $e->getMessage());
             return response()->json([
-                'message' => 'User not found'
-            ], 404);
+                'message' => 'Failed to fetch profile',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // Remove password from response
-        $user = $user->makeHidden(['password']);
-
-        return response()->json([
-            'user' => $user
-        ]);
     }
+ 
     public function updateUserType(Request $request)
     {
         try {

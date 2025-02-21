@@ -35,4 +35,4 @@ Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);
 Route::post('/api/login', [UserController::class, 'login']);
-Route::get('/api/profile/{userId}', [UserController::class, 'getProfile']);
+
