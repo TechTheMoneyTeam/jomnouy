@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const DropdownMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [username, setUsername] = useState('');
+    const dropdownRef = useRef(null); 
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
@@ -17,8 +18,21 @@ const DropdownMenu = () => {
         setIsOpen(!isOpen);
     };
 
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             <div onClick={toggleDropdown} className="flex items-center cursor-pointer">
                 <p className="text-lg font-light text-black">{username}</p>
                 <img
