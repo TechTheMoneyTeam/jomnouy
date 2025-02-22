@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 import { IoSearchOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
+import DropdownMenu from './Projectdropdown';
 
 const Navbar2 = () => {
     const [username, setUsername] = useState('');
@@ -10,7 +11,7 @@ const Navbar2 = () => {
         const userData = localStorage.getItem('user');
         if (userData) {
             const user = JSON.parse(userData);
-            setUsername(user.username); // Assuming the username is in the user object
+            setUsername(user.username); 
         }
     }, []);
 
@@ -38,16 +39,9 @@ const Navbar2 = () => {
                         <Link to="/projectsubmit" className="login-button">
                             <button><span>Create Project</span></button>
                         </Link>
-                        <Link to="/profile" className="block hover:opacity-80 transition-opacity">
-                            <div className="profile flex items-center gap-4 cursor-pointer">
-                                <p className="text-lg font-light text-black">{username}</p>
-                                <img
-                                    className="avatar-image w-10 h-10 rounded-full object-cover"
-                                    src="/img/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
-                                    alt="User avatar"
-                                />
-                            </div>
-                        </Link>
+                        <div className="profile flex items-center gap-4 cursor-pointer">
+                            <DropdownMenu />
+                        </div>
                     </div>
                 </div>
             </nav>

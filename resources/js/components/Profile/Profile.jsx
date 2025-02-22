@@ -176,7 +176,8 @@ const ProfileDisplay = () => {
 
   </div>
   
-  <div className="categories-container py-4 flex space-x-6">
+  <div className="categories-container py-4 flex justify-center items-center space-x-6">
+
                 {['Music', 'Sport', 'Technologies', 'Art', 'Fashions', 'Games', 'Theater', 'Publishing', 'Design', 'Food & Beverage', 'Health & Fitness', 'Education', 'Photograph'].map((category) => (
                     <div className="category-item" key={category}>
                         <a href="#" className="text-semibold">{category}</a>
