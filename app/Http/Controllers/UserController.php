@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log; 
 
 class UserController extends Controller
 {
@@ -54,6 +55,7 @@ class UserController extends Controller
 
             // Generate profile_id
             $profileId = $userId;
+             
              // Using the same ID for profile_id
     
             // Create user with hashed password
@@ -66,7 +68,9 @@ class UserController extends Controller
                 'email' => $validatedData['email'],
                 'user_type' => 'user',
                 'password' => Hash::make($validatedData['password']),
-                'user_type' => $validatedData['user_type'] ?? null
+                'user_type' => $validatedData['user_type'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
             $userName = $validatedData['username'];
     
@@ -130,48 +134,140 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
-    public function getProfile($userId)
+    public function getProfileByUsername($username)
     {
         try {
-            // Debug the incoming userId
-            \Log::info('Fetching profile for user_id: ' . $userId);
+            // Debug the incoming username
+            Log::info('Fetching profile for username: ' . $username);
     
-            $user = User::where('user_id', $userId)
+            // Find user by username
+            $user = User::where('username', $username)
                 ->first();
     
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found',
-                    'error' => 'No user found with ID: ' . $userId
+                    'error' => 'No user found with username: ' . $username
                 ], 404);
             }
     
             // Get the associated profile
-            $profile = Profile::where('user_id', $userId)->first();
+            $profile = Profile::where('username', $username)->first();
     
             if (!$profile) {
                 return response()->json([
                     'message' => 'Profile not found',
-                    'error' => 'No profile found for user ID: ' . $userId
+                    'error' => 'No profile found for username: ' . $username
                 ], 404);
             }
     
-            // Combine user and profile data
-            $profileData = array_merge(
-                $user->makeHidden(['password'])->toArray(),
-                $profile->toArray()
-            );
+            // Combine user and profile data, selecting only needed fields
+            $profileData = [
+                'id' => $user->user_id,
+                'username' => $user->username,
+                'profile_id' => $profile->profile_id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'user_type' => $user->user_type,
+                'phone' => $profile->phone,
+                'contact_info' => $profile->contact_info,
+                'bio' => $profile->bio
+            ];
     
             return response()->json($profileData);
     
         } catch (\Exception $e) {
-            \Log::error('Profile fetch error: ' . $e->getMessage());
+            Log::error('Profile fetch error: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Failed to fetch profile',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+    public function updateProfile(Request $request, $userId)
+{
+    try {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'sometimes|string|max:50',
+            'last_name' => 'sometimes|string|max:50',
+            'email' => 'sometimes|email|max:50|unique:users,email,'.$userId.',user_id',
+            'phone' => 'nullable|string|max:15',
+            'contact_info' => 'nullable|string|max:255',
+            'bio' => 'nullable|string|max:1000',
+            'user_type' => 'nullable|string|in:investor,entrepreneur,startup'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Find user
+        $user = User::where('user_id', $userId)->first();
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        // Find profile
+        $profile = Profile::where('user_id', $userId)->first();
+        if (!$profile) {
+            return response()->json([
+                'message' => 'Profile not found'
+            ], 404);
+        }
+
+        // Update user fields
+        if ($request->has('first_name')) {
+            $user->first_name = $request->first_name;
+        }
+        if ($request->has('last_name')) {
+            $user->last_name = $request->last_name;
+        }
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+        if ($request->has('user_type')) {
+            $user->user_type = $request->user_type;
+        }
+        $user->save();
+
+        // Update profile fields
+        if ($request->has('phone')) {
+            $profile->phone = $request->phone;
+        }
+        if ($request->has('contact_info')) {
+            $profile->contact_info = $request->contact_info;
+        }
+        if ($request->has('bio')) {
+            $profile->bio = $request->bio;
+        }
+        $profile->save();
+
+        // Get updated profile data
+        $profileData = array_merge(
+            $user->makeHidden(['password'])->toArray(),
+            $profile->toArray()
+        );
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'profile' => $profileData
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error('Profile update error: ' . $e->getMessage());
+        return response()->json([
+            'message' => 'Failed to update profile',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
  
     public function updateUserType(Request $request)
     {

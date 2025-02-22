@@ -8,7 +8,7 @@ class Profile extends Model
 {
     protected $table = 'profile';
     protected $primaryKey = 'profile_id';
-    public $timestamps = false;
+    public $timestamps = true;
     
     protected $fillable = [
         'profile_id',

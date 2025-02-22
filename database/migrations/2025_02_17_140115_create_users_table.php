@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email', 100)->unique('email');
             $table->enum('user_type', ['investor', 'entrepreneur', 'startup'])->nullable();
             $table->string('password');
+            $table->timestamps(); 
         });
     }
 

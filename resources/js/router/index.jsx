@@ -7,6 +7,7 @@ import ProjectListing from '../components/Projects/Projectlist1';
 import SignupForm  from '../components/Control/ProfileForm/SignupForm';
 import LoginForm  from '../components/Control/ProfileForm/LoginForm'; 
 
+import ProfileDisplay from '../components/Profile/Profile';
 
 import UserType from '../components/Control/ProfileForm/SignupSelect';
 
@@ -28,9 +29,12 @@ const Index = () => {
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
                 <Route path="/login" element={<LoginForm />} />
+              
+
                 
                
                 <Route path="/user" element={<UserType />} />
+                <Route path="/profile" element={<ProfileDisplay />} />
                 
             </Routes>
         </div>

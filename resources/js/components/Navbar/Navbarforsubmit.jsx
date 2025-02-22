@@ -38,19 +38,21 @@ const Navbar2 = () => {
                         <Link to="/projectsubmit" className="login-button">
                             <button><span>Create Project</span></button>
                         </Link>
-                        <div className="profile">
-                            <p className="text-lg font-light text-black gap-8">{username}</p> {/* Display dynamic username */}
-                            <img
-                                className="avatar-image"
-                                src="/img/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
-                                alt="User avatar"
-                            />
-                        </div>
+                        <Link to="/profile" className="block hover:opacity-80 transition-opacity">
+                            <div className="profile flex items-center gap-4 cursor-pointer">
+                                <p className="text-lg font-light text-black">{username}</p>
+                                <img
+                                    className="avatar-image w-10 h-10 rounded-full object-cover"
+                                    src="/img/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
+                                    alt="User avatar"
+                                />
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </nav>
 
-         
+
         </div>
     );
 };
