@@ -25,7 +25,6 @@ class ProfileController extends Controller
             return response()->json([
                 'success' => true,
                 'profile' => [
-                    'name' => $profile->name,
                     'bio' => $profile->bio,
                     'location' => $profile->location,
                     'facebook_link' => $profile->facebook_link,
@@ -65,7 +64,6 @@ class ProfileController extends Controller
             }
 
             // Update profile fields
-            $profile->name = $request->name ?? $profile->name;
             $profile->bio = $request->biography ?? $profile->bio;
             $profile->location = $request->location ?? $profile->location;
             $profile->facebook_link = $request->facebookLink ?? $profile->facebook_link;

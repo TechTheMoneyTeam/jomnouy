@@ -5,7 +5,7 @@ import Navbar2 from '../Navbar/Navbarforsubmit';
 import '../Navbar/Navbar.css';
 const EditProfile = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     biography: '',
     location: '',
     facebookLink: '',
@@ -31,7 +31,7 @@ const EditProfile = () => {
       const data = await response.json();
       if (data.success) {
         setFormData({
-          name: data.profile.name || '',
+          username: data.profile.username || '',
           biography: data.profile.bio || '',
           location: data.profile.location || '',
           facebookLink: data.profile.facebook_link || '',
@@ -111,11 +111,11 @@ const EditProfile = () => {
           <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.leftSection}>
                   <div className={styles.formGroup}>
-                      <label>Name</label>
+                      <label>Username</label>
                       <input
                           type="text"
                           name="name"
-                          value={formData.name}
+                          value={formData.username}
                           onChange={handleInputChange}
                           className={styles.input} />
                   </div>

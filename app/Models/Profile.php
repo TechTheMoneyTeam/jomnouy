@@ -14,7 +14,6 @@ class Profile extends Model
         'user_id',
         'profile_id',
         'username',
-        'name',
         'bio',
         'location',
         'contact_info',
