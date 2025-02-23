@@ -13,17 +13,17 @@ const Home = () => {
   };
 
   // Scroll Event Listener to track scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setScrollPosition(window.scrollY);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
+  //   window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   const Header = () => {
     const location = useLocation();
@@ -50,18 +50,20 @@ const Home = () => {
   };
 
   const Hero = () => {
-    const heroOpacity = scrollPosition < 300 ? 1 - scrollPosition / 300 : 0; // Adjust transparency based on scroll position
+    const heroOpacity = scrollPosition < 200 ? 1 - scrollPosition / 300 : 0; // Adjust transparency based on scroll position
 
     return (
       <section className="hero">
         <div 
           className="hero-background" 
-          style={{
-            opacity: heroOpacity,
-            transition: 'opacity 0.5s ease-out'
-          }} 
+    
         ></div>
-        <div className="hero-content">
+        <div className="hero-content"
+          style={{ opacity: heroOpacity, 
+            transition: 'opacity 0.3s ease'
+          }}
+        >
+        
           <div className="hero-text-section">
             <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
             <p className="hero-description">របស់អ្នកជាមួយ</p>
@@ -87,7 +89,7 @@ const Home = () => {
       { id: 7, title: "Project Seven", username: "user777", image: "https://via.placeholder.com/150", description: "Exciting new ideas." },
     ]);
 
-    const itemsPerRow = 5;
+    const itemsPerRow = 4;
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Handle Next: Move the first item to the end and shift the items
@@ -130,6 +132,7 @@ const Home = () => {
                 <img src={project.image} alt={project.title} className="project-image" />
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-username">By {project.username}</p>
+                <p className="project-description">{project.description}</p>
                 <p className="project-description">{project.description}</p>
               </div>
             ))}

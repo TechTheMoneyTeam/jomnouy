@@ -40,7 +40,6 @@ button {
   @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 min-h-[700px];
 }
 
-/* Animation for hero background (slide and fade in) */
 @keyframes heroBackgroundSlide {
   0% {
     transform: translateY(-50px);
@@ -52,7 +51,6 @@ button {
   }
 }
 
-/* Animation for text and title (slide left to right) */
 @keyframes slideInLeft {
   0% {
     transform: translateX(-100px);
@@ -64,7 +62,6 @@ button {
   }
 }
 
-/* Animation for analytics image (slide right to left) */
 @keyframes slideInRight {
   0% {
     transform: translateX(100px);
@@ -77,7 +74,7 @@ button {
 }
 
 .hero-background {
-  @apply absolute inset-0 bg-custom-orange z-10 mt-5;
+  @apply absolute inset-0 bg-custom-orange z-10;
   border-top-right-radius: 20% 187px;
   border-bottom-left-radius: 28% 431px;
   animation: heroBackgroundSlide 1s ease-out;
@@ -92,7 +89,7 @@ button {
          shadow-[-45px_28px_0px_rgba(0,0,0,0.2)] overflow-hidden;
   border-top-right-radius: 45% 193px;
   border-bottom-left-radius: 45% 193px;
-  animation: slideInLeft 1s ease-out; /* Animation for text sliding in */
+  animation: slideInLeft 1s ease-out;
 }
 
 .hero-title {
@@ -115,7 +112,7 @@ button {
   @apply relative inline-block bg-black text-white py-3 px-12 rounded-full font-semibold transition-all duration-300 ease-in-out;
   left: 50px;
   top: 100px;
-  animation: slideInLeft 1s ease-out 0.2s; /* Add slight delay for button */
+  animation: slideInLeft 1s ease-out 0.2s;
 }
 
 .hero-button:hover {
@@ -131,7 +128,7 @@ button {
 .hero-image-wrapper {
   @apply flex justify-center items-center relative z-10;
   left: 70px;
-  animation: slideInRight 1s ease-out; /* Animation for image sliding in */
+  animation: slideInRight 1s ease-out;
 }
 
 .analytics-image {
@@ -140,16 +137,16 @@ button {
 
 /* Project Section */
 .project-container {
-  @apply relative p-8 mt-8 mb-2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1); /* Top and Bottom shadows */
+  @apply relative p-8 mt-8 mb-8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .project-slider {
-  @apply overflow-hidden w-full relative flex justify-center mb-8; /* Ensure it's centered and hide overflow */
+  @apply overflow-hidden w-full relative flex justify-center;
 }
 
 .project-nav {
-  @apply absolute top-0 right-0 p-4 z-50 flex space-x-4;
+  @apply absolute top-0 right-0 p-4 z-10 flex space-x-4;
 }
 
 .nav-button {
@@ -157,14 +154,13 @@ button {
 }
 
 .project-grid-wrapper {
-  @apply flex justify-center items-center w-full; /* Center the grid inside the container */
+  @apply flex justify-center items-center w-full;
 }
 
 .project-grid {
-  @apply flex transition-transform ease-in-out duration-500; /* Smooth sliding of cards */
+  @apply flex gap-10 transition-transform ease-in-out duration-500 mt-2;
 }
 
-/* Animation for Project Cards (slide in from the left) */
 @keyframes slideInProjectCard {
   0% {
     transform: translateX(-100px);
@@ -177,13 +173,8 @@ button {
 }
 
 .project-card {
-  flex-shrink: 0; /* Prevent cards from shrinking */
-  width: 280px;
-  height: max-content; /* Width of each card */
-  margin-right: 10px;
-  margin-bottom: 25px;
-  border-radius: 10px;
-  animation: slideInProjectCard 1s ease-out; /* Apply slide-in animation */
+  @apply flex-shrink-0 w-[100%] sm:w-[280px] h-[300px] sm:h-[370px] mr-0 sm:mr-2.5 mb-4 sm:mb-0 rounded-lg;
+  animation: slideInProjectCard 1s ease-out;
 }
 
 .project-image {
@@ -199,7 +190,11 @@ button {
 }
 
 .project-description {
-  @apply mt-1 text-sm text-gray-700 line-clamp-2;
+  @apply mt-4 text-sm text-gray-700 line-clamp-2;
+}
+
+.project-description2 {
+  @apply mt-4 text-sm text-gray-700 line-clamp-2;
 }
 
 .project-title-section {
@@ -208,3 +203,179 @@ button {
   margin-bottom: 50px;
   text-align: center;
 }
+
+/* Responsive Design */
+@media (max-width: 1024px) { /* Desktop screens and smaller tablets */
+  .hero-content {
+    @apply grid-cols-1 lg:grid-cols-2; /* Two columns for larger screens, single column for smaller ones */
+  }
+
+  .hero-button {
+    @apply py-3 px-10 text-xl; /* Adjust button size */
+  }
+
+  .project-grid {
+    @apply gap-8; /* Reduce gap on medium-sized screens */
+  }
+}
+
+@media (max-width: 768px) { /* iPads, smaller tablets, large mobile screens */
+  .hero-content {
+    @apply grid-cols-1; /* Stack items in a single column */
+  }
+
+  .hero-button {
+    @apply py-2 px-6 text-lg; /* Reduce button size for smaller devices */
+  }
+
+  .project-grid {
+    @apply flex-wrap gap-6; /* Wrap items for smaller screens */
+  }
+
+  .project-card {
+    @apply w-full sm:w-[250px] h-auto; /* Adjust project card width */
+  }
+
+  .project-title-section {
+    @apply text-xl; /* Adjust section title */
+  }
+}
+
+@media (max-width: 390px) { /* iPhone 14 and similar small screens */
+  .hero-title {
+    @apply text-3xl; /* Adjust hero title size */
+  }
+
+  .hero-description, .hero-description2 {
+    @apply text-xl; /* Reduce description font size */
+  }
+
+  .hero-button {
+    @apply px-6 py-2 text-lg; /* Adjust button size */
+  }
+
+  .project-card {
+    @apply w-full sm:w-[200px] h-auto; /* Adjust project card size */
+  }
+
+  .project-title-section {
+    @apply text-lg; /* Adjust title size for smaller screens */
+  }
+
+  .hero-content {
+    @apply px-4; /* Add padding for very small screens */
+  }
+
+  .project-grid {
+    @apply gap-4; /* Reduce grid gap for small screens */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
