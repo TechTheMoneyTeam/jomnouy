@@ -42,7 +42,7 @@ const LoginForm = () => {
             
             // Show success message briefly before redirecting
             setTimeout(() => {
-                navigate('/projectlist1'); // Redirect to home page
+                navigate('/projectlist'); // Redirect to home page
             }, 500); // Wait 0.5 second before redirecting
 
         } catch (error) {
