@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ProfileController;
+
+Route::get('/profile', [ProfileController::class, 'getProfile']);
+Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
+
+Route::get('/api/settings', [SettingsController::class, 'getSettings']);
+Route::post('/api/settings/change-password', [SettingsController::class, 'changePassword']);
 
 Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
@@ -24,7 +32,13 @@ Route::get('/signup', function () {
 Route::get('/about', function () {
     return view('welcome');
 });
+Route::get('/settings', function () {
+    return view('welcome');
+});
 Route::get('/projectlist1', function () {
+    return view('welcome');
+});
+Route::get('/profile/edit', function () {
     return view('welcome');
 });
 Route::get('/projectsubmit', function () {

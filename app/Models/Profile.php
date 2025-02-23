@@ -11,12 +11,19 @@ class Profile extends Model
     public $timestamps = true;
     
     protected $fillable = [
-        'profile_id',
         'user_id',
+        'profile_id',
+        'username',
+        'name',
+        'bio',
+        'location',
         'contact_info',
         'phone',
-        'bio',
-        'username'
+        'facebook_link',
+        'youtube_link',
+        'tiktok_link',
+        'website',
+        'profile_picture'
     ];
 
     public function user()
