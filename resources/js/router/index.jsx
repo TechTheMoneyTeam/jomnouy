@@ -14,6 +14,7 @@ import EditProfile from '../components/Settings/EditProfile';
 
 
 
+
 const Index = () => {
     return (
         <div>
@@ -39,6 +40,8 @@ const Index = () => {
                 <Route path="/profile" element={<ProfileDisplay />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
+               
+                
                 
             </Routes>
         </div>

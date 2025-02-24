@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import styles from './SettingsCSS/Settings.module.css';
 import Navbar2 from '../Navbar/Navbarforsubmit';
 import '../Navbar/Navbar.css';
+
 export default function Settings() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -24,10 +26,11 @@ export default function Settings() {
 
   const fetchSettings = async (username) => {
     try {
-      const response = await fetch(`/api/settings?username=${username}`);
-      const data = await response.json();
-      if (data.data) {
-        setEmail(data.data.email);
+      const response = await axios.get(`/api/settings`, {
+        params: { username }
+      });
+      if (response.data.data) {
+        setEmail(response.data.data.email);
       }
     } catch (err) {
       setError('Failed to load settings');
@@ -45,31 +48,19 @@ export default function Settings() {
     }
 
     try {
-      const response = await fetch('/api/settings/change-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          current_password: currentPassword,
-          new_password: newPassword,
-          new_password_confirmation: confirmPassword
-        }),
+      const response = await axios.post('/api/settings/change-password', {
+        username,
+        current_password: currentPassword,
+        new_password: newPassword,
+        new_password_confirmation: confirmPassword
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to update settings');
-      }
 
       setSuccess('Settings updated successfully');
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || 'Failed to update settings');
     }
   };
 
