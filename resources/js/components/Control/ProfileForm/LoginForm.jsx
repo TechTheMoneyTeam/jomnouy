@@ -53,7 +53,7 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await axios.post('/api/forgot-password', { email: forgotEmail });
+            const response = await axios.post('/api/#', { email: forgotEmail });
             setForgotSuccess('Password reset instructions have been sent to your email');
             setForgotEmail('');
         } catch (err) {
