@@ -68,7 +68,7 @@ const ResetPassword = () => {
             // Redirect to login page after successful reset
             setTimeout(() => {
                 navigate('/login');
-            }, 3000);
+            }, 1500);
         } catch (error) {
             let errorMsg = 'Failed to reset password. Please try again.';
             
