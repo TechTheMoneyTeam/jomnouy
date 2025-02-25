@@ -11,6 +11,7 @@ import Settings from '../components/Settings/Setting';
 import ProfileDisplay from '../components/Profile/Profile';
 import UserType from '../components/Control/ProfileForm/SignupSelect';
 import EditProfile from '../components/Settings/EditProfile';
+import ResetPassword from '../components/Control/ProfileForm/Resetpassword';
 
 
 
@@ -40,6 +41,8 @@ const Index = () => {
                 <Route path="/profile" element={<ProfileDisplay />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/reset" element={<ResetPassword />} />
+
                
                 
                 

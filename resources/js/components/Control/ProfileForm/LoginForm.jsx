@@ -53,9 +53,15 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await axios.post('/api/#', { email: forgotEmail });
-            setForgotSuccess('Password reset instructions have been sent to your email');
-            setForgotEmail('');
+            const response = await axios.post('/api/forgot-password', { 
+                email: forgotEmail
+            });
+            
+            // Save the email to localStorage when reset instructions are sent
+            localStorage.setItem('forgotPasswordEmail', forgotEmail);
+            
+            setForgotSuccess('Reset instructions have been sent to your email');
+            
         } catch (err) {
             setForgotError(err.response?.data?.message || 'Failed to send reset instructions');
         } finally {
@@ -66,6 +72,12 @@ const LoginForm = () => {
     const openForgotPassword = (e) => {
         e.preventDefault();
         setShowForgotPassword(true);
+        
+        // Pre-fill the forgot password email field with the value from localStorage if available
+        const savedEmail = localStorage.getItem('forgotPasswordEmail');
+        if (savedEmail) {
+            setForgotEmail(savedEmail);
+        }
     };
 
     const closeForgotPassword = () => {
@@ -129,7 +141,6 @@ const LoginForm = () => {
                     <div className={`${forgotStyles.bgBlack} absolute inset-0 opacity-30`}></div>
                     <div className={`${forgotStyles.formContainer} bg-white relative z-10`}>
                         <div className="flex justify-between items-center mb-4">
-                            
                             <h2 className={forgotStyles.title}>Forgot your password?</h2>
                             <button onClick={closeForgotPassword} className="text-gray-500 hover:text-gray-700" aria-label="Close">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -138,7 +149,7 @@ const LoginForm = () => {
                             </button>
                         </div>
                         <p className={forgotStyles.description}>
-                            Enter your email address below and we'll send you instructions to reset your password.
+                            Enter your email address below and we'll send you reset instructions.
                         </p>
                         {forgotError && (
                             <div className={forgotStyles.errorAlert}>
@@ -161,9 +172,11 @@ const LoginForm = () => {
                                     required
                                 />
                             </div>
-                            <button type="submit" className={forgotStyles.resetButton} disabled={isLoading}>
-                                {isLoading ? 'Sending...' : 'Send me reset instructions'}
-                            </button>
+                            <div className="flex flex-col space-y-2">
+                                <button type="submit" className={forgotStyles.resetButton} disabled={isLoading}>
+                                    {isLoading ? 'Sending...' : 'Send Reset Instructions'}
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
