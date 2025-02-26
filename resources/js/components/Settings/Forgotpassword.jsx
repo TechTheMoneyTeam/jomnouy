@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import styles from './SettingsCSS/Forgotpassword.module.css';
 import { Link } from 'react-router-dom';
 
@@ -40,15 +40,15 @@ function ForgotPassword() {
   return (
     <div className={styles.container}>
       <div className={styles.logoContainer}>
-      <h1 className={styles.logo}>
-  <span className={styles.jom}>jom-</span>
-  <span className={styles.nouy}>nouy</span>
-</h1>
+        <h1 className={styles.logo}>
+          <span className={styles.jom}>jom-</span>
+          <span className={styles.nouy}>nouy</span>
+        </h1>
       </div>
 
       <div className={styles.formContainer}>
         <h2 className={styles.title}>Forgot your password?</h2>
-        
+
         <p className={styles.description}>
           Enter your email address below and we'll send you instructions
           to reset your password.
@@ -78,8 +78,8 @@ function ForgotPassword() {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={styles.resetButton}
             disabled={isLoading}
           >

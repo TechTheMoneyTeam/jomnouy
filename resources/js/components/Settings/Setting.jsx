@@ -66,22 +66,16 @@ export default function Settings() {
 
   return (
     <><Navbar2 /><div className={styles.container}>
-          <h1 className={styles.title}>Settings</h1>
-
-          <nav className={styles.nav}>
-              <Link to="/settings" className={`${styles.navLink} ${styles.activeNavLink}`}>
-                  Account
-              </Link>
-              <Link to="/profile/edit" className={styles.navLink}>
-                  Edit Profile
-              </Link>
-              <Link to="/followings" className={styles.navLink}>
-                  Followings
-              </Link>
-              <Link to="/notifications" className={styles.navLink}>
-                  Notifications
-              </Link>
-          </nav>
+                <h1 className={styles.title}>Settings</h1>
+                
+                <div className={styles.tabContainer}>
+                  <button className={`${styles.tabButton} ${styles.activeTab}`}>Account</button>
+                  <Link to="/profile/edit" className={styles.tabButton}>Edit Profile</Link>
+                   <Link to="/followings" className={styles.tabButton}>
+                            Following
+                          </Link>
+                  <Link to="/noti" className={styles.tabButton}>Notifications</Link>
+                </div>
 
           {error && (
               <div className={styles.errorAlert}>

@@ -12,6 +12,8 @@ import ProfileDisplay from '../components/Profile/Profile';
 import UserType from '../components/Control/ProfileForm/SignupSelect';
 import EditProfile from '../components/Settings/EditProfile';
 import ResetPassword from '../components/Control/ProfileForm/Resetpassword';
+import Notification from '../components/Settings/Notification';
+import Following from '../components/Settings/Following';
 
 
 
@@ -42,6 +44,9 @@ const Index = () => {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/reset" element={<ResetPassword />} />
+            
+                <Route path="/followings" element={<Following />} />
+                <Route path="/noti" element={<Notification />} />
 
                
                 

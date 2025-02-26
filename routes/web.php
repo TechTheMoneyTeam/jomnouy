@@ -52,6 +52,12 @@ Route::get('/projectsubmit', function () {
 Route::get('/profile', function () {
     return view('welcome');
 });
+Route::get('/noti', function () {
+    return view('welcome');
+});
+Route::get('/followings', function () {
+    return view('welcome');
+});
 
 use App\Http\Controllers\UserController;
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
