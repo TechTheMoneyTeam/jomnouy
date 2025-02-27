@@ -21,6 +21,7 @@ class Project extends Model
         'funding_goal',
         'project_type',
         'project_des',
+        'project_story',
         'project_img',
         'project_video',
         'reserve_price',
@@ -28,7 +29,7 @@ class Project extends Model
         'project_location',
         'status',
          'auction_start_date',
-    'auction_end_date',
+         'auction_end_date',
         'created_at',
         'updated_at'
     ];

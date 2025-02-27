@@ -28,6 +28,7 @@ const ProjectExisting = () => {
         status: 'pending',
         project_type: 'Existing Project',
         project_des: '',
+        project_story: '',
         project_location: '',
         reserve_price: '',
         categories: '',
@@ -126,6 +127,7 @@ const ProjectExisting = () => {
                 status: 'pending',
                 project_type: '',
                 project_des: '',
+                project_story: '',
                 project_location: '',
                 reserve_price: '',
                 categories: '',
@@ -510,7 +512,41 @@ const ProjectExisting = () => {
                     {currentStep === 'story' && (
                         <div className={styles.formSection}>
                             <h2 className={styles.sectionTitle}>Tell Your Story</h2>
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.fieldLabel}>
+                                    <h3>Project Status</h3>
+                                    <p className={styles.fieldDescription}>
+                                        Let backers know where you are in your project journey.
+                                    </p>
+                                </div>
+                                <div className={styles.fieldInput}>                     
+                                    <label className={styles.inputLabel}>Description</label>
+                                    <textarea
+                                        name="project_story"
+                                        value={formData.project_story}
+                                        onChange={handleChange}
+                                        className={styles.textareaInput}
+                                        placeholder="Describe your Story..."
+                                        rows="4"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
                             
+              
+                            <div className={styles.buttonContainer}>
+                                <button type="button" onClick={handleNext} className={styles.nextButton}>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Progress Section */}
+                    {currentStep === 'progress' && (
+                        <div className={styles.formSection}>
+                            <h2 className={styles.sectionTitle}>Current Progress</h2>
                             <div className={styles.fieldGroup}>
                                 <div className={styles.fieldLabel}>
                                     <h3>Project Status</h3>
@@ -538,18 +574,7 @@ const ProjectExisting = () => {
                                 </div>
                             </div>
 
-                            <div className={styles.buttonContainer}>
-                                <button type="button" onClick={handleNext} className={styles.nextButton}>
-                                    Next
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Progress Section */}
-                    {currentStep === 'progress' && (
-                        <div className={styles.formSection}>
-                            <h2 className={styles.sectionTitle}>Current Progress</h2>
+                            
                             
                             <div className={styles.hiddenFieldsContainer}>
                                 <input
