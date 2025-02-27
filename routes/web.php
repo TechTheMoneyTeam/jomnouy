@@ -40,6 +40,9 @@ Route::get('/about', function () {
 Route::get('/settings', function () {
     return view('welcome');
 });
+Route::get('/my-project', function () {
+    return view('welcome');
+});
 Route::get('/projectlist1', function () {
     return view('welcome');
 });
