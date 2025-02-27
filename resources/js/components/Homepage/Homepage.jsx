@@ -1,29 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MapPin, Phone, Mail } from "lucide-react";
-import { Facebook, Linkedin, Twitter, Search } from "lucide-react";
+import {
+    MapPin,
+    Phone,
+    Mail,
+    Facebook,
+    Linkedin,
+    Twitter,
+    Search,
+} from "lucide-react";
+import axios from "axios";
+import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
+
 const Home = () => {
     const [language, setLanguage] = useState("en");
-    const [scrollPosition, setScrollPosition] = useState(0); // Track scroll position
 
-    // Language Toggle Handler
     const toggleLanguage = () => {
         setLanguage((prev) => (prev === "en" ? "km" : "en"));
     };
-
-    // Scroll Event Listener to track scroll position
-    // useEffect(() => {
-    //   const handleScroll = () => {
-    //     setScrollPosition(window.scrollY);
-    //   };
-
-    //   window.addEventListener('scroll', handleScroll);
-
-    //   return () => {
-    //     window.removeEventListener('scroll', handleScroll);
-    //   };
-    // }, []);
 
     const Header = () => {
         const location = useLocation();
@@ -35,34 +30,22 @@ const Home = () => {
                         Jom<span className="nouy">nouy</span>
                     </Link>
                     <div className="nav-links">
-                        <Link
-                            to="/"
-                            className={`nav-link ${
-                                location.pathname === "/" ? "active-link" : ""
-                            }`}
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            to="/services"
-                            className={`nav-link ${
-                                location.pathname === "/services"
-                                    ? "active-link"
-                                    : ""
-                            }`}
-                        >
-                            Services
-                        </Link>
-                        <Link
-                            to="/about"
-                            className={`nav-link ${
-                                location.pathname === "/about"
-                                    ? "active-link"
-                                    : ""
-                            }`}
-                        >
-                            About
-                        </Link>
+                        {["/", "/services", "/about"].map((path) => (
+                            <Link
+                                key={path}
+                                to={path}
+                                className={`nav-link ${
+                                    location.pathname === path
+                                        ? "active-link"
+                                        : ""
+                                }`}
+                            >
+                                {path === "/"
+                                    ? "Home"
+                                    : path.slice(1).charAt(0).toUpperCase() +
+                                      path.slice(2)}
+                            </Link>
+                        ))}
                         <Link to="/projectlist" className="login-button">
                             <span>Login</span>
                         </Link>
@@ -84,275 +67,242 @@ const Home = () => {
         );
     };
 
-    const Hero = () => {
-        const heroOpacity = scrollPosition < 200 ? 1 - scrollPosition / 300 : 0; // Adjust transparency based on scroll position
-
-        return (
-            <section className="hero">
-                <div className="hero-background"></div>
-                <div
-                    className="hero-content"
-                    style={{
-                        opacity: heroOpacity,
-                        transition: "opacity 0.3s ease",
-                    }}
-                >
-                    <div className="hero-text-section">
-                        <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
-                        <p className="hero-description">របស់អ្នកជាមួយ</p>
-                        <p className="hero-description2">
-                            "Jom<span>nouy"</span>
-                        </p>
-                        <a href="/signup" className="hero-button">
-                            ចាប់ផ្តើមឥឡូវនេះ ➜{" "}
-                        </a>
-                    </div>
-                    <div className="hero-image-wrapper">
-                        <img
-                            src="/img/hero.png"
-                            alt="Illustration of investment opportunities"
-                            className="analytics-image"
-                        />
-                    </div>
+    const Hero = () => (
+        <section className="hero">
+            <div className="hero-background"></div>
+            <div className="hero-content">
+                <div className="hero-text-section">
+                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
+                    <p className="hero-description">របស់អ្នកជាមួយ</p>
+                    <p className="hero-description2">
+                        "Jom<span>nouy"</span>
+                    </p>
+                    <a href="/signup" className="hero-button">
+                        ចាប់ផ្តើមឥឡូវនេះ ➜
+                    </a>
                 </div>
-            </section>
-        );
-    };
+                <div className="hero-image-wrapper">
+                    <img
+                        src="/img/hero.png"
+                        alt="Illustration of investment opportunities"
+                        className="analytics-image"
+                    />
+                </div>
+            </div>
+        </section>
+    );
 
     const ProjectShow = () => {
-        const [projectsQueue, setProjectsQueue] = useState([
-            {
-                id: 1,
-                title: "Project One",
-                username: "user123",
-                image: "https://upload.wikimedia.org/wikipedia/commons/a/a4/2019_Toyota_Corolla_Icon_Tech_VVT-i_Hybrid_1.8.jpg",
-                description: "This is the first project description.",
-            },
-            {
-                id: 2,
-                title: "Project Two",
-                username: "devMaster",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqHjC9bfyBdUdGWH6nUjjh2hqZCCH-ykVd_A&s",
-                description: "Another amazing project by a top developer.",
-            },
-            {
-                id: 3,
-                title: "Project Three",
-                username: "coderX",
-                image: "https://i5.walmartimages.com/seo/Disney-Pixar-Cars-Track-Talkers-Lightning-McQueen-Talking-Toy-Car-5-5-inch-Collectible_39dc9e8e-46db-4c94-901b-169561d879a6.96d0b1baad1d973200ac2517b9d4411f.jpeg",
-                description: "Yet another cool project.",
-            },
-            {
-                id: 4,
-                title: "Project Four",
-                username: "builder99",
-                image: "https://via.placeholder.com/150",
-                description: "A fascinating build.",
-            },
-            {
-                id: 5,
-                title: "Project Five",
-                username: "alphaDev",
-                image: "https://www.autoshippers.co.uk/blog/wp-content/uploads/bugatti-centodieci.jpg",
-                description: "An innovative approach.",
-            },
-            {
-                id: 6,
-                title: "Project Six",
-                username: "developer6",
-                image: "https://via.placeholder.com/150",
-                description: "A creative new project.",
-            },
-            {
-                id: 7,
-                title: "Project Seven",
-                username: "user777",
-                image: "https://via.placeholder.com/150",
-                description: "Exciting new ideas.",
-            },
-        ]);
-
-        const itemsPerRow = 4;
+        const [projects, setProjects] = useState([]);
+        const [loading, setLoading] = useState(true);
+        const [error, setError] = useState(null);
         const [currentIndex, setCurrentIndex] = useState(0);
+        const [direction, setDirection] = useState("next"); // Track the direction of the change
+        const projectsPerPage = 5; // Display 5 projects at a time
 
-        // Handle Next: Move the first item to the end and shift the items
-        const handleNext = () => {
-            setProjectsQueue((prevQueue) => {
-                const updatedQueue = [...prevQueue];
-                updatedQueue.push(updatedQueue.shift()); // Move the first item to the end
-                return updatedQueue;
-            });
-            setCurrentIndex(
-                (prevIndex) => (prevIndex + 1) % projectsQueue.length
-            ); // Adjust index for transition
+        useEffect(() => {
+            const fetchProjects = async () => {
+                try {
+                    const response = await axios.get("/api/projects"); // Fetch projects from API
+                    setProjects(response.data);
+                    setError(null);
+                } catch (error) {
+                    console.error("Error fetching projects:", error);
+                    setError("Failed to load projects");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchProjects();
+            const interval = setInterval(fetchProjects, 30000); // Refresh every 30s
+            return () => clearInterval(interval);
+        }, []);
+
+        if (loading) return <p className="text-center">Loading projects...</p>;
+        if (error) return <p className="text-center">{error}</p>;
+        if (projects.length === 0)
+            return <p className="text-center">No projects available.</p>;
+
+        // Handle next and previous functionality
+        const nextProject = () => {
+            setDirection("next");
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
         };
 
-        // Handle Prev: Move the last item to the front and shift the items
-        const handlePrev = () => {
-            setProjectsQueue((prevQueue) => {
-                const updatedQueue = [...prevQueue];
-                updatedQueue.unshift(updatedQueue.pop()); // Move the last item to the front
-                return updatedQueue;
-            });
-            setCurrentIndex(
-                (prevIndex) =>
-                    (prevIndex - 1 + projectsQueue.length) %
-                    projectsQueue.length
-            ); // Adjust index for transition
+        const prevProject = () => {
+            setDirection("prev");
+            setCurrentIndex((prevIndex) =>
+                prevIndex === 0 ? projects.length - 1 : prevIndex - 1
+            );
         };
+
+        // Get the projects for the current page (rotating through the list)
+        const visibleProjects = [];
+        for (let i = 0; i < projectsPerPage; i++) {
+            visibleProjects.push(
+                projects[(currentIndex + i) % projects.length]
+            );
+        }
 
         return (
             <div className="project-container">
-                {/* Title for the project section */}
                 <h2 className="project-title-section">Popular Projects</h2>
 
-                {/* Navigation buttons */}
-                <div className="project-nav">
-                    <button onClick={handlePrev} className="nav-button">
-                        Prev
+                {/* Pagination Buttons */}
+                <div className="absolute top-0 right-0 flex gap-2 z-10">
+                    <button
+                        onClick={prevProject}
+                        className="prev-btn"
+                    >
+                        <ArrowLeft />
                     </button>
-                    <button onClick={handleNext} className="nav-button">
-                        Next
+
+                    <button
+                        onClick={nextProject}
+                        className="next-btn"
+                    >
+                        <ArrowRight />
                     </button>
                 </div>
 
-                {/* Project Slider */}
-                <div className="project-slider">
-                    <div className="project-grid">
-                        {/* Display only the first 5 items at a time */}
-                        {projectsQueue.slice(0, itemsPerRow).map((project) => (
-                            <div key={project.id} className="project-card">
-                                <img
-                                    src={project.image}
-                                    alt={project.title}
-                                    className="project-image"
-                                />
-                                <h3 className="project-title">
-                                    {project.title}
-                                </h3>
-                                <p className="project-username">
-                                    By {project.username}
-                                </p>
-                                <p className="project-description">
-                                    {project.description}
-                                </p>
-                                <p className="project-description">
-                                    {project.description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                {/* Project Cards - Centered and Limited to 5 */}
+                <div className="project-grid">
+                    {visibleProjects.map((project, index) => (
+                        <div key={index} className={"project-card"}>
+                            <img
+                                src={project.project_img}
+                                alt={project.title}
+                                className="project-image w-full h-40 object-cover rounded-lg"
+                            />
+                            <h3 className="project-title text-lg font-bold mt-3">
+                                {project.title}
+                            </h3>
+                            <p className="project-username text-gray-500">
+                                By {project.username}
+                            </p>
+                            <p className="project-description2">
+                                {project.project_des}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Explore More Button */}
+                <div className="flex justify-center mt-8">
+                    <button className="explore-btn">Explore More</button>
                 </div>
             </div>
         );
     };
+
+
+   
+
+    
+    const Startup = () => {
+        const projectData = {
+            title: "Smart Water Quality Monitoring System",
+            description: "A network of IoT sensors that continuously monitor water bodies for contamination, pH levels, and pollutants. It could be useful for both environmental agencies and households in flood-prone areas.",
+            type: "Technology",
+            investmentGoal: "1,000,000 $",
+            minInvestment: "800,000 $",
+        };
+    
+        const handlePrev = () => {
+            console.log("Previous project");
+        };
+    
+        const handleNext = () => {
+            console.log("Next project");
+        };
+    
+        return (
+            <div className="startup-container">
+                <div className="container-title">Popular <span>Start-Up</span> Project</div>
+                <div className="content-container">
+                    <button onClick={handlePrev} className="arrow-button left">←</button>
+                    <div className="image-container">
+                        <img 
+                            src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg" 
+                            alt="Smart Water Quality Monitoring System" 
+                            className="image" 
+                        />
+                    </div>
+                    <div className="text-container">
+                        <h2 className="project-title">{projectData.title}</h2>
+                        <p className="project-description">{projectData.description}</p>
+                        <p className="project-type">{projectData.type}</p>
+                        <p className="project-goal"><strong>Investment Goal:</strong> {projectData.investmentGoal}</p>
+                        <p className="project-min"><strong>Min Investment:</strong> {projectData.minInvestment}</p>
+                        
+                        <div className="button-container">
+                            <button className="button1">Contact Founder</button>
+                            <button className="button2">See More</button>
+                        </div>
+                    </div>
+                    <button onClick={handleNext} className="arrow-button right">→</button>
+                </div>
+            </div>
+        );
+    };
+    ;
 
     const Footer = () => (
         <footer className="footer">
             <div className="footer-grid">
-                <div>
-                    <h3 className="footer-title">About Us</h3>
-                    <ul className="footer-list">
-                        <li>
-                            <Link to="#" className="footer-link">
-                                How It Works
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Why Jomnouy
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Success Stories
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Contact
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Partners
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="footer-title">Resources</h3>
-                    <ul className="footer-list">
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Pricing
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Request Demo
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Customers
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Press
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="footer-title">Terms</h3>
-                    <ul className="footer-list">
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Terms of Service
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Privacy Policy
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">
-                                Intellectual Property Policy
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="footer-title">Contact</h3>
-                    <ul className="footer-list">
-                        <li className="footer-contact">
-                            <MapPin /> National Road 6a Bridge No2 IDRI Building
-                            CADT, PP
-                        </li>
-                        <li className="footer-contact">
-                            <Phone /> (+855) 12 222 333
-                        </li>
-                        <li className="footer-contact">
-                            <Mail /> support@jomnouy.com
-                        </li>
-                    </ul>
-                </div>
+                {["About Us", "Resources", "Terms", "Contact"].map(
+                    (section, index) => (
+                        <div key={index}>
+                            <h3 className="footer-title">{section}</h3>
+                            <ul className="footer-list">
+                                {section === "Contact"
+                                    ? [
+                                          {
+                                              icon: <MapPin />,
+                                              text: "National Road 6a Bridge No2 IDRI Building CADT, PP",
+                                          },
+                                          {
+                                              icon: <Phone />,
+                                              text: "(+855) 12 222 333",
+                                          },
+                                          {
+                                              icon: <Mail />,
+                                              text: "support@jomnouy.com",
+                                          },
+                                      ].map((item, i) => (
+                                          <li
+                                              key={i}
+                                              className="footer-contact"
+                                          >
+                                              {item.icon} {item.text}
+                                          </li>
+                                      ))
+                                    : ["Link1", "Link2", "Link3"].map(
+                                          (link, i) => (
+                                              <li key={i}>
+                                                  <Link
+                                                      to="#"
+                                                      className="footer-link"
+                                                  >
+                                                      {link}
+                                                  </Link>
+                                              </li>
+                                          )
+                                      )}
+                            </ul>
+                        </div>
+                    )
+                )}
             </div>
             <div className="footer-bottom">
                 <p>© 2025 Jomnouy. All Rights Reserved.</p>
                 <div className="footer-social">
-                    <Link to="#" className="social-icon">
-                        <Facebook />
-                    </Link>
-                    <Link to="#" className="social-icon">
-                        <Linkedin />
-                    </Link>
-                    <Link to="#" className="social-icon">
-                        <Twitter />
-                    </Link>
+                    {[Facebook, Linkedin, Twitter].map((Icon, index) => (
+                        <Link key={index} to="#" className="social-icon">
+                            <Icon />
+                        </Link>
+                    ))}
                 </div>
             </div>
         </footer>
@@ -363,6 +313,7 @@ const Home = () => {
             <Header />
             <Hero />
             <ProjectShow />
+            <Startup />
             <Footer />
         </>
     );
