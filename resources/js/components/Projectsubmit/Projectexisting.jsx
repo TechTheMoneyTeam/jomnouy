@@ -454,59 +454,86 @@ const ProjectExisting = () => {
                         </div>
                     )}
 
-                    {/* Funding Section */}
-                    {currentStep === 'funding' && (
-                        <div className={styles.formSection}>
-                            <h2 className={styles.sectionTitle}>Funding Details</h2>
-                            
-                            <div className={styles.fieldGroup}>
-                                <div className={styles.fieldLabel}>
-                                    <h3>Funding Goal</h3>
-                                    <p className={styles.fieldDescription}>
-                                        Set the amount you need to bring your project to life.
-                                    </p>
-                                </div>
-                                <div className={styles.fieldInput}>
-                                    <label className={styles.inputLabel}>Funding Goal ($)</label>
-                                    <input
-                                        type="number"
-                                        name="funding_goal"
-                                        value={formData.funding_goal}
-                                        onChange={handleChange}
-                                        className={styles.textInput}
-                                        required
-                                    />
-                                </div>
-                            </div>
+{/* Funding Section */}
+{currentStep === 'funding' && (
+  <div className={styles.formSection}>
+    <h2 className={styles.sectionTitle}>Funding Details</h2>
+    
+    <div className={styles.fieldGroup}>
+      <div className={styles.fieldLabel}>
+        <h3>Funding Goal</h3>
+        <p className={styles.fieldDescription}>
+          Set the amount you need to bring your project to life.
+        </p>
+      </div>
+      <div className={styles.fieldInput}>
+        <label className={styles.inputLabel}>Funding Goal</label>
+        <div className={styles.inputWithCurrency}>
+          <span className={styles.currencyPrefix}>$</span>
+          <input
+            type="text"
+            name="funding_goal"
+            value={formData.funding_goal ? formData.funding_goal.toLocaleString() : ''}
+            onChange={(e) => {
+              // Remove commas and convert to number
+              const value = e.target.value.replace(/,/g, '');
+              handleChange({
+                target: {
+                  name: 'funding_goal',
+                  value: value ? parseFloat(value) : ''
+                }
+              });
+            }}
+            className={styles.textInput}
+            required
+          />
+        </div>
+      </div>
+    </div>
 
-                            <div className={styles.fieldGroup}>
-                                <div className={styles.fieldLabel}>
-                                    <h3>Reserve Price</h3>
-                                    <p className={styles.fieldDescription}>
-                                        The minimum amount you're willing to accept for your project.
-                                    </p>
-                                </div>
-                                <div className={styles.fieldInput}>
-                                    <label className={styles.inputLabel}>Reserve Price ($)</label>
-                                    <input
-                                        type="number"
-                                        name="reserve_price"
-                                        value={formData.reserve_price}
-                                        onChange={handleChange}
-                                        className={styles.textInput}
-                                        required
-                                    />
-                                </div>
-                            </div>
-
-                      
-                            <div className={styles.buttonContainer}>
-                                <button type="button" onClick={handleNext} className={styles.nextButton}>
-                                    Next
-                                </button>
-                            </div>
-                        </div>
-                    )}
+    <div className={styles.fieldGroup}>
+      <div className={styles.fieldLabel}>
+        <h3>Reserve Price</h3>
+        <p className={styles.fieldDescription}>
+          The minimum amount you're willing to accept for your project.
+        </p>
+      </div>
+      <div className={styles.fieldInput}>
+        <label className={styles.inputLabel}>Reserve Price</label>
+        <div className={styles.inputWithCurrency}>
+          <span className={styles.currencyPrefix}>$</span>
+          <input
+            type="text"
+            name="reserve_price"
+            value={formData.reserve_price ? formData.reserve_price.toLocaleString() : ''}
+            onChange={(e) => {
+              // Remove commas and convert to number
+              const value = e.target.value.replace(/,/g, '');
+              handleChange({
+                target: {
+                  name: 'reserve_price',
+                  value: value ? parseFloat(value) : ''
+                }
+              });
+            }}
+            className={styles.textInput}
+            required
+          />
+        </div>
+      </div>
+    </div>
+    
+    <div className={styles.buttonContainer}>
+      <button 
+        type="button" 
+        onClick={handleNext} 
+        className={styles.nextButton}
+      >
+        Next
+      </button>
+    </div>
+  </div>
+)}
 
                     {/* Story Section */}
                     {currentStep === 'story' && (
@@ -520,7 +547,7 @@ const ProjectExisting = () => {
                                     </p>
                                 </div>
                                 <div className={styles.fieldInput}>                     
-                                    <label className={styles.inputLabel}>Description</label>
+                                    <label className={styles.inputLabel}>Story</label>
                                     <textarea
                                         name="project_story"
                                         value={formData.project_story}

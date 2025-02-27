@@ -31,7 +31,7 @@
   .activeTab {
     color: #000;
     font-weight: 600;
-    border-bottom: 2px solid #3182ce;
+    border-bottom: 2px solid #F07900;
   }
   
   .formSection {
@@ -268,3 +268,18 @@
   .reviewSummary h3 {
     font-size: 1rem;
     font-weight: 600;}
+    .inputWithCurrency {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .currencyPrefix {
+      position: absolute;
+      left: 10px;
+      color: #333;
+    }
+    
+    .inputWithCurrency .textInput {
+      padding-left: 25px;
+    }
