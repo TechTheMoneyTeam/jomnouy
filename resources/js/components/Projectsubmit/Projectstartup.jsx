@@ -11,7 +11,6 @@ const ProjectStartup = () => {
         'Australia', 'Antarctica', 'Global', 'Online'
     ];
 
-    const projectStatuses = ['pending', 'in_progress', 'completed'];
 
     const projectCategories = [
         'Technology', 'Art', 'Design', 'Film', 'Music', 'Publishing',
@@ -126,7 +125,6 @@ const ProjectStartup = () => {
                 user_id: currentUser?.user_id || '',
                 title: '',
                 funding_goal: '',
-                status: 'pending',
                 project_type: '',
                 project_des: '',
                 project_story: '',
