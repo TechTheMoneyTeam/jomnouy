@@ -25,9 +25,15 @@ const MyProjects = () => {
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
-      const user = JSON.parse(userData);
-      setUsername(user.username);
-      setUserId(user.user_id);
+      try {
+        const user = JSON.parse(userData);
+        console.log("User data from localStorage:", user);
+        setUsername(user.username || '');
+        setUserId(user.user_id);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        setError("Invalid user data in local storage");
+      }
     }
   }, []);
 
@@ -42,13 +48,51 @@ const MyProjects = () => {
 
   const fetchUserProjects = async () => {
     try {
-      // This endpoint should filter projects by user_id on the server
-      const response = await axios.get(`/api/projects?user_id=${userId}`);
-      setProjects(response.data);
+      console.log("Fetching projects for user ID:", userId);
+      
+      // Check your Laravel routes to find the correct endpoint
+      // Try using the API prefix correctly (with leading slash)
+      const response = await axios.get(`/api/user-projects/${userId}`);
+      
+      console.log("Projects fetched successfully:", response.data);
+      
+      // If response structure is different, adjust accordingly
+      const projectsData = Array.isArray(response.data) ? response.data : 
+                          (response.data.projects || response.data.data || []);
+      
+      setProjects(projectsData);
       setError(null);
-    } catch (error) {
-      console.error('Error fetching user projects:', error);
-      setError('Failed to load your projects');
+    } catch (firstError) {
+      console.error('First attempt to fetch projects failed:', firstError);
+      
+      try {
+        // Try alternative endpoint formats based on common Laravel conventions
+        console.log("Trying alternative endpoint with 'users' prefix");
+        const altResponse = await axios.get(`/api/users/${userId}/projects`);
+        
+        const projectsData = Array.isArray(altResponse.data) ? altResponse.data : 
+                            (altResponse.data.projects || altResponse.data.data || []);
+        
+        setProjects(projectsData);
+        setError(null);
+      } catch (secondError) {
+        console.error('Second attempt failed:', secondError);
+        
+        try {
+          // Third attempt - try a different convention
+          console.log("Trying final alternative endpoint");
+          const finalResponse = await axios.get(`/api/projects?user_id=${userId}`);
+          
+          const projectsData = Array.isArray(finalResponse.data) ? finalResponse.data : 
+                              (finalResponse.data.projects || finalResponse.data.data || []);
+          
+          setProjects(projectsData);
+          setError(null);
+        } catch (finalError) {
+          console.error('All attempts to fetch projects failed:', finalError);
+          setError('Failed to load your projects. Please check your API routes configuration.');
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -95,6 +139,7 @@ const MyProjects = () => {
           <p className={styles.welcomeText}>
             Welcome back, <strong>{username}</strong>
           </p>
+          <p className={styles.userIdText}>User ID: {userId}</p>
         </div>
 
         {error && (
@@ -123,9 +168,9 @@ const MyProjects = () => {
           {projects.length > 0 ? (
             <div className={styles.projectGrid}>
               {projects.map((project) => (
-                <Card key={project.project_id}>
+                <Card key={project.project_id || project.id}>
                   <img
-                    src={project.project_img_url || "/api/placeholder/400/200"}
+                    src={project.project_img_url || project.image_url || "/api/placeholder/400/200"}
                     alt={project.title}
                     className={styles.projectImage}
                     onError={(e) => {
@@ -138,13 +183,16 @@ const MyProjects = () => {
                       <span className={styles.projectTitle}>{project.title}</span>
                     </div>
                     <div className={styles.projectType}>
-                      Type: {project.project_type}
+                      Type: {project.project_type || project.type || "N/A"}
+                    </div>
+                    <div className={styles.projectInfo}>
+                      Project ID: {project.project_id || project.id} | Owner ID: {project.user_id || project.userId || project.creator_id || "Unknown"}
                     </div>
                     <div className={styles.projectStats}>
                       <Clock size={16} />
                       <span>{getDaysSinceCreation(project.created_at)} days ago</span>
                       <span className={styles.dot}>•</span>
-                      <span>{formatFunding(project.funding_goal)}$ Needed Fund</span>
+                      <span>{formatFunding(project.funding_goal || project.funding || 0)}$ Needed Fund</span>
                     </div>
                   </CardContent>
                 </Card>

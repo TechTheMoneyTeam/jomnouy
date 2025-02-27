@@ -220,6 +220,19 @@
   .loginButton:hover {
     background-color: #e85a2a;
   }
+  .userIdText {
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+  
+  .projectInfo {
+    font-size: 0.7rem;
+    color: #888;
+    margin: 5px 0;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+  }
   
   /* Responsive adjustments */
   @media (max-width: 768px) {
