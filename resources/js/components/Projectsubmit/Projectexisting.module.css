@@ -1,0 +1,270 @@
+/* ProjectSubmitForm.module.css */
+
+.formWrapper {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .progressTabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .tabButton {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4a5568;
+    transition: all 0.2s;
+  }
+  
+  .tabButton:hover {
+    color: #2d3748;
+  }
+  
+  .activeTab {
+    color: #000;
+    font-weight: 600;
+    border-bottom: 2px solid #3182ce;
+  }
+  
+  .formSection {
+    padding: 1rem 0 3rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sectionDescription {
+    color: #718096;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+  }
+  
+  .fieldGroup {
+    display: flex;
+    margin-bottom: 2.5rem;
+    flex-direction: column;
+  }
+  
+  @media (min-width: 768px) {
+    .fieldGroup {
+      flex-direction: row;
+    }
+  }
+  
+  .fieldLabel {
+    flex: 1;
+    padding-right: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .fieldLabel {
+      margin-bottom: 0;
+    }
+  }
+  
+  .fieldLabel h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .fieldDescription {
+    color: #718096;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  
+  .imageSizeDescription {
+    color: #a0aec0;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  
+  .fieldInput {
+    flex: 1.5;
+  }
+  
+  .inputLabel {
+    display: block;
+    font-size: 0.875rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+  }
+  
+  .textInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .textareaInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    resize: vertical;
+    min-height: 8rem;
+  }
+  
+  .selectWrapper {
+    position: relative;
+  }
+  
+  .selectInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    background-color: white;
+    font-size: 0.875rem;
+    appearance: none;
+  }
+  
+  .selectWrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #718096;
+    font-size: 0.75rem;
+    pointer-events: none;
+  }
+  
+  .uploadBox {
+    border: 1px dashed #e2e8f0;
+    border-radius: 0.25rem;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .uploadPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #718096;
+    font-size: 0.875rem;
+  }
+  
+  .uploadIcon {
+    margin-bottom: 0.5rem;
+  }
+  
+  .fileInput {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .imagePreview, .videoPreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .datePickerContainer {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .datePicker {
+    flex: 1;
+  }
+  
+  .dateInputWrapper {
+    position: relative;
+  }
+  
+  .dateInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .calendarIcon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #718096;
+    pointer-events: none;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+  
+  .nextButton, .submitButton {
+    padding: 0.75rem 1.5rem;
+    background-color: #f97316;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .nextButton:hover, .submitButton:hover {
+    background-color: #ea580c;
+  }
+  
+  .submitButton {
+    background-color: #f97316;
+  }
+  
+  .message {
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .successMessage {
+    background-color: #c6f6d5;
+    color: #276749;
+  }
+  
+  .errorMessage {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+  }
+  
+  .reviewSummary {
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    padding: 1.5rem;
+  }
+  
+  .reviewSummary h3 {
+    font-size: 1rem;
+    font-weight: 600;}

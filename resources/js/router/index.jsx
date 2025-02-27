@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '../components/Homepage/Homepage';
 import About from '../components/Aboutpage/Aboutus';
 import Service from '../components/Servicepage/Servicepage';
-import ProjectSubmitForm from '../components/Projectsubmit/Projectsubmit';
+import ProjectExisting from '../components/Projectsubmit/Projectexisting';
 import ProjectListing from '../components/Projects/Projectlist1';
 import SignupForm  from '../components/Control/ProfileForm/SignupForm';
 import LoginForm  from '../components/Control/ProfileForm/LoginForm'; 
@@ -14,6 +14,7 @@ import EditProfile from '../components/Settings/EditProfile';
 import ResetPassword from '../components/Control/ProfileForm/Resetpassword';
 import Notification from '../components/Settings/Notification';
 import Following from '../components/Settings/Following';
+import ProjectSelectionForm from '../components/Projectsubmit/Projectselect';
 
 
 
@@ -29,12 +30,14 @@ const Index = () => {
                 
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
-                <Route path="/projectsubmit" element={<ProjectSubmitForm />} />
+                <Route path="/existing" element={<ProjectExisting />} />
+                <Route path="/create" element={<ProjectSelectionForm />} />
                 
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/logout" element={<Logout />} />
+
               
 
                 

@@ -123,7 +123,7 @@ const ProjectListing = () => {
                     <Clock size={16} />
                     <span>{getDaysSinceCreation(project.created_at)} days ago</span>
                     <span>•</span>
-                    <span>{formatFunding(project.funding_goal)} Funded</span>
+                    <span>{formatFunding(project.funding_goal)}$ Needed Fund</span>
                   </div>
                 </CardContent>
               </Card>

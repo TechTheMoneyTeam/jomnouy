@@ -39,7 +39,7 @@ const Navbar = () => {
                         </div>
                     </form>
                     <div className="flex items-center gap-8">
-                        <Link to="/projectsubmit" className="login-button">
+                        <Link to="/create" className="login-button">
                             <button><span>Create Project</span></button>
                         </Link>
                         <div className="profile flex items-center gap-4 cursor-pointer">

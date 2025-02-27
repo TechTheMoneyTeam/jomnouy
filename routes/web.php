@@ -46,7 +46,10 @@ Route::get('/projectlist1', function () {
 Route::get('/profile/edit', function () {
     return view('welcome');
 });
-Route::get('/projectsubmit', function () {
+Route::get('/existing', function () {
+    return view('welcome');
+});
+Route::get('/create', function () {
     return view('welcome');
 });
 Route::get('/profile', function () {
