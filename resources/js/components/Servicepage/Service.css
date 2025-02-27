@@ -111,6 +111,33 @@ button {
   .login-button:hover {
     @apply border-custom-orange;
   }
+  .login-button1 {
+    @apply relative overflow-hidden bg-white text-black border border-black px-3 py-1 rounded-lg;
+    @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
+  }
+  
+  .login-button1::before {
+    content: '';
+    @apply absolute top-0 left-0 w-0 h-full bg-white transition-all duration-200 ease-in-out;
+    z-index: 0;
+  }
+  
+  .login-button1:hover::before {
+    @apply w-full;
+  }
+  
+  .login-button1 span {
+    @apply relative z-10 transition-colors duration-200 ease-in-out;
+  }
+  
+  .login-button1:hover span {
+    @apply text-black;
+  }
+  
+  .login-button1:hover {
+    @apply border-custom-orange;
+  }
+  
   
   
 
