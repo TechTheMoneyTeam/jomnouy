@@ -16,6 +16,7 @@ import Notification from '../components/Settings/Notification';
 import Following from '../components/Settings/Following';
 import ProjectSelectionForm from '../components/Projectsubmit/Projectselect';
 import MyProjects from '../components/Myproject/Myproject';
+import ProjectStartup from '../components/Projectsubmit/Projectstartup';
 
 
 
@@ -32,8 +33,10 @@ const Index = () => {
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
                 <Route path="/existing" element={<ProjectExisting />} />
+                <Route path="/startup" element={<ProjectStartup />} />
                 <Route path="/create" element={<ProjectSelectionForm />} />
                 <Route path="/my-project" element={<MyProjects />} />
+
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
                 <Route path="/login" element={<LoginForm />} />

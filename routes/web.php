@@ -52,6 +52,9 @@ Route::get('/profile/edit', function () {
 Route::get('/existing', function () {
     return view('welcome');
 });
+Route::get('/startup', function () {
+    return view('welcome');
+});
 Route::get('/create', function () {
     return view('welcome');
 });

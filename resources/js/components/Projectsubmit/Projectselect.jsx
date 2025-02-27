@@ -24,7 +24,7 @@ const ProjectSelectionForm = () => {
     if (selectedOption === 'Existing Project') {
       navigate('/existing');
     } else if (selectedOption === 'Start-up') {
-      navigate('/#');
+      navigate('/startup');
     }
   };
 

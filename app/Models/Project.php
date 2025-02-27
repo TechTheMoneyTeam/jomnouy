@@ -30,6 +30,8 @@ class Project extends Model
         'status',
          'auction_start_date',
          'auction_end_date',
+         'member_name',
+         'member_position',
         'created_at',
         'updated_at'
     ];
