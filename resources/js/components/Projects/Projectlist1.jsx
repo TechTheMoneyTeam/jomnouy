@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Clock, Search } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Clock } from 'lucide-react';
 import Navbar from '../Navbar/Navbar';
 import '../Navbar/Navbar.css';
 
@@ -88,22 +87,6 @@ const ProjectListing = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4" style={{ margin: '20px 200px 0px 200px' }}>
-        {/* Header */}
-
-
-        {/* Categories */}
-        {/* <div className="flex gap-4 overflow-x-auto py-4">
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              className="whitespace-nowrap px-4 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-full"
-            >
-              {category}
-            </button>
-          ))}
-        </div> */}
-
-        {/* Project Grid */}
         <div className="py-8">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-2">
@@ -115,21 +98,13 @@ const ProjectListing = () => {
                 <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
               )}
             </div>
-            {/* <div className="flex gap-4">
-              <select className="border rounded-lg px-3 py-1">
-                <option>All categories</option>
-              </select>
-              <select className="border rounded-lg px-3 py-1">
-                <option>Near you</option>
-              </select>
-            </div> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-[60px]">
             {projects.map((project) => (
               <Card key={project.project_id} className="transform transition-transform hover:scale-105">
                 <img
-                  src={project.project_img || "/api/placeholder/400/200"}
+                  src={project.project_img_url || "/api/placeholder/400/200"}
                   alt={project.title}
                   className="w-full h-48 object-cover"
                   onError={(e) => {

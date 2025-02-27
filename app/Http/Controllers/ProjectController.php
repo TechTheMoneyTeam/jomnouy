@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -20,10 +21,14 @@ class ProjectController extends Controller
                 'status' => 'nullable|string|max:20',
                 'project_type' => 'nullable|string|max:20',
                 'project_des' => 'nullable|string|max:1000',
-                'project_img' => 'nullable|string',
+                'project_img' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+                'project_video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:20480',
                 'reserve_price' => 'nullable|numeric',
-                'project_categoryId' => 'nullable|integer',
-                'status' => 'nullable|string|in:pending,in_progress,completed'
+                'categories' => 'nullable|string|max:100',
+                'project_location' => 'nullable|string|max:200',
+                'status' => 'nullable|string|in:pending,in_progress,completed',
+                'auction_start_date' => 'nullable|date',
+                'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
             ]);
 
             if ($validator->fails()) {
@@ -60,21 +65,38 @@ class ProjectController extends Controller
                 throw new \Exception('No available project IDs remaining');
             }
 
-            // Create project with the generated ID and user_id
-            $project = Project::create([
+            // Handle file uploads
+            $projectData = [
                 'project_id' => $projectId,
                 'user_id' => $validatedData['user_id'],
                 'title' => $request->title,
                 'funding_goal' => $request->funding_goal,
                 'project_type' => $request->project_type,
                 'project_des' => $request->project_des,
-                'project_img' => $request->project_img,
                 'reserve_price' => $request->reserve_price,
-                'project_categoryId' => $request->project_categoryId,
+                'categories' => $request->categories,
+                'project_location' => $request->project_location,
                 'status' => $validatedData['status'] ?? 'pending',
+                'auction_start_date' => $request->auction_start_date,
+                'auction_end_date' => $request->auction_end_date,
                 'created_at' => now(),
                 'updated_at' => now()
-            ]);
+            ];
+
+            // Handle project image upload
+            if ($request->hasFile('project_img')) {
+                $imagePath = $request->file('project_img')->store('project_images', 'public');
+                $projectData['project_img'] = $imagePath;
+            }
+
+            // Handle project video upload (optional)
+            if ($request->hasFile('project_video')) {
+                $videoPath = $request->file('project_video')->store('project_videos', 'public');
+                $projectData['project_video'] = $videoPath;
+            }
+
+            // Create project with the generated ID and data
+            $project = Project::create($projectData);
 
             // Load the user relationship
             $project->load('user');
@@ -119,6 +141,7 @@ class ProjectController extends Controller
             ], 500);
         }
     }
+    
     public function index()
     {
         try {
