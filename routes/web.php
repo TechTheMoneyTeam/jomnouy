@@ -6,8 +6,8 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordResetController;
 
-Route::get('/profile', [ProfileController::class, 'getProfile']);
-Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
+Route::get('/api/profile', [ProfileController::class, 'getProfile']);
+Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
 
 Route::get('/api/settings', [SettingsController::class, 'getSettings']);
 Route::post('/api/settings/change-password', [SettingsController::class, 'changePassword']);
@@ -15,6 +15,7 @@ Route::post('/api/settings/change-password1', [SettingsController::class, 'chang
 
 Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
+
 Route::get('/', function () {
     return view('welcome');
 });

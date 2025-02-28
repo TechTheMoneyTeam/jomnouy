@@ -7,8 +7,32 @@ import styles from './Projectupload.module.css';
 const ProjectExisting = () => {
     // Predefined options arrays
     const projectLocations = [
-        'North America', 'South America', 'Europe', 'Asia', 'Africa', 
-        'Australia', 'Antarctica', 'Global', 'Online'
+        'Phnom Penh, Cambodia',
+        'Siem Reap, Cambodia',
+        'Battambang, Cambodia',
+        'Sihanoukville, Cambodia',
+        'Kampot, Cambodia',
+        'Kep, Cambodia',
+        'Kampong Cham, Cambodia',
+        'Kampong Thom, Cambodia',
+        'Kratie, Cambodia',
+        'Stung Treng, Cambodia',
+        'Banlung, Cambodia',
+        'Kampong Chhnang, Cambodia',
+        'Pursat, Cambodia',
+        'Pailin, Cambodia',
+        'Poipet, Cambodia',
+        'Svay Rieng, Cambodia',
+        'Prey Veng, Cambodia',
+        'Takeo, Cambodia',
+        'Kampong Speu, Cambodia',
+        'Preah Vihear, Cambodia',
+        'Mondulkiri, Cambodia',
+        'Koh Kong, Cambodia',
+        'Oddar Meanchey, Cambodia',
+        'Tbong Khmum, Cambodia',
+        'Kandal, Cambodia',
+        'Outside Cambodia'
     ];
     
     const projectStatuses = ['pending', 'in_progress', 'completed'];

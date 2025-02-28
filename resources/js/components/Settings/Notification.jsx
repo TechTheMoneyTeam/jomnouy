@@ -5,9 +5,7 @@ import Styles from "./SettingsCSS/Notification.module.css";
 
 const Notification = () => {
     const [notifications] = useState([
-        "New follower: GechLeang123",
-        "Your project received 5 likes",
-        "Visal mentioned you in a comment",
+    
     ]);
     const [notifEnabled, setNotifEnabled] = useState(true);
 

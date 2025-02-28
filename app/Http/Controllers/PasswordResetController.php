@@ -27,7 +27,7 @@ class PasswordResetController extends Controller
         $user->password_reset_requested_at = Carbon::now();
         $user->save();
 
-        // We're not using tokens here - just sending an email
+       
         Mail::send('emails.password_reset', ['email' => $request->email], function($message) use ($request) {
             $message->to($request->email);
             $message->subject('Reset Your Password');

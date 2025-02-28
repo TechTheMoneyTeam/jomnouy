@@ -6,10 +6,7 @@ import '../Navbar/Navbar.css';
 
 const Following = () => {
   const [following, setFollowing] = useState([
-    { id: 1, name: 'EthanH' },
-    { id: 2, name: 'Notvalsy' },
-    { id: 3, name: 'Nithzin' },
-    { id: 4, name: 'GL' },
+
   ]);
 
   const handleUnfollow = (id) => {
