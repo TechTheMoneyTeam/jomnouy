@@ -58,26 +58,7 @@ class ProjectController extends Controller
 
             // Create project with the generated ID and user_id
             // Create project with the generated ID and user_id
-            $project = Project::create([
-                'project_id' => $projectId,  // Ensure this is passed
-                'user_id' => $validatedData['user_id'],
-                'title' => $request->title,
-                'funding_goal' => $request->funding_goal,
-                'project_type' => $request->project_type,
-                'project_des' => $request->project_des,
-                'project_story' => $request->project_story,
-                'member_name' => $request->member_name,
-                'member_position' => $request->member_position,
-                'reserve_price' => $request->reserve_price,
-                'categories' => $request->categories,
-                'project_location' => $request->project_location,
-                'status' => $validatedData['status'] ?? 'pending',
-                'auction_start_date' => $request->auction_start_date,
-                'auction_end_date' => $request->auction_end_date,
-                'created_at' => now(),
-                'updated_at' => now()
-            ];
-
+    
             // Handle project image upload
             if ($request->hasFile('project_img')) {
                 $imagePath = $request->file('project_img')->store('project_images', 'public');

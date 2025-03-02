@@ -38,11 +38,7 @@ class Project extends Model
     ];
     protected $with = ['user'];
 
-    /**
-     * Get the user that owns the project
-     */
-        'project_categoryId',
-    ];
+
 
     public function user()
     {
