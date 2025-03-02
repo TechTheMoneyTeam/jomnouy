@@ -10,49 +10,47 @@ const About = () => {
     setLanguage(prev => (prev === 'en' ? 'km' : 'en'));
   };
 
-  const Header = () => {
-    const location = useLocation();
-
-    return (
-      <header className="header">
-        <nav className="nav-container">
-          <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
-          <div className="nav-links">
-            <Link
-              to="/"
-              className={`nav-link ${location.pathname === '/home' ? 'active-link' : ''}`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/services"
-              className={`nav-link ${location.pathname === '/services' ? 'active-link' : ''}`}
-            >
-              Services
-            </Link>
-            <Link
-              to="/about"
-              className={`nav-link ${location.pathname === '/about' ? 'active-link' : ''}`}
-            >
-              About
-            </Link>
-            <Link to="/login" className="login-button">
-              <button><span>Login</span></button>
-            </Link>
-          </div>
-          <div className="button-group">
-
-            <button className="search-button">
-              <Search />
-            </button>
-            <button onClick={toggleLanguage} className="language-button">
-              <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
-            </button>
-          </div>
-        </nav>
-      </header>
-    );
-  }
+const Header = () => {
+        const location = useLocation();
+    
+        return (
+            <header className="header">
+                <nav className="nav-container">
+                    <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
+                    <div className="nav-links">
+                        <Link 
+                            to="/home" 
+                            className={`nav-link ${location.pathname === '/home' ? 'active-link' : ''}`}
+                        >
+                            Home
+                        </Link>
+                        <Link 
+                            to="/services" 
+                            className={`nav-link ${location.pathname === '/service' ? 'active-link' : ''}`}
+                        >
+                            Services
+                        </Link>
+                        <Link 
+                            to="/about" 
+                            className={`nav-link ${location.pathname === '/about' ? 'active-link' : ''}`}
+                        >
+                            About
+                        </Link>
+                        <button className="login-button"><span>Login</span></button>
+                    </div>
+                    <div className="button-group">
+                        
+                        <button className="search-button">
+                            <Search />
+                        </button>
+                        <button onClick={toggleLanguage} className="language-button">
+                            <span className="flag-icon">🇰🇭</span>{language === 'en' ? 'English' : 'ខ្មែរ'}
+                        </button>
+                    </div>
+                </nav>
+            </header>
+        );
+    }
 
   const ImageSections = () => (
     <div className="w-full flex flex-col gap-8">

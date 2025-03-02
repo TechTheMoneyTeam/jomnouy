@@ -75,7 +75,7 @@ const Service = () => {
 
     const Header = () => {
         const location = useLocation();
-
+    
         return (
             <header className="header">
                 <nav className="nav-container">
@@ -84,8 +84,8 @@ const Service = () => {
                     </Link>
                     <div className="nav-links">
                         <Link
-                            to="/"
-                            className={`nav-link ${location.pathname === "/" ? "active-link" : ""}`}
+                            to="/home"
+                            className={`nav-link ${location.pathname === "/home" ? "active-link" : ""}`}
                         >
                             Home
                         </Link>
@@ -119,6 +119,7 @@ const Service = () => {
             </header>
         );
     };
+
     const Hero = () => (
         <div className="hero-service">
             <img src="/img/serviceimg.png" alt="Hero Background" />

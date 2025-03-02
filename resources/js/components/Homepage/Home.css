@@ -40,39 +40,33 @@ button {
   @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 min-h-[700px];
 }
 
-/* Animation for hero background (slide and fade in) */
 @keyframes heroBackgroundSlide {
   0% {
     transform: translateY(-50px);
     opacity: 0;
   }
-
   100% {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* Animation for text and title (slide left to right) */
 @keyframes slideInLeft {
   0% {
     transform: translateX(-100px);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
   }
 }
 
-/* Animation for analytics image (slide right to left) */
 @keyframes slideInRight {
   0% {
     transform: translateX(100px);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -80,7 +74,7 @@ button {
 }
 
 .hero-background {
-  @apply absolute inset-0 bg-custom-orange z-10 mt-5;
+  @apply absolute inset-0 bg-custom-orange z-10;
   border-top-right-radius: 20% 187px;
   border-bottom-left-radius: 28% 431px;
   animation: heroBackgroundSlide 1s ease-out;
@@ -91,11 +85,11 @@ button {
 }
 
 .hero-text-section {
-  @apply relative bg-white p-8 max-w-lg px-10 h-[530px] overflow-hidden;
+  @apply relative bg-white p-8 max-w-lg px-10 h-[530px]
+         shadow-[-45px_28px_0px_rgba(0,0,0,0.2)] overflow-hidden;
   border-top-right-radius: 45% 193px;
   border-bottom-left-radius: 45% 193px;
   animation: slideInLeft 1s ease-out;
-  /* Animation for text sliding in */
 }
 
 .hero-title {
@@ -119,7 +113,6 @@ button {
   left: 50px;
   top: 100px;
   animation: slideInLeft 1s ease-out 0.2s;
-  /* Add slight delay for button */
 }
 
 .hero-button:hover {
@@ -136,7 +129,6 @@ button {
   @apply flex justify-center items-center relative z-10;
   left: 70px;
   animation: slideInRight 1s ease-out;
-  /* Animation for image sliding in */
 }
 
 .analytics-image {
@@ -145,79 +137,260 @@ button {
 
 /* Project Section */
 .project-container {
-  @apply relative p-8 mt-8 mb-2;
+  @apply relative  p-8 mt-8 mb-8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1);
-  /* Top and Bottom shadows */
-}
-
-.project-slider {
-  @apply overflow-hidden w-full relative flex justify-center mb-8;
-  /* Ensure it's centered and hide overflow */
-}
-
-.project-nav {
-  @apply absolute top-0 right-0 p-4 z-50 flex space-x-4;
 }
 
 .nav-button {
   @apply p-2 bg-gray-800 text-white rounded-full shadow-md hover:bg-gray-600;
 }
+ .project-grid-wrapper {
+     @apply overflow-hidden relative;
+ }
+  
+ .project-grid {
+     @apply justify-center flex  transition-transform duration-500 ease-in-out ;
+ }
 
-.project-grid-wrapper {
-  @apply flex justify-center items-center w-full;
-  /* Center the grid inside the container */
-}
-
-.project-grid {
-  @apply flex transition-transform ease-in-out duration-500;
-  /* Smooth sliding of cards */
-}
-
-/* Animation for Project Cards (slide in from the left) */
 @keyframes slideInProjectCard {
   0% {
     transform: translateX(-100px);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
   }
 }
 
-.project-card {
-  flex-shrink: 0;
-  /* Prevent cards from shrinking */
-  width: 280px;
-  height: max-content;
-  /* Width of each card */
-  margin-right: 10px;
-  margin-bottom: 25px;
-  border-radius: 10px;
-  animation: slideInProjectCard 1s ease-out;
-  /* Apply slide-in animation */
+/* Home.css or index.css */
+@layer utilities {
+  @keyframes fadeInRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in-right {
+    animation: fadeInRight 0.5s ease-out forwards;
+  }
+
+  .animate-fade-in-left {
+    animation: fadeInLeft 0.5s ease-out forwards;
+  }
 }
 
+.project-card {
+  @apply flex-shrink-0 w-[100%] sm:w-[280px] h-[300px] sm:h-[370px] mr-0 sm:mr-4 mb-4 sm:mr-4 rounded-lg transition-transform duration-300 ease-in-out ;
+  animation: slideInProjectCard 1s ease-out;
+}
+
+.project-card:hover {
+  @apply scale-105 shadow-lg;
+}
 .project-image {
   @apply w-full h-40 object-cover rounded-lg;
 }
 
 .project-title {
-  @apply mt-2 text-lg font-bold;
+  @apply p-2 mt-2 text-lg font-bold;
 }
 
 .project-username {
-  @apply text-sm text-gray-600;
+  @apply p-2 text-sm text-gray-600;
 }
 
 .project-description {
-  @apply mt-1 text-sm text-gray-700 line-clamp-2;
+  @apply mt-4 text-sm text-gray-700 line-clamp-2;
 }
 
+.project-description2 {
+  @apply mt-4 p-2  text-sm text-gray-700 break-words overflow-hidden whitespace-normal;
+}
+
+.explore-btn {
+@apply relative z-10 text-gray-800 border-4 border-double border-gray-200 py-2 px-[150px] rounded-md hover:bg-gray-100 transition;
+}
 .project-title-section {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 50px;
-  text-align: center;
+  @apply text-2xl font-bold mb-8 text-center;
+}
+.prev-btn {
+  @apply p-2 mt-4 mr-4 text-black border-2 rounded-r-lg border-gray-200 bg-white transform transition-all duration-200 hover:bg-gray-300 hover:border-gray-400;
+}
+
+.next-btn {
+  @apply p-2 mt-4 mr-4 text-black border-2 rounded-l-lg border-gray-200 bg-white transform transition-all duration-200 hover:bg-gray-300 hover:border-gray-400;
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 1024px) { /* Desktop screens and smaller tablets */
+  .hero-content {
+    @apply grid-cols-1 lg:grid-cols-2; /* Two columns for larger screens, single column for smaller ones */
+  }
+
+  .hero-button {
+    @apply py-3 px-10 text-xl; /* Adjust button size */
+  }
+
+  .project-grid {
+    @apply gap-8; /* Reduce gap on medium-sized screens */
+  }
+}
+
+@media (max-width: 768px) { /* iPads, smaller tablets, large mobile screens */
+  .hero-content {
+    @apply grid-cols-1; /* Stack items in a single column */
+  }
+
+  .hero-button {
+    @apply py-2 px-6 text-lg; /* Reduce button size for smaller devices */
+  }
+
+  .project-grid {
+    @apply flex-wrap gap-6; /* Wrap items for smaller screens */
+  }
+
+  .project-card {
+    @apply w-full sm:w-[250px] h-auto; /* Adjust project card width */
+  }
+
+  .project-title-section {
+    @apply text-xl; /* Adjust section title */
+  }
+}
+
+@media (max-width: 390px) { /* iPhone 14 and similar small screens */
+  .hero-title {
+    @apply text-3xl; /* Adjust hero title size */
+  }
+
+  .hero-description, .hero-description2 {
+    @apply text-xl; /* Reduce description font size */
+  }
+
+  .hero-button {
+    @apply px-6 py-2 text-lg; /* Adjust button size */
+  }
+
+  .project-card {
+    @apply w-full sm:w-[200px] h-auto; /* Adjust project card size */
+  }
+
+  .project-title-section {
+    @apply text-lg; /* Adjust title size for smaller screens */
+  }
+
+  .hero-content {
+    @apply px-4; /* Add padding for very small screens */
+  }
+
+  .project-grid {
+    @apply gap-4; /* Reduce grid gap for small screens */
+  }
+}
+/* Startup.css */
+/* Startup.css */
+/* Startup.css */
+.startup-container {
+  @apply flex flex-col max-w-full h-[550px] mx-auto  mt-12 mb-8  overflow-hidden relative shadow-lg;
+  
+}
+
+.container-title {
+  @apply text-5xl font-bold text-black text-center mb-8; /* Centering the title */
+}
+
+.container-title span {
+  @apply text-custom-orange;
+}
+
+.content-container {
+  @apply flex flex-1; /* This allows image and text to flex within the container */
+}
+
+.image-container {
+  @apply flex-1 items-center justify-center bg-gray-200; /* Make the image container flexible */
+}
+
+.image {
+  @apply w-full h-full  object-cover; /* Ensures the image covers the entire container */
+}
+
+.text-container {
+    @apply flex-1 pl-8 pr-8  bg-white; /* Make the text container flexible */
+}
+
+.project-title {
+    @apply text-4xl font-semibold mb-8; /* Add bottom margin for spacing */
+}
+
+.project-description {
+    @apply mb-4 text-gray-700; /* Maintain margin for spacing */
+}
+
+.project-type,
+.project-goal,
+.project-min {
+    @apply mb-3 text-xl text-black; /* Add bottom margin for spacing */
+}
+.project-type {
+  @apply text-lg text-white bg-custom-orange pr-4 pl-4 pt-1 pb-1 rounded-md mb-12;
+  @apply inline-block; /* Ensure the background fits the content */
+  @apply shadow-md; /* Use a medium shadow */
+  /* Custom shadow for black */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adjust values for desired effect */
+}
+.button-container {
+  @apply flex justify-between mt-4; /* Keep buttons spaced */
+  /* Pushes the button container to the bottom */
+}
+
+.button1 {
+  @apply text-2xl py-2 font-bold rounded-full bg-custom-orange shadow-lg text-white transition-all duration-300 ease-in-out px-12; /* Base styles with smooth transition */
+}
+
+.button1:hover {
+  @apply transform translate-x-[-6px] text-black; /* Translate up by 4 pixels and change text color on hover */
+}
+.button2 {
+  @apply text-2xl font-bold  py-2 px-8 rounded-full bg-white shadow-lg text-custom-orange transition-all duration-300 ease-in-out;
+}
+.button2:hover {
+  @apply transform translate-x-[6px] text-black; /* Translate up by 4 pixels and change text color on hover */
+}
+.arrow-button {
+  @apply absolute top-1/2 transform -translate-y-1/2 bg-transparent border-none text-2xl cursor-pointer hover:text-blue-500;
+}
+
+.arrow-button.left {
+  @apply left-2 bg-custom-orange bg-opacity-10 hover:transition-all w-8 h-28 flex items-center justify-center;
+}
+
+.arrow-button.right {
+  @apply right-2 bg-custom-orange bg-opacity-10  hover:transition-all w-8 h-28 flex items-center justify-center;
+}
+.arrow-button.left:hover {
+  @apply bg-custom-orange bg-opacity-50 transform translate-x-[-7px] ;
+}
+.arrow-button.right:hover {
+  @apply bg-custom-orange bg-opacity-50 transform translate-x-[7px] ;
 }
