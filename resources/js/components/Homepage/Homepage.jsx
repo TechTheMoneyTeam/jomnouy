@@ -148,7 +148,7 @@ const Home = () => {
 
         return (
             <div className="project-container">
-                <h2 className="project-title-section">Popular Projects</h2>
+                <h2 className="project-title-section">Tops Projects</h2>
 
                 {/* Pagination Buttons */}
                 <div className="absolute top-0 right-0 flex gap-2 z-10">
@@ -189,7 +189,7 @@ const Home = () => {
                                     Project: {project.title || 'Untitled Project'}
                                 </h3>
                                 <p className="project-username text-gray-500">
-                                    By {userName}
+                                    By: {userName}
                                 </p>
                                 <p className="project-description2">
                                     Description: {project.project_des || 'No description available'}
@@ -276,7 +276,7 @@ const Home = () => {
                         <h2 className="project-title">{currentProject.title || 'Untitled Project'}</h2>
                         <p className="project-creator">By {userName}</p>
                         <p className="project-description">{currentProject.project_des || 'No description available'}</p>
-                        <p className="project-type">{currentProject.project_type || 'Project'}</p>
+                        <p className="project-type">{currentProject.categories || 'Project'}</p>
                         <p className="project-goal"><strong>Investment Goal:</strong> ${currentProject.funding_goal?.toLocaleString() || 'Not specified'}</p>
                         <p className="project-min"><strong>Min Investment:</strong> ${currentProject.reserve_price?.toLocaleString() || 'Not specified'}</p>
                         
