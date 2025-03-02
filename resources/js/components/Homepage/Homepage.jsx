@@ -17,6 +17,7 @@ import ContactFounder from "../Contactfounder/Contactfounder"; // Update this pa
 const Home = () => {
     const [language, setLanguage] = useState("en");
 
+    // Language Toggle Handler
     const toggleLanguage = () => {
         setLanguage((prev) => (prev === "en" ? "km" : "en"));
     };
@@ -82,12 +83,20 @@ const Home = () => {
                         ចាប់ផ្តើមឥឡូវនេះ ➜
                     </a>
                 </div>
-                <div className="hero-image-wrapper">
-                    <img
-                        src="/img/hero.png"
-                        alt="Illustration of investment opportunities"
-                        className="analytics-image"
-                    />
+
+                {/* Project Slider */}
+                <div className="project-slider">
+                    <div className="project-grid">
+                        {/* Display only the first 5 items at a time */}
+                        {projectsQueue.slice(0, itemsPerRow).map((project) => (
+                            <div key={project.id} className="project-card">
+                                <img src={project.image} alt={project.title} className="project-image" />
+                                <h3 className="project-title">{project.title}</h3>
+                                <p className="project-username">By {project.username}</p>
+                                <p className="project-description">{project.description}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

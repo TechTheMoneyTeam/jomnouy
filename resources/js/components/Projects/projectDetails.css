@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-description {
+               @apply text-black/[0.67];
+}
+
+.text-title {
+               @apply text-2xl font-semibold;
+}
+
+.text-funding {
+               @apply text-3xl font-semibold text-[#F07900];
+}
+.container{
+               @apply mt-8;
+}
+.invest-button {
+               @apply bg-[#F07900] text-white py-2 px-4 rounded-md w-full mt-5;
+}
+.left-container {
+               @apply flex-[2] h-full ;
+}
+.filter-button{
+               @apply flex space-x-2;
+}
+.right-container {
+               @apply flex-1 h-[full];
+}
+.icon-button{
+               @apply mr-2 h-4 w-4 ;
+}
+.categoies-buttons{
+               @apply mt-4 bg-white text-black/[0.67] text-xs py-2 px-2 rounded-2xl border border-[#C0C0C0]/[0.33] h-[30px] flex items-center space-x-1;
+
+}
+.action-buttons{
+               @apply bg-white text-black text-xs py-2 px-4 rounded-sm border border-[#C0C0C0] h-[30px] flex items-center space-x-2;
+}
+.buttons-container {
+               @apply flex justify-end space-x-4 mt-4;
+}
+.parent-container{
+               @apply flex flex-col h-full;
+}
+.c-text{
+               @apply mt-4 text-[#C0C0C0] text-xs;
+}
+.progress-container {
+               @apply relative w-full h-2 bg-[#F8A145]/[0.33] rounded-none;
+}
+
+.progress-bar {
+               @apply h-full bg-orange-500 rounded-none transition-all duration-500 ease-in-out;
+}
+
+.progress-text {
+               @apply absolute -top-6 left-1/2 transform -translate-x-1/2 font-bold text-gray-800 text-sm;
+}
+.tab-content{
+               @apply mt-4;
+}
+.tab-item {
+               @apply relative py-4 px-4 text-sm font-semibold text-gray-500 transition-colors duration-200 hover:text-gray-700;
+}
+.active-tab {
+               @apply text-black;
+}
+.active-tab::after {
+               content: "";
+               @apply absolute bottom-0 left-0 w-full h-[2px] bg-black transition-all duration-300 ease-in-out;
+}
+.hr1{
+               @apply mb-8 w-full mt-20;
+}
+.hr2 {
+               @apply mb-2 w-full mt-20;
+}
+.num-comment{
+               @apply absolute -top-1 -right-1 bg-[#F07900] text-white text-xs font-bold px-1.5 py-0.5 rounded-full
+}
+.report-btn{
+               @apply mt-6 text-xs text-black/[0.75] border border-[#C0C0C0] bg-transparent py-2 cursor-pointer rounded-md max-w-[250px] w-full;
+
+}
+.related-project {
+               @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4;
+}
+.project-image {
+               @apply w-full h-36 object-cover rounded-lg;
+}
+.profile-avatar {
+               @apply w-8 h-8 rounded-full flex items-center justify-center text-orange-500 mr-2 border border-gray-500/[0.50];
+}
+.related-project{
+               @apply mt-8;
+}

@@ -42,35 +42,24 @@ class ProjectController extends Controller
             }
 
             $validatedData = $validator->validated();
-            
+
             // Verify user exists
             $user = User::where('user_id', $validatedData['user_id'])->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
                 ], 404);
             }
-            
-            // Find the next available project_id between 1 and 1064
-            $projectId = null;
-            $existingIds = Project::pluck('project_id')->toArray();
-            
-            for ($i = 1; $i <= 1064; $i++) {
-                if (!in_array($i, $existingIds)) {
-                    $projectId = $i;
-                    break;
-                }
-            }
-            
-            // Check if we found an available ID
-            if ($projectId === null) {
-                throw new \Exception('No available project IDs remaining');
-            }
 
-            // Handle file uploads
-            $projectData = [
-                'project_id' => $projectId,
+            // Find the next available project_id by checking the highest project_id
+            $maxProjectId = Project::max('project_id');  // Get the highest project_id currently in the database
+            $projectId = $maxProjectId + 1;  // Set the new project_id to the next available ID
+
+            // Create project with the generated ID and user_id
+            // Create project with the generated ID and user_id
+            $project = Project::create([
+                'project_id' => $projectId,  // Ensure this is passed
                 'user_id' => $validatedData['user_id'],
                 'title' => $request->title,
                 'funding_goal' => $request->funding_goal,
@@ -111,14 +100,14 @@ class ProjectController extends Controller
                 'message' => 'Project created successfully',
                 'project' => $project
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project creation failed',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage() // Include the error message for debugging
             ], 500);
         }
     }
+
 
     public function getUserProjects($userId)
     {

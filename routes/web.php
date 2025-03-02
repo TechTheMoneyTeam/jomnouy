@@ -12,6 +12,7 @@ Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
 Route::get('/api/settings', [SettingsController::class, 'getSettings']);
 Route::post('/api/settings/change-password', [SettingsController::class, 'changePassword']);
 Route::post('/api/settings/change-password1', [SettingsController::class, 'changePassword1']);
+use App\Http\Controllers\UserController;
 
 Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
@@ -22,6 +23,11 @@ Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserPr
 
 Route::post('/api/projects/{id}', [ProjectController::class, 'update']);
 Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
+
+Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
+Route::get('/projects/{id}', function () {
+    return view('welcome');
+})->where('id', '[^/]+');
 
 Route::get('/', function () {
     return view('welcome');
@@ -79,7 +85,10 @@ Route::get('/contact', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\UserController;
+Route::get('/projects', function () {
+    return view('welcome');
+});
+
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 Route::post('/api/forgot-password', [PasswordResetController::class, 'sendResetEmail']);
 Route::post('/api/reset-password', [PasswordResetController::class, 'resetPassword']);

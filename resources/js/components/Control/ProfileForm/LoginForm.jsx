@@ -29,9 +29,17 @@ const LoginForm = () => {
         try {
             const response = await axios.post('/api/login', formData);
             setMessage('Login successful!');
+            console.log(response.data);
+
+            // Save user data to localStorage
             if (response.data.user) {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
             }
+
+            // Clear the form
+            resetForm();
+
+            // Show success message briefly before redirecting
             setTimeout(() => {
                 navigate('/projectlist1');
             }, 500);

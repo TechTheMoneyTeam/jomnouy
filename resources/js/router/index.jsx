@@ -21,17 +21,23 @@ import ContactFounder from '../components/Contactfounder/Contactfounder';
 
 
 
+import Navbar from '../components/Navbar/Navbar';
+import ProjectDetails from '../components/Projects/projectDetails';
 
 const Index = () => {
     return (
         <div>
             <Routes>
                 <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Service/>} />
+                <Route path="/services" element={<Service />} />
                 <Route path="/" element={<Home />} />
-                
+
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
+                <Route path="/projects/:id" element={<ProjectDetails />} />
+
+                <Route path="/projectsubmit" element={<ProjectSubmitForm />} />
+
                 <Route path="/existing" element={<ProjectExisting />} />
                 <Route path="/startup" element={<ProjectStartup />} />
                 <Route path="/create" element={<ProjectSelectionForm />} />
@@ -57,7 +63,6 @@ const Index = () => {
                 <Route path="/noti" element={<Notification />} />
 
                
-                
                 
             </Routes>
         </div>
