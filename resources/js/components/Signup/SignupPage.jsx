@@ -1,43 +1,90 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebook } from "react-icons/fa";
 import axios from 'axios';
 import './SignupPage.css';
 
 const SignUpCard = () => {
+               const navigate = useNavigate();
                const [formData, setFormData] = useState({
-                              user_id: '',
                               username: '',
+                              email: '',
+                              password: '',
+                              confirmPassword: '',
                               first_name: '',
                               last_name: '',
-                              profile_id: '',
-                              email: '',
-                              user_type: '',
-                              password: '',
-                              confirmPassword: ''
+                              phone: ''
                });
+               const [message, setMessage] = useState('');
+               const [errors, setErrors] = useState({});
 
                const handleChange = (e) => {
-                              setFormData({ ...formData, [e.target.name]: e.target.value });
+                              setFormData({
+                                             ...formData,
+                                             [e.target.name]: e.target.value
+                              });
+
+                              // Clear error when user starts typing
+                              if (errors[e.target.name]) {
+                                             setErrors(prev => ({
+                                                            ...prev,
+                                                            [e.target.name]: null
+                                             }));
+                              }
+               };
+
+               const resetForm = () => {
+                              setFormData({
+                                             username: '',
+                                             email: '',
+                                             password: '',
+                                             confirmPassword: '',
+                                             first_name: '',
+                                             last_name: '',
+                                             phone: ''
+                              });
+               };
+
+               const validateForm = () => {
+                              const newErrors = {};
+                              if (!formData.username) newErrors.username = 'Username is required.';
+                              if (!formData.email) newErrors.email = 'Email is required.';
+                              if (!formData.password) newErrors.password = 'Password is required.';
+                              if (formData.password !== formData.confirmPassword) {
+                                             newErrors.confirmPassword = 'Passwords do not match.';
+                              }
+                              if (!formData.first_name) newErrors.first_name = 'First name is required.';
+                              if (!formData.last_name) newErrors.last_name = 'Last name is required.';
+                              setErrors(newErrors);
+                              return Object.keys(newErrors).length === 0;
                };
 
                const handleSubmit = async (e) => {
                               e.preventDefault();
-                              if (formData.password !== formData.confirmPassword) {
-                                             alert("Passwords do not match.");
+                              setMessage('');
+
+                              if (!validateForm()) {
+                                             setMessage('Please check all required fields.');
                                              return;
                               }
-                              try {
-                                             const response = await axios.post(
-                                                            '/api/signup', // Remove `/api`
-                                                            formData,
-                                                            { headers: { 'Content-Type': 'application/json' } }
-                                             );
 
-                                             alert(response.data.message);
+                              try {
+                                             const { confirmPassword, ...submitData } = formData;
+                                             const response = await axios.post('/api/signup', submitData);
+                                             setMessage('Account created successfully!');
+
+                                             // Store the user ID in localStorage or state management
+                                             localStorage.setItem('tempUserId', response.data.user.username);
+
+                                             // Redirect to user type selection
+                                             navigate('/user');
+
                               } catch (error) {
-                                             console.error(error.response?.data || error.message);
-                                             alert("Signup failed. Check your inputs.");
+                                             const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+                                             setMessage(errorMessage);
+                                             if (error.response?.data?.errors) {
+                                                            setErrors(error.response.data.errors);
+                                             }
                               }
                };
 

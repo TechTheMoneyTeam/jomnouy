@@ -2,9 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 
 Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
+Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
+Route::get('/projects/{id}', function () {
+    return view('welcome');
+})->where('id', '[^/]+');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,7 +36,10 @@ Route::get('/projectlist1', function () {
 Route::get('/projectsubmit', function () {
     return view('welcome');
 });
-use App\Http\Controllers\UserController;
+Route::get('/projects', function () {
+    return view('welcome');
+});
+
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);

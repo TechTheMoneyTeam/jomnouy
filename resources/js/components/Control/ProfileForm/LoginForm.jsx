@@ -32,22 +32,22 @@ const LoginForm = () => {
             const response = await axios.post('/api/login', formData);
             setMessage('Login successful!');
             console.log(response.data);
-            
+
             // Save user data to localStorage
             if (response.data.user) {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
             }
-            
+
             // Clear the form
             resetForm();
-            
+
             // Show success message briefly before redirecting
             setTimeout(() => {
                 navigate('/projectlist1'); // Redirect to home page
             }, 500); // Wait 0.5 second before redirecting
 
         } catch (error) {
-            setMessage('Incorrect credentials');
+            setMessage('Incorrect password');
             console.error('Login error:', error);
         }
     };
@@ -94,11 +94,11 @@ const LoginForm = () => {
                         <a href="#" className="text-end underline">Forgot password?</a>
                         <button type="submit" className="submit-btn">Login</button>
                         <div className="text-center mt-2 text-gray-500 text-xs">
-                                                                                                         <span>Don't have an account? </span>
-                                                                                                         <Link to="/signup" className="text-blue-600">
-                                                                                                                        Create account
-                                                                                                         </Link>
-                                                                                          </div>
+                            <span>Don't have an account? </span>
+                            <Link to="/signup" className="text-blue-600">
+                                Create account
+                            </Link>
+                        </div>
                     </form>
                     {message && (
                         <div className={`mt-4 text-center ${message.includes('successful') ? 'text-green-600' : 'text-red-600'}`}>

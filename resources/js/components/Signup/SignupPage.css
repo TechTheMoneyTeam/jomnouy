@@ -12,7 +12,7 @@
 }
 
 body {
-               @apply overflow-hidden font-[montserrate];
+               /* @apply overflow-hidden font-[montserrate]; */
 }
 
 .title {
