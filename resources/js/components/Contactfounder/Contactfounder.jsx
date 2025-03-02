@@ -107,7 +107,7 @@ const ContactFounder = ({ project, onClose }) => {
             ]));
             
             // Navigate to the notifications page
-            navigate("/notifications");
+            navigate("/noti");
         } catch (error) {
             console.error("Error submitting form:", error);
             setError("Failed to send message. Please try again later.");
