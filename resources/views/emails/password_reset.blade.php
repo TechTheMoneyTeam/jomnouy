@@ -52,7 +52,7 @@
         <h1>Reset Your Password</h1>
         <h2>ផ្លាស់ប្តូរពាក្យសម្ងាត់របស់អតិថិជន</h2>
         <p>You are receiving this email because we received a password reset request for your account.</p>
-        <p>អ្នកកំពុងទទួលអ៊ីមែលនេះ ព្រោះយើងបានទទួលសំណើផ្លាស់ប្តូរពាក្យសម្ងាត់សម្រាប់គណនីរបស់អ្នក។</p>
+        <p>អ្នកកំពុងទទួលអ៊ីមែលនេះ ព្រោះយើងបានទទួលសំណើផ្លាស់ប្តូរពាក្យសម្ងាត់សម្រាប់គណនីរបស់អតិថិជន។</p>
         <p>Click the button below to reset your password:</p>
         <p>សូមចុចប៊ូតុងខាងក្រោម ដើម្បីផ្លាស់ប្តូរពាក្យសម្ងាត់របស់អ្នក៖</p>
         <a href="http://localhost:8000/reset" class="btn">Reset Password | ផ្លាស់ប្តូរពាក្យសម្ងាត់</a>
