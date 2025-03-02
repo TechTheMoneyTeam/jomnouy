@@ -19,7 +19,7 @@ const Header = () => {
                     <Link to="/" className="logo">Jom<span className='nouy '>nouy</span></Link>
                     <div className="nav-links">
                         <Link 
-                            to="/home" 
+                            to="/" 
                             className={`nav-link ${location.pathname === '/home' ? 'active-link' : ''}`}
                         >
                             Home
@@ -36,7 +36,9 @@ const Header = () => {
                         >
                             About
                         </Link>
-                        <button className="login-button"><span>Login</span></button>
+                            <Link to="/login" className="login-button">
+                                                <span>Login</span>
+                                            </Link>
                     </div>
                     <div className="button-group">
                         

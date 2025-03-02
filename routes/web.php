@@ -16,6 +16,13 @@ Route::post('/api/settings/change-password1', [SettingsController::class, 'chang
 Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
 
+Route::get('/api/projects/type/{type}', [ProjectController::class, 'getProjectsByType']);
+Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
+Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
+
+Route::post('/api/projects/{id}', [ProjectController::class, 'update']);
+Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -66,6 +73,9 @@ Route::get('/noti', function () {
     return view('welcome');
 });
 Route::get('/followings', function () {
+    return view('welcome');
+});
+Route::get('/contact', function () {
     return view('welcome');
 });
 

@@ -35,6 +35,7 @@ class Project extends Model
         'created_at',
         'updated_at'
     ];
+    protected $with = ['user'];
 
     /**
      * Get the user that owns the project

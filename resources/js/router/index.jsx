@@ -17,6 +17,7 @@ import Following from '../components/Settings/Following';
 import ProjectSelectionForm from '../components/Projectsubmit/Projectselect';
 import MyProjects from '../components/Myproject/Myproject';
 import ProjectStartup from '../components/Projectsubmit/Projectstartup';
+import ContactFounder from '../components/Contactfounder/Contactfounder';
 
 
 
@@ -27,6 +28,7 @@ const Index = () => {
             <Routes>
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Service/>} />
+                <Route path="/" element={<Home />} />
                 
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
@@ -49,6 +51,7 @@ const Index = () => {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/reset" element={<ResetPassword />} />
+                <Route path="/contact" element={<ContactFounder />} />
             
                 <Route path="/followings" element={<Following />} />
                 <Route path="/noti" element={<Notification />} />

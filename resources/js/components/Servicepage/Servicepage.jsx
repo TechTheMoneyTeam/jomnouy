@@ -84,7 +84,7 @@ const Service = () => {
                     </Link>
                     <div className="nav-links">
                         <Link
-                            to="/home"
+                            to="/"
                             className={`nav-link ${location.pathname === "/home" ? "active-link" : ""}`}
                         >
                             Home

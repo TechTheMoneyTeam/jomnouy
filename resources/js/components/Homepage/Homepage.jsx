@@ -12,11 +12,11 @@ import {
 import axios from "axios";
 import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
+import ContactFounder from "../Contactfounder/Contactfounder"; // Update this path to your actual ContactFounder path
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
 
-    // Language Toggle Handler
     const toggleLanguage = () => {
         setLanguage((prev) => (prev === "en" ? "km" : "en"));
     };
@@ -47,7 +47,7 @@ const Home = () => {
                                       path.slice(2)}
                             </Link>
                         ))}
-                        <Link to="/projectlist" className="login-button">
+                        <Link to="/login" className="login-button">
                             <span>Login</span>
                         </Link>
                     </div>
@@ -66,7 +66,7 @@ const Home = () => {
                 </nav>
             </header>
         );
-    }
+    };
 
     const Hero = () => (
         <section className="hero">
@@ -74,27 +74,20 @@ const Home = () => {
             <div className="hero-content">
                 <div className="hero-text-section">
                     <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
-                    <p className="hero-description">របស់អ្នក</p>
-                    <p className="hero-description">ជាមួយ Jom-nouy</p>
-                    <Link to="/signup" className="hero-button">
-                        <button><span>ចាប់ផ្តើមឥឡូវនេះ ➜</span></button>
-                    </Link>
-
+                    <p className="hero-description">របស់អ្នកជាមួយ</p>
+                    <p className="hero-description2">
+                        "Jom<span>nouy"</span>
+                    </p>
+                    <a href="/signup" className="hero-button">
+                        ចាប់ផ្តើមឥឡូវនេះ ➜
+                    </a>
                 </div>
-
-                {/* Project Slider */}
-                <div className="project-slider">
-                    <div className="project-grid">
-                        {/* Display only the first 5 items at a time */}
-                        {projectsQueue.slice(0, itemsPerRow).map((project) => (
-                            <div key={project.id} className="project-card">
-                                <img src={project.image} alt={project.title} className="project-image" />
-                                <h3 className="project-title">{project.title}</h3>
-                                <p className="project-username">By {project.username}</p>
-                                <p className="project-description">{project.description}</p>
-                            </div>
-                        ))}
-                    </div>
+                <div className="hero-image-wrapper">
+                    <img
+                        src="/img/hero.png"
+                        alt="Illustration of investment opportunities"
+                        className="analytics-image"
+                    />
                 </div>
             </div>
         </section>
@@ -179,18 +172,18 @@ const Home = () => {
                     {visibleProjects.map((project, index) => (
                         <div key={index} className={"project-card"}>
                             <img
-                                src={project.project_img}
+                                src={project.project_img_url}
                                 alt={project.title}
                                 className="project-image w-full h-40 object-cover rounded-lg"
                             />
                             <h3 className="project-title text-lg font-bold mt-3">
-                                {project.title}
+                                Project: {project.title}
                             </h3>
                             <p className="project-username text-gray-500">
-                                By {project.username}
+                                By {project.user ? project.user.name : 'Unknown User'}
                             </p>
                             <p className="project-description2">
-                                {project.project_des}
+                               Description: {project.project_des}
                             </p>
                         </div>
                     ))}
@@ -198,33 +191,56 @@ const Home = () => {
 
                 {/* Explore More Button */}
                 <div className="flex justify-center mt-8">
-                    <button className="explore-btn">Explore More</button>
+                  
+                    <Link to="/projectlist1" className="explore-btn">
+                            <span>Explore More</span>
+                        </Link>
                 </div>
             </div>
         );
     };
 
-
-   
-
-    
     const Startup = () => {
-        const projectData = {
-            title: "Smart Water Quality Monitoring System",
-            description: "A network of IoT sensors that continuously monitor water bodies for contamination, pH levels, and pollutants. It could be useful for both environmental agencies and households in flood-prone areas.",
-            type: "Technology",
-            investmentGoal: "1,000,000 $",
-            minInvestment: "800,000 $",
-        };
-    
+        const [projects, setProjects] = useState([]);
+        const [currentIndex, setCurrentIndex] = useState(0);
+        const [loading, setLoading] = useState(true);
+        const [error, setError] = useState(null);
+        const [showContactModal, setShowContactModal] = useState(false); // Added this line for contact modal
+
+        useEffect(() => {
+            const fetchStartups = async () => {
+                try {
+                    // Assuming you have an API endpoint that filters startup projects
+                    const response = await axios.get("/api/projects?type=startup");
+                    setProjects(response.data);
+                    setError(null);
+                } catch (error) {
+                    console.error("Error fetching startup projects:", error);
+                    setError("Failed to load startup projects");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchStartups();
+        }, []);
+
+        if (loading) return <p className="text-center">Loading startups...</p>;
+        if (error) return <p className="text-center">{error}</p>;
+        if (projects.length === 0) return <p className="text-center">No startup projects available.</p>;
+
         const handlePrev = () => {
-            console.log("Previous project");
+            setCurrentIndex((prevIndex) =>
+                prevIndex === 0 ? projects.length - 1 : prevIndex - 1
+            );
         };
-    
+
         const handleNext = () => {
-            console.log("Next project");
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
         };
-    
+
+        const currentProject = projects[currentIndex];
+
         return (
             <div className="startup-container">
                 <div className="container-title">Popular <span>Start-Up</span> Project</div>
@@ -232,29 +248,43 @@ const Home = () => {
                     <button onClick={handlePrev} className="arrow-button left">←</button>
                     <div className="image-container">
                         <img 
-                            src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg" 
-                            alt="Smart Water Quality Monitoring System" 
+                            src={currentProject.project_img_url} 
+                            alt={currentProject.title} 
                             className="image" 
                         />
                     </div>
                     <div className="text-container">
-                        <h2 className="project-title">{projectData.title}</h2>
-                        <p className="project-description">{projectData.description}</p>
-                        <p className="project-type">{projectData.type}</p>
-                        <p className="project-goal"><strong>Investment Goal:</strong> {projectData.investmentGoal}</p>
-                        <p className="project-min"><strong>Min Investment:</strong> {projectData.minInvestment}</p>
+                        <h2 className="project-title">{currentProject.title}</h2>
+                        <p className="project-description">{currentProject.project_des}</p>
+                        <p className="project-type">{currentProject.project_type}</p>
+                        <p className="project-goal"><strong>Investment Goal:</strong> {currentProject.funding_goal}</p>
+                        <p className="project-min"><strong>Min Investment:</strong> {currentProject.reserve_price}</p>
                         
                         <div className="button-container">
-                            <button className="button1">Contact Founder</button>
-                            <button className="button2">See More</button>
+                            <button 
+                                onClick={() => setShowContactModal(true)} 
+                                className="button1"
+                            >
+                                <span>Contact Founder</span>
+                            </button>
+                            <Link to="/projectlist1" className="button2">
+                                <span>See More</span>
+                            </Link>
                         </div>
                     </div>
                     <button onClick={handleNext} className="arrow-button right">→</button>
                 </div>
+
+                {/* Contact Founder Modal */}
+                {showContactModal && currentProject && (
+                    <ContactFounder 
+                        project={currentProject} 
+                        onClose={() => setShowContactModal(false)} 
+                    />
+                )}
             </div>
         );
     };
-    ;
 
     const Footer = () => (
         <footer className="footer">

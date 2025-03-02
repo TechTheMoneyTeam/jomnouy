@@ -1,13 +1,80 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar2 from "../Navbar/Navbarforsubmit";
 import { Link } from "react-router-dom";
+import { Bell, Mail, User } from "lucide-react";
 import Styles from "./SettingsCSS/Notification.module.css"; 
 
 const Notification = () => {
-    const [notifications] = useState([
-    
-    ]);
+    const [notifications, setNotifications] = useState([]);
     const [notifEnabled, setNotifEnabled] = useState(true);
+
+    // Load notifications from localStorage on component mount
+    useEffect(() => {
+        const storedNotifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+        setNotifications(storedNotifications);
+    }, []);
+
+    // Mark notification as read
+    const markAsRead = (index) => {
+        const updatedNotifications = [...notifications];
+        updatedNotifications[index].read = true;
+        setNotifications(updatedNotifications);
+        localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
+    };
+
+    // Format date for display
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    // Render notification based on type
+    const renderNotification = (notification, index) => {
+        switch(notification.type) {
+            case "contact_request":
+                return (
+                    <div 
+                        key={index} 
+                        className={`${Styles.notificationCard} ${notification.read ? Styles.read : Styles.unread}`}
+                        onClick={() => markAsRead(index)}
+                    >
+                        <div className={Styles.notificationIcon}>
+                            <Mail size={24} />
+                        </div>
+                        <div className={Styles.notificationContent}>
+                            <p className={Styles.notificationText}>
+                                You contacted <strong>{notification.founder}</strong> regarding <strong>{notification.project}</strong>
+                            </p>
+                            <p className={Styles.notificationTime}>{formatDate(notification.date)}</p>
+                        </div>
+                        {!notification.read && <div className={Styles.unreadDot}></div>}
+                    </div>
+                );
+            default:
+                return (
+                    <div 
+                        key={index} 
+                        className={`${Styles.notificationCard} ${notification.read ? Styles.read : Styles.unread}`}
+                        onClick={() => markAsRead(index)}
+                    >
+                        <div className={Styles.notificationIcon}>
+                            <Bell size={24} />
+                        </div>
+                        <div className={Styles.notificationContent}>
+                            <p className={Styles.notificationText}>{notification.message || "New notification"}</p>
+                            <p className={Styles.notificationTime}>{formatDate(notification.date)}</p>
+                        </div>
+                        {!notification.read && <div className={Styles.unreadDot}></div>}
+                    </div>
+                );
+        }
+    };
 
     return (
         <>
@@ -40,9 +107,11 @@ const Notification = () => {
 
                 <div className={Styles.list}>
                     {notifEnabled ? (
-                        notifications.map((notif, index) => (
-                            <div key={index} className={Styles.notificationCard}>{notif}</div>
-                        ))
+                        notifications.length > 0 ? (
+                            notifications.map((notification, index) => renderNotification(notification, index))
+                        ) : (
+                            <p className={Styles.emptyMessage}>No notifications yet.</p>
+                        )
                     ) : (
                         <p className={Styles.disabledMessage}>Notifications are turned off.</p>
                     )}

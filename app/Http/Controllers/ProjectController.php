@@ -133,6 +133,7 @@ class ProjectController extends Controller
             }
 
             $projects = Project::where('user_id', $userId)
+                             ->with('user')
                              ->orderBy('created_at', 'desc')
                              ->get();
 
@@ -151,11 +152,171 @@ class ProjectController extends Controller
     public function index()
     {
         try {
-            // Fetch all projects
-            $projects = Project::all();
+            // Fetch all projects with user relationship
+            $projects = Project::with('user')->get();
             return response()->json($projects, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch projects: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getProjectsByType($type)
+    {
+        try {
+            // Fetch projects by type
+            $projects = Project::where('project_type', $type)
+                         ->with('user')
+                         ->orderBy('created_at', 'desc')
+                         ->get();
+            
+            return response()->json($projects, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch projects by type: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $project = Project::with('user')->find($id);
+            
+            if (!$project) {
+                return response()->json([
+                    'message' => 'Project not found'
+                ], 404);
+            }
+            
+            return response()->json($project, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch project: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $project = Project::find($id);
+            
+            if (!$project) {
+                return response()->json([
+                    'message' => 'Project not found'
+                ], 404);
+            }
+            
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'title' => 'nullable|string|max:100',
+                'funding_goal' => 'nullable|numeric',
+                'project_type' => 'nullable|string|max:20',
+                'project_des' => 'nullable|string|max:1000',
+                'project_story' => 'nullable|string|max:1000',
+                'project_img' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+                'project_video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:20480',
+                'reserve_price' => 'nullable|numeric',
+                'categories' => 'nullable|string|max:100',
+                'member_name' => 'nullable|string|max:100',
+                'member_position' => 'nullable|string|max:100',
+                'project_location' => 'nullable|string|max:200',
+                'status' => 'nullable|string|max:20',
+                'auction_start_date' => 'nullable|date',
+                'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+            
+            // Update fields if provided
+            if ($request->has('title')) $project->title = $request->title;
+            if ($request->has('funding_goal')) $project->funding_goal = $request->funding_goal;
+            if ($request->has('project_type')) $project->project_type = $request->project_type;
+            if ($request->has('project_des')) $project->project_des = $request->project_des;
+            if ($request->has('project_story')) $project->project_story = $request->project_story;
+            if ($request->has('reserve_price')) $project->reserve_price = $request->reserve_price;
+            if ($request->has('categories')) $project->categories = $request->categories;
+            if ($request->has('member_name')) $project->member_name = $request->member_name;
+            if ($request->has('member_position')) $project->member_position = $request->member_position;
+            if ($request->has('project_location')) $project->project_location = $request->project_location;
+            if ($request->has('status')) $project->status = $request->status;
+            if ($request->has('auction_start_date')) $project->auction_start_date = $request->auction_start_date;
+            if ($request->has('auction_end_date')) $project->auction_end_date = $request->auction_end_date;
+            
+            // Handle project image upload
+            if ($request->hasFile('project_img')) {
+                // Delete old image if exists
+                if ($project->project_img) {
+                    Storage::disk('public')->delete($project->project_img);
+                }
+                
+                $imagePath = $request->file('project_img')->store('project_images', 'public');
+                $project->project_img = $imagePath;
+            }
+
+            // Handle project video upload
+            if ($request->hasFile('project_video')) {
+                // Delete old video if exists
+                if ($project->project_video) {
+                    Storage::disk('public')->delete($project->project_video);
+                }
+                
+                $videoPath = $request->file('project_video')->store('project_videos', 'public');
+                $project->project_video = $videoPath;
+            }
+            
+            $project->updated_at = now();
+            $project->save();
+            
+            // Load the user relationship
+            $project->load('user');
+            
+            return response()->json([
+                'message' => 'Project updated successfully',
+                'project' => $project
+            ], 200);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Project update failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $project = Project::find($id);
+            
+            if (!$project) {
+                return response()->json([
+                    'message' => 'Project not found'
+                ], 404);
+            }
+            
+            // Delete associated files
+            if ($project->project_img) {
+                Storage::disk('public')->delete($project->project_img);
+            }
+            
+            if ($project->project_video) {
+                Storage::disk('public')->delete($project->project_video);
+            }
+            
+            // Delete the project
+            $project->delete();
+            
+            return response()->json([
+                'message' => 'Project deleted successfully'
+            ], 200);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Project deletion failed',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }
