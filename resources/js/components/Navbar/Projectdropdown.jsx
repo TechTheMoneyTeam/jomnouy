@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 const DropdownMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [username, setUsername] = useState('');
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [loading, setLoading] = useState(true);
     const dropdownRef = useRef(null); 
 
     useEffect(() => {
@@ -11,8 +13,27 @@ const DropdownMenu = () => {
         if (userData) {
             const user = JSON.parse(userData);
             setUsername(user.username);
+            fetchProfileData(user.username);
+        } else {
+            setLoading(false);
         }
     }, []);
+
+    const fetchProfileData = async (username) => {
+        try {
+            setLoading(true);
+            const response = await fetch(`/api/profile?username=${username}`);
+            const data = await response.json();
+            
+            if (data.success && data.profile.profile_picture) {
+                setProfilePicture(data.profile.profile_picture);
+            }
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -31,14 +52,23 @@ const DropdownMenu = () => {
         };
     }, []);
 
+    const getProfileImageSrc = () => {
+        if (loading) {
+            return "/img/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"; // Use default while loading
+        }
+        
+        return profilePicture ? `/storage/${profilePicture}` : "/img/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"; // Default image
+    };
+
     return (
         <div className="relative" ref={dropdownRef}>
             <div onClick={toggleDropdown} className="flex items-center cursor-pointer">
                 <p className="text-lg font-light text-black">{username}</p>
                 <img
                     className="avatar-image w-10 h-10 rounded-full object-cover ml-2"
-                    src="/img/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
-                    alt="User avatar"
+                    src={getProfileImageSrc()}
+                    alt={`${username}'s avatar`}
+                    style={{ border: '2px solid #ccc' }} // Optional: Add a border for better visibility
                 />
             </div>
             {isOpen && (

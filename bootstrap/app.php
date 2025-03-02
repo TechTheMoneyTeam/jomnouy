@@ -20,7 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'http://localhost:8000/*',
             'http://127.0.0.1:8000/api/settings/change-password',
             'http://127.0.0.1:8000/api/settings/change-password1',
-            'http://localhost:8000/api/settings/change-password'
+            'http://localhost:8000/api/settings/change-password',
+            'http://127.0.0.1:8000/api/profile/update'
+
             
             
         ]);
