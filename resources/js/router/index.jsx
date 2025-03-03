@@ -18,7 +18,7 @@ import ProjectSelectionForm from '../components/Projectsubmit/Projectselect';
 import MyProjects from '../components/Myproject/Myproject';
 import ProjectStartup from '../components/Projectsubmit/Projectstartup';
 import ContactFounder from '../components/Contactfounder/Contactfounder';
-
+import ProjectDetails from '../components/Projects/projectDetails';
 
 
 
@@ -36,6 +36,7 @@ const Index = () => {
                 <Route path="/startup" element={<ProjectStartup />} />
                 <Route path="/create" element={<ProjectSelectionForm />} />
                 <Route path="/my-project" element={<MyProjects />} />
+                <Route path="/projects/:id" element={<ProjectDetails />} />
 
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
