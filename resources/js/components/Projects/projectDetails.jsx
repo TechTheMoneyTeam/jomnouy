@@ -79,12 +79,27 @@ const ProjectDetails = () => {
                 setCommentCount(projectComments.length);
                 setDaysRemaining(getDaysRemaining(projectData.auction_end_date));
                 setLoading(false);
+
+                // Fetch total amount invested from the Investment table
+                axios.get(`/api/projects/${id}/investments/total`)
+                    .then(response => {
+                        const totalAmount = response.data.total_amount || 0;
+                        setTotalInvested(totalAmount);
+                        setInvestmentProgress(
+                            projectData.funding_goal 
+                            ? Math.min((totalAmount / projectData.funding_goal) * 100, 100) 
+                            : 0
+                        );
+                    })
+                    .catch(error => {
+                        console.error('Error fetching total investment:', error);
+                    });
             })
             .catch(() => {
                 setError('Project not found');
                 setLoading(false);
             });
-        
+
         axios.get('/api/projects')
             .then(response => {
                 setAllProjects(response.data);
@@ -93,21 +108,6 @@ const ProjectDetails = () => {
             .catch(error => {
                 console.error('Error fetching projects:', error);
                 setLoading(false);
-            });
-
-        // Fetch total amount invested from the Investment table
-        axios.get(`/api/investments/total/${id}`)
-            .then(response => {
-                const totalAmount = response.data.total_amount || 0;
-                setTotalInvested(totalAmount);
-                setInvestmentProgress(
-                    projectData.funding_goal 
-                    ? Math.min((totalAmount / projectData.funding_goal) * 100, 100) 
-                    : 0
-                );
-            })
-            .catch(error => {
-                console.error('Error fetching total investment:', error);
             });
     }, [id]);
 

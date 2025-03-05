@@ -137,32 +137,24 @@ class InvestmentController extends Controller
             'investments' => $investments
         ]);
     }
+
     public function getProjectTotalInvestment($projectId)
-{
-    try {
-        // Find the most recent investment for the project to get the total amount
-        $latestInvestment = Investment::where('project_id', $projectId)
-            ->orderByDesc('created_at')
-            ->first();
+    {
+        try {
+            // Calculate the total investment amount for the project
+            $totalAmount = Investment::where('project_id', $projectId)->sum('amount');
 
-        if (!$latestInvestment) {
             return response()->json([
-                'total_amount' => 0,
-                'message' => 'No investments found for this project'
+                'total_amount' => $totalAmount,
+                'project_id' => $projectId
             ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching project total investment: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'Failed to retrieve total investment',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json([
-            'total_amount' => $latestInvestment->total_amount ?? 0,
-            'project_id' => $projectId
-        ]);
-    } catch (\Exception $e) {
-        \Log::error('Error fetching project total investment: ' . $e->getMessage());
-
-        return response()->json([
-            'error' => 'Failed to retrieve total investment',
-            'message' => $e->getMessage()
-        ], 500);
     }
-}
 }
