@@ -70,7 +70,7 @@ const InvestmentForm = ({
             }
 
             setAmount('');
-            alert('Investment successful!');
+       
         } catch (err) {
             setError(
                 err.response?.data?.error || 
