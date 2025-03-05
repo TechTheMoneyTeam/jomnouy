@@ -4,11 +4,12 @@ import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
 import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
+import InvestmentForm from './InvestmentForm'; // Import the InvestmentForm
 import { FaRegBookmark } from "react-icons/fa6";
 import { RxBookmark } from "react-icons/rx";
 import { PiShareFat } from "react-icons/pi";
 import { FaRegClock } from "react-icons/fa";
-import FAQAccordion from "../tab_bar/faq"
+import FAQAccordion from "../tab_bar/faq";
 
 const getDaysSinceCreation = (createdAt) => {
     const created = new Date(createdAt);
@@ -23,25 +24,13 @@ const getDaysRemaining = (endDate) => {
     if (!endDate) return 0;
     
     try {
-        // Make sure to parse the date correctly
         const end = new Date(endDate);
         const now = new Date();
-        
-        // Check if the date is valid
         if (isNaN(end.getTime())) return 0;
-        
-        // If the auction has already ended, return 0
         if (now > end) return 0;
         
         const diffTime = end - now;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        // For debugging
-        console.log("End date:", end);
-        console.log("Now:", now);
-        console.log("Diff time:", diffTime);
-        console.log("Diff days:", diffDays);
-        
         return diffDays > 0 ? diffDays : 0;
     } catch (error) {
         console.error("Error calculating days remaining:", error);
@@ -72,7 +61,10 @@ const ProjectDetails = () => {
     const [projectStory, setProjectStory] = useState("");
     const [faq, setFaq] = useState([]);
     const [daysRemaining, setDaysRemaining] = useState(0);
-    const [commentCount, setCommentCount] = useState(0); // Add state for comment count
+    const [commentCount, setCommentCount] = useState(0); 
+    const [showInvestmentModal, setShowInvestmentModal] = useState(false); // State for investment modal
+    const [totalInvested, setTotalInvested] = useState(0); // State for total invested
+    const [investmentProgress, setInvestmentProgress] = useState(0); // State for investment progress
     const tabRef = useRef();
 
     useEffect(() => {
@@ -80,18 +72,19 @@ const ProjectDetails = () => {
             .then(response => {
                 const projectData = response.data;
                 setProject(projectData);
-                // Use project_story field from the model
                 setProjectStory(projectData.project_story || "No story available for this project.");
                 setFaq(projectData.faq || []);
-                
-                // Set comments and update comment count
                 const projectComments = projectData.comments || [];
                 setComments(projectComments);
                 setCommentCount(projectComments.length);
-                
-                // Calculate days remaining for auction
                 setDaysRemaining(getDaysRemaining(projectData.auction_end_date));
-                
+                const investedAmount = projectData.total_invested || 0; // Assuming this is part of project data
+                setTotalInvested(investedAmount);
+                setInvestmentProgress(
+                    projectData.funding_goal 
+                    ? Math.min((investedAmount / projectData.funding_goal) * 100, 100) 
+                    : 0
+                );
                 setLoading(false);
             })
             .catch(() => {
@@ -110,7 +103,17 @@ const ProjectDetails = () => {
             });
     }, [id]);
 
-    // Add a listener for comment updates from CommentSection
+    const handleInvestmentSuccess = (investmentData) => {
+        const newTotalInvested = investmentData.total_invested || 0;
+        setTotalInvested(newTotalInvested);
+        setInvestmentProgress(
+            project.funding_goal 
+            ? Math.min((newTotalInvested / project.funding_goal) * 100, 100) 
+            : 0
+        );
+        setShowInvestmentModal(false); // Close the modal on success
+    };
+
     const handleCommentsUpdate = (updatedComments) => {
         setComments(updatedComments);
         setCommentCount(updatedComments.length);
@@ -166,20 +169,16 @@ const ProjectDetails = () => {
                                             <RxBookmark />
                                         </div>
                                     </div>
-
                                     <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
                                         <div className="flex items-center mr-4">
                                             <FaRegClock className="w-4 h-4 mr-1 text-black/70" />
                                             <span className='text-black/70 font-semibold overflow-hidden whitespace-nowrap text-ellipsis'>{getDaysSinceCreation(project.created_at) }
                                                 <span className='font-medium'>  days ago • </span>
                                                  {project.categories || 0}
-                                                <span className='font-medium'>
-                                                    
-                                                </span>
+                                                <span className='font-medium'></span>
                                             </span>
                                         </div>
                                     </div>
-                            
                                 </div>
                             </div>
                         ))
@@ -210,14 +209,40 @@ const ProjectDetails = () => {
                     </div>
 
                     <div className="right-container p-4">
-                        <ProgressBar progress={70} />
-                        <p className="text-funding mt-2 text-gray-600">US$ {project.funding_goal?.toLocaleString()}</p>
+                        <ProgressBar progress={investmentProgress} />
+                        <p className="text-funding mt-2 text-gray-600">US$ {totalInvested.toLocaleString()}</p>
                         <p className="mt-2 text-gray-600">Pledged of US$ {project.funding_goal?.toLocaleString()} goal</p>
                         <p className="mt-2 text-gray-600 text-2xl font-medium">129</p>
                         <p className="mt-1 text-gray-600">Backers</p>
                         <p className="mt-6 text-gray-600 text-2xl font-medium">{daysRemaining}</p>
                         <p className="mt-1 text-gray-600">Days Remaining</p>
-                        <button className="invest-button">Invest in this project</button>
+                        
+                        <button 
+                            className="invest-button"
+                            onClick={() => setShowInvestmentModal(true)}
+                        >
+                            Invest in this project
+                        </button>
+
+                        {showInvestmentModal && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                <div className="bg-white p-6 rounded-lg shadow-xl relative w-full max-w-md">
+                                    <button 
+                                        className="absolute top-4 right-4 text-2xl"
+                                        onClick={() => setShowInvestmentModal(false)}
+                                    >
+                                        &times;
+                                    </button>
+                                    <InvestmentForm 
+                                        projectId={project.project_id}
+                                        fundingGoal={project.funding_goal}
+                                        currentTotalInvested={totalInvested}
+                                        onInvestmentSuccess={handleInvestmentSuccess}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
                             <button className="action-buttons">
@@ -240,7 +265,6 @@ const ProjectDetails = () => {
                             onClick={() => setActiveTab(tab)}
                         >
                             {tab.toUpperCase()}
-                            {/* Show comment count only for the "comment" tab */}
                             {tab === "comment" && (
                                 <span className="num-comment">
                                     {commentCount}
@@ -253,7 +277,6 @@ const ProjectDetails = () => {
                     {activeTab === "story" && (
                         <div className="tab-content flex min-h-screen flex-col">
                             <div className="max-w-2xl text-left">
-                                {/* Display the project_story field here */}
                                 <div dangerouslySetInnerHTML={{ __html: projectStory }} />
                             </div>
 

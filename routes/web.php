@@ -16,6 +16,11 @@ Route::post('/api/settings/change-password1', [SettingsController::class, 'chang
 Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
 
+use App\Http\Controllers\InvestmentController;
+
+Route::post('/api/projects/{id}/invest', [InvestmentController::class, 'invest']);
+Route::get('/api/projects/{id}/investments', [InvestmentController::class, 'projectInvestments']);
+
 
 
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
