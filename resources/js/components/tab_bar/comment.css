@@ -2,9 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-area {
-               @apply w-full h-12 bg-transparent  text-lg border-none resize-none focus:outline-none;
+/* Remove default focus styles */
+[type="text"],
+textarea,
+select {
+               border: 1px solid transparent;
+               /* No border by default */
 }
-.text-area:focus {
-               @apply border-b focus:border-green-500;
+
+/* Apply a blue border only when clicked (focused) */
+[type="text"]:focus,
+textarea:focus,
+select:focus {
+               /* border-color: green !important; */
+               outline: none !important;
+               /* Remove default focus outline */
 }

@@ -15,6 +15,7 @@ const CommentSection = () => {
                                              hasEmojis: true,
                                              likes: 25,
                                              liked: false,
+                                             replies: []
                               },
                               {
                                              id: 2,
@@ -24,6 +25,7 @@ const CommentSection = () => {
                                              content: 'hi🙏',
                                              likes: 23,
                                              liked: false,
+                                             replies: []
                               },
                               {
                                              id: 3,
@@ -35,6 +37,7 @@ const CommentSection = () => {
                                              hasLeftBorder: true,
                                              likes: 10,
                                              liked: false,
+                                             replies: []
                               },
                ];
 
@@ -44,7 +47,9 @@ const CommentSection = () => {
                const handleLikeClick = (id) => {
                               setCommentData(prevComments =>
                                              prevComments.map((comment) =>
-                                                            comment.id === id ? { ...comment, liked: !comment.liked, likes: comment.liked ? comment.likes - 1 : comment.likes + 1 } : comment
+                                                            comment.id === id
+                                                                           ? { ...comment, liked: !comment.liked, likes: comment.liked ? comment.likes - 1 : comment.likes + 1 }
+                                                                           : comment
                                              )
                               );
                };
@@ -59,47 +64,95 @@ const CommentSection = () => {
                                                             content: newComment,
                                                             likes: 0,
                                                             liked: false,
+                                                            replies: []
                                              };
                                              setCommentData(prevComments => [newCommentObj, ...prevComments]);
                                              setNewComment(''); // Clear the input field
                               }
                };
 
-               return (
-                              <div className='max-w-3xl mx-auto mt-8' >
-                                             <div className="bg-[#C0C0C0]/[0.20] p-8 rounded-xl mt-4">
-                                                            <div className="flex items-start space-x-2 mb-2">
+               const handleAddReply = (commentId, replyText) => {
+                              setCommentData(prevComments =>
+                                             prevComments.map(comment =>
+                                                            comment.id === commentId
+                                                                           ? {
+                                                                                          ...comment,
+                                                                                          replies: [
+                                                                                                         ...comment.replies,
+                                                                                                         {
+                                                                                                                        id: comment.replies.length + 1,
+                                                                                                                        username: 'New User', // Replace with actual username logic
+                                                                                                                        timeAgo: 'Just now',
+                                                                                                                        content: replyText,
+                                                                                                                        likes: 0,
+                                                                                                                        liked: false
+                                                                                                         }
+                                                                                          ]
+                                                                           }
+                                                                           : comment
+                                             )
+                              );
+               };
 
-                                                                           <textarea
-                                                                                          placeholder="Add comment..."
-                                                                                          className="text-area"
-                                                                                          value={newComment}
-                                                                                          onChange={(e) => setNewComment(e.target.value)}
-                                                                           />
+               return (
+                              <div className='max-w-3xl mx-auto mt-8'>
+                                             <div className="w-full bg-[#C0C0C0]/[0.10] p-4 flex items-center justify-between rounded-lg">
+                                                            <div className="flex items-center flex-1">
+                                                                           <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
+                                                                                          <FaUserCircle size={32} className="text-gray-500" />
+                                                                           </div>
+                                                                           <div className="flex-1 relative p-4">
+                                                                                          <input
+                                                                                                         type="text"
+                                                                                                         placeholder="Add a comment ...."
+                                                                                                         className="w-full bg-transparent text-black pl-3 py-2 outline-none text-sm rounded-lg border border-gray-300 focus:border-red-500"
+                                                                                                         value={newComment}
+                                                                                                         onChange={(e) => setNewComment(e.target.value)}
+                                                                                          />
+                                                                           </div>
                                                             </div>
-                                                            <button
-                                                                           onClick={handleAddComment}
-                                                                           className="bg-[#F07900] text-white rounded-full px-4 py-2 text-sm mt-4 font-medium"
-                                                            >
-                                                                           Submit
-                                                            </button>
+                                                            <div className="flex items-center">
+                                                                           <button
+                                                                                          onClick={handleAddComment}
+                                                                                          className={`px-8 py-2 rounded-full ${newComment.length > 0
+                                                                                                         ? 'bg-[#F07900] text-white hover:bg-gray-600'
+                                                                                                         : 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                                                                                                         }`}
+                                                                                          disabled={newComment.length === 0}
+                                                                           >
+                                                                                          Send
+                                                                           </button>
+                                                            </div>
                                              </div>
                                              <hr className='mt-4 mb-4' />
-                                             <div className="bg-white-500 p-8 rounded-sm mt-4"> {/* Blue background for comment section */}
+                                             <div className="bg-white-500 p-8 rounded-sm mt-4">
                                                             {commentData.map((comment) => (
-                                                                           <Comment key={comment.id} comment={comment} onLikeClick={handleLikeClick} />
+                                                                           <Comment
+                                                                                          key={comment.id}
+                                                                                          comment={comment}
+                                                                                          onLikeClick={handleLikeClick}
+                                                                                          onAddReply={handleAddReply}
+                                                                           />
                                                             ))}
                                              </div>
                               </div>
                );
 };
 
-const Comment = ({ comment, onLikeClick }) => {
+const Comment = ({ comment, onLikeClick, onAddReply }) => {
                const [replyVisible, setReplyVisible] = useState(false);
                const [reply, setReply] = useState('');
 
                const handleReplyToggle = () => {
                               setReplyVisible(prev => !prev);
+               };
+
+               const handleReplySubmit = () => {
+                              if (reply.trim()) {
+                                             onAddReply(comment.id, reply);
+                                             setReply('');
+                                             setReplyVisible(false);
+                              }
                };
 
                return (
@@ -150,7 +203,7 @@ const Comment = ({ comment, onLikeClick }) => {
                                                                                                                                                                      animate={{ opacity: 1, scale: 0.8 }}
                                                                                                                                                                      exit={{ opacity: 0, scale: 0.8 }}
                                                                                                                                                                      transition={{ duration: 0.3 }}
-                                                                                                                                                                     onClick={() => setReplyVisible(false)}
+                                                                                                                                                                     onClick={handleReplySubmit}
                                                                                                                                                                      className="bg-[#F07900] text-white text-sm font-semibold rounded-full px-6 py-2"
                                                                                                                                                       >
                                                                                                                                                                      Reply
@@ -160,6 +213,20 @@ const Comment = ({ comment, onLikeClick }) => {
                                                                                                          </motion.div>
                                                                                           )}
                                                                            </div>
+                                                                                          {/* Nested Replies */}
+                                                                                          {comment.replies && comment.replies.length > 0 && (
+                                                                                                         <div className="ml-10 mt-4">
+                                                                                                                        {comment.replies.map((reply) => (
+                                                                                                                                       <div key={reply.id} className="mb-2 p-2 bg-gray-50 rounded-sm">
+                                                                                                                                                      <div className="flex items-center">
+                                                                                                                                                                     <span className="font-medium text-sm mr-2">{reply.username}</span>
+                                                                                                                                                                     <span className="text-gray-500 text-xs">{reply.timeAgo}</span>
+                                                                                                                                                      </div>
+                                                                                                                                                      <div className="text-gray-800 text-sm">{reply.content}</div>
+                                                                                                                                       </div>
+                                                                                                                        ))}
+                                                                                                         </div>
+                                                                                          )}
                                                                            <div className="flex items-center justify-end space-x-2 mt-4">
                                                                                           <button
                                                                                                          className="flex items-center px-2 py-1 rounded transition-colors duration-200 hover:text-[#F07900]/[0.50]"

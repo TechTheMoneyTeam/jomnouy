@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebook } from "react-icons/fa";
 import axios from 'axios';
 import './SignupPage.css';
-
 const SignUpCard = () => {
                const navigate = useNavigate();
                const [formData, setFormData] = useState({

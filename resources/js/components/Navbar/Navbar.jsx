@@ -2,19 +2,16 @@ import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 import { IoSearchOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-
 const categories = [
                'Music', 'Sport', 'Technologies', 'Art', 'Fashions', 'Games',
                'Theater', 'Publishing', 'Design', 'Food & Beverage',
                'Health & Fitness', 'Education', 'Photograph'
 ];
-
 const CategoryItem = ({ category }) => (
                <div className="category-item">
                               <a href="#" className="text-semibold">{category}</a>
                </div>
 );
-
 const CategoryList = () => {
                return (
                               <div className="categories-container py-4 flex space-x-4">
