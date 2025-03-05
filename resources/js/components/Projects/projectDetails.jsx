@@ -78,13 +78,6 @@ const ProjectDetails = () => {
                 setComments(projectComments);
                 setCommentCount(projectComments.length);
                 setDaysRemaining(getDaysRemaining(projectData.auction_end_date));
-                const investedAmount = projectData.total_invested || 0; // Assuming this is part of project data
-                setTotalInvested(investedAmount);
-                setInvestmentProgress(
-                    projectData.funding_goal 
-                    ? Math.min((investedAmount / projectData.funding_goal) * 100, 100) 
-                    : 0
-                );
                 setLoading(false);
             })
             .catch(() => {
@@ -100,6 +93,21 @@ const ProjectDetails = () => {
             .catch(error => {
                 console.error('Error fetching projects:', error);
                 setLoading(false);
+            });
+
+        // Fetch total amount invested from the Investment table
+        axios.get(`/api/investments/total/${id}`)
+            .then(response => {
+                const totalAmount = response.data.total_amount || 0;
+                setTotalInvested(totalAmount);
+                setInvestmentProgress(
+                    projectData.funding_goal 
+                    ? Math.min((totalAmount / projectData.funding_goal) * 100, 100) 
+                    : 0
+                );
+            })
+            .catch(error => {
+                console.error('Error fetching total investment:', error);
             });
     }, [id]);
 

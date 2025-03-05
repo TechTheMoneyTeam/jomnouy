@@ -20,6 +20,7 @@ use App\Http\Controllers\InvestmentController;
 
 Route::post('/api/projects/{id}/invest', [InvestmentController::class, 'invest']);
 Route::get('/api/projects/{id}/investments', [InvestmentController::class, 'projectInvestments']);
+Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
 
 
 

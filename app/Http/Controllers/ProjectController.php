@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -148,6 +149,8 @@ class ProjectController extends Controller
             ], 500);
         }
     }
+
+   
     
     public function index()
     {
@@ -190,6 +193,7 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch project: ' . $e->getMessage()], 500);
         }
+        
     }
 
     public function update(Request $request, $id)

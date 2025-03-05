@@ -33,20 +33,33 @@ class InvestmentController extends Controller
 
             // Start database transaction
             return DB::transaction(function () use ($validatedData, $project) {
-                // Create investment
+                // Calculate total investment for the project before adding new investment
+                $previousTotalInvestment = Investment::where('project_id', $project->project_id)
+                    ->sum('amount');
+                
+                // Calculate new total amount
+                $newTotalAmount = $previousTotalInvestment + $validatedData['amount'];
+
+                // Create investment with total amount
                 $investment = Investment::create([
                     'project_id' => $project->project_id,
                     'user_id' => $validatedData['user_id'],
                     'amount' => $validatedData['amount'],
+                    'total_amount' => $newTotalAmount, // Explicitly set total amount
                     'investment_date' => now(),
                     'equity' => $validatedData['equity'] ?? null
                 ]);
 
                 // Calculate total investment for the project
-                $totalInvestment = Investment::getTotalInvestmentForProject($project->project_id);
+                $totalInvestment = Investment::where('project_id', $project->project_id)
+                    ->sum('amount');
 
                 // Find top investor
-                $topInvestor = Investment::getTopInvestorForProject($project->project_id);
+                $topInvestor = Investment::select('user_id')
+                    ->where('project_id', $project->project_id)
+                    ->groupBy('user_id')
+                    ->orderByRaw('SUM(amount) DESC')
+                    ->first();
 
                 // Update project details
                 $project->update([
@@ -57,7 +70,8 @@ class InvestmentController extends Controller
                 return response()->json([
                     'message' => 'Investment successful',
                     'investment' => $investment,
-                    'total_invested' => $totalInvestment
+                    'total_invested' => $totalInvestment,
+                    'total_amount' => $newTotalAmount
                 ], 201);
             });
 
@@ -123,4 +137,32 @@ class InvestmentController extends Controller
             'investments' => $investments
         ]);
     }
+    public function getProjectTotalInvestment($projectId)
+{
+    try {
+        // Find the most recent investment for the project to get the total amount
+        $latestInvestment = Investment::where('project_id', $projectId)
+            ->orderByDesc('created_at')
+            ->first();
+
+        if (!$latestInvestment) {
+            return response()->json([
+                'total_amount' => 0,
+                'message' => 'No investments found for this project'
+            ]);
+        }
+
+        return response()->json([
+            'total_amount' => $latestInvestment->total_amount ?? 0,
+            'project_id' => $projectId
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Error fetching project total investment: ' . $e->getMessage());
+
+        return response()->json([
+            'error' => 'Failed to retrieve total investment',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
 }
