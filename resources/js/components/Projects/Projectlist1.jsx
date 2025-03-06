@@ -20,11 +20,13 @@ const ProjectListing = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedProjectType, setSelectedProjectType] = useState('All');
   const [categories] = useState([
     'All', 'Music', 'Sport', 'Technologies', 'Art', 'Fashions',
     'Games', 'Theater', 'Publishing', 'Design',
     'Food & Beverage', 'Health & Fitness', 'Education', 'Photograph'
   ]);
+  const projectTypes = ['All', 'Start-up Project', 'Existing Project'];
 
   const fetchProjects = async () => {
     try {
@@ -70,10 +72,12 @@ const ProjectListing = () => {
     return diffDays;
   };
 
-  // Filter projects based on selected category
-  const filteredProjects = selectedCategory === 'All' 
-    ? projects 
-    : projects.filter(project => project.project_type === selectedCategory);
+  // Filter projects based on selected category and project type
+  const filteredProjects = projects.filter((project) => {
+    const matchesCategory = selectedCategory === 'All' || project.project_type === selectedCategory;
+    const matchesType = selectedProjectType === 'All' || project.project_type === selectedProjectType;
+    return matchesCategory && matchesType;
+  });
 
   if (error) {
     return (
@@ -104,9 +108,27 @@ const ProjectListing = () => {
                 <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
               )}
             </div>
-            
-
           </div>
+          <div className="flex gap-4 mb-6">
+  {projectTypes.map((type) => (
+    <button
+      key={type}
+      onClick={() => setSelectedProjectType(type)}
+      className={`px-4 py-2 rounded transition-colors duration-200 ${
+        selectedProjectType === type 
+          ? 'text-[#F07900] border-[#F07900] font-medium' 
+          : 'text-[#F07900] border-gray-200 hover:border-gray-300'
+      }`}
+      style={{
+        backgroundColor: 'transparent',
+        boxShadow: 'none'
+      }}
+    >
+      {type}
+    </button>
+  ))}
+</div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             {filteredProjects.map((project, index) => (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../Navbar/Navbar';
+import Navbar10 from '../Navbar/Navbarforview';
 import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
 import InvestmentForm from './InvestmentForm'; // Import the InvestmentForm
@@ -203,7 +203,7 @@ const ProjectDetails = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar10 />
             <div className="max-w-6xl mx-auto px-4 py-8" style={{ margin: "30px 200px" }}>
                 <h2 className="text-title">{project.title}</h2>
                 <p className="text-description mt-4">{project.project_des}</p>
