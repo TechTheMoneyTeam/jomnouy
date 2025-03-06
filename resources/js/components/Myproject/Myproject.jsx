@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Clock } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Navbars from '../Navbar/Navbarformyproject';
 import styles from './MyProjects.module.css';
 
@@ -36,7 +38,6 @@ const MyProjects = () => {
         }
     }, []);
 
-
     useEffect(() => {
         if (userId) {
             fetchUserProjects();
@@ -48,42 +49,28 @@ const MyProjects = () => {
     const fetchUserProjects = async () => {
         try {
             console.log("Fetching projects for user ID:", userId);
-
-
             const response = await axios.get(`/api/user-projects/${userId}`);
-
             console.log("Projects fetched successfully:", response.data);
-
-
             const projectsData = Array.isArray(response.data) ? response.data :
                 (response.data.projects || response.data.data || []);
-
             setProjects(projectsData);
             setError(null);
         } catch (firstError) {
             console.error('First attempt to fetch projects failed:', firstError);
-
             try {
-
                 console.log("Trying alternative endpoint with 'users' prefix");
                 const altResponse = await axios.get(`/api/users/${userId}/projects`);
-
                 const projectsData = Array.isArray(altResponse.data) ? altResponse.data :
                     (altResponse.data.projects || altResponse.data.data || []);
-
                 setProjects(projectsData);
                 setError(null);
             } catch (secondError) {
                 console.error('Second attempt failed:', secondError);
-
                 try {
-
                     console.log("Trying final alternative endpoint");
                     const finalResponse = await axios.get(`/api/projects?user_id=${userId}`);
-
                     const projectsData = Array.isArray(finalResponse.data) ? finalResponse.data :
                         (finalResponse.data.projects || finalResponse.data.data || []);
-
                     setProjects(projectsData);
                     setError(null);
                 } catch (finalError) {
@@ -93,6 +80,16 @@ const MyProjects = () => {
             }
         } finally {
             setLoading(false);
+        }
+    };
+
+    const deleteProject = async (projectId) => {
+        try {
+            await axios.delete(`/api/projects/${projectId}`);
+            setProjects(projects.filter(project => project.project_id !== projectId));
+        } catch (error) {
+            console.error('Failed to delete project:', error);
+            setError('Failed to delete the project. Please try again.');
         }
     };
 
@@ -130,7 +127,6 @@ const MyProjects = () => {
     return (
         <>
             <Navbars />
-
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>My Projects</h1>
@@ -139,7 +135,6 @@ const MyProjects = () => {
                     </p>
                     <p className={styles.userIdText}>User ID: {userId}</p>
                 </div>
-
                 {error && (
                     <div className={styles.error}>
                         {error}
@@ -151,18 +146,15 @@ const MyProjects = () => {
                         </button>
                     </div>
                 )}
-
                 <div className={styles.projectsContainer}>
                     <div className={styles.projectsHeader}>
                         <h2 className={styles.sectionTitle}>
                             You have <span className={styles.highlight}>{projects.length} projects</span>
                         </h2>
-
                         {loading && (
                             <div className={styles.spinner} />
                         )}
                     </div>
-
                     {projects.length > 0 ? (
                         <div className={styles.projectGrid}>
                             {projects.map((project) => (
@@ -192,6 +184,12 @@ const MyProjects = () => {
                                             <span className={styles.dot}>•</span>
                                             <span>{formatFunding(project.funding_goal || project.funding || 0)}$ Needed Fund</span>
                                         </div>
+                                        <button
+                                            onClick={() => deleteProject(project.project_id || project.id)}
+                                            className={styles.deleteButton}
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} color="red" />
+                                        </button>
                                     </CardContent>
                                 </Card>
                             ))}
@@ -207,7 +205,6 @@ const MyProjects = () => {
                             </button>
                         </div>
                     ) : null}
-
                     {loading && projects.length === 0 && (
                         <div className={styles.loadingContainer}>
                             <div className={styles.largeSpinner} />
