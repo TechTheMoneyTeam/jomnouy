@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-
 const FAQAccordion = () => {
                const [openItem, setOpenItem] = useState("How do I place an order?");
                const faqItems = [

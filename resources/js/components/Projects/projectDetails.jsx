@@ -146,7 +146,7 @@ const ProjectDetails = () => {
                return (
                               <>
                                              <Navbar />
-                                             <div className="max-w-6xl mx-auto px-4 py-8" style={{ margin: "30px 200px" }}>
+                                             <div className="max-w-7xl mx-auto px-4" style={{ margin: '40px 200px 0px 200px' }}>
                                                             <h2 className="text-title">{project.title}</h2>
                                                             <p className="text-description mt-4">{project.project_des}</p>
                                                             <div className="container flex space-x-6">
@@ -154,7 +154,7 @@ const ProjectDetails = () => {
                                                                                           <img
                                                                                                          src={project.project_img || "/api/placeholder/600/300"}
                                                                                                          alt={project.title}
-                                                                                                         className="w-full object-cover rounded-lg mt-4"
+                                                                                                         className="w-full object-cover rounded-sm mt-4"
                                                                                           />
                                                                            </div>
 

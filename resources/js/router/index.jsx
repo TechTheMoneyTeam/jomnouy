@@ -10,6 +10,7 @@ import Profile from '../components/Control/ProfileForm/ProfileForm';
 import UserType from '../components/Control/ProfileForm/SignupSelect';
 import Navbar from '../components/Navbar/Navbar';
 import ProjectDetails from '../components/Projects/projectDetails';
+import FilterDropdown from '../components/ProjectCategories/project_near_you';
 
 const Index = () => {
     return (
@@ -18,7 +19,8 @@ const Index = () => {
                 {/* Main Routes */}
                 {/* <Route path="/" element={<Navbar />} /> */}
 
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<FilterDropdown />} />
+                <Route path="/homepage" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Service />} />
 
