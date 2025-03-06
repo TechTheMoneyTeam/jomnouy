@@ -4,8 +4,8 @@ import About from '../components/Aboutpage/Aboutus';
 import Service from '../components/Servicepage/Servicepage';
 import ProjectExisting from '../components/Projectsubmit/Projectexisting';
 import ProjectListing from '../components/Projects/Projectlist1';
-import SignupForm  from '../components/Control/ProfileForm/SignupForm';
-import LoginForm  from '../components/Control/ProfileForm/LoginForm'; 
+import SignupForm from '../components/Control/ProfileForm/SignupForm';
+import LoginForm from '../components/Control/ProfileForm/LoginForm';
 import Logout from '../components/Control/ProfileForm/Logout';
 import Settings from '../components/Settings/Setting';
 import ProfileDisplay from '../components/Profile/Profile';
@@ -19,47 +19,35 @@ import MyProjects from '../components/Myproject/Myproject';
 import ProjectStartup from '../components/Projectsubmit/Projectstartup';
 import ContactFounder from '../components/Contactfounder/Contactfounder';
 import ProjectDetails from '../components/Projects/projectDetails';
-
-
+import EditProject from '../components/Myproject/EditProject';
 
 const Index = () => {
     return (
         <div>
             <Routes>
                 <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Service/>} />
+                <Route path="/services" element={<Service />} />
                 <Route path="/" element={<Home />} />
-                
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
+                <Route path="/edit-project/:projectId" element={<EditProject />} />
                 <Route path="/existing" element={<ProjectExisting />} />
                 <Route path="/startup" element={<ProjectStartup />} />
                 <Route path="/create" element={<ProjectSelectionForm />} />
                 <Route path="/my-project" element={<MyProjects />} />
                 <Route path="/projects/:id" element={<ProjectDetails />} />
-
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/logout" element={<Logout />} />
-
-              
-
-                
-               
                 <Route path="/user" element={<UserType />} />
                 <Route path="/profile" element={<ProfileDisplay />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/reset" element={<ResetPassword />} />
                 <Route path="/contact" element={<ContactFounder />} />
-            
                 <Route path="/followings" element={<Following />} />
                 <Route path="/noti" element={<Notification />} />
-
-               
-                
-                
             </Routes>
         </div>
     );

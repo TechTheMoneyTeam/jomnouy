@@ -35,7 +35,9 @@ Route::get('/api/projects/type/{type}', [ProjectController::class, 'getProjectsB
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
 
-Route::post('/api/projects/{id}', [ProjectController::class, 'update']);
+Route::put('/api/projects/{id}', [ProjectController::class, 'update']);
+
+Route::post('/api/projects/{id}', [ProjectController::class, 'update'])->name('projects.update.form');
 Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
 
 Route::get('/', function () {

@@ -11,6 +11,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    /**
+     * Display a listing of all projects.
+     */
+    public function index()
+    {
+        try {
+            // Fetch all projects with user relationship
+            $projects = Project::with('user')->get();
+            return response()->json($projects, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch projects: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Store a newly created project in storage.
+     */
     public function store(Request $request)
     {
         try {
@@ -30,7 +47,6 @@ class ProjectController extends Controller
                 'member_name' => 'nullable|string|max:100',
                 'member_position' => 'nullable|string|max:100',
                 'project_location' => 'nullable|string|max:200',
-                // 'status' => 'nullable|string|in:pending,in_progress,completed',
                 'auction_start_date' => 'nullable|date',
                 'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
             ]);
@@ -121,63 +137,9 @@ class ProjectController extends Controller
         }
     }
 
-    public function getUserProjects($userId)
-    {
-        try {
-            // Verify user exists
-            $user = User::where('user_id', $userId)->first();
-            
-            if (!$user) {
-                return response()->json([
-                    'message' => 'User not found'
-                ], 404);
-            }
-
-            $projects = Project::where('user_id', $userId)
-                             ->with('user')
-                             ->orderBy('created_at', 'desc')
-                             ->get();
-
-            return response()->json([
-                'projects' => $projects
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to fetch projects',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-   
-    
-    public function index()
-    {
-        try {
-            // Fetch all projects with user relationship
-            $projects = Project::with('user')->get();
-            return response()->json($projects, 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch projects: ' . $e->getMessage()], 500);
-        }
-    }
-
-    public function getProjectsByType($type)
-    {
-        try {
-            // Fetch projects by type
-            $projects = Project::where('project_type', $type)
-                         ->with('user')
-                         ->orderBy('created_at', 'desc')
-                         ->get();
-            
-            return response()->json($projects, 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch projects by type: ' . $e->getMessage()], 500);
-        }
-    }
-
+    /**
+     * Display the specified project.
+     */
     public function show($id)
     {
         try {
@@ -193,9 +155,12 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch project: ' . $e->getMessage()], 500);
         }
-        
     }
 
+    /**
+     * Update the specified project in storage.
+     * This method supports both PUT and POST with _method=PUT
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -233,20 +198,25 @@ class ProjectController extends Controller
                 ], 422);
             }
             
+            // Check for method spoofing
+            $method = $request->method();
+            $isMethodSpoofed = $method === 'POST' && $request->input('_method') === 'PUT';
+            
+            // Determine if we're using FormData (multipart/form-data)
+            $isFormData = strpos($request->header('Content-Type'), 'multipart/form-data') !== false;
+            
             // Update fields if provided
-            if ($request->has('title')) $project->title = $request->title;
-            if ($request->has('funding_goal')) $project->funding_goal = $request->funding_goal;
-            if ($request->has('project_type')) $project->project_type = $request->project_type;
-            if ($request->has('project_des')) $project->project_des = $request->project_des;
-            if ($request->has('project_story')) $project->project_story = $request->project_story;
-            if ($request->has('reserve_price')) $project->reserve_price = $request->reserve_price;
-            if ($request->has('categories')) $project->categories = $request->categories;
-            if ($request->has('member_name')) $project->member_name = $request->member_name;
-            if ($request->has('member_position')) $project->member_position = $request->member_position;
-            if ($request->has('project_location')) $project->project_location = $request->project_location;
-            if ($request->has('status')) $project->status = $request->status;
-            if ($request->has('auction_start_date')) $project->auction_start_date = $request->auction_start_date;
-            if ($request->has('auction_end_date')) $project->auction_end_date = $request->auction_end_date;
+            $fieldList = [
+                'title', 'funding_goal', 'project_type', 'project_des', 'project_story',
+                'reserve_price', 'categories', 'member_name', 'member_position',
+                'project_location', 'status', 'auction_start_date', 'auction_end_date'
+            ];
+            
+            foreach ($fieldList as $field) {
+                if ($request->has($field)) {
+                    $project->{$field} = $request->{$field};
+                }
+            }
             
             // Handle project image upload
             if ($request->hasFile('project_img')) {
@@ -289,6 +259,9 @@ class ProjectController extends Controller
         }
     }
 
+    /**
+     * Remove the specified project from storage.
+     */
     public function destroy($id)
     {
         try {
@@ -319,6 +292,56 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project deletion failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get projects by type.
+     */
+    public function getProjectsByType($type)
+    {
+        try {
+            // Fetch projects by type
+            $projects = Project::where('project_type', $type)
+                         ->with('user')
+                         ->orderBy('created_at', 'desc')
+                         ->get();
+            
+            return response()->json($projects, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch projects by type: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get all projects for a specific user.
+     */
+    public function getUserProjects($userId)
+    {
+        try {
+            // Verify user exists
+            $user = User::where('user_id', $userId)->first();
+            
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+            $projects = Project::where('user_id', $userId)
+                             ->with('user')
+                             ->orderBy('created_at', 'desc')
+                             ->get();
+
+            return response()->json([
+                'projects' => $projects
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch projects',
                 'error' => $e->getMessage()
             ], 500);
         }

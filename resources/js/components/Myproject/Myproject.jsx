@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Clock } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import Navbars from '../Navbar/Navbarformyproject';
 import styles from './MyProjects.module.css';
 
@@ -91,6 +91,10 @@ const MyProjects = () => {
             console.error('Failed to delete project:', error);
             setError('Failed to delete the project. Please try again.');
         }
+    };
+
+    const editProject = (projectId) => {
+        window.location.href = `/edit-project/${projectId}`;
     };
 
     const formatFunding = (amount) => {
@@ -184,6 +188,12 @@ const MyProjects = () => {
                                             <span className={styles.dot}>•</span>
                                             <span>{formatFunding(project.funding_goal || project.funding || 0)}$ Needed Fund</span>
                                         </div>
+                                        {/* <button
+                                            onClick={() => editProject(project.project_id || project.id)}
+                                            className={styles.editButton}
+                                        >
+                                            <FontAwesomeIcon icon={faEdit} color="blue" />
+                                        </button> */}
                                         <button
                                             onClick={() => deleteProject(project.project_id || project.id)}
                                             className={styles.deleteButton}
