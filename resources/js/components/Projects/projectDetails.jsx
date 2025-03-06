@@ -233,24 +233,23 @@ const ProjectDetails = () => {
                         </button>
 
                         {showInvestmentModal && (
-                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                                <div className="bg-white p-6 rounded-lg shadow-xl relative w-full max-w-md">
-                                    <button 
-                                        className="absolute top-4 right-4 text-2xl"
-                                        onClick={() => setShowInvestmentModal(false)}
-                                    >
-                                        &times;
-                                    </button>
-                                    <InvestmentForm 
-                                        projectId={project.project_id}
-                                        fundingGoal={project.funding_goal}
-                                        currentTotalInvested={totalInvested}
-                                        onInvestmentSuccess={handleInvestmentSuccess}
-                                    />
-                                </div>
-                            </div>
-                        )}
-
+  <div className=".modal-overlay">
+    <div className=".modal-content">
+      <button 
+        className=".modal-close-button"
+        onClick={() => setShowInvestmentModal(false)}
+      >
+        &times;
+      </button>
+      <InvestmentForm 
+        projectId={project.project_id}
+        fundingGoal={project.funding_goal}
+        currentTotalInvested={totalInvested}
+        onInvestmentSuccess={handleInvestmentSuccess}
+      />
+    </div>
+  </div>
+)}
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
                             <button className="action-buttons">

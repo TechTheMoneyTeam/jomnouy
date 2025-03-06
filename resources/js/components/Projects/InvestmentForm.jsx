@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import styles from './InvestmentForm.module.css';
 
 const InvestmentForm = ({ 
     projectId, 
@@ -86,15 +87,15 @@ const InvestmentForm = ({
     const isInvestDisabled = loading || !userId || remainingFunding <= 0;
 
     return (
-        <div className="investment-form mt-4 p-4 border rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">Invest in this Project</h3>
-            <div className="mb-4 flex justify-between text-sm">
+        <div className={styles.investmentForm}>
+            <h3 className={styles.investmentFormTitle}>Invest in this Project</h3>
+            <div className={styles.investmentFormDetails}>
                 <span>Funding Goal: ${fundingGoal.toLocaleString()}</span>
                 <span>Remaining: ${remainingFunding.toLocaleString()}</span>
             </div>
             <form onSubmit={handleInvest}>
                 <div className="mb-4">
-                    <label htmlFor="amount" className="block mb-2">
+                    <label htmlFor="amount" className={styles.investmentFormLabel}>
                         Investment Amount (USD)
                     </label>
                     <input 
@@ -102,7 +103,7 @@ const InvestmentForm = ({
                         id="amount"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className={styles.investmentFormInput}
                         placeholder="Enter investment amount"
                         min="1"
                         max={remainingFunding}
@@ -112,28 +113,24 @@ const InvestmentForm = ({
                     />
                 </div>
                 {error && (
-                    <div className="text-red-500 mb-4 text-sm">
+                    <div className={styles.investmentFormError}>
                         {error}
                     </div>
                 )}
                 {!userId && (
-                    <div className="text-yellow-600 mb-4 text-sm">
+                    <div className={styles.investmentFormWarning}>
                         Please log in to invest in this project
                     </div>
                 )}
                 {remainingFunding <= 0 && (
-                    <div className="text-red-500 mb-4 text-sm">
+                    <div className={styles.investmentFormError}>
                         Funding goal has been reached
                     </div>
                 )}
                 <button 
                     type="submit" 
                     disabled={isInvestDisabled}
-                    className={`w-full py-2 rounded-md transition ${
-                        isInvestDisabled 
-                            ? 'bg-gray-400 cursor-not-allowed' 
-                            : 'bg-orange-500 text-white hover:bg-orange-600'
-                    }`}
+                    className={`${styles.investmentFormButton} ${isInvestDisabled ? styles.investmentFormButtonDisabled : styles.investmentFormButtonEnabled}`}
                 >
                     {loading ? 'Processing...' : 'Invest Now'}
                 </button>
