@@ -21,15 +21,12 @@ use App\Http\Controllers\InvestmentController;
 Route::post('/api/projects/{id}/invest', [InvestmentController::class, 'invest']);
 Route::get('/api/projects/{id}/investments', [InvestmentController::class, 'projectInvestments']);
 Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
-
-
+Route::get('/api/user-investments-grouped/{userId}', [InvestmentController::class, 'getUserInvestmentsGroupedByProject']);
 
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/projects/{id}', function () {
     return view('welcome');
 })->where('id', '[^/]+');
-
-
 
 Route::get('/api/projects/type/{type}', [ProjectController::class, 'getProjectsByType']);
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);

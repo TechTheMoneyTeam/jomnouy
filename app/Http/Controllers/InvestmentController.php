@@ -157,4 +157,18 @@ class InvestmentController extends Controller
             ], 500);
         }
     }
+
+    public function getUserInvestmentsGroupedByProject($userId)
+    {
+        // Validate user exists
+        User::findOrFail($userId);
+
+        $investments = Investment::where('user_id', $userId)
+            ->select('project_id', DB::raw('SUM(amount) as total_amount'), DB::raw('COUNT(*) as investment_count'))
+            ->groupBy('project_id')
+            ->with('project:project_id,title') // Include project name
+            ->get();
+
+        return response()->json($investments);
+    }
 }
