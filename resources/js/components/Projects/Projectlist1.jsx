@@ -93,7 +93,7 @@ const ProjectListing = () => {
     <>
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ margin: '20px auto' }}>
+      <div className="max-w-7xl mx-auto px-4" style={{ margin: '20px 200px 0px 200px' }}>
         <div className="py-8">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-2">
@@ -105,22 +105,7 @@ const ProjectListing = () => {
               )}
             </div>
             
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-orange-500 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -138,7 +123,7 @@ const ProjectListing = () => {
                   <img
                     src={project.project_img_url || project.project_img || "/api/placeholder/400/200"}
                     alt={project.title}
-                    className="w-full h-48 object-cover"
+                    className="project-card1"
                     onError={(e) => {
                       e.target.src = "/api/placeholder/400/200";
                     }}

@@ -96,3 +96,6 @@
 .related-project{
                @apply mt-8;
 }
+.project-card1{
+    @apply w-full h-72 object-cover;
+}
