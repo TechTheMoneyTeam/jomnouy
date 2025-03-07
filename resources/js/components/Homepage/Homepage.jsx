@@ -171,6 +171,13 @@ const Home = () => {
                             project.user?.full_name ||
                             "Unknown User";
 
+                        // Truncate the project description
+                        const truncatedDescription = project.project_des
+                            ? project.project_des.length > 100
+                                ? project.project_des.substring(0, 100) + "..."
+                                : project.project_des
+                            : "No description available";
+
                         return (
                             <div key={index} className="project-card">
                                 <img
@@ -195,9 +202,7 @@ const Home = () => {
                                     By: {userName}
                                 </p>
                                 <p className="project-description2">
-                                    Description:{" "}
-                                    {project.project_des ||
-                                        "No description available"}
+                                    Description: {truncatedDescription}
                                 </p>
                             </div>
                         );

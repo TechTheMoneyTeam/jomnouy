@@ -22,13 +22,13 @@ const getDaysSinceCreation = (createdAt) => {
 // New function to calculate days remaining until auction end
 const getDaysRemaining = (endDate) => {
     if (!endDate) return 0;
-    
+
     try {
         const end = new Date(endDate);
         const now = new Date();
         if (isNaN(end.getTime())) return 0;
         if (now > end) return 0;
-        
+
         const diffTime = end - now;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays > 0 ? diffDays : 0;
@@ -61,7 +61,7 @@ const ProjectDetails = () => {
     const [projectStory, setProjectStory] = useState("");
     const [faq, setFaq] = useState([]);
     const [daysRemaining, setDaysRemaining] = useState(0);
-    const [commentCount, setCommentCount] = useState(0); 
+    const [commentCount, setCommentCount] = useState(0);
     const [showInvestmentModal, setShowInvestmentModal] = useState(false); // State for investment modal
     const [totalInvested, setTotalInvested] = useState(0); // State for total invested
     const [investmentProgress, setInvestmentProgress] = useState(0); // State for investment progress
@@ -86,9 +86,9 @@ const ProjectDetails = () => {
                         const totalAmount = response.data.total_amount || 0;
                         setTotalInvested(totalAmount);
                         setInvestmentProgress(
-                            projectData.funding_goal 
-                            ? Math.min((totalAmount / projectData.funding_goal) * 100, 100) 
-                            : 0
+                            projectData.funding_goal
+                                ? Math.min((totalAmount / projectData.funding_goal) * 100, 100)
+                                : 0
                         );
                     })
                     .catch(error => {
@@ -115,9 +115,9 @@ const ProjectDetails = () => {
         const newTotalInvested = investmentData.total_invested || 0;
         setTotalInvested(newTotalInvested);
         setInvestmentProgress(
-            project.funding_goal 
-            ? Math.min((newTotalInvested / project.funding_goal) * 100, 100) 
-            : 0
+            project.funding_goal
+                ? Math.min((newTotalInvested / project.funding_goal) * 100, 100)
+                : 0
         );
         setShowInvestmentModal(false); // Close the modal on success
     };
@@ -180,9 +180,9 @@ const ProjectDetails = () => {
                                     <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
                                         <div className="flex items-center mr-4">
                                             <FaRegClock className="w-4 h-4 mr-1 text-black/70" />
-                                            <span className='text-black/70 font-semibold overflow-hidden whitespace-nowrap text-ellipsis'>{getDaysSinceCreation(project.created_at) }
+                                            <span className='text-black/70 font-semibold overflow-hidden whitespace-nowrap text-ellipsis'>{getDaysSinceCreation(project.created_at)}
                                                 <span className='font-medium'>  days ago • </span>
-                                                 {project.categories || 0}
+                                                {project.categories || 0}
                                                 <span className='font-medium'></span>
                                             </span>
                                         </div>
@@ -220,12 +220,14 @@ const ProjectDetails = () => {
                         <ProgressBar progress={investmentProgress} />
                         <p className="text-funding mt-2 text-gray-600">US$ {totalInvested.toLocaleString()}</p>
                         <p className="mt-2 text-gray-600">Pledged of US$ {project.funding_goal?.toLocaleString()} goal</p>
-                        <p className="mt-2 text-gray-600 text-2xl font-medium">129</p>
-                        <p className="mt-1 text-gray-600">Backers</p>
+                        <p className="mt-2 text-gray-600 text-2xl font-medium">
+                            {((totalInvested / project.funding_goal) * 100).toFixed(2)}%
+                        </p>
+                        <p className="mt-1 text-gray-600">Reaching Funding Goal</p>
                         <p className="mt-6 text-gray-600 text-2xl font-medium">{daysRemaining}</p>
                         <p className="mt-1 text-gray-600">Days Remaining</p>
-                        
-                        <button 
+
+                        <button
                             className="invest-button"
                             onClick={() => setShowInvestmentModal(true)}
                         >
@@ -233,23 +235,23 @@ const ProjectDetails = () => {
                         </button>
 
                         {showInvestmentModal && (
-  <div className=".modal-overlay">
-    <div className=".modal-content">
-      <button 
-        className=".modal-close-button"
-        onClick={() => setShowInvestmentModal(false)}
-      >
-        &times;
-      </button>
-      <InvestmentForm 
-        projectId={project.project_id}
-        fundingGoal={project.funding_goal}
-        currentTotalInvested={totalInvested}
-        onInvestmentSuccess={handleInvestmentSuccess}
-      />
-    </div>
-  </div>
-)}
+                            <div className=".modal-overlay">
+                                <div className=".modal-content">
+                                    <button
+                                        className=".modal-close-button"
+                                        onClick={() => setShowInvestmentModal(false)}
+                                    >
+                                        &times;
+                                    </button>
+                                    <InvestmentForm
+                                        projectId={project.project_id}
+                                        fundingGoal={project.funding_goal}
+                                        currentTotalInvested={totalInvested}
+                                        onInvestmentSuccess={handleInvestmentSuccess}
+                                    />
+                                </div>
+                            </div>
+                        )}
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
                             <button className="action-buttons">

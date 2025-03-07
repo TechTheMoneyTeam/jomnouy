@@ -106,7 +106,7 @@ class InvestmentController extends Controller
         // Retrieve investments
         $investments = Investment::where('project_id', $projectId)
             ->with(['user' => function($query) {
-                $query->select('user_id', 'name', 'email');
+                $query->select('user_id', 'title', 'email');
             }])
             ->orderByDesc('amount')
             ->get();
@@ -126,7 +126,7 @@ class InvestmentController extends Controller
         User::findOrFail($userId);
 
         $investments = Investment::where('user_id', $userId)
-            ->with('project:project_id,name,description')
+            ->with('project:project_id,title,project_des')
             ->orderByDesc('investment_date')
             ->get();
 
