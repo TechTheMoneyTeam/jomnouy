@@ -12,7 +12,8 @@ import {
 import axios from "axios";
 import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
-import ContactFounder from "../Contactfounder/Contactfounder"; // Update this path to your actual ContactFounder path
+import ContactFounder from "../Contactfounder/Contactfounder";
+import Footer from "../footer/footer"; // Update this path to your actual ContactFounder path
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
@@ -478,65 +479,7 @@ const Home = () => {
         );
     };
 
-    const Footer = () => (
-        <footer className="footer">
-            <div className="footer-grid">
-                {["About Us", "Resources", "Terms", "Contact"].map(
-                    (section, index) => (
-                        <div key={index}>
-                            <h3 className="footer-title">{section}</h3>
-                            <ul className="footer-list">
-                                {section === "Contact"
-                                    ? [
-                                          {
-                                              icon: <MapPin />,
-                                              text: "National Road 6a Bridge No2 IDRI Building CADT, PP",
-                                          },
-                                          {
-                                              icon: <Phone />,
-                                              text: "(+855) 12 222 333",
-                                          },
-                                          {
-                                              icon: <Mail />,
-                                              text: "support@jomnouy.com",
-                                          },
-                                      ].map((item, i) => (
-                                          <li
-                                              key={i}
-                                              className="footer-contact"
-                                          >
-                                              {item.icon} {item.text}
-                                          </li>
-                                      ))
-                                    : ["Link1", "Link2", "Link3"].map(
-                                          (link, i) => (
-                                              <li key={i}>
-                                                  <Link
-                                                      to="#"
-                                                      className="footer-link"
-                                                  >
-                                                      {link}
-                                                  </Link>
-                                              </li>
-                                          )
-                                      )}
-                            </ul>
-                        </div>
-                    )
-                )}
-            </div>
-            <div className="footer-bottom">
-                <p>© 2025 Jomnouy. All Rights Reserved.</p>
-                <div className="footer-social">
-                    {[Facebook, Linkedin, Twitter].map((Icon, index) => (
-                        <Link key={index} to="#" className="social-icon">
-                            <Icon />
-                        </Link>
-                    ))}
-                </div>
-            </div>
-        </footer>
-    );
+   
 
     return (
         <>

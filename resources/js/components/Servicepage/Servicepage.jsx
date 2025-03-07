@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import "./Service.css";
 import { colors } from "laravel-mix/src/Log";
+import Footer from "../footer/footer";
 
 const Service = () => {
     const [language, setLanguage] = useState("en");
@@ -21,6 +22,7 @@ const Service = () => {
 
     // Intersection Observer to detect when service cards come into view
     useEffect(() => {
+        window.scrollTo(0, 0);
         const heroService = document.querySelector('.hero-service');
         const heroContent = document.querySelector('.hero-content-service');
         const serviceCards = document.querySelectorAll('.service-card'); // Select all service cards
@@ -179,33 +181,25 @@ const Service = () => {
             </p>
             <div className="about-container">
                 <div className="about-card">
-                    <img src="/img/creator.png" className="about-image" />
-                    <h3 className="about-card-title">Creators</h3>
-                    <p className="about-card-text">
-                        Find sponsors and investors to support your projects.
-                    </p>
-                </div>
-                <div className="about-card">
-                    <img src="/img/creator.png" className="about-image" />
-                    <h3 className="about-card-title">Creators</h3>
-                    <p className="about-card-text">
-                        Find sponsors and investors to support your projects.
-                    </p>
-                </div>
-                <div className="about-card">
-                    <img src="/img/creator.png" className="about-image" />
+                    <img src="https://oss6.tnaot.com/tnaot/image/2022/09/03/075e2f7238f34205af4eaa8dbbee8e4c.png" className="about-image" />
+                    <h3 className="about-card-title">លីវ-ប៉ី 刘备</h3>
 
-                    <h3 className="about-card-title">Creators</h3>
-                    <p className="about-card-text">
-                        Find sponsors and investors to support your projects.
-                    </p>
                 </div>
                 <div className="about-card">
-                    <img src="/img/investor.png" className="about-image" />
-                    <h3 className="about-card-title">Creators</h3>
-                    <p className="about-card-text">
-                        Find sponsors and investors to support your projects.
-                    </p>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThNtjO3yiDLPh7qc4FYnoe9qwWMkfUPLlV4Q&s" className="about-image" />
+                    <h3 className="about-card-title">Cao Cao</h3>
+           
+                </div>
+                <div className="about-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStcPEr9SzS_9_17J6DdrDn1EtHRcT9Su0EhkT5OpXyHy2GX5Iedkr5jM2u6THo0pA33Mc&usqp=CAU" className="about-image" />
+
+                    <h3 className="about-card-title">ស៊ឺ-ម៉ាអ៊ី</h3>
+               
+                </div>
+                <div className="about-card">
+                    <img src="https://i.pinimg.com/564x/d8/34/1c/d8341c070215459bb9923ffffb3e1649.jpg" className="about-image" />
+                    <h3 className="about-card-title">Zhuge Liang</h3>
+                   
                 </div>
 
 
@@ -216,87 +210,6 @@ const Service = () => {
 
 
 
-    );
-
-    const Footer = () => (
-        <footer className="footer">
-            <div className="footer-grid">
-                <div>
-                    <h3 className="footer-title">About Us</h3>
-                    <ul className="footer-list">
-                        <li>
-                            <Link to="#" className="footer-link">How It Works</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Why Jomnouy</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Success Stories</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Contact</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Partners</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="footer-title">Resources</h3>
-                    <ul className="footer-list">
-                        <li>
-                            <Link to="#" className="footer-link">Pricing</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Request Demo</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Customers</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Press</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="footer-title">Terms</h3>
-                    <ul className="footer-list">
-                        <li>
-                            <Link to="#" className="footer-link">Terms of Service</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Privacy Policy</Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="footer-link">Intellectual Property Policy</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="footer-title">Contact</h3>
-                    <ul className="footer-list">
-                        <li className="footer-contact">
-                            <MapPin /> National Road 6a Bridge No2 IDRI Building CADT, PP
-                        </li>
-                        <li className="footer-contact">
-                            <Phone /> (+855) 12 222 333
-                        </li>
-                        <li className="footer-contact">
-                            <Mail /> support@jomnouy.com
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="footer-bottom">
-                <p>© 2025 Jomnouy. All Rights Reserved.</p>
-                <div className="footer-social">
-                    <Link to="#" className="social-icon"><Facebook /></Link>
-                    <Link to="#" className="social-icon"><Linkedin /></Link>
-
-                    <Link to="#" className="social-icon"><Twitter /></Link>
-                </div>
-            </div>
-        </footer>
     );
 
     return (
