@@ -5,6 +5,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\KycVerificationController;
 
 Route::get('/api/profile', [ProfileController::class, 'getProfile']);
 Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
@@ -27,6 +28,8 @@ Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/projects/{id}', function () {
     return view('welcome');
 })->where('id', '[^/]+');
+
+Route::resource('/api/kyc-verifications', KycVerificationController::class);
 
 Route::get('/api/projects/type/{type}', [ProjectController::class, 'getProjectsByType']);
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);

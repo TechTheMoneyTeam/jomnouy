@@ -4,7 +4,8 @@ import axios from 'axios';
 import Navbar10 from '../Navbar/Navbarforview';
 import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
-import InvestmentForm from './InvestmentForm'; // Import the InvestmentForm
+import InvestmentForm from './InvestmentForm';
+import KYCForm from './Kycform'; // Import the InvestmentForm
 import { FaRegBookmark } from "react-icons/fa6";
 import { RxBookmark } from "react-icons/rx";
 import { PiShareFat } from "react-icons/pi";
@@ -50,6 +51,56 @@ const ProgressBar = ({ progress }) => {
     );
 };
 
+// New Terms and Conditions Component
+const TermsAndConditions = ({ onAccept, onCancel }) => {
+    const [agreed, setAgreed] = useState(false);
+    
+    return (
+        <div className="terms-modal">
+            <div className="terms-content">
+                <h2 className="terms-title">Investment Terms and Conditions</h2>
+                <div className="terms-text">
+                    <p>By investing in this project, you acknowledge and agree to the following terms:</p>
+                    <ol>
+                        <li>You understand that investing involves risk and the potential for loss of your investment.</li>
+                        <li>You confirm that you are over 18 years of age and legally allowed to make investments in your jurisdiction.</li>
+                        <li>You agree to provide accurate personal and financial information as required by regulatory standards.</li>
+                        <li>You understand that funds will only be collected if the project reaches its funding goal by the deadline.</li>
+                        <li>You acknowledge that JOMNOUY is a platform facilitating investments and is not responsible for project outcomes.</li>
+                        <li>You understand that returns on investment are not guaranteed and depend on the project's success.</li>
+                        <li>You agree to comply with all applicable tax regulations regarding your investment.</li>
+                        <li>You consent to JOMNOUY collecting and processing your personal data in accordance with our Privacy Policy.</li>
+                    </ol>
+                </div>
+                <div className="terms-checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="agree-terms" 
+                        checked={agreed} 
+                        onChange={() => setAgreed(!agreed)} 
+                    />
+                    <label htmlFor="agree-terms">I have read and agree to the terms and conditions</label>
+                </div>
+                <div className="terms-buttons">
+                    <button 
+                        className="terms-accept-button" 
+                        disabled={!agreed} 
+                        onClick={onAccept}
+                    >
+                        Accept & Continue
+                    </button>
+                    <button className="terms-cancel-button" onClick={onCancel}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+
+
 const ProjectDetails = () => {
     const { id } = useParams();
     const [project, setProject] = useState(null);
@@ -62,9 +113,12 @@ const ProjectDetails = () => {
     const [faq, setFaq] = useState([]);
     const [daysRemaining, setDaysRemaining] = useState(0);
     const [commentCount, setCommentCount] = useState(0);
-    const [showInvestmentModal, setShowInvestmentModal] = useState(false); // State for investment modal
-    const [totalInvested, setTotalInvested] = useState(0); // State for total invested
-    const [investmentProgress, setInvestmentProgress] = useState(0); // State for investment progress
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const [showKYCForm, setShowKYCForm] = useState(false);
+    const [showInvestmentForm, setShowInvestmentForm] = useState(false);
+    const [totalInvested, setTotalInvested] = useState(0);
+    const [investmentProgress, setInvestmentProgress] = useState(0);
+    const [kycData, setKycData] = useState(null);
     const tabRef = useRef();
 
     useEffect(() => {
@@ -119,7 +173,29 @@ const ProjectDetails = () => {
                 ? Math.min((newTotalInvested / project.funding_goal) * 100, 100)
                 : 0
         );
-        setShowInvestmentModal(false); // Close the modal on success
+        resetInvestmentFlow();
+    };
+
+    const resetInvestmentFlow = () => {
+        setShowTermsModal(false);
+        setShowKYCForm(false);
+        setShowInvestmentForm(false);
+        setKycData(null);
+    };
+
+    const handleInvestClick = () => {
+        setShowTermsModal(true);
+    };
+
+    const handleTermsAccept = () => {
+        setShowTermsModal(false);
+        setShowKYCForm(true);
+    };
+
+    const handleKYCComplete = (data) => {
+        setKycData(data);
+        setShowKYCForm(false);
+        setShowInvestmentForm(true);
     };
 
     const handleCommentsUpdate = (updatedComments) => {
@@ -229,29 +305,11 @@ const ProjectDetails = () => {
 
                         <button
                             className="invest-button"
-                            onClick={() => setShowInvestmentModal(true)}
+                            onClick={handleInvestClick}
                         >
                             Invest in this project
                         </button>
 
-                        {showInvestmentModal && (
-                            <div className=".modal-overlay">
-                                <div className=".modal-content">
-                                    <button
-                                        className=".modal-close-button"
-                                        onClick={() => setShowInvestmentModal(false)}
-                                    >
-                                        &times;
-                                    </button>
-                                    <InvestmentForm
-                                        projectId={project.project_id}
-                                        fundingGoal={project.funding_goal}
-                                        currentTotalInvested={totalInvested}
-                                        onInvestmentSuccess={handleInvestmentSuccess}
-                                    />
-                                </div>
-                            </div>
-                        )}
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
                             <button className="action-buttons">
@@ -318,6 +376,46 @@ const ProjectDetails = () => {
                     )}
                 </div>
             </div>
+
+            {/* Modal Overlay */}
+            {(showTermsModal || showKYCForm || showInvestmentForm) && (
+                <div className="modal-overlay">
+                    <div className="modal-backdrop" onClick={resetInvestmentFlow}></div>
+                    <div className="modal-container">
+                        {showTermsModal && (
+                            <TermsAndConditions 
+                                onAccept={handleTermsAccept} 
+                                onCancel={resetInvestmentFlow} 
+                            />
+                        )}
+                        
+                        {showKYCForm && (
+                            <KYCForm 
+                                onComplete={handleKYCComplete} 
+                                onCancel={resetInvestmentFlow} 
+                            />
+                        )}
+                        
+                        {showInvestmentForm && (
+                            <div className="investment-form-wrapper">
+                                <button 
+                                    className="modal-close-button" 
+                                    onClick={resetInvestmentFlow}
+                                >
+                                    &times;
+                                </button>
+                                <InvestmentForm
+                                    projectId={project.project_id}
+                                    fundingGoal={project.funding_goal}
+                                    currentTotalInvested={totalInvested}
+                                    kycData={kycData}
+                                    onInvestmentSuccess={handleInvestmentSuccess}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </>
     );
 };
