@@ -57,9 +57,19 @@ const ProjectExisting = () => {
         reserve_price: '',
         categories: '',
         auction_start_date: '',
-        auction_end_date: ''
+        auction_end_date: '',
+        // New equity fields
+        equity_offered: '',
+        equity_tiers: JSON.stringify([{ amount: '', equity_percentage: '' }]),
+        return_1_5_years: '',
+        return_5_10_years: '',
+        return_10_plus_years: ''
     });
 
+    const [equityTiers, setEquityTiers] = useState([
+        { amount: '', equity_percentage: '' }
+    ]);
+    
     const [projectImg, setProjectImg] = useState(null);
     const [projectVideo, setProjectVideo] = useState(null);
     const [message, setMessage] = useState({ text: '', type: '' });
@@ -86,6 +96,42 @@ const ProjectExisting = () => {
             ...prevData,
             [name]: value
         }));
+    };
+
+    const handleEquityTierChange = (index, field, value) => {
+        const updatedTiers = [...equityTiers];
+        updatedTiers[index][field] = value;
+        setEquityTiers(updatedTiers);
+        
+        // Update the JSON string in formData
+        setFormData(prevData => ({
+            ...prevData,
+            equity_tiers: JSON.stringify(updatedTiers)
+        }));
+    };
+
+    const addEquityTier = () => {
+        const updatedTiers = [...equityTiers, { amount: '', equity_percentage: '' }];
+        setEquityTiers(updatedTiers);
+        
+        // Update the JSON string in formData
+        setFormData(prevData => ({
+            ...prevData,
+            equity_tiers: JSON.stringify(updatedTiers)
+        }));
+    };
+
+    const removeEquityTier = (index) => {
+        if (equityTiers.length > 1) {
+            const updatedTiers = equityTiers.filter((_, i) => i !== index);
+            setEquityTiers(updatedTiers);
+            
+            // Update the JSON string in formData
+            setFormData(prevData => ({
+                ...prevData,
+                equity_tiers: JSON.stringify(updatedTiers)
+            }));
+        }
     };
 
     const handleFileChange = (e) => {
@@ -144,20 +190,29 @@ const ProjectExisting = () => {
                 type: 'success'
             });
 
+            // Reset form
             setFormData({
                 user_id: currentUser?.user_id || '',
                 title: '',
                 funding_goal: '',
                 status: 'pending',
-                project_type: '',
+                project_type: 'Existing Project',
                 project_des: '',
                 project_story: '',
                 project_location: '',
                 reserve_price: '',
                 categories: '',
                 auction_start_date: '',
-                auction_end_date: ''
+                auction_end_date: '',
+                equity_offered: '',
+                equity_tiers: JSON.stringify([{ amount: '', equity_percentage: '' }]),
+                return_1_5_years: '',
+                return_5_10_years: '',
+                return_10_plus_years: ''
             });
+            
+            // Reset equity tiers
+            setEquityTiers([{ amount: '', equity_percentage: '' }]);
             
             // Clear file states and previews
             setProjectImg(null);
@@ -190,7 +245,8 @@ const ProjectExisting = () => {
 
     const handleNext = () => {
         if (currentStep === 'basic') setCurrentStep('funding');
-        else if (currentStep === 'funding') setCurrentStep('story');
+        else if (currentStep === 'funding') setCurrentStep('equity');
+        else if (currentStep === 'equity') setCurrentStep('story');
         else if (currentStep === 'story') setCurrentStep('progress');
     };
 
@@ -223,6 +279,12 @@ const ProjectExisting = () => {
                         onClick={() => handleStepChange('funding')}
                     >
                         Funding
+                    </button>
+                    <button 
+                        className={`${styles.tabButton} ${currentStep === 'equity' ? styles.activeTab : ''}`}
+                        onClick={() => handleStepChange('equity')}
+                    >
+                        Equity
                     </button>
                     <button 
                         className={`${styles.tabButton} ${currentStep === 'story' ? styles.activeTab : ''}`}
@@ -354,10 +416,6 @@ const ProjectExisting = () => {
                                         Your image should be at least 1024x576 pixels and will be 
                                         cropped to a 16:9 ratio.
                                     </p>
-                                    <p className={styles.imageSizeDescription}>
-                                        Your image should be at least 1024x576 pixels and will be 
-                                        cropped to a 16:9 ratio.
-                                    </p>
                                 </div>
                                 <div className={styles.fieldInput}>
                                     <div className={styles.uploadBox}>
@@ -478,85 +536,269 @@ const ProjectExisting = () => {
                         </div>
                     )}
 
-{/* Funding Section */}
-{currentStep === 'funding' && (
-  <div className={styles.formSection}>
-    <h2 className={styles.sectionTitle}>Funding Details</h2>
-    
-    <div className={styles.fieldGroup}>
-      <div className={styles.fieldLabel}>
-        <h3>Funding Goal</h3>
-        <p className={styles.fieldDescription}>
-          Set the amount you need to bring your project to life.
-        </p>
-      </div>
-      <div className={styles.fieldInput}>
-        <label className={styles.inputLabel}>Funding Goal</label>
-        <div className={styles.inputWithCurrency}>
-          <span className={styles.currencyPrefix}>$</span>
-          <input
-            type="text"
-            name="funding_goal"
-            value={formData.funding_goal ? formData.funding_goal.toLocaleString() : ''}
-            onChange={(e) => {
-              // Remove commas and convert to number
-              const value = e.target.value.replace(/,/g, '');
-              handleChange({
-                target: {
-                  name: 'funding_goal',
-                  value: value ? parseFloat(value) : ''
-                }
-              });
-            }}
-            className={styles.textInput}
-            required
-          />
-        </div>
-      </div>
-    </div>
+                    {/* Funding Section */}
+                    {currentStep === 'funding' && (
+                        <div className={styles.formSection}>
+                            <h2 className={styles.sectionTitle}>Funding Details</h2>
+                            
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.fieldLabel}>
+                                    <h3>Funding Goal</h3>
+                                    <p className={styles.fieldDescription}>
+                                        Set the amount you need to bring your project to life.
+                                    </p>
+                                </div>
+                                <div className={styles.fieldInput}>
+                                    <label className={styles.inputLabel}>Funding Goal</label>
+                                    <div className={styles.inputWithCurrency}>
+                                        <span className={styles.currencyPrefix}>$</span>
+                                        <input
+                                            type="text"
+                                            name="funding_goal"
+                                            value={formData.funding_goal ? formData.funding_goal.toLocaleString() : ''}
+                                            onChange={(e) => {
+                                                // Remove commas and convert to number
+                                                const value = e.target.value.replace(/,/g, '');
+                                                handleChange({
+                                                    target: {
+                                                        name: 'funding_goal',
+                                                        value: value ? parseFloat(value) : ''
+                                                    }
+                                                });
+                                            }}
+                                            className={styles.textInput}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-    <div className={styles.fieldGroup}>
-      <div className={styles.fieldLabel}>
-        <h3>Reserve Price</h3>
-        <p className={styles.fieldDescription}>
-          The minimum amount you're willing to accept for your project.
-        </p>
-      </div>
-      <div className={styles.fieldInput}>
-        <label className={styles.inputLabel}>Reserve Price</label>
-        <div className={styles.inputWithCurrency}>
-          <span className={styles.currencyPrefix}>$</span>
-          <input
-            type="text"
-            name="reserve_price"
-            value={formData.reserve_price ? formData.reserve_price.toLocaleString() : ''}
-            onChange={(e) => {
-              // Remove commas and convert to number
-              const value = e.target.value.replace(/,/g, '');
-              handleChange({
-                target: {
-                  name: 'reserve_price',
-                  value: value ? parseFloat(value) : ''
-                }
-              });
-            }}
-            className={styles.textInput}
-            required
-          />
-        </div>
-      </div>
-    </div>
-    
-    <div className={styles.buttonContainer}>
-      <button 
-        type="button" 
-        onClick={handleNext} 
-        className={styles.nextButton}
-      >
-        Next
-      </button>
-    </div>
-  </div>
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.fieldLabel}>
+                                    <h3>Reserve Price</h3>
+                                    <p className={styles.fieldDescription}>
+                                        The minimum amount you're willing to accept for your project.
+                                    </p>
+                                </div>
+                                <div className={styles.fieldInput}>
+                                    <label className={styles.inputLabel}>Reserve Price</label>
+                                    <div className={styles.inputWithCurrency}>
+                                        <span className={styles.currencyPrefix}>$</span>
+                                        <input
+                                            type="text"
+                                            name="reserve_price"
+                                            value={formData.reserve_price ? formData.reserve_price.toLocaleString() : ''}
+                                            onChange={(e) => {
+                                                // Remove commas and convert to number
+                                                const value = e.target.value.replace(/,/g, '');
+                                                handleChange({
+                                                    target: {
+                                                        name: 'reserve_price',
+                                                        value: value ? parseFloat(value) : ''
+                                                    }
+                                                });
+                                            }}
+                                            className={styles.textInput}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className={styles.buttonContainer}>
+                                <button 
+                                    type="button" 
+                                    onClick={handleNext} 
+                                    className={styles.nextButton}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Equity Section - New */}
+                    {currentStep === 'equity' && (
+                        <div className={styles.formSection}>
+                            <h2 className={styles.sectionTitle}>Equity Details</h2>
+                            <p className={styles.sectionDescription}>
+                                Define the equity structure for your project and expected returns.
+                            </p>
+
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.fieldLabel}>
+                                    <h3>Equity Offered</h3>
+                                    <p className={styles.fieldDescription}>
+                                        The total percentage of equity you're offering to investors.
+                                    </p>
+                                </div>
+                                <div className={styles.fieldInput}>
+                                    <label className={styles.inputLabel}>Total Equity Percentage</label>
+                                    <div className={styles.inputWithSuffix}>
+                                        <input
+                                            type="number"
+                                            name="equity_offered"
+                                            value={formData.equity_offered}
+                                            onChange={handleChange}
+                                            className={styles.textInput}
+                                            min="0"
+                                            max="100"
+                                            step="0.01"
+                                            required
+                                        />
+                                        <span className={styles.percentSuffix}>%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.fieldLabel}>
+                                    <h3>Equity Tiers</h3>
+                                    <p className={styles.fieldDescription}>
+                                        Define different investment tiers and the equity percentage offered for each.
+                                    </p>
+                                </div>
+                                <div className={styles.fieldInput}>
+                                    {equityTiers.map((tier, index) => (
+                                        <div key={index} className={styles.equityTierItem}>
+                                            <div className={styles.tierHeader}>
+                                                <h4>Tier {index + 1}</h4>
+                                                {index > 0 && (
+                                                    <button
+                                                        type="button"
+                                                        className={styles.removeTierButton}
+                                                        onClick={() => removeEquityTier(index)}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                )}
+                                            </div>
+                                            <div className={styles.tierInputGroup}>
+                                                <div className={styles.tierInput}>
+                                                    <label className={styles.inputLabel}>Investment Amount</label>
+                                                    <div className={styles.inputWithCurrency}>
+                                                        <span className={styles.currencyPrefix}>$</span>
+                                                        <input
+                                                            type="text"
+                                                            value={tier.amount ? tier.amount.toLocaleString() : ''}
+                                                            onChange={(e) => {
+                                                                const value = e.target.value.replace(/,/g, '');
+                                                                handleEquityTierChange(
+                                                                    index,
+                                                                    'amount',
+                                                                    value ? parseFloat(value) : ''
+                                                                );
+                                                            }}
+                                                            className={styles.textInput}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className={styles.tierInput}>
+                                                    <label className={styles.inputLabel}>Equity Percentage</label>
+                                                    <div className={styles.inputWithSuffix}>
+                                                        <input
+                                                            type="number"
+                                                            value={tier.equity_percentage}
+                                                            onChange={(e) => handleEquityTierChange(
+                                                                index,
+                                                                'equity_percentage',
+                                                                e.target.value
+                                                            )}
+                                                            className={styles.textInput}
+                                                            min="0"
+                                                            max="100"
+                                                            step="0.01"
+                                                            required
+                                                        />
+                                                        <span className={styles.percentSuffix}>%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <button
+                                        type="button"
+                                        className={styles.addTierButton}
+                                        onClick={addEquityTier}
+                                    >
+                                        + Add Another Tier
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.fieldLabel}>
+                                    <h3>Expected Returns</h3>
+                                    <p className={styles.fieldDescription}>
+                                        Provide estimated returns on investment for different time periods.
+                                    </p>
+                                </div>
+                                <div className={styles.fieldInput}>
+                                    <div className={styles.returnItem}>
+                                        <label className={styles.inputLabel}>1-5 Years Return</label>
+                                        <div className={styles.inputWithSuffix}>
+                                            <input
+                                                type="number"
+                                                name="return_1_5_years"
+                                                value={formData.return_1_5_years}
+                                                onChange={handleChange}
+                                                className={styles.textInput}
+                                                min="0"
+                                                max="100"
+                                                step="0.01"
+                                                required
+                                            />
+                                            <span className={styles.percentSuffix}>%</span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.returnItem}>
+                                        <label className={styles.inputLabel}>5-10 Years Return</label>
+                                        <div className={styles.inputWithSuffix}>
+                                            <input
+                                                type="number"
+                                                name="return_5_10_years"
+                                                value={formData.return_5_10_years}
+                                                onChange={handleChange}
+                                                className={styles.textInput}
+                                                min="0"
+                                                max="100"
+                                                step="0.01"
+                                                required
+                                            />
+                                            <span className={styles.percentSuffix}>%</span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.returnItem}>
+                                        <label className={styles.inputLabel}>10+ Years Return</label>
+                                        <div className={styles.inputWithSuffix}>
+                                            <input
+                                                type="number"
+                                                name="return_10_plus_years"
+                                                value={formData.return_10_plus_years}
+                                                onChange={handleChange}
+                                                className={styles.textInput}
+                                                min="0"
+                                                max="100"
+                                                step="0.01"
+                                                required
+                                            />
+                                            <span className={styles.percentSuffix}>%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.buttonContainer}>
+                                <button 
+                                    type="button" 
+                                    onClick={handleNext} 
+                                    className={styles.nextButton}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
 )}
 
                     {/* Story Section */}

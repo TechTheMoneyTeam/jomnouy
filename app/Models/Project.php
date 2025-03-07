@@ -28,14 +28,34 @@ class Project extends Model
         'categories',
         'project_location',
         'status',
-         'auction_start_date',
-         'auction_end_date',
-         'member_name',
-         'member_position',
+        'auction_start_date',
+        'auction_end_date',
+        'member_name',
+        'member_position',
+        // New equity fields
+        'equity_offered',
+        'equity_tiers',
+        'return_1_5_years',
+        'return_5_10_years',
+        'return_10_plus_years',
         'created_at',
         'updated_at'
     ];
+    
     protected $with = ['user'];
+    
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'equity_tiers' => 'json',
+        'equity_offered' => 'float',
+        'return_1_5_years' => 'float',
+        'return_5_10_years' => 'float',
+        'return_10_plus_years' => 'float',
+    ];
 
     /**
      * Get the user that owns the project

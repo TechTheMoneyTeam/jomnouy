@@ -49,6 +49,12 @@ class ProjectController extends Controller
                 'project_location' => 'nullable|string|max:200',
                 'auction_start_date' => 'nullable|date',
                 'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
+                // New equity fields
+                'equity_offered' => 'nullable|numeric|between:0,100',
+                'equity_tiers' => 'nullable|json',
+                'return_1_5_years' => 'nullable|numeric|between:0,100',
+                'return_5_10_years' => 'nullable|numeric|between:0,100',
+                'return_10_plus_years' => 'nullable|numeric|between:0,100',
             ]);
 
             if ($validator->fails()) {
@@ -102,6 +108,12 @@ class ProjectController extends Controller
                 'status' => $validatedData['status'] ?? 'pending',
                 'auction_start_date' => $request->auction_start_date,
                 'auction_end_date' => $request->auction_end_date,
+                // New equity fields
+                'equity_offered' => $request->equity_offered,
+                'equity_tiers' => $request->equity_tiers,
+                'return_1_5_years' => $request->return_1_5_years,
+                'return_5_10_years' => $request->return_5_10_years,
+                'return_10_plus_years' => $request->return_10_plus_years,
                 'created_at' => now(),
                 'updated_at' => now()
             ];
@@ -189,6 +201,12 @@ class ProjectController extends Controller
                 'status' => 'nullable|string|max:20',
                 'auction_start_date' => 'nullable|date',
                 'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
+                // New equity fields
+                'equity_offered' => 'nullable|numeric|between:0,100',
+                'equity_tiers' => 'nullable|json',
+                'return_1_5_years' => 'nullable|numeric|between:0,100',
+                'return_5_10_years' => 'nullable|numeric|between:0,100',
+                'return_10_plus_years' => 'nullable|numeric|between:0,100',
             ]);
 
             if ($validator->fails()) {
@@ -209,7 +227,10 @@ class ProjectController extends Controller
             $fieldList = [
                 'title', 'funding_goal', 'project_type', 'project_des', 'project_story',
                 'reserve_price', 'categories', 'member_name', 'member_position',
-                'project_location', 'status', 'auction_start_date', 'auction_end_date'
+                'project_location', 'status', 'auction_start_date', 'auction_end_date',
+                // New equity fields
+                'equity_offered', 'equity_tiers', 'return_1_5_years', 
+                'return_5_10_years', 'return_10_plus_years'
             ];
             
             foreach ($fieldList as $field) {
