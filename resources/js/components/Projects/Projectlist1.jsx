@@ -136,7 +136,7 @@ const ProjectListing = () => {
                   }`}
                 >
                   <img
-                    src={project.project_img_url || project.project_img || "/api/placeholder/400/200"}
+                  src={`/storage/app/public/${project.project_img || project.project_img_url || "/api/placeholder/400/200"}`}
                     alt={project.title}
                     className="w-full h-48 object-cover"
                     onError={(e) => {

@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind screens;
 
 /* Header */
 .header {
@@ -137,8 +138,7 @@ button {
 
 /* Project Section */
 .project-container {
-  @apply relative  p-8 mt-8 mb-8;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1);
+  @apply relative p-8 mt-8 mb-8 mx-auto;
 }
 
 .nav-button {
@@ -209,26 +209,22 @@ button {
 }
 
 .project-title {
-  @apply p-2 mt-2 text-lg font-bold;
+  @apply  pt-2 mt-2 text-lg font-bold;
 }
 
 .project-username {
   @apply p-2 text-sm text-gray-600;
 }
 
-.project-description {
-  @apply mt-4 text-sm text-gray-700 line-clamp-2;
-}
-
 .project-description2 {
-  @apply mt-4 p-2  text-sm text-gray-700 break-words overflow-hidden whitespace-normal;
+  @apply  p-2  text-sm text-gray-700 break-words overflow-hidden whitespace-normal;
 }
 
 .explore-btn {
 @apply relative z-10 text-gray-800 border-4 border-double border-gray-200 py-2 px-[150px] rounded-md hover:bg-gray-100 transition;
 }
 .project-title-section {
-  @apply text-2xl font-bold mb-8 text-center;
+  @apply text-5xl font-bold mb-12 mt-12 text-center;
 }
 .prev-btn {
   @apply p-2 mt-4 mr-4 text-black border-2 rounded-r-lg border-gray-200 bg-white transform transition-all duration-200 hover:bg-gray-300 hover:border-gray-400;
@@ -311,7 +307,7 @@ button {
 /* Startup.css */
 /* Startup.css */
 .startup-container {
-  @apply flex flex-col max-w-full h-[550px] mx-auto  mt-12 mb-8  overflow-hidden relative shadow-lg;
+  @apply flex flex-col max-w-full h-[650px] mx-auto  mt-12 mb-12  overflow-hidden relative;
   
 }
 
@@ -328,17 +324,16 @@ button {
 }
 
 .image-container {
-  @apply flex-1 items-center justify-center bg-gray-200; /* Make the image container flexible */
+  @apply flex-1 items-center justify-center bg-white ; /* Make the image container flexible */
 }
 
+
+.text-container {
+  @apply flex-1 pl-8 pr-8  bg-white shadow-md; /* Make the text container flexible */
+}
 .image {
   @apply w-full h-full  object-cover; /* Ensures the image covers the entire container */
 }
-
-.text-container {
-    @apply flex-1 pl-8 pr-8  bg-white; /* Make the text container flexible */
-}
-
 .project-title {
     @apply text-4xl font-semibold mb-8; /* Add bottom margin for spacing */
 }
@@ -360,12 +355,12 @@ button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adjust values for desired effect */
 }
 .button-container {
-  @apply flex justify-between mt-4; /* Keep buttons spaced */
+  @apply flex justify-between mt-[10rem]; /* Keep buttons spaced */
   /* Pushes the button container to the bottom */
 }
 
 .button1 {
-  @apply text-2xl py-2 font-bold rounded-full bg-custom-orange shadow-lg text-white transition-all duration-300 ease-in-out px-12; /* Base styles with smooth transition */
+  @apply z-10 text-2xl py-2 font-bold rounded-full bg-custom-orange shadow-lg text-white transition-all duration-300 ease-in-out px-12; /* Base styles with smooth transition */
 }
 
 .button1:hover {
@@ -394,3 +389,114 @@ button {
 .arrow-button.right:hover {
   @apply bg-custom-orange bg-opacity-50 transform translate-x-[7px] ;
 }
+
+
+
+
+/* New container for the project component */
+/* New container layout for the startup */
+/* New container style */
+.new-startup-container {
+  @apply flex flex-col max-w-full h-[650px] mx-auto mt-12 mb-12 overflow-hidden relative ;
+}
+
+/* Title style */
+.new-container-title {
+  @apply text-5xl font-bold text-black text-center mb-8;
+}
+
+.new-container-title span {
+  @apply text-custom-orange;
+}
+
+/* Content container with flex layout */
+.new-content-container {
+  @apply flex flex-1; /* Makes the text and image flex together */
+  flex-direction: row-reverse; /* Places the image on the right side */
+}
+
+/* Image container placed on the right */
+.new-image-container {
+  @apply flex-1 items-center justify-center bg-white shadow-md; /* Flex to center the image */
+}
+
+.new-image {
+  @apply w-full h-full object-cover; /* Ensures the image covers the container */
+}
+
+/* Text container with padding on the left */
+.new-text-container {
+  @apply flex-1 pl-12 pr-8 bg-white shadow-md ;
+}
+
+/* Title and description styles */
+.new-project-title {
+  @apply text-4xl mb-4 font-semibold pt-12;
+}
+
+.new-project-description {
+  @apply mb-4 text-gray-700;
+}
+
+.new-project-type,
+.new-project-goal,
+.new-project-min {
+  @apply mb-3 text-xl text-black;
+}
+
+/* Project type button styling */
+.new-project-type {
+  @apply text-lg text-white bg-custom-orange pr-4 pl-4 pt-1 pb-1 rounded-md mb-12;
+  @apply inline-block;
+  @apply shadow-md;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Button container */
+.new-button-container {
+  @apply flex justify-between mt-[10rem];
+}
+
+/* Button styles */
+.new-button1 {
+  @apply z-10 text-2xl py-2 font-bold rounded-full bg-custom-orange shadow-lg text-white transition-all duration-300 ease-in-out px-12;
+}
+
+.new-button1:hover {
+  @apply transform translate-x-[-6px] text-black;
+}
+
+.new-button2 {
+  @apply text-2xl font-bold py-2 px-8 rounded-full bg-white shadow-lg text-custom-orange transition-all duration-300 ease-in-out;
+}
+
+.new-button2:hover {
+  @apply transform translate-x-[6px] text-black;
+}
+
+/* Arrow buttons for navigation */
+.new-arrow-button {
+  @apply absolute top-1/2 transform -translate-y-1/2 bg-transparent border-none text-2xl cursor-pointer hover:text-blue-500;
+}
+
+.new-arrow-button.left {
+  @apply left-2 bg-custom-orange bg-opacity-10 hover:transition-all w-8 h-28 flex items-center justify-center;
+}
+
+.new-arrow-button.right {
+  @apply right-2 bg-custom-orange bg-opacity-10 hover:transition-all w-8 h-28 flex items-center justify-center;
+}
+
+.new-arrow-button.left:hover {
+  @apply bg-custom-orange bg-opacity-50 transform translate-x-[-7px];
+}
+
+.new-arrow-button.right:hover {
+  @apply bg-custom-orange bg-opacity-50 transform translate-x-[7px];
+}
+
+
+
+
+
+

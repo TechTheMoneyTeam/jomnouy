@@ -59,22 +59,6 @@
   .nav-link.active-link {
     @apply text-custom-orange font-semibold;
   }
-  
-
-
-
-/* .active-link {
-    text-decoration: none;
-    border-bottom: 2px solid #F07900;
-    color: #F07900;
-} */
-
-/* .nav-link.active-link:hover {
-    text-decoration: none;
-    color: #F07900;
-} */
-
-
 .button-group {
     @apply flex space-x-4 items-center;
 }
@@ -162,12 +146,6 @@ button {
     @apply mr-2;
 }
 
-/* .hero {
-    @apply relative min-h-[500px] w-full overflow-hidden mt-8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
 .hero-service {
   @apply relative w-full h-[680px] overflow-hidden mt-0 bg-cover bg-center;
   
@@ -357,12 +335,12 @@ button {
     padding: 50px 0;
     text-align: center;
     justify-items: center;
+
 }
 
 .services-title {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 40px;
+
+    @apply text-5xl font-semibold mb-4 text-black;
 }
 
 .services-container {
@@ -430,38 +408,36 @@ button {
 }
 
 .about-section {
-  @apply bg-gray-100 p-8 text-center;
+  @apply bg-white p-8 text-center;
 }
 
 .about-title {
-  @apply text-3xl font-semibold mb-4 text-gray-800;
+  @apply text-5xl font-semibold mb-4 text-gray-800;
 }
 
 .about-text {
-  @apply text-base text-gray-600 mt-10;
+  @apply text-base text-lg text-gray-600 mt-10 mb-10;
 }
 
 .about-container {
-  @apply grid grid-cols-1 sm:grid-cols-2 gap-10 place-items-center;
-  padding: 0px 200px 0px 200px;
+  @apply grid grid-cols-1 sm:grid-cols-2 mx-auto max-w-7xl gap-12 place-items-center;
+
 }
 
 
 .about-card {
-  @apply bg-white rounded-lg shadow-md p-6 flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[480px];
+  @apply relative bg-black bg-opacity-50 rounded-lg shadow-md  flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[550px];
 }
-
 .about-image {
-  @apply w-full h-auto max-w-[150px] mb-4 rounded-full;
+  @apply w-full h-full opacity-30 object-cover rounded-lg ;
 }
 
 .about-card-title {
-  @apply text-lg font-semibold mb-2 text-gray-800;
+  @apply absolute font-bold text-black text-5xl;
+  @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  @apply text-center break-words max-w-full;
 }
 
-.about-card-text {
-  @apply text-sm text-gray-600 text-center;
-}
 
 .about-text span {
   @apply font-semibold text-custom-orange;
@@ -472,39 +448,3 @@ button {
     @apply w-full max-w-[600px] h-[[650px]];
 }
 
-.footer {
-    @apply bg-custom-orange text-white py-10 mt-0;
-}
-
-.footer-grid {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
-}
-
-.footer-title {
-    @apply text-lg font-bold;
-}
-
-.footer-list {
-    @apply space-y-2;
-}
-
-.footer-link {
-    @apply text-white hover:text-yellow-300 transition;
-}
-
-.footer-contact {
-    @apply flex items-center space-x-2;
-}
-
-
-.footer-bottom {
-    @apply mt-6 text-center text-white;
-}
-
-.footer-social {
-    @apply flex justify-center space-x-4 mt-4;
-}
-
-.social-icon {
-    @apply text-white hover:text-black transition;
-}
