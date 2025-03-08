@@ -18,12 +18,36 @@ Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
 
 use App\Http\Controllers\InvestmentController;
+Route::get('/api/investments', [InvestmentController::class, 'index']);
+    
+// Create a new investment
+Route::post('/api/investments', [InvestmentController::class, 'store']);
 
-Route::post('/api/projects/{id}/invest', [InvestmentController::class, 'invest']);
-Route::get('/api/projects/{id}/investments', [InvestmentController::class, 'projectInvestments']);
-Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
-Route::get('/api/user-investments-grouped/{userId}', [InvestmentController::class, 'getUserInvestmentsGroupedByProject']);
+// Get specific investment by ID
+Route::get('/api/investments/{id}', [InvestmentController::class, 'show']);
 
+// Update specific investment
+Route::put('/api/investments/{id}', [InvestmentController::class, 'update']);
+Route::patch('/api/investments/{id}', [InvestmentController::class, 'update']);
+
+// Delete investment
+Route::delete('/api/investments/{id}', [InvestmentController::class, 'destroy']);
+
+// Get all investments for a specific project
+Route::get('/api/projects/{projectId}/investments', [InvestmentController::class, 'getProjectInvestments']);
+
+// Get all investments for a specific user
+Route::get('/api/users/{userId}/investments', [InvestmentController::class, 'getUserInvestments']);
+
+Route::get('/investments', function () {
+    return view('welcome');
+});
+Route::get('/investments/{id}', function () {
+    return view('welcome');
+});
+
+
+ 
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/projects/{id}', function () {
     return view('welcome');
