@@ -2,194 +2,395 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* Header */
 .header {
-    @apply bg-white text-white py-4 px-6;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+  @apply bg-white text-white py-4 px-6 sticky top-0 z-50 shadow-md;
 }
-.hero-button1 {
-    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
-    position: absolute;
-    right: 15rem; 
-    top: 72%; 
-    transform: translateY(-50%);
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-}
-
-
 
 .nav-container {
-    @apply flex justify-between items-center;
+  @apply flex justify-between items-center;
 }
-
 
 .logo {
-    @apply text-2xl font-bold text-custom-orange;
-    text-decoration: none;
+  @apply text-2xl font-bold text-custom-orange no-underline;
 }
-
-
-.nav-links {
-    @apply flex space-x-6;
-}
-
-.nav-link {
-    @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
-    text-decoration: none;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
-}
-
-
-.active-link {
-    text-decoration: none;
-    border-bottom: 2px solid #F07900;
-    color: #F07900;
-}
-
-.nav-link.active-link:hover {
-    text-decoration: none;
-    color: #F07900;
-}
-
 
 .button-group {
-    @apply flex space-x-4 items-center;
+  @apply flex space-x-4 items-center;
 }
-
 
 button {
-    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
+  @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
 }
-
-.login-button {
-    @apply bg-custom-orange hover:bg-blue-700;
-}
-
 
 .search-button {
-    @apply hover:bg-gray-600;
-    color: #F07900;
+  @apply hover:bg-gray-600 text-custom-orange;
 }
-
 
 .language-button {
-    @apply hover:bg-green-700;
-    border-radius: 10px;
-    color: #F07900;
-    border-color: black;
-    border-width: 1px;
-
+  @apply hover:bg-green-700 rounded-lg text-custom-orange border border-black;
 }
-
 
 .flag-icon {
-    @apply mr-2;
+  @apply mr-2;
 }
 
+/* Hero Section */
 .hero {
-    @apply relative min-h-[500px] w-full overflow-hidden mt-8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 min-h-[700px];
 }
 
+@keyframes heroBackgroundSlide {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
 .hero-background {
-    @apply absolute inset-0;
-    background-color: #F07900;
-    border-radius: 0px 187px 0px 431px;
-    z-index: 1;
+  @apply absolute inset-0 bg-custom-orange z-10;
+  border-top-right-radius: 20% 187px;
+  border-bottom-left-radius: 28% 431px;
+  animation: heroBackgroundSlide 1s ease-out;
 }
-
 
 .hero-content {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 p-8;
+  @apply relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full max-w-7xl px-6 md:px-12;
 }
-
 
 .hero-text-section {
-    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20;
-    padding: 20px;
+  @apply relative bg-white p-8 max-w-lg px-10 h-[530px]
+         shadow-[-45px_28px_0px_rgba(0,0,0,0.2)] overflow-hidden;
+  border-top-right-radius: 45% 193px;
+  border-bottom-left-radius: 45% 193px;
+  animation: slideInLeft 1s ease-out;
 }
-
-.hero-text-background {
-    @apply absolute inset-0;
-    background-color: white;
-    border-radius: 0px 123px 0px 123px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-
-    z-index: 10;
-}
-
 
 .hero-title {
-    @apply text-5xl font-bold text-gray-900 relative z-30;
-    
+  @apply md:text-7xl font-bold text-gray-900 leading-tight ml-5 mb-12 mt-5;
 }
 
 .hero-description {
-    @apply text-3xl font-bold text-gray-800 relative z-30;
+  @apply md:text-5xl text-gray-700 mt-12 leading-relaxed ml-5;
+}
 
+.hero-description2 {
+  @apply md:text-5xl text-black font-bold leading-relaxed ml-5 mt-8;
+}
 
-
+.hero-description2 span {
+  @apply text-custom-orange font-bold;
 }
 
 .hero-button {
-    @apply inline-block rounded-lg bg-black px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
-    position: relative;
-    z-index: 50;
-    margin-left: 35%;
+  @apply relative inline-block bg-black text-white py-3 px-12 rounded-full font-semibold transition-all duration-300 ease-in-out;
+  left: 50px;
+  top: 100px;
+  animation: slideInLeft 1s ease-out 0.2s;
 }
 
+.hero-button:hover {
+  transform: translateX(10px);
+  @apply bg-custom-orange;
+}
+
+.hero-button1 {
+  @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+  @apply absolute right-60 top-[72%] translate-y-[-50%] z-50 shadow-md;
+}
 
 .hero-image-wrapper {
-    @apply relative flex justify-center items-center;
+  @apply flex justify-center items-center relative z-10;
+  left: 70px;
+  animation: slideInRight 1s ease-out;
 }
 
 .analytics-image {
-    @apply w-full max-w-[600px] h-auto;
+  @apply w-full max-w-[700px] h-auto;
 }
 
-.footer {
-    @apply bg-custom-orange text-white py-10 mt-16;
+/* Project Section */
+.project-container {
+  @apply relative  p-8 mt-8 mb-8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.footer-grid {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
+.nav-button {
+  @apply p-2 bg-gray-800 text-white rounded-full shadow-md hover:bg-gray-600;
+}
+ .project-grid-wrapper {
+     @apply overflow-hidden relative;
+ }
+  
+ .project-grid {
+     @apply justify-center flex  transition-transform duration-500 ease-in-out ;
+ }
+
+@keyframes slideInProjectCard {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.footer-title {
-    @apply text-lg font-bold;
+/* Home.css or index.css */
+@layer utilities {
+  @keyframes fadeInRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in-right {
+    animation: fadeInRight 0.5s ease-out forwards;
+  }
+
+  .animate-fade-in-left {
+    animation: fadeInLeft 0.5s ease-out forwards;
+  }
 }
 
-.footer-list {
-    @apply space-y-2;
+.project-card {
+  @apply flex-shrink-0 w-[100%] sm:w-[280px] h-[300px] sm:h-[370px] mr-0 sm:mr-4 mb-4 sm:mr-4 rounded-lg transition-transform duration-300 ease-in-out ;
+  animation: slideInProjectCard 1s ease-out;
 }
 
-.footer-link {
-    @apply text-white hover:text-yellow-300 transition;
+.project-card:hover {
+  @apply scale-105 shadow-lg;
+}
+.project-image {
+  @apply w-full h-40 object-cover rounded-lg;
 }
 
-.footer-contact {
-    @apply flex items-center space-x-2;
+.project-title {
+  @apply p-2 mt-2 text-lg font-bold;
+}
+
+.project-username {
+  @apply p-2 text-sm text-gray-600;
+}
+
+.project-description {
+  @apply mt-4 text-sm text-gray-700 line-clamp-2;
+}
+
+.project-description2 {
+  @apply mt-4 p-2  text-sm text-gray-700 break-words overflow-hidden whitespace-normal;
+}
+
+.explore-btn {
+@apply relative z-10 text-gray-800 border-4 border-double border-gray-200 py-2 px-[150px] rounded-md hover:bg-gray-100 transition;
+}
+.project-title-section {
+  @apply text-2xl font-bold mb-8 text-center;
+}
+.prev-btn {
+  @apply p-2 mt-4 mr-4 text-black border-2 rounded-r-lg border-gray-200 bg-white transform transition-all duration-200 hover:bg-gray-300 hover:border-gray-400;
+}
+
+.next-btn {
+  @apply p-2 mt-4 mr-4 text-black border-2 rounded-l-lg border-gray-200 bg-white transform transition-all duration-200 hover:bg-gray-300 hover:border-gray-400;
 }
 
 
-.footer-bottom {
-    @apply mt-6 text-center text-white;
+
+
+/* Responsive Design */
+@media (max-width: 1024px) { /* Desktop screens and smaller tablets */
+  .hero-content {
+    @apply grid-cols-1 lg:grid-cols-2; /* Two columns for larger screens, single column for smaller ones */
+  }
+
+  .hero-button {
+    @apply py-3 px-10 text-xl; /* Adjust button size */
+  }
+
+  .project-grid {
+    @apply gap-8; /* Reduce gap on medium-sized screens */
+  }
 }
 
-.footer-social {
-    @apply flex justify-center space-x-4 mt-4;
+@media (max-width: 768px) { /* iPads, smaller tablets, large mobile screens */
+  .hero-content {
+    @apply grid-cols-1; /* Stack items in a single column */
+  }
+
+  .hero-button {
+    @apply py-2 px-6 text-lg; /* Reduce button size for smaller devices */
+  }
+
+  .project-grid {
+    @apply flex-wrap gap-6; /* Wrap items for smaller screens */
+  }
+
+  .project-card {
+    @apply w-full sm:w-[250px] h-auto; /* Adjust project card width */
+  }
+
+  .project-title-section {
+    @apply text-xl; /* Adjust section title */
+  }
 }
 
-.social-icon {
-    @apply text-white hover:text-black transition;
+@media (max-width: 390px) { /* iPhone 14 and similar small screens */
+  .hero-title {
+    @apply text-3xl; /* Adjust hero title size */
+  }
+
+  .hero-description, .hero-description2 {
+    @apply text-xl; /* Reduce description font size */
+  }
+
+  .hero-button {
+    @apply px-6 py-2 text-lg; /* Adjust button size */
+  }
+
+  .project-card {
+    @apply w-full sm:w-[200px] h-auto; /* Adjust project card size */
+  }
+
+  .project-title-section {
+    @apply text-lg; /* Adjust title size for smaller screens */
+  }
+
+  .hero-content {
+    @apply px-4; /* Add padding for very small screens */
+  }
+
+  .project-grid {
+    @apply gap-4; /* Reduce grid gap for small screens */
+  }
+}
+/* Startup.css */
+/* Startup.css */
+/* Startup.css */
+.startup-container {
+  @apply flex flex-col max-w-full h-[550px] mx-auto  mt-12 mb-8  overflow-hidden relative shadow-lg;
+  
+}
+
+.container-title {
+  @apply text-5xl font-bold text-black text-center mb-8; /* Centering the title */
+}
+
+.container-title span {
+  @apply text-custom-orange;
+}
+
+.content-container {
+  @apply flex flex-1; /* This allows image and text to flex within the container */
+}
+
+.image-container {
+  @apply flex-1 items-center justify-center bg-gray-200; /* Make the image container flexible */
+}
+
+.image {
+  @apply w-full h-full  object-cover; /* Ensures the image covers the entire container */
+}
+
+.text-container {
+    @apply flex-1 pl-8 pr-8  bg-white; /* Make the text container flexible */
+}
+
+.project-title {
+    @apply text-4xl font-semibold mb-8; /* Add bottom margin for spacing */
+}
+
+.project-description {
+    @apply mb-4 text-gray-700; /* Maintain margin for spacing */
+}
+
+.project-type,
+.project-goal,
+.project-min {
+    @apply mb-3 text-xl text-black; /* Add bottom margin for spacing */
+}
+.project-type {
+  @apply text-lg text-white bg-custom-orange pr-4 pl-4 pt-1 pb-1 rounded-md mb-12;
+  @apply inline-block; /* Ensure the background fits the content */
+  @apply shadow-md; /* Use a medium shadow */
+  /* Custom shadow for black */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adjust values for desired effect */
+}
+.button-container {
+  @apply flex justify-between mt-4; /* Keep buttons spaced */
+  /* Pushes the button container to the bottom */
+}
+
+.button1 {
+  @apply text-2xl py-2 font-bold rounded-full bg-custom-orange shadow-lg text-white transition-all duration-300 ease-in-out px-12; /* Base styles with smooth transition */
+}
+
+.button1:hover {
+  @apply transform translate-x-[-6px] text-black; /* Translate up by 4 pixels and change text color on hover */
+}
+.button2 {
+  @apply text-2xl font-bold  py-2 px-8 rounded-full bg-white shadow-lg text-custom-orange transition-all duration-300 ease-in-out;
+}
+.button2:hover {
+  @apply transform translate-x-[6px] text-black; /* Translate up by 4 pixels and change text color on hover */
+}
+.arrow-button {
+  @apply absolute top-1/2 transform -translate-y-1/2 bg-transparent border-none text-2xl cursor-pointer hover:text-blue-500;
+}
+
+.arrow-button.left {
+  @apply left-2 bg-custom-orange bg-opacity-10 hover:transition-all w-8 h-28 flex items-center justify-center;
+}
+
+.arrow-button.right {
+  @apply right-2 bg-custom-orange bg-opacity-10  hover:transition-all w-8 h-28 flex items-center justify-center;
+}
+.arrow-button.left:hover {
+  @apply bg-custom-orange bg-opacity-50 transform translate-x-[-7px] ;
+}
+.arrow-button.right:hover {
+  @apply bg-custom-orange bg-opacity-50 transform translate-x-[7px] ;
 }

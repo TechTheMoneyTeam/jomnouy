@@ -6,6 +6,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/js/app.jsx'],
+            require:('@tailwindcss/nesting'),
             refresh: true,
         }),
         react(),
@@ -13,7 +14,8 @@ export default defineConfig({
     server: {
         proxy: {
             // Proxy all requests to Laravel
-            '/': 'http://localhost:8000',  // Adjust this URL if Laravel is running on a different port
+            '/': 'http://localhost:8000', 
+            //  // Adjust this URL if Laravel is running on a different port
         },
     },
 });
