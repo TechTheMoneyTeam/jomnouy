@@ -14,6 +14,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
 import ContactFounder from "../Contactfounder/Contactfounder";
 import Footer from "../footer/footer";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import Service from "../Servicepage/Servicepage";
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
@@ -24,7 +27,17 @@ const Home = () => {
 
     const Header = () => {
         const location = useLocation();
+        const [isdark, setisdark] = useState(false);
+        const onToggle = () => {
+            setisdark(!isdark);
+            if (isdark) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        }
 
+            
         return (
             <header className="header">
                 <nav className="nav-container">
@@ -53,9 +66,7 @@ const Home = () => {
                         </Link>
                     </div>
                     <div className="button-group">
-                        <button className="search-button">
-                            <Search />
-                        </button>
+                    
                         <button
                             onClick={toggleLanguage}
                             className="language-button"
@@ -104,6 +115,12 @@ const Home = () => {
 
         useEffect(() => {
             window.scrollTo(0, 0);
+            AOS.init({
+                duration: 1000,
+                easing: 'ease-in-out',
+                once: false,
+                mirror: false
+            });
             const fetchProjects = async () => {
                 try {
                     const response = await axios.get("/api/projects"); // Fetch projects from API
@@ -174,7 +191,7 @@ const Home = () => {
                             "Unknown User";
 
                         return (
-                            <div key={index} className="project-card">
+                            <div key={index} className="project-card" data-aos="flip-up" data-aos-duration="1000">
                                 <img
                                     src={
                                         project.project_img
@@ -182,24 +199,22 @@ const Home = () => {
                                             : "/img/default-project.png"
                                     }
                                     alt={project.title}
-                                    className="project-image w-full h-40 object-cover rounded-lg"
+                                    className="project-image "
                                     onError={(e) => {
                                         e.target.onerror = null;
                                         e.target.src =
                                             "/img/default-project.png";
                                     }}
                                 />
-                                <h3 className="project-title p-2 text-lg font-bold mt-3">
-                                    Project:{" "}
+                                <h3 className="project-title-card">
+                                    {" "}
                                     {project.title || "Untitled Project"}
                                 </h3>
-                                <p className="project-username text-gray-500">
-                                    By: {userName}
+                                <p className="project-username">
+                                    Owner : <b>{userName}</b>
                                 </p>
                                 <p className="project-description2">
-                                    Description:{" "}
-                                    {project.project_des ||
-                                        "No description available"}
+                                    {" "}{project.project_des ||"No description available"}
                                 </p>
                             </div>
                         );
@@ -272,15 +287,15 @@ const Home = () => {
 
         return (
             
-            <div className="startup-container">
-                <div className="container-title">
+            <div className="startup-container" >
+                <div className="container-title" data-aos="fade-up" data-aos-duration="800">
                     Featured <span>Project</span>
                 </div>
                 <div className="content-container">
-                    <button onClick={handlePrev} className="arrow-button left">
+                    <button onClick={handlePrev} className="arrow-button left"> 
                         ←
                     </button>
-                    <div className="image-container">
+                    <div className="image-container" data-aos="fade-down-right" data-aos-duration="1000">
                         <img
                             src={
                                 currentProject.project_img
@@ -295,25 +310,25 @@ const Home = () => {
                             }}
                         />
                     </div>
-                    <div className="text-container">
+                    <div className="text-container" data-aos="fade-down-left" data-aos-duration="1000">
                         <h2 className="project-title">
                             {currentProject.title || "Untitled Project"}
                         </h2>
-                        <p className="project-creator">By {userName}</p>
+                        <p className="project-creator">Owner : <b>{userName}</b></p>
                         <p className="project-description">
                             {currentProject.project_des ||
                                 "No description available"}
                         </p>
                         <p className="project-type">
-                            {currentProject.categories || "Project"}
+                            Project Type : <strong>{currentProject.categories || "Project"}</strong>
                         </p>
                         <p className="project-goal">
-                            <strong>Investment Goal:</strong> $
+                            <strong>Investment Goal : </strong> $
                             {currentProject.funding_goal?.toLocaleString() ||
                                 "Not specified"}
                         </p>
                         <p className="project-min">
-                            <strong>Min Investment:</strong> $
+                            <strong>Min Investment : </strong> $
                             {currentProject.reserve_price?.toLocaleString() ||
                                 "Not specified"}
                         </p>
@@ -477,7 +492,8 @@ const Home = () => {
             <Hero />
             <ProjectShow />
             <FeaturedProject />
-            <AuctionProject />
+            {/* <AuctionProject /> */}
+            <Service />
             <Footer />
         </>
     );

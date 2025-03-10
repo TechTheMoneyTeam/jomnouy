@@ -1,6 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 
-
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -9,20 +8,24 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
-        
     ],
+    darkMode: 'class', // or 'media' or 'class'
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
+     
                 'custom-orange': '#F07900',
-              },
+        
+            
+            },
         },
     },
     plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/nesting'),
+        require('@tailwindcss/line-clamp'), // Added line-clamp plugin
     ],
 };

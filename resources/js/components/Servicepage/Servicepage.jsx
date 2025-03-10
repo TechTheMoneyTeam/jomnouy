@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import "./Service.css";
 import { colors } from "laravel-mix/src/Log";
-import Footer from "../footer/footer";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Service = () => {
     const [language, setLanguage] = useState("en");
@@ -22,7 +23,12 @@ const Service = () => {
 
     // Intersection Observer to detect when service cards come into view
     useEffect(() => {
-        window.scrollTo(0, 0);
+         AOS.init({
+                        duration: 1000,
+                        easing: 'ease-in-out',
+                        once: false,
+                        mirror: false
+                    });
         const heroService = document.querySelector('.hero-service');
         const heroContent = document.querySelector('.hero-content-service');
         const serviceCards = document.querySelectorAll('.service-card'); // Select all service cards
@@ -75,71 +81,26 @@ const Service = () => {
         };
     }, []);
 
-    const Header = () => {
-        const location = useLocation();
     
-        return (
-            <header className="header">
-                <nav className="nav-container">
-                    <Link to="/" className="logo">
-                        Jom<span className="nouy">nouy</span>
-                    </Link>
-                    <div className="nav-links">
-                        <Link
-                            to="/"
-                            className={`nav-link ${location.pathname === "/home" ? "active-link" : ""}`}
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            to="/services"
-                            className={`nav-link ${location.pathname === "/services" ? "active-link" : ""}`}
-                        >
-                            Services
-                        </Link>
-                        <Link
-                            to="/about"
-                            className={`nav-link ${location.pathname === "/about" ? "active-link" : ""}`}
-                        >
-                            About
-                        </Link>
-                     <Link to="/login" className="login-button">
-                       <button><span>Login</span></button>
-                     </Link>
-                    </div>
-
-                    <div className="button-group">
-                        <button className="search-button">
-                            <Search />
-                        </button>
-                        <button onClick={toggleLanguage} className="language-button">
-                            <span className="flag-icon">🇰🇭</span>
-                            {language === "en" ? "English" : "ខ្មែរ"}
-                        </button>
-                    </div>
-                </nav>
-            </header>
-        );
-    };
 
     const Hero = () => (
         <div className="hero-service">
             <img src="/img/serviceimg.png" alt="Hero Background" />
             <div className="hero-content-service">
-                <h1 className="hero-title1">Opportunities don't happen.</h1>
-                <h1 className="hero-title2">You create them.</h1>
-                <p className="hero-text1">
+                <h1 className="hero-title1" data-aos="fade-up" data-aos-duration = "600">Opportunities don't happen.</h1>
+                <h1 className="hero-title2" data-aos="fade-up" data-aos-duration = "700">You create them.</h1>
+                <p className="hero-text1" data-aos="fade-up" data-aos-duration = "800">
                     Connecting creators with the companies looking to sponsor them.
                 </p>
 
                 <div className="hero-buttons">
 
-                    <Link to="/signup" className="hero-btn-primary1">
+                    <Link to="/signup" className="hero-btn-primary1" data-aos="fade-up-left" data-aos-duration = "900">
                         <button><span>Become a member</span></button>
                     </Link>
 
 
-                    <Link to="/about" className="hero-btn-secondary1">
+                    <Link to="/about" className="hero-btn-secondary1" data-aos="fade-up-left" data-aos-duration = "1000">
                         <button><span>Learn More</span></button>
                     </Link>
                 </div>
@@ -175,28 +136,28 @@ const Service = () => {
     );
     const About = () => (
         <div className="about-section">
-            <h2 className="about-title">Who Uses Looking For Sponsor?</h2>
-            <p className="about-text">
+            <h2 className="about-title" data-aos="fade-up" data-aos-duration="800">Who Uses Looking For Sponsor?</h2>
+            <p className="about-text" data-aos="fade-up" data-aos-duration="1000">
                 ជំនួយ-Jom<span>nouy</span> is a platform that connects creators with companies looking to sponsor them. We help creators find sponsors and investors to support their projects. Our mission is to empower creators to turn their ideas into reality by providing them with the resources they need to succeed.
             </p>
-            <div className="about-container">
-                <div className="about-card">
+            <div className="about-container" >
+                <div className="about-card" data-aos="flip-right" data-aos-duration="1000">
                     <img src="https://oss6.tnaot.com/tnaot/image/2022/09/03/075e2f7238f34205af4eaa8dbbee8e4c.png" className="about-image" />
                     <h3 className="about-card-title">លីវ-ប៉ី 刘备</h3>
 
                 </div>
-                <div className="about-card">
+                <div className="about-card" data-aos="flip-left" data-aos-duration="1000">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThNtjO3yiDLPh7qc4FYnoe9qwWMkfUPLlV4Q&s" className="about-image" />
                     <h3 className="about-card-title">Cao Cao</h3>
            
                 </div>
-                <div className="about-card">
+                <div className="about-card" data-aos = "flip-right" data-aos-duration="1000">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStcPEr9SzS_9_17J6DdrDn1EtHRcT9Su0EhkT5OpXyHy2GX5Iedkr5jM2u6THo0pA33Mc&usqp=CAU" className="about-image" />
 
                     <h3 className="about-card-title">ស៊ឺ-ម៉ាអ៊ី</h3>
                
                 </div>
-                <div className="about-card">
+                <div className="about-card" data-aos = "flip-left" data-aos-duration="1000">
                     <img src="https://i.pinimg.com/564x/d8/34/1c/d8341c070215459bb9923ffffb3e1649.jpg" className="about-image" />
                     <h3 className="about-card-title">Zhuge Liang</h3>
                    
@@ -214,12 +175,9 @@ const Service = () => {
 
     return (
         <>
-            <Header />
             <Hero />
             <Services />
             <About />
-            <Footer />
-
         </>
     );
 };
