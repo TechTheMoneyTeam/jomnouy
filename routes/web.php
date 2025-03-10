@@ -19,6 +19,7 @@ Route::get('/api/projects', [ProjectController::class, 'index']);
 
 use App\Http\Controllers\InvestmentController;
 Route::get('/api/investments', [InvestmentController::class, 'index']);
+Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
     
 // Create a new investment
 Route::post('/api/investments', [InvestmentController::class, 'store']);

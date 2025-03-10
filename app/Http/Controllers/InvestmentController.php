@@ -461,4 +461,37 @@ class InvestmentController extends Controller
             ], 500);
         }
     }
+    public function getProjectTotalInvestment($projectId)
+{
+    try {
+        // Verify project exists
+        $project = Project::find($projectId);
+        
+        if (!$project) {
+            return response()->json([
+                'message' => 'Project not found'
+            ], 404);
+        }
+
+        $investments = Investment::where('project_id', $projectId)->get();
+
+        // Calculate total investment amount
+        $totalInvestmentAmount = $investments->sum('amount');
+        $totalApprovedAmount = $investments->where('status', 'approved')->sum('amount');
+        $totalCompletedAmount = $investments->where('status', 'completed')->sum('amount');
+
+        return response()->json([
+            'total_amount' => $totalInvestmentAmount,
+            'total_approved_amount' => $totalApprovedAmount,
+            'total_completed_amount' => $totalCompletedAmount,
+            'active_amount' => $totalApprovedAmount + $totalCompletedAmount
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Failed to fetch investment total',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 }
