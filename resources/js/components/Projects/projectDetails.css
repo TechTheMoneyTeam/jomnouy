@@ -189,20 +189,23 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    
   }
   
   .terms-checkbox input {
     margin-right: 10px;
+    color: #F07900;
   }
   
   .terms-buttons {
     display: flex;
     justify-content: space-between;
+    color: #F07900;
   }
   
   .terms-accept-button {
     padding: 10px 20px;
-    background-color: #0066cc;
+    background-color: #F07900;
     color: white;
     border: none;
     border-radius: 4px;

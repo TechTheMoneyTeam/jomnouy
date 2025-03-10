@@ -11,6 +11,7 @@ import { RxBookmark } from "react-icons/rx";
 import { PiShareFat } from "react-icons/pi";
 import { FaRegClock } from "react-icons/fa";
 import FAQAccordion from "../tab_bar/faq";
+import TermsAndConditions from "./TermsAndConditions";
 
 const getDaysSinceCreation = (createdAt) => {
     const created = new Date(createdAt);
@@ -47,53 +48,6 @@ const ProgressBar = ({ progress }) => {
     return (
         <div className="progress-container">
             <div className="progress-bar" style={{ width: `${progress}%`, backgroundColor: getColor() }} />
-        </div>
-    );
-};
-
-// New Terms and Conditions Component
-const TermsAndConditions = ({ onAccept, onCancel }) => {
-    const [agreed, setAgreed] = useState(false);
-    
-    return (
-        <div className="terms-modal">
-            <div className="terms-content">
-                <h2 className="terms-title">Investment Terms and Conditions</h2>
-                <div className="terms-text">
-                    <p>By investing in this project, you acknowledge and agree to the following terms:</p>
-                    <ol>
-                        <li>You understand that investing involves risk and the potential for loss of your investment.</li>
-                        <li>You confirm that you are over 18 years of age and legally allowed to make investments in your jurisdiction.</li>
-                        <li>You agree to provide accurate personal and financial information as required by regulatory standards.</li>
-                        <li>You understand that funds will only be collected if the project reaches its funding goal by the deadline.</li>
-                        <li>You acknowledge that JOMNOUY is a platform facilitating investments and is not responsible for project outcomes.</li>
-                        <li>You understand that returns on investment are not guaranteed and depend on the project's success.</li>
-                        <li>You agree to comply with all applicable tax regulations regarding your investment.</li>
-                        <li>You consent to JOMNOUY collecting and processing your personal data in accordance with our Privacy Policy.</li>
-                    </ol>
-                </div>
-                <div className="terms-checkbox">
-                    <input 
-                        type="checkbox" 
-                        id="agree-terms" 
-                        checked={agreed} 
-                        onChange={() => setAgreed(!agreed)} 
-                    />
-                    <label htmlFor="agree-terms">I have read and agree to the terms and conditions</label>
-                </div>
-                <div className="terms-buttons">
-                    <button 
-                        className="terms-accept-button" 
-                        disabled={!agreed} 
-                        onClick={onAccept}
-                    >
-                        Accept & Continue
-                    </button>
-                    <button className="terms-cancel-button" onClick={onCancel}>
-                        Cancel
-                    </button>
-                </div>
-            </div>
         </div>
     );
 };
@@ -381,23 +335,23 @@ const ProjectDetails = () => {
                     <div className="modal-backdrop" onClick={resetInvestmentFlow}></div>
                     <div className="modal-container">
                         {showTermsModal && (
-                            <TermsAndConditions 
-                                onAccept={handleTermsAccept} 
-                                onCancel={resetInvestmentFlow} 
+                            <TermsAndConditions
+                                onAccept={handleTermsAccept}
+                                onCancel={resetInvestmentFlow}
                             />
                         )}
-                        
+
                         {showKYCForm && (
-                            <KYCForm 
-                                onComplete={handleKYCComplete} 
-                                onCancel={resetInvestmentFlow} 
+                            <KYCForm
+                                onComplete={handleKYCComplete}
+                                onCancel={resetInvestmentFlow}
                             />
                         )}
-                        
+
                         {showInvestmentForm && (
                             <div className="investment-form-wrapper">
-                                <button 
-                                    className="modal-close-button" 
+                                <button
+                                    className="modal-close-button"
                                     onClick={resetInvestmentFlow}
                                 >
                                     &times;
