@@ -98,9 +98,6 @@ const TermsAndConditions = ({ onAccept, onCancel }) => {
     );
 };
 
-
-
-
 const ProjectDetails = () => {
     const { id } = useParams();
     const [project, setProject] = useState(null);
@@ -302,6 +299,7 @@ const ProjectDetails = () => {
                         <p className="mt-1 text-gray-600">Reaching Funding Goal</p>
                         <p className="mt-6 text-gray-600 text-2xl font-medium">{daysRemaining}</p>
                         <p className="mt-1 text-gray-600">Days Remaining</p>
+                        <p className="mt-6 text-gray-600 text-2xl font-medium">Status: {project.status}</p>
 
                         <button
                             className="invest-button"

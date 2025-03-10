@@ -49,7 +49,7 @@ class ProjectController extends Controller
                 'project_location' => 'nullable|string|max:200',
                 'auction_start_date' => 'nullable|date',
                 'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
-                // New equity fields
+                // Equity fields
                 'equity_offered' => 'nullable|numeric|between:0,100',
                 'equity_tiers' => 'nullable|json',
                 'return_1_5_years' => 'nullable|numeric|between:0,100',
@@ -91,6 +91,35 @@ class ProjectController extends Controller
                 throw new \Exception('No available project IDs remaining');
             }
 
+            // Process equity tiers if provided
+            $equityTiers = null;
+            if ($request->has('equity_tiers') && !empty($request->equity_tiers)) {
+                if (is_string($request->equity_tiers)) {
+                    $equityTiers = json_decode($request->equity_tiers, true);
+                } else {
+                    $equityTiers = $request->equity_tiers;
+                }
+                
+                // Validate each tier has required properties
+                foreach ($equityTiers as $index => $tier) {
+                    if (!isset($tier['amount']) || !isset($tier['equity_percentage'])) {
+                        return response()->json([
+                            'message' => 'Validation failed',
+                            'errors' => ['equity_tiers' => ["Tier {$index} is missing required properties"]]
+                        ], 422);
+                    }
+                    
+                    // Calculate percentage of total based on funding goal
+                    if ($request->funding_goal > 0) {
+                        $equityTiers[$index]['percentage_of_total'] = 
+                            round(($tier['amount'] / $request->funding_goal) * 100, 2);
+                    }
+                }
+                
+                // Re-encode as JSON for storage
+                $equityTiers = json_encode($equityTiers);
+            }
+
             // Handle file uploads
             $projectData = [
                 'project_id' => $projectId,
@@ -108,9 +137,9 @@ class ProjectController extends Controller
                 'status' => $validatedData['status'] ?? 'pending',
                 'auction_start_date' => $request->auction_start_date,
                 'auction_end_date' => $request->auction_end_date,
-                // New equity fields
+                // Equity fields
                 'equity_offered' => $request->equity_offered,
-                'equity_tiers' => $request->equity_tiers,
+                'equity_tiers' => $equityTiers,
                 'return_1_5_years' => $request->return_1_5_years,
                 'return_5_10_years' => $request->return_5_10_years,
                 'return_10_plus_years' => $request->return_10_plus_years,
@@ -201,7 +230,7 @@ class ProjectController extends Controller
                 'status' => 'nullable|string|max:20',
                 'auction_start_date' => 'nullable|date',
                 'auction_end_date' => 'nullable|date|after_or_equal:auction_start_date',
-                // New equity fields
+                // Equity fields
                 'equity_offered' => 'nullable|numeric|between:0,100',
                 'equity_tiers' => 'nullable|json',
                 'return_1_5_years' => 'nullable|numeric|between:0,100',
@@ -216,20 +245,43 @@ class ProjectController extends Controller
                 ], 422);
             }
             
-            // Check for method spoofing
-            $method = $request->method();
-            $isMethodSpoofed = $method === 'POST' && $request->input('_method') === 'PUT';
-            
-            // Determine if we're using FormData (multipart/form-data)
-            $isFormData = strpos($request->header('Content-Type'), 'multipart/form-data') !== false;
+            // Process equity tiers if provided
+            if ($request->has('equity_tiers') && !empty($request->equity_tiers)) {
+                $equityTiers = null;
+                
+                if (is_string($request->equity_tiers)) {
+                    $equityTiers = json_decode($request->equity_tiers, true);
+                } else {
+                    $equityTiers = $request->equity_tiers;
+                }
+                
+                // Validate each tier has required properties
+                foreach ($equityTiers as $index => $tier) {
+                    if (!isset($tier['amount']) || !isset($tier['equity_percentage'])) {
+                        return response()->json([
+                            'message' => 'Validation failed',
+                            'errors' => ['equity_tiers' => ["Tier {$index} is missing required properties"]]
+                        ], 422);
+                    }
+                    
+                    // Calculate percentage of total based on funding goal
+                    if ($request->funding_goal > 0) {
+                        $equityTiers[$index]['percentage_of_total'] = 
+                            round(($tier['amount'] / $request->funding_goal) * 100, 2);
+                    }
+                }
+                
+                // Re-encode as JSON for storage
+                $project->equity_tiers = json_encode($equityTiers);
+            }
             
             // Update fields if provided
             $fieldList = [
                 'title', 'funding_goal', 'project_type', 'project_des', 'project_story',
                 'reserve_price', 'categories', 'member_name', 'member_position',
                 'project_location', 'status', 'auction_start_date', 'auction_end_date',
-                // New equity fields
-                'equity_offered', 'equity_tiers', 'return_1_5_years', 
+                // Equity fields
+                'equity_offered', 'return_1_5_years', 
                 'return_5_10_years', 'return_10_plus_years'
             ];
             

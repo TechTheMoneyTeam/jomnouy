@@ -106,6 +106,46 @@ class InvestmentController extends Controller
                 ], 422);
             }
             
+            // Calculate equity percentage based on investment amount
+            $baseEquityPercentage = $validatedData['equity_percentage'] ?? 0;
+            
+            // Get base equity from project
+            if ($project->equity_offered) {
+                $baseEquityPercentage = floatval($project->equity_offered);
+            } elseif ($project->equity_tiers) {
+                // Try to get equity from tiers
+                try {
+                    $equityTiers = json_decode($project->equity_tiers, true);
+                    if (is_array($equityTiers)) {
+                        // Find the appropriate tier based on amount
+                        foreach ($equityTiers as $tier) {
+                            if (floatval($validatedData['amount']) >= floatval($tier['amount'])) {
+                                $baseEquityPercentage = floatval($tier['equity_percentage']);
+                                break;
+                            }
+                        }
+                    }
+                } catch (\Exception $e) {
+                    // If error parsing tiers, use provided equity percentage
+                }
+            }
+            
+            // Calculate additional equity for amounts over funding goal based on project data
+            if (floatval($validatedData['amount']) > floatval($project->funding_goal)) {
+                $amountOverFundingGoal = floatval($validatedData['amount']) - floatval($project->funding_goal);
+                $fundingGoal = floatval($project->funding_goal);
+                
+                // Get equity per dollar from project's equity offered and funding goal
+                $equityPerDollar = $baseEquityPercentage / $fundingGoal;
+                
+                // Calculate additional equity based on the same ratio
+                $additionalEquity = $equityPerDollar * $amountOverFundingGoal;
+                
+                $validatedData['equity_percentage'] = $baseEquityPercentage + $additionalEquity;
+            } else {
+                $validatedData['equity_percentage'] = $baseEquityPercentage;
+            }
+            
             // Create the investment
             $investment = Investment::create([
                 'project_id' => $validatedData['project_id'],
@@ -187,16 +227,78 @@ class InvestmentController extends Controller
                 ], 422);
             }
             
+            // Check if amount is being updated
+            if ($request->has('amount') && $request->amount != $investment->amount) {
+                // Get project to recalculate equity
+                $project = Project::find($investment->project_id);
+                
+                if ($project) {
+                    // Ensure amount meets minimum
+                    if (floatval($request->amount) < floatval($project->funding_goal)) {
+                        return response()->json([
+                            'message' => 'Investment amount must be at least equal to the funding goal',
+                            'errors' => [
+                                'amount' => 'Investment amount must be at least equal to the funding goal of $' . number_format(floatval($project->funding_goal), 2)
+                            ]
+                        ], 422);
+                    }
+                    
+                    // Recalculate equity percentage
+                    $baseEquityPercentage = 0;
+                    
+                    if ($project->equity_offered) {
+                        $baseEquityPercentage = floatval($project->equity_offered);
+                    } elseif ($project->equity_tiers) {
+                        try {
+                            $equityTiers = json_decode($project->equity_tiers, true);
+                            if (is_array($equityTiers)) {
+                                foreach ($equityTiers as $tier) {
+                                    if (floatval($request->amount) >= floatval($tier['amount'])) {
+                                        $baseEquityPercentage = floatval($tier['equity_percentage']);
+                                        break;
+                                    }
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            // If error parsing tiers, keep existing equity percentage
+                            $baseEquityPercentage = $investment->equity_percentage;
+                        }
+                    }
+                    
+                    // Calculate additional equity for amounts over funding goal based on project data
+                    if (floatval($request->amount) > floatval($project->funding_goal)) {
+                        $amountOverFundingGoal = floatval($request->amount) - floatval($project->funding_goal);
+                        $fundingGoal = floatval($project->funding_goal);
+                        
+                        // Get equity per dollar from project's equity offered and funding goal
+                        $equityPerDollar = $baseEquityPercentage / $fundingGoal;
+                        
+                        // Calculate additional equity based on the same ratio
+                        $additionalEquity = $equityPerDollar * $amountOverFundingGoal;
+                        
+                        $investment->equity_percentage = $baseEquityPercentage + $additionalEquity;
+                    } else {
+                        $investment->equity_percentage = $baseEquityPercentage;
+                    }
+                }
+                
+                $investment->amount = $request->amount;
+            }
+            
             // Update fields if provided
             $fieldList = [
-                'amount', 'equity_percentage', 'payment_method', 
-                'investment_notes', 'investment_term'
+                'payment_method', 'investment_notes', 'investment_term'
             ];
             
             foreach ($fieldList as $field) {
                 if ($request->has($field)) {
                     $investment->{$field} = $request->{$field};
                 }
+            }
+            
+            // Only update equity percentage directly if not updating amount (to prevent overriding calculated value)
+            if ($request->has('equity_percentage') && !$request->has('amount')) {
+                $investment->equity_percentage = $request->equity_percentage;
             }
             
             // Handle status changes and timestamps

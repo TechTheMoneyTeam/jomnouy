@@ -133,6 +133,61 @@ const ProjectExisting = () => {
             }));
         }
     };
+    // Add this to your component's initialization or useEffect
+const initializeEquityTiers = () => {
+    // Check if equity_tiers already exists in formData and parse it
+    let initialTiers = [];
+    
+    if (formData.equity_tiers) {
+      try {
+        // Handle if it's already a string or object
+        if (typeof formData.equity_tiers === 'string') {
+          initialTiers = JSON.parse(formData.equity_tiers);
+        } else if (Array.isArray(formData.equity_tiers)) {
+          initialTiers = formData.equity_tiers;
+        }
+      } catch (error) {
+        console.error('Error parsing equity tiers:', error);
+      }
+    }
+    
+    // If no tiers exist yet, create a default one
+    if (initialTiers.length === 0) {
+      initialTiers = [{ amount: 0, equity_percentage: 0 }];
+    }
+    
+    // Set the initial tiers
+    setEquityTiers(initialTiers);
+  };
+  
+  // Call this in useEffect
+  useEffect(() => {
+    initializeEquityTiers();
+  }, []); // Empty dependency array means this runs once on mount
+  
+  // Optional: Add an effect to recalculate tiers when funding goal changes
+  useEffect(() => {
+    if (formData.funding_goal > 0 && equityTiers.length > 0) {
+      const updatedTiers = equityTiers.map(tier => {
+        const newTier = {...tier};
+        
+        // If amount exists, recalculate equity percentage
+        if (newTier.amount) {
+          newTier.equity_percentage = (
+            (newTier.amount / formData.funding_goal) * formData.equity_offered
+          ).toFixed(2);
+        }
+        
+        return newTier;
+      });
+      
+      setEquityTiers(updatedTiers);
+      setFormData({
+        ...formData,
+        equity_tiers: JSON.stringify(updatedTiers)
+      });
+    }
+  }, [formData.funding_goal, formData.equity_offered]);
 
     const handleFileChange = (e) => {
         const { name, files } = e.target;
@@ -617,188 +672,284 @@ const ProjectExisting = () => {
                         </div>
                     )}
 
-                    {/* Equity Section - New */}
-                    {currentStep === 'equity' && (
-                        <div className={styles.formSection}>
-                            <h2 className={styles.sectionTitle}>Equity Details</h2>
-                            <p className={styles.sectionDescription}>
-                                Define the equity structure for your project and expected returns.
-                            </p>
+{/* Equity Section - Modified */}
+{currentStep === 'equity' && (
+    <div className={styles.formSection}>
+        <h2 className={styles.sectionTitle}>Equity Details</h2>
+        <p className={styles.sectionDescription}>
+            Define the equity structure for your project and expected returns.
+        </p>
 
-                            <div className={styles.fieldGroup}>
-                                <div className={styles.fieldLabel}>
-                                    <h3>Equity Offered</h3>
-                                    <p className={styles.fieldDescription}>
-                                        The total percentage of equity you're offering to investors.
-                                    </p>
-                                </div>
-                                <div className={styles.fieldInput}>
-                                    <label className={styles.inputLabel}>Total Equity Percentage</label>
-                                    <div className={styles.inputWithSuffix}>
-                                        <input
-                                            type="number"
-                                            name="equity_offered"
-                                            value={formData.equity_offered}
-                                            onChange={handleChange}
-                                            className={styles.textInput}
-                                            min="0"
-                                            max="100"
-                                            step="0.01"
-                                            required
-                                        />
-                                        <span className={styles.percentSuffix}>%</span>
-                                    </div>
-                                </div>
-                            </div>
+        <div className={styles.fieldGroup}>
+            <div className={styles.fieldLabel}>
+                <h3>Equity Offered</h3>
+                <p className={styles.fieldDescription}>
+                    The total percentage of equity you're offering to investors.
+                </p>
+            </div>
+            <div className={styles.fieldInput}>
+                <label className={styles.inputLabel}>Total Equity Percentage</label>
+                <div className={styles.inputWithSuffix}>
+                    <input
+                        type="number"
+                        name="equity_offered"
+                        value={formData.equity_offered}
+                        onChange={handleChange}
+                        className={styles.textInput}
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        required
+                    />
+                    <span className={styles.percentSuffix}>%</span>
+                </div>
+            </div>
+        </div>
 
-                            <div className={styles.fieldGroup}>
-                                <div className={styles.fieldLabel}>
-                                    <h3>Equity Tiers</h3>
-                                    <p className={styles.fieldDescription}>
-                                        Define different investment tiers and the equity percentage offered for each.
-                                    </p>
-                                </div>
-                                <div className={styles.fieldInput}>
-                                    {equityTiers.map((tier, index) => (
-                                        <div key={index} className={styles.equityTierItem}>
-                                            <div className={styles.tierHeader}>
-                                                <h4>Tier {index + 1}</h4>
-                                                {index > 0 && (
-                                                    <button
-                                                        type="button"
-                                                        className={styles.removeTierButton}
-                                                        onClick={() => removeEquityTier(index)}
-                                                    >
-                                                        Remove
-                                                    </button>
-                                                )}
-                                            </div>
-                                            <div className={styles.tierInputGroup}>
-                                                <div className={styles.tierInput}>
-                                                    <label className={styles.inputLabel}>Investment Amount</label>
-                                                    <div className={styles.inputWithCurrency}>
-                                                        <span className={styles.currencyPrefix}>$</span>
-                                                        <input
-                                                            type="text"
-                                                            value={tier.amount ? tier.amount.toLocaleString() : ''}
-                                                            onChange={(e) => {
-                                                                const value = e.target.value.replace(/,/g, '');
-                                                                handleEquityTierChange(
-                                                                    index,
-                                                                    'amount',
-                                                                    value ? parseFloat(value) : ''
-                                                                );
-                                                            }}
-                                                            className={styles.textInput}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className={styles.tierInput}>
-                                                    <label className={styles.inputLabel}>Equity Percentage</label>
-                                                    <div className={styles.inputWithSuffix}>
-                                                        <input
-                                                            type="number"
-                                                            value={tier.equity_percentage}
-                                                            onChange={(e) => handleEquityTierChange(
-                                                                index,
-                                                                'equity_percentage',
-                                                                e.target.value
-                                                            )}
-                                                            className={styles.textInput}
-                                                            min="0"
-                                                            max="100"
-                                                            step="0.01"
-                                                            required
-                                                        />
-                                                        <span className={styles.percentSuffix}>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    <button
-                                        type="button"
-                                        className={styles.addTierButton}
-                                        onClick={addEquityTier}
-                                    >
-                                        + Add Another Tier
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className={styles.fieldGroup}>
-                                <div className={styles.fieldLabel}>
-                                    <h3>Expected Returns</h3>
-                                    <p className={styles.fieldDescription}>
-                                        Provide estimated returns on investment for different time periods.
-                                    </p>
-                                </div>
-                                <div className={styles.fieldInput}>
-                                    <div className={styles.returnItem}>
-                                        <label className={styles.inputLabel}>1-5 Years Return</label>
-                                        <div className={styles.inputWithSuffix}>
-                                            <input
-                                                type="number"
-                                                name="return_1_5_years"
-                                                value={formData.return_1_5_years}
-                                                onChange={handleChange}
-                                                className={styles.textInput}
-                                                min="0"
-                                                max="100"
-                                                step="0.01"
-                                                required
-                                            />
-                                            <span className={styles.percentSuffix}>%</span>
-                                        </div>
-                                    </div>
-                                    <div className={styles.returnItem}>
-                                        <label className={styles.inputLabel}>5-10 Years Return</label>
-                                        <div className={styles.inputWithSuffix}>
-                                            <input
-                                                type="number"
-                                                name="return_5_10_years"
-                                                value={formData.return_5_10_years}
-                                                onChange={handleChange}
-                                                className={styles.textInput}
-                                                min="0"
-                                                max="100"
-                                                step="0.01"
-                                                required
-                                            />
-                                            <span className={styles.percentSuffix}>%</span>
-                                        </div>
-                                    </div>
-                                    <div className={styles.returnItem}>
-                                        <label className={styles.inputLabel}>10+ Years Return</label>
-                                        <div className={styles.inputWithSuffix}>
-                                            <input
-                                                type="number"
-                                                name="return_10_plus_years"
-                                                value={formData.return_10_plus_years}
-                                                onChange={handleChange}
-                                                className={styles.textInput}
-                                                min="0"
-                                                max="100"
-                                                step="0.01"
-                                                required
-                                            />
-                                            <span className={styles.percentSuffix}>%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className={styles.buttonContainer}>
-                                <button 
-                                    type="button" 
-                                    onClick={handleNext} 
-                                    className={styles.nextButton}
+        <div className={styles.fieldGroup}>
+            <div className={styles.fieldLabel}>
+                <h3>Equity Tiers</h3>
+                <p className={styles.fieldDescription}>
+                    Define different investment tiers and the equity percentage offered for each.
+                    <br />
+                    <span className={styles.highlightText}>
+                        Total funding goal: ${formData.funding_goal ? formData.funding_goal.toLocaleString() : '0'}
+                    </span>
+                </p>
+            </div>
+            <div className={styles.fieldInput}>
+                {equityTiers.map((tier, index) => (
+                    <div key={index} className={styles.equityTierItem}>
+                        <div className={styles.tierHeader}>
+                            <h4>Tier {index + 1}</h4>
+                            {index > 0 && (
+                                <button
+                                    type="button"
+                                    className={styles.removeTierButton}
+                                    onClick={() => removeEquityTier(index)}
                                 >
-                                    Next
+                                    Remove
                                 </button>
+                            )}
+                        </div>
+                        <div className={styles.tierInputGroup}>
+                            <div className={styles.tierInput}>
+                                <label className={styles.inputLabel}>Investment Amount</label>
+                                <div className={styles.inputWithCurrency}>
+                                    <span className={styles.currencyPrefix}>$</span>
+                                    <input
+                                        type="text"
+                                        value={tier.amount ? tier.amount.toLocaleString() : ''}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/,/g, '');
+                                            const newAmount = value ? parseFloat(value) : 0;
+                                            
+                                            // Update the tier amount
+                                            const updatedTier = {...tier, amount: newAmount};
+                                            
+                                            // Calculate equity percentage based on funding goal
+                                            if (formData.funding_goal && formData.funding_goal > 0) {
+                                                updatedTier.equity_percentage = (
+                                                    (newAmount / formData.funding_goal) * formData.equity_offered
+                                                ).toFixed(2);
+                                            }
+                                            
+                                            // Update the tier with new values
+                                            const newTiers = [...equityTiers];
+                                            newTiers[index] = updatedTier;
+                                            setEquityTiers(newTiers);
+                                            
+                                            // Update formData with JSON string of tiers
+                                            setFormData({
+                                                ...formData,
+                                                equity_tiers: JSON.stringify(newTiers)
+                                            });
+                                        }}
+                                        className={styles.textInput}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.tierInput}>
+                                <label className={styles.inputLabel}>Equity Percentage</label>
+                                <div className={styles.inputWithSuffix}>
+                                    <input
+                                        type="number"
+                                        value={tier.equity_percentage}
+                                        onChange={(e) => {
+                                            const newPercentage = parseFloat(e.target.value);
+                                            
+                                            // Update the tier equity percentage
+                                            const updatedTier = {...tier, equity_percentage: newPercentage};
+                                            
+                                            // Calculate amount based on equity percentage and funding goal
+                                            if (formData.funding_goal && formData.funding_goal > 0 && formData.equity_offered > 0) {
+                                                updatedTier.amount = (
+                                                    (newPercentage / formData.equity_offered) * formData.funding_goal
+                                                ).toFixed(2);
+                                            }
+                                            
+                                            // Update the tier with new values
+                                            const newTiers = [...equityTiers];
+                                            newTiers[index] = updatedTier;
+                                            setEquityTiers(newTiers);
+                                            
+                                            // Update formData with JSON string of tiers
+                                            setFormData({
+                                                ...formData,
+                                                equity_tiers: JSON.stringify(newTiers)
+                                            });
+                                        }}
+                                        className={styles.textInput}
+                                        min="0"
+                                        max={formData.equity_offered || 100}
+                                        step="0.01"
+                                        required
+                                    />
+                                    <span className={styles.percentSuffix}>%</span>
+                                </div>
                             </div>
                         </div>
+                        
+                        {/* Calculation info display */}
+                        <div className={styles.tierInfoText}>
+                            {formData.funding_goal && tier.amount ? (
+                                <div className={styles.calculationInfo}>
+                                    <p>
+                                        ${parseFloat(tier.amount).toLocaleString()} investment = {tier.equity_percentage}% equity
+                                    </p>
+                                    {formData.equity_offered > 0 && (
+                                        <p>
+                                            This represents {((tier.equity_percentage / formData.equity_offered) * 100).toFixed(1)}% 
+                                            of your total offered equity ({formData.equity_offered}%)
+                                        </p>
+                                    )}
+                                </div>
+                            ) : (
+                                <p className={styles.infoMessage}>
+                                    Set funding goal and investment amount to see equity calculation
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                ))}
+                
+                <button
+                    type="button"
+                    className={styles.addTierButton}
+                    onClick={() => {
+                        // Add a new tier with default values
+                        const newTier = { 
+                            amount: 0, 
+                            equity_percentage: 0
+                        };
+                        
+                        const newTiers = [...equityTiers, newTier];
+                        setEquityTiers(newTiers);
+                        
+                        // Update formData with JSON string of tiers
+                        setFormData({
+                            ...formData,
+                            equity_tiers: JSON.stringify(newTiers)
+                        });
+                    }}
+                >
+                    + Add Another Tier
+                </button>
+                
+                {/* Equity allocation summary */}
+                <div className={styles.equitySummary}>
+                    <div className={styles.summaryBox}>
+                        <p>
+                            <strong>Total allocated:</strong> 
+                            {equityTiers.reduce((sum, tier) => sum + parseFloat(tier.equity_percentage || 0), 0).toFixed(2)}% 
+                            of {formData.equity_offered || 0}% offered equity
+                        </p>
+                        
+                        {/* Show warning if allocation exceeds total offered */}
+                        {equityTiers.reduce((sum, tier) => sum + parseFloat(tier.equity_percentage || 0), 0) > 
+                         parseFloat(formData.equity_offered || 0) && (
+                            <p className={styles.warningText}>
+                                Warning: Your tier allocation exceeds your total offered equity
+                            </p>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div className={styles.fieldGroup}>
+            <div className={styles.fieldLabel}>
+                <h3>Expected Returns</h3>
+                <p className={styles.fieldDescription}>
+                    Provide estimated returns on investment for different time periods.
+                </p>
+            </div>
+            <div className={styles.fieldInput}>
+                <div className={styles.returnItem}>
+                    <label className={styles.inputLabel}>1-5 Years Return</label>
+                    <div className={styles.inputWithSuffix}>
+                        <input
+                            type="number"
+                            name="return_1_5_years"
+                            value={formData.return_1_5_years}
+                            onChange={handleChange}
+                            className={styles.textInput}
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            required
+                        />
+                        <span className={styles.percentSuffix}>%</span>
+                    </div>
+                </div>
+                <div className={styles.returnItem}>
+                    <label className={styles.inputLabel}>5-10 Years Return</label>
+                    <div className={styles.inputWithSuffix}>
+                        <input
+                            type="number"
+                            name="return_5_10_years"
+                            value={formData.return_5_10_years}
+                            onChange={handleChange}
+                            className={styles.textInput}
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            required
+                        />
+                        <span className={styles.percentSuffix}>%</span>
+                    </div>
+                </div>
+                <div className={styles.returnItem}>
+                    <label className={styles.inputLabel}>10+ Years Return</label>
+                    <div className={styles.inputWithSuffix}>
+                        <input
+                            type="number"
+                            name="return_10_plus_years"
+                            value={formData.return_10_plus_years}
+                            onChange={handleChange}
+                            className={styles.textInput}
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            required
+                        />
+                        <span className={styles.percentSuffix}>%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div className={styles.buttonContainer}>
+            <button 
+                type="button" 
+                onClick={handleNext} 
+                className={styles.nextButton}
+            >
+                Next
+            </button>
+        </div>
+    </div>
 )}
 
                     {/* Story Section */}

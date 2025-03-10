@@ -8,7 +8,9 @@ const InvestmentForm = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
-  
+  const [baseEquity, setBaseEquity] = useState(0);
+  const [additionalEquity, setAdditionalEquity] = useState(0);
+
   const [formData, setFormData] = useState({
     project_id: '',
     user_id: '',
@@ -64,42 +66,94 @@ const InvestmentForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
+
     // If project_id changed, find and set the selected project
     if (name === 'project_id') {
       const project = projects.find(p => p.project_id === parseInt(value));
       setSelectedProject(project || null);
-      
-      // If project has equity tiers, auto-calculate equity percentage based on investment amount
-      if (project && project.equity_tiers && formData.amount) {
+
+      // Calculate equity if we have both project and amount
+      if (project && formData.amount) {
         calculateEquityPercentage(project, formData.amount);
       }
     }
-    
-    // If amount changed and project has equity tiers, recalculate equity
-    if (name === 'amount' && selectedProject && selectedProject.equity_tiers) {
+
+    // If amount changed and we have a selected project, recalculate equity
+    if (name === 'amount' && selectedProject) {
       calculateEquityPercentage(selectedProject, value);
     }
   };
 
-  // Function to calculate equity percentage based on investment amount and equity tiers
+  // Function to calculate equity percentage based on investment amount, equity tiers, and amount over funding goal
   const calculateEquityPercentage = (project, amount) => {
     try {
-      const equityTiers = JSON.parse(project.equity_tiers);
-      // Find tier where amount is exactly at or above tier threshold
-      const tier = equityTiers.find(t => parseFloat(amount) >= t.amount);
-      if (tier) {
-        setFormData(prev => ({ ...prev, equity_percentage: tier.equity_percentage }));
+      // Parse the amount as float to ensure proper comparison
+      const investmentAmount = parseFloat(amount);
+      if (isNaN(investmentAmount)) return;
+  
+      // Get the base equity (from project.equity_offered)
+      let baseEquityValue = 0;
+  
+      // Use equity_offered directly if available
+      if (project.equity_offered) {
+        baseEquityValue = parseFloat(project.equity_offered);
       }
+      // Otherwise check equity tiers if available
+      else if (project.equity_tiers) {
+        try {
+          const equityTiers = JSON.parse(project.equity_tiers);
+          if (Array.isArray(equityTiers)) {
+            // Find the highest tier that the amount qualifies for
+            let highestQualifyingTier = null;
+            for (const tier of equityTiers) {
+              if (investmentAmount >= parseFloat(tier.amount)) {
+                if (!highestQualifyingTier || parseFloat(tier.amount) > parseFloat(highestQualifyingTier.amount)) {
+                  highestQualifyingTier = tier;
+                }
+              }
+            }
+  
+            if (highestQualifyingTier) {
+              baseEquityValue = parseFloat(highestQualifyingTier.equity_percentage);
+            }
+          }
+        } catch (e) {
+          console.error('Error parsing equity tiers', e);
+        }
+      }
+  
+      setBaseEquity(baseEquityValue);
+  
+      // Calculate additional equity for amounts over funding goal
+      let additionalEquityValue = 0;
+      const fundingGoal = parseFloat(project.funding_goal);
+  
+      if (investmentAmount > fundingGoal) {
+        const amountOverFundingGoal = investmentAmount - fundingGoal;
+        
+        // Get equity per dollar based on project's equity offered and funding goal
+        const equityPerDollar = baseEquityValue / fundingGoal;
+        
+        // Calculate additional equity based on the same ratio
+        additionalEquityValue = equityPerDollar * amountOverFundingGoal;
+      }
+  
+      setAdditionalEquity(additionalEquityValue);
+  
+      // Calculate total equity
+      const totalEquity = baseEquityValue + additionalEquityValue;
+  
+      // Update form data with the calculated equity percentage
+      setFormData(prev => ({ ...prev, equity_percentage: totalEquity.toFixed(2) }));
     } catch (e) {
-      console.error('Error parsing equity tiers', e);
+      console.error('Error calculating equity percentage', e);
     }
   };
 
   // Function to check if project is currently accepting investments
   const isProjectAcceptingInvestments = (project) => {
     if (!project) return false;
-    
+
     const now = moment();
     const auctionStart = project.auction_start_date ? moment(project.auction_start_date) : null;
     const auctionEnd = project.auction_end_date ? moment(project.auction_end_date) : null;
@@ -108,7 +162,7 @@ const InvestmentForm = () => {
     if (auctionStart && auctionEnd) {
       return now.isSameOrAfter(auctionStart) && now.isSameOrBefore(auctionEnd);
     }
-    
+
     // Otherwise fall back to status check
     return project.status === 'active' || project.status === 'funding';
   };
@@ -116,7 +170,7 @@ const InvestmentForm = () => {
   // Function to get auction status message
   const getAuctionStatusMessage = (project) => {
     if (!project) return '';
-    
+
     const now = moment();
     const auctionStart = project.auction_start_date ? moment(project.auction_start_date) : null;
     const auctionEnd = project.auction_end_date ? moment(project.auction_end_date) : null;
@@ -130,7 +184,7 @@ const InvestmentForm = () => {
       }
       return `Auction ends on ${auctionEnd.format('MMM D, YYYY')}`;
     }
-    
+
     return '';
   };
 
@@ -174,6 +228,8 @@ const InvestmentForm = () => {
         investment_term: '1-5'
       });
       setSelectedProject(null);
+      setBaseEquity(0);
+      setAdditionalEquity(0);
     } catch (error) {
       console.error("Full error response:", error.response);
       if (error.response && error.response.data.errors) {
@@ -205,7 +261,7 @@ const InvestmentForm = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6">Invest in a Project</h2>
-      
+
       {loading ? (
         <div className="text-center py-8">
           <p>Loading available projects...</p>
@@ -222,7 +278,7 @@ const InvestmentForm = () => {
             {/* Basic Investment Information */}
             <div className="bg-gray-50 p-4 rounded-md">
               <h3 className="text-lg font-medium mb-4">Investment Details</h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Investor</label>
@@ -251,8 +307,8 @@ const InvestmentForm = () => {
                   >
                     <option value="">Select a project</option>
                     {projects.map(project => (
-                      <option 
-                        key={project.project_id} 
+                      <option
+                        key={project.project_id}
                         value={project.project_id}
                         disabled={!isProjectAcceptingInvestments(project)}
                       >
@@ -275,7 +331,7 @@ const InvestmentForm = () => {
                   {selectedProject.project_type && (
                     <p className="text-sm text-blue-700">Project Type: {selectedProject.project_type}</p>
                   )}
-                  
+
                   {/* Auction status message */}
                   {getAuctionStatusMessage(selectedProject) && (
                     <p className={`text-sm mt-2 font-medium ${isProjectAcceptingInvestments(selectedProject) ? 'text-green-600' : 'text-red-600'}`}>
@@ -319,10 +375,10 @@ const InvestmentForm = () => {
                     min="0"
                     max="100"
                     step="0.01"
-                    readOnly={selectedProject && selectedProject.equity_tiers}
+                    readOnly={selectedProject && (selectedProject.equity_tiers || selectedProject.equity_offered)}
                   />
                   {errors.equity_percentage && <p className="mt-1 text-sm text-red-600">{errors.equity_percentage}</p>}
-                  {selectedProject && selectedProject.equity_tiers && (
+                  {selectedProject && (selectedProject.equity_tiers || selectedProject.equity_offered) && (
                     <p className="mt-1 text-xs text-gray-500">
                       Auto-calculated based on investment amount
                     </p>
@@ -359,11 +415,10 @@ const InvestmentForm = () => {
               </div>
             </div>
 
-            {/* Rest of the form remains the same */}
             {/* Payment Information */}
             <div className="bg-gray-50 p-4 rounded-md">
               <h3 className="text-lg font-medium mb-4">Payment Information</h3>
-              
+
               <div>
                 <label htmlFor="payment_method" className="block text-sm font-medium text-gray-700 mb-1">Payment Method *</label>
                 <select
@@ -404,7 +459,7 @@ const InvestmentForm = () => {
             {formData.project_id && formData.amount && (
               <div className="bg-gray-50 p-4 rounded-md">
                 <h3 className="text-lg font-medium mb-4">Investment Summary</h3>
-                
+
                 <div className="border-t border-b py-4 space-y-2">
                   <div className="flex justify-between">
                     <span className="font-medium">Project:</span>
@@ -414,16 +469,26 @@ const InvestmentForm = () => {
                     <span className="font-medium">Investment Amount:</span>
                     <span>${parseFloat(formData.amount).toLocaleString()}</span>
                   </div>
-                  {formData.equity_percentage && (
-                    <div className="flex justify-between">
-                      <span className="font-medium">Equity Percentage:</span>
-                      <span>{formData.equity_percentage}%</span>
+                  {formData.equity_percentage && selectedProject && (
+                    <div className="mt-2 text-sm text-gray-600 border-t pt-2">
+                      <p className="font-medium">Equity Calculation:</p>
+                      {parseFloat(formData.amount) > parseFloat(selectedProject.funding_goal) ? (
+                        <>
+                          <p>Base equity for funding goal (${parseFloat(selectedProject.funding_goal).toLocaleString()}): {baseEquity.toFixed(2)}%</p>
+                          <p>Additional equity for exceeding funding goal: {additionalEquity.toFixed(2)}%</p>
+                          <p className="text-xs">
+                            (Additional equity is calculated proportionally to the base equity rate)
+                          </p>
+                        </>
+                      ) : (
+                        <p>Base equity for funding goal amount: {formData.equity_percentage}%</p>
+                      )}
                     </div>
                   )}
                   <div className="flex justify-between">
                     <span className="font-medium">Investment Term:</span>
-                    <span>{formData.investment_term === '1-5' ? '1-5 Years' : 
-                          formData.investment_term === '5-10' ? '5-10 Years' : '10+ Years'}</span>
+                    <span>{formData.investment_term === '1-5' ? '1-5 Years' :
+                      formData.investment_term === '5-10' ? '5-10 Years' : '10+ Years'}</span>
                   </div>
                   {selectedProject && selectedProject.return_1_5_years && formData.investment_term === '1-5' && (
                     <div className="flex justify-between">
@@ -448,9 +513,9 @@ const InvestmentForm = () => {
                     <span>{formData.payment_method || 'Not selected'}</span>
                   </div>
                 </div>
-                
+
                 <p className="mt-4 text-sm text-gray-500">
-                  By submitting this investment, you agree to all terms and conditions associated with this project. 
+                  By submitting this investment, you agree to all terms and conditions associated with this project.
                   Your investment will be pending until approved by the project owner.
                 </p>
               </div>
