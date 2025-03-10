@@ -20,6 +20,7 @@ import ProjectStartup from '../components/Projectsubmit/Projectstartup';
 import ContactFounder from '../components/Contactfounder/Contactfounder';
 import ProjectDetails from '../components/Projects/projectDetails';
 import EditProject from '../components/Myproject/EditProject';
+import InvestmentApprovalDashboard from '../components/Myproject/InvestmentView';
 
 const Index = () => {
     return (
@@ -30,12 +31,13 @@ const Index = () => {
                 <Route path="/" element={<Home />} />
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
-                <Route path="/edit-project/:projectId" element={<EditProject />} />
                 <Route path="/existing" element={<ProjectExisting />} />
                 <Route path="/startup" element={<ProjectStartup />} />
                 <Route path="/create" element={<ProjectSelectionForm />} />
                 <Route path="/my-project" element={<MyProjects />} />
                 <Route path="/projects/:id" element={<ProjectDetails />} />
+                <Route path="/edit-project/:id" element={<EditProject />} />
+                <Route path="/investment-approval-dashboard/:id" element={<InvestmentApprovalDashboard />} />
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
                 <Route path="/login" element={<LoginForm />} />

@@ -39,6 +39,7 @@ Route::get('/api/projects/{projectId}/investments', [InvestmentController::class
 
 // Get all investments for a specific user
 Route::get('/api/users/{userId}/investments', [InvestmentController::class, 'getUserInvestments']);
+Route::get('/api/project-investments/{projectId}', [InvestmentController::class, 'getProjectInvestments']);
 
 Route::get('/investments', function () {
     return view('welcome');
@@ -71,6 +72,12 @@ Route::get('/', function () {
 Route::get('/user', function () {
     return view('welcome');
 });
+Route::get('/edit-project/{id}', function () {
+    return view('welcome');
+})->where('id', '[0-9]+');
+Route::get('/investment-approval-dashboard/{id}', function () {
+    return view('welcome');
+})->where('id', '[0-9]+');
 Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
 Route::get('/services', function () {
     return view('welcome');

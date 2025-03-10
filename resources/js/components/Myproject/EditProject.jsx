@@ -1,165 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import styles from './EditProject.module.css';
 import Navbars from '../Navbar/Navbarformyproject';
+import { useParams, useNavigate } from 'react-router-dom';
+import styles from './EditProject.module.css'; // You'll need to create this CSS module
 
 const EditProject = () => {
-    const { projectId } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [project, setProject] = useState({
         title: '',
+        description: '',
         funding_goal: '',
         project_type: '',
-        project_des: '',
-        project_story: '',
-        reserve_price: '',
-        categories: '',
-        member_name: '',
-        member_position: '',
-        project_location: '',
-        status: '',
-        auction_start_date: '',
-        auction_end_date: ''
+        status: 'draft',
+        project_img_url: ''
     });
-    const [projectImage, setProjectImage] = useState(null);
-    const [projectVideo, setProjectVideo] = useState(null);
-    const [previewImage, setPreviewImage] = useState('');
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const fetchProject = async () => {
-            try {
-                console.log(`Fetching project with ID: ${projectId}`);
-                const response = await axios.get(`/api/projects/${projectId}`);
-                
-                console.log("Project data received:", response.data);
-                
-                // Handle potential response format differences
-                const projectData = response.data.project || response.data;
-                
-                setProject({
-                    title: projectData.title || '',
-                    funding_goal: projectData.funding_goal || 0,
-                    project_type: projectData.project_type || '',
-                    project_des: projectData.project_des || '',
-                    project_story: projectData.project_story || '',
-                    reserve_price: projectData.reserve_price || '',
-                    categories: projectData.categories || '',
-                    member_name: projectData.member_name || '',
-                    member_position: projectData.member_position || '',
-                    project_location: projectData.project_location || '',
-                    status: projectData.status || 'pending',
-                    auction_start_date: projectData.auction_start_date || '',
-                    auction_end_date: projectData.auction_end_date || '',
-                    user_id: projectData.user_id
-                });
-                
-                // Set image preview if available
-                if (projectData.project_img) {
-                    setPreviewImage(`/storage/${projectData.project_img}`);
-                }
-                
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching project:", error);
-                setError('Failed to fetch project details. Please try again.');
-                setLoading(false);
-            }
-        };
-
         fetchProject();
-    }, [projectId]);
+    }, [id]);
 
-    const handleInputChange = (e) => {
+    const fetchProject = async () => {
+        try {
+            const response = await axios.get(`/api/projects/${id}`);
+            console.log("Project fetched successfully:", response.data);
+            const projectData = response.data;
+            
+            setProject({
+                title: projectData.title || '',
+                description: projectData.description || '',
+                funding_goal: projectData.funding_goal || '',
+                project_type: projectData.project_type || projectData.type || '',
+                status: projectData.status || 'draft',
+                project_img_url: projectData.project_img_url || projectData.image_url || ''
+            });
+            
+            setError(null);
+        } catch (error) {
+            console.error('Failed to fetch project:', error);
+            setError('Failed to load project details. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setProject({ ...project, [name]: value });
+        setProject(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
-    
+
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setProjectImage(file);
-            // Create preview URL
-            const previewURL = URL.createObjectURL(file);
-            setPreviewImage(previewURL);
+        // Handle image upload if needed
+        // This is a placeholder for file upload handling
+        console.log("Image selected:", e.target.files[0]);
+        
+        // If you want to display a preview
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setProject(prev => ({
+                    ...prev,
+                    project_img_url: event.target.result
+                }));
+            };
+            reader.readAsDataURL(e.target.files[0]);
         }
     };
-    
-    const handleVideoChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setProjectVideo(file);
-        }
-    };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
         
         try {
-            if (!project.title) {
-                setError('Project title is required');
-                return;
-            }
+            setLoading(true);
+            const response = await axios.put(`/api/projects/${id}`, project);
+            console.log("Project updated successfully:", response.data);
             
-            console.log("Updating project with data:", project);
-            
-            // Create FormData for file uploads
-            const formData = new FormData();
-            
-            // Add all fields to FormData
-            Object.keys(project).forEach(key => {
-                if (project[key] !== null && project[key] !== undefined) {
-                    formData.append(key, project[key]);
-                }
-            });
-            
-            // Add files if present
-            if (projectImage) {
-                formData.append('project_img', projectImage);
-            }
-            
-            if (projectVideo) {
-                formData.append('project_video', projectVideo);
-            }
-            
-            // Some Laravel configurations require this approach for PUT/PATCH with FormData
-            const response = await axios.post(`/api/projects/${projectId}?_method=PUT`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'X-HTTP-Method-Override': 'PUT'
-                }
-            });
-            
-            console.log("Update response:", response.data);
-            setSuccess(true);
-            
-            // Navigate after a short delay to show success message
-            setTimeout(() => {
-                navigate('/my-project');
-            }, 1500);
-            
+            // Redirect to the project details page
+            navigate(`/project/${id}`);
         } catch (error) {
-            console.error("Error updating project:", error);
-            setError('Failed to update project: ' + (error.response?.data?.message || error.message));
-            window.scrollTo(0, 0); // Scroll to top to show error
+            console.error('Failed to update project:', error);
+            setError('Failed to update the project. Please check your input and try again.');
+            setLoading(false);
         }
     };
 
-    const handleCancel = () => {
-        navigate('/my-project');
-    };
-
-    if (loading) {
+    if (loading && !project.title) {
         return (
             <>
                 <Navbars />
-                <div className={styles.loadingContainer}>
-                    <div className={styles.spinner} />
-                    <p>Loading project...</p>
+                <div className={styles.container}>
+                    <div className={styles.loadingContainer}>
+                        <div className={styles.spinner} />
+                        <p>Loading project details...</p>
+                    </div>
                 </div>
             </>
         );
@@ -169,199 +107,144 @@ const EditProject = () => {
         <>
             <Navbars />
             <div className={styles.container}>
-                <h1 className={styles.title}>Edit Project</h1>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Edit Project</h1>
+                </div>
                 
-                {error && <div className={styles.error}>{error}</div>}
-                {success && <div className={styles.success}>Project updated successfully!</div>}
+                {error && (
+                    <div className={styles.error}>
+                        {error}
+                        <button
+                            onClick={fetchProject}
+                            className={styles.retryButton}
+                        >
+                            Retry
+                        </button>
+                    </div>
+                )}
                 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="title">Title*</label>
+                        <label htmlFor="title" className={styles.label}>Project Title</label>
                         <input
                             type="text"
                             id="title"
                             name="title"
                             value={project.title}
-                            onChange={handleInputChange}
+                            onChange={handleChange}
+                            className={styles.input}
                             required
                         />
                     </div>
                     
                     <div className={styles.formGroup}>
-                        <label htmlFor="funding_goal">Funding Goal ($)</label>
-                        <input
-                            type="number"
-                            id="funding_goal"
-                            name="funding_goal"
-                            value={project.funding_goal}
-                            onChange={handleInputChange}
-                            min="0"
+                        <label htmlFor="description" className={styles.label}>Description</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={project.description}
+                            onChange={handleChange}
+                            className={styles.textarea}
+                            rows="6"
+                            required
                         />
                     </div>
                     
+                    <div className={styles.formRow}>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="funding_goal" className={styles.label}>Funding Goal ($)</label>
+                            <input
+                                type="number"
+                                id="funding_goal"
+                                name="funding_goal"
+                                value={project.funding_goal}
+                                onChange={handleChange}
+                                className={styles.input}
+                                required
+                                min="1"
+                            />
+                        </div>
+                        
+                        <div className={styles.formGroup}>
+                            <label htmlFor="project_type" className={styles.label}>Project Type</label>
+                            <select
+                                id="project_type"
+                                name="project_type"
+                                value={project.project_type}
+                                onChange={handleChange}
+                                className={styles.select}
+                                required
+                            >
+                                <option value="">Select a type</option>
+                                <option value="Startup">Startup</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Food & Beverage">Food & Beverage</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Education">Education</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                     <div className={styles.formGroup}>
-                        <label htmlFor="project_type">Project Type</label>
+                        <label htmlFor="status" className={styles.label}>Project Status</label>
                         <select
-                            id="project_type"
-                            name="project_type"
-                            value={project.project_type}
-                            onChange={handleInputChange}
+                            id="status"
+                            name="status"
+                            value={project.status}
+                            onChange={handleChange}
+                            className={styles.select}
+                            required
                         >
-                            <option value="">Select Type</option>
-                            <option value="technology">Technology</option>
-                            <option value="art">Art</option>
-                            <option value="design">Design</option>
-                            <option value="film">Film</option>
-                            <option value="games">Games</option>
-                            <option value="music">Music</option>
-                            <option value="food">Food</option>
-                            <option value="other">Other</option>
+                            <option value="draft">Draft</option>
+                            <option value="pending">Pending</option>
+                            <option value="active">Active</option>
+                            <option value="funding">Funding</option>
+                            <option value="completed">Completed</option>
                         </select>
                     </div>
                     
                     <div className={styles.formGroup}>
-                        <label htmlFor="categories">Categories</label>
-                        <input
-                            type="text"
-                            id="categories"
-                            name="categories"
-                            value={project.categories}
-                            onChange={handleInputChange}
-                            placeholder="Comma-separated categories"
-                        />
-                    </div>
-                    
-                    <div className={styles.formGroup}>
-                        <label htmlFor="project_des">Description</label>
-                        <textarea
-                            id="project_des"
-                            name="project_des"
-                            value={project.project_des}
-                            onChange={handleInputChange}
-                            rows="4"
-                        />
-                    </div>
-                    
-                    <div className={styles.formGroup}>
-                        <label htmlFor="project_story">Project Story</label>
-                        <textarea
-                            id="project_story"
-                            name="project_story"
-                            value={project.project_story}
-                            onChange={handleInputChange}
-                            rows="6"
-                        />
-                    </div>
-                    
-                    <div className={styles.formGroup}>
-                        <label htmlFor="project_img">Project Image</label>
-                        <input
-                            type="file"
-                            id="project_img"
-                            name="project_img"
-                            onChange={handleImageChange}
-                            accept="image/jpeg,image/png,image/jpg,image/gif"
-                        />
-                        {previewImage && (
-                            <div className={styles.previewContainer}>
-                                <img 
-                                    src={previewImage} 
-                                    alt="Project preview" 
-                                    className={styles.imagePreview}
-                                    onError={(e) => {
-                                        e.target.src = "/api/placeholder/400/200";
-                                    }} 
-                                />
-                            </div>
-                        )}
-                    </div>
-                    
-                    <div className={styles.formGroup}>
-                        <label htmlFor="project_video">Project Video</label>
-                        <input
-                            type="file"
-                            id="project_video"
-                            name="project_video"
-                            onChange={handleVideoChange}
-                            accept="video/mp4,video/mov,video/avi,video/wmv"
-                        />
-                    </div>
-                    
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="member_name">Team Member Name</label>
+                        <label htmlFor="project_image" className={styles.label}>Project Image</label>
+                        <div className={styles.imageUpload}>
+                            {project.project_img_url && (
+                                <div className={styles.imagePreview}>
+                                    <img
+                                        src={project.project_img_url}
+                                        alt="Project Preview"
+                                        className={styles.previewImage}
+                                    />
+                                </div>
+                            )}
                             <input
-                                type="text"
-                                id="member_name"
-                                name="member_name"
-                                value={project.member_name}
-                                onChange={handleInputChange}
+                                type="file"
+                                id="project_image"
+                                name="project_image"
+                                onChange={handleImageChange}
+                                className={styles.fileInput}
+                                accept="image/*"
                             />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="member_position">Team Member Position</label>
-                            <input
-                                type="text"
-                                id="member_position"
-                                name="member_position"
-                                value={project.member_position}
-                                onChange={handleInputChange}
-                            />
+                            <button type="button" className={styles.uploadButton}>
+                                Choose Image
+                            </button>
                         </div>
                     </div>
                     
-                    <div className={styles.formGroup}>
-                        <label htmlFor="project_location">Project Location</label>
-                        <input
-                            type="text"
-                            id="project_location"
-                            name="project_location"
-                            value={project.project_location}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    
-                    <div className={styles.formGroup}>
-                        <label htmlFor="reserve_price">Reserve Price ($)</label>
-                        <input
-                            type="number"
-                            id="reserve_price"
-                            name="reserve_price"
-                            value={project.reserve_price}
-                            onChange={handleInputChange}
-                            min="0"
-                        />
-                    </div>
-                    
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="auction_start_date">Auction Start Date</label>
-                            <input
-                                type="date"
-                                id="auction_start_date"
-                                name="auction_start_date"
-                                value={project.auction_start_date}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="auction_end_date">Auction End Date</label>
-                            <input
-                                type="date"
-                                id="auction_end_date"
-                                name="auction_end_date"
-                                value={project.auction_end_date}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    </div>
-                    
-                    <div className={styles.buttonGroup}>
-                        <button type="button" onClick={handleCancel} className={styles.cancelButton}>
+                    <div className={styles.formActions}>
+                        <button
+                            type="button"
+                            onClick={() => navigate(`/projects/${id}`)}
+                            className={styles.cancelButton}
+                        >
                             Cancel
                         </button>
-                        <button type="submit" className={styles.submitButton}>
-                            Update Project
+                        <button
+                            type="submit"
+                            className={styles.submitButton}
+                            disabled={loading}
+                        >
+                            {loading ? 'Updating...' : 'Update Project'}
                         </button>
                     </div>
                 </form>
