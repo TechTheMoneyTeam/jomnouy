@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Check, X, Award, Filter, RefreshCw, Clock, DollarSign, Users, AlertCircle } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import styles from './InvestmentApprovalDashboard.module.css';
 
 const InvestmentApprovalDashboard = () => {
   const [investments, setInvestments] = useState([]);
@@ -20,9 +22,17 @@ const InvestmentApprovalDashboard = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [sortField, setSortField] = useState('created_at');
   const [sortDirection, setSortDirection] = useState('desc');
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    fetchProjects();
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      setUsername(user.username);
+      setUserId(user.user_id);
+      fetchProjects(user.user_id);
+    }
   }, []);
 
   useEffect(() => {
@@ -31,12 +41,21 @@ const InvestmentApprovalDashboard = () => {
     }
   }, [projectId, statusFilter, sortField, sortDirection]);
 
-  const fetchProjects = async () => {
+  const fetchProjects = async (userId) => {
     try {
-      const response = await axios.get('/api/projects');
-      setProjects(response.data);
-      if (response.data.length > 0) {
-        setProjectId(response.data[0].project_id || response.data[0].id);
+      const response = await axios.get(`/api/projects?user_id=${userId}`);
+      
+      // Filter projects to only include those owned by the current user
+      const userProjects = response.data.filter(project => 
+        (project.user_id === userId || project.creator_id === userId)
+      );
+      
+      setProjects(userProjects);
+      
+      if (userProjects.length > 0) {
+        setProjectId(userProjects[0].project_id || userProjects[0].id);
+      } else {
+        setError('No projects found for your account.');
       }
     } catch (error) {
       console.error('Failed to fetch projects:', error);
@@ -47,6 +66,19 @@ const InvestmentApprovalDashboard = () => {
   const fetchInvestments = async (pid) => {
     setLoading(true);
     try {
+      // Verify this project belongs to the current user before fetching investments
+      const projectBelongsToUser = projects.some(p => 
+        (p.project_id === pid || p.id === pid) && 
+        (p.user_id === userId || p.creator_id === userId)
+      );
+      
+      if (!projectBelongsToUser) {
+        setError('You do not have permission to view investments for this project.');
+        setInvestments([]);
+        setLoading(false);
+        return;
+      }
+      
       const response = await axios.get(`/api/project-investments/${pid}`);
       let investmentsData = response.data.investments || response.data;
       
@@ -161,38 +193,43 @@ const InvestmentApprovalDashboard = () => {
   };
 
   return (
-    <div className="p-6 max-w-full">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Investment Approval Dashboard</h1>
-        <p className="text-gray-600">
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Investment Approval Dashboard</h1>
+        <p className={styles.subtitle}>
           Review and manage investments for your projects
         </p>
       </div>
 
-      <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="w-full md:w-64">
-          <label htmlFor="project-select" className="block text-sm font-medium text-gray-700 mb-1">
-            Select Project
+      <div className={styles.controls}>
+        <div className={styles.selectWrapper}>
+          <label htmlFor="project-select" className={styles.selectLabel}>
+            Select Your Project
           </label>
           <select
             id="project-select"
             value={projectId}
             onChange={(e) => setProjectId(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className={styles.select}
+            disabled={projects.length === 0}
           >
-            {projects.map(project => (
-              <option key={project.project_id || project.id} value={project.project_id || project.id}>
-                {project.title}
-              </option>
-            ))}
+            {projects.length > 0 ? (
+              projects.map(project => (
+                <option key={project.project_id || project.id} value={project.project_id || project.id}>
+                  {project.title}
+                </option>
+              ))
+            ) : (
+              <option value="">No projects available</option>
+            )}
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className={styles.filterControls}>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="p-2 border rounded-md"
+            className={styles.statusFilter}
           >
             <option value="all">All Statuses</option>
             <option value="pending">Pending</option>
@@ -203,7 +240,8 @@ const InvestmentApprovalDashboard = () => {
 
           <button 
             onClick={() => fetchInvestments(projectId)}
-            className="p-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 flex items-center gap-1"
+            className={styles.refreshButton}
+            disabled={!projectId}
           >
             <RefreshCw size={16} />
             Refresh
@@ -211,206 +249,225 @@ const InvestmentApprovalDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statContent}>
             <div>
-              <p className="text-sm text-gray-500">Total Investments</p>
-              <p className="text-2xl font-bold">{stats.total}</p>
+              <p className={styles.statLabel}>Total Investments</p>
+              <p className={styles.statValue}>{stats.total}</p>
             </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <DollarSign size={20} className="text-blue-700" />
+            <div className={`${styles.iconContainer} ${styles.iconBlue}`}>
+              <DollarSign size={20} />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+        <div className={styles.statCard}>
+          <div className={styles.statContent}>
             <div>
-              <p className="text-sm text-gray-500">Pending</p>
-              <p className="text-2xl font-bold">{stats.pending}</p>
+              <p className={styles.statLabel}>Pending</p>
+              <p className={styles.statValue}>{stats.pending}</p>
             </div>
-            <div className="bg-yellow-100 p-3 rounded-full">
-              <Clock size={20} className="text-yellow-700" />
+            <div className={`${styles.iconContainer} ${styles.iconYellow}`}>
+              <Clock size={20} />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+        <div className={styles.statCard}>
+          <div className={styles.statContent}>
             <div>
-              <p className="text-sm text-gray-500">Unique Investors</p>
-              <p className="text-2xl font-bold">{stats.uniqueInvestors}</p>
+              <p className={styles.statLabel}>Unique Investors</p>
+              <p className={styles.statValue}>{stats.uniqueInvestors}</p>
             </div>
-            <div className="bg-green-100 p-3 rounded-full">
-              <Users size={20} className="text-green-700" />
+            <div className={`${styles.iconContainer} ${styles.iconGreen}`}>
+              <Users size={20} />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+        <div className={styles.statCard}>
+          <div className={styles.statContent}>
             <div>
-              <p className="text-sm text-gray-500">Approved</p>
-              <p className="text-2xl font-bold">{stats.approved}</p>
+              <p className={styles.statLabel}>Approved</p>
+              <p className={styles.statValue}>{stats.approved}</p>
             </div>
-            <div className="bg-green-100 p-3 rounded-full">
-              <Check size={20} className="text-green-700" />
+            <div className={`${styles.iconContainer} ${styles.iconGreen}`}>
+              <Check size={20} />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+        <div className={styles.statCard}>
+          <div className={styles.statContent}>
             <div>
-              <p className="text-sm text-gray-500">Total Amount</p>
-              <p className="text-2xl font-bold">{formatCurrency(stats.totalAmount)}</p>
+              <p className={styles.statLabel}>Total Amount</p>
+              <p className={styles.statValue}>{formatCurrency(stats.totalAmount)}</p>
             </div>
-            <div className="bg-purple-100 p-3 rounded-full">
-              <DollarSign size={20} className="text-purple-700" />
+            <div className={`${styles.iconContainer} ${styles.iconOrange}`}>
+              <DollarSign size={20} />
             </div>
           </div>
         </div>
       </div>
 
+      {investments.length > 0 && (
+        <div className={styles.chartContainer}>
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={investments}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="user_id" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="amount" fill="#F07900" />
+              <Bar dataKey="equity_percentage" fill="#FFB366" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
       {error && (
-        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-md flex items-center gap-2">
+        <div className={styles.errorAlert}>
           <AlertCircle size={20} />
           {error}
         </div>
       )}
 
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
               <tr>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('investment_id')}
                 >
                   ID
                   {sortField === 'investment_id' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('user_id')}
                 >
                   Investor
                   {sortField === 'user_id' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('amount')}
                 >
                   Amount
                   {sortField === 'amount' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('equity_percentage')}
                 >
                   Equity %
                   {sortField === 'equity_percentage' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('payment_method')}
                 >
                   Payment Method
                   {sortField === 'payment_method' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('investment_term')}
                 >
                   Term
                   {sortField === 'investment_term' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('created_at')}
                 >
                   Date
                   {sortField === 'created_at' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className={styles.tableHeader}
                   onClick={() => handleSort('status')}
                 >
                   Status
                   {sortField === 'status' && (
-                    <span className="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className={styles.tableHeader}>
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {investments.length > 0 ? (
                 investments.map((investment) => (
-                  <tr key={investment.investment_id || investment.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={investment.investment_id || investment.id} className={styles.tableRow}>
+                    <td className={styles.tableCell}>
                       {investment.investment_id || investment.id}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className={styles.tableCell}>
                       {investment.user ? 
                         `${investment.user.username || investment.user.name || 'User'} (${investment.user_id})` :
                         investment.user_id
                       }
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                    <td className={`${styles.tableCell} ${styles.amountCell}`}>
                       {formatCurrency(investment.amount)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className={styles.tableCell}>
                       {parseFloat(investment.equity_percentage).toFixed(2)}%
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className={styles.tableCell}>
                       {investment.payment_method}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className={styles.tableCell}>
                       {investment.investment_term}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className={styles.tableCell}>
                       {formatDate(investment.created_at)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium
-                        ${investment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : ''}
-                        ${investment.status === 'approved' ? 'bg-green-100 text-green-800' : ''}
-                        ${investment.status === 'rejected' ? 'bg-red-100 text-red-800' : ''}
-                        ${investment.status === 'completed' ? 'bg-blue-100 text-blue-800' : ''}
+                    <td className={styles.tableCell}>
+                      <span className={`
+                        ${styles.statusBadge}
+                        ${investment.status === 'pending' ? styles.statusPending : ''}
+                        ${investment.status === 'approved' ? styles.statusApproved : ''}
+                        ${investment.status === 'rejected' ? styles.statusRejected : ''}
+                        ${investment.status === 'completed' ? styles.statusCompleted : ''}
                       `}>
                         {investment.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="flex space-x-2">
+                    <td className={styles.tableCell}>
+                      <div className={styles.actionButtons}>
                         <button
                           onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
                           disabled={investment.status === 'approved'}
-                          className={`p-1 rounded-md text-white
-                            ${investment.status === 'approved' ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'}
+                          className={`
+                            ${styles.actionButton}
+                            ${styles.approveButton}
+                            ${investment.status === 'approved' ? styles.buttonDisabled : ''}
                           `}
                           title="Approve"
                         >
@@ -419,8 +476,10 @@ const InvestmentApprovalDashboard = () => {
                         <button
                           onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
                           disabled={investment.status === 'rejected'}
-                          className={`p-1 rounded-md text-white
-                            ${investment.status === 'rejected' ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}
+                          className={`
+                            ${styles.actionButton}
+                            ${styles.rejectButton}
+                            ${investment.status === 'rejected' ? styles.buttonDisabled : ''}
                           `}
                           title="Reject"
                         >
@@ -429,8 +488,10 @@ const InvestmentApprovalDashboard = () => {
                         <button
                           onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
                           disabled={investment.status === 'completed' || investment.status === 'rejected'}
-                          className={`p-1 rounded-md text-white
-                            ${investment.status === 'completed' || investment.status === 'rejected' ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}
+                          className={`
+                            ${styles.actionButton}
+                            ${styles.completeButton}
+                            ${investment.status === 'completed' || investment.status === 'rejected' ? styles.buttonDisabled : ''}
                           `}
                           title="Complete"
                         >
@@ -442,7 +503,7 @@ const InvestmentApprovalDashboard = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="9" className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan="9" className={`${styles.tableCell} ${styles.emptyState}`}>
                     No investments found for this project.
                   </td>
                 </tr>
