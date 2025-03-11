@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Check, X, Award, Filter, RefreshCw, Clock, DollarSign, Users, AlertCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import styles from './InvestmentApprovalDashboard.module.css';
+import Navbar4 from '../Navbar/Navbarselect';
 
 const InvestmentApprovalDashboard = () => {
   const [investments, setInvestments] = useState([]);
@@ -193,7 +194,7 @@ const InvestmentApprovalDashboard = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <><Navbar4 /><div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Investment Approval Dashboard</h1>
         <p className={styles.subtitle}>
@@ -238,7 +239,7 @@ const InvestmentApprovalDashboard = () => {
             <option value="completed">Completed</option>
           </select>
 
-          <button 
+          <button
             onClick={() => fetchInvestments(projectId)}
             className={styles.refreshButton}
             disabled={!projectId}
@@ -343,7 +344,7 @@ const InvestmentApprovalDashboard = () => {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('investment_id')}
                 >
@@ -352,7 +353,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('user_id')}
                 >
@@ -361,7 +362,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('amount')}
                 >
@@ -370,7 +371,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('equity_percentage')}
                 >
@@ -379,7 +380,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('payment_method')}
                 >
@@ -388,7 +389,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('investment_term')}
                 >
@@ -397,7 +398,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('created_at')}
                 >
@@ -406,7 +407,7 @@ const InvestmentApprovalDashboard = () => {
                     <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
                 </th>
-                <th 
+                <th
                   className={styles.tableHeader}
                   onClick={() => handleSort('status')}
                 >
@@ -428,10 +429,9 @@ const InvestmentApprovalDashboard = () => {
                       {investment.investment_id || investment.id}
                     </td>
                     <td className={styles.tableCell}>
-                      {investment.user ? 
+                      {investment.user ?
                         `${investment.user.username || investment.user.name || 'User'} (${investment.user_id})` :
-                        investment.user_id
-                      }
+                        investment.user_id}
                     </td>
                     <td className={`${styles.tableCell} ${styles.amountCell}`}>
                       {formatCurrency(investment.amount)}
@@ -512,7 +512,7 @@ const InvestmentApprovalDashboard = () => {
           </table>
         </div>
       )}
-    </div>
+    </div></>
   );
 };
 
