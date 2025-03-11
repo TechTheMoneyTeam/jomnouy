@@ -77,6 +77,7 @@ const ProjectDetails = () => {
     const tabRef = useRef();
 
     useEffect(() => {
+       
         axios.get(`/api/projects/${id}`)
             .then(response => {
                 const projectData = response.data;
@@ -180,6 +181,7 @@ const ProjectDetails = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         if (tabRef.current) {
             tabRef.current.scrollIntoView({ behavior: 'smooth' });
         }
