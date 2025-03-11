@@ -30,6 +30,9 @@
   text-align: center;
   position: relative;
 }
+.abaSup {
+  color: red;
+}
 
 .abaBackButton {
   position: absolute;

@@ -77,7 +77,7 @@ const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
         <button className={styles.abaBackButton}>
           <span>&#8249;</span>
         </button>
-        <h2 className={styles.abaTitle}>ABA<sup>+</sup> Payment</h2>
+        <h2 className={styles.abaTitle}>ABA<sup className={styles.abaSup}>'</sup> Payment</h2>
       </div>
       
       <div className={styles.abaContent}>
