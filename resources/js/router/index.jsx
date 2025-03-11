@@ -21,6 +21,7 @@ import ContactFounder from '../components/Contactfounder/Contactfounder';
 import ProjectDetails from '../components/Projects/projectDetails';
 import EditProject from '../components/Myproject/EditProject';
 import InvestmentApprovalDashboard from '../components/Myproject/InvestmentView';
+import FavoritesPage from '../components/Favoritepage/Favoritepage';
 
 const Index = () => {
     return (
@@ -38,6 +39,7 @@ const Index = () => {
                 <Route path="/projects/:id" element={<ProjectDetails />} />
                 <Route path="/edit-project/:id" element={<EditProject />} />
                 <Route path="/investment-approval-dashboard/:id" element={<InvestmentApprovalDashboard />} />
+                <Route path="/favorites" element={<FavoritesPage />} />
                 {/* User Related Routes */}
                 <Route path="/signup" element={<SignupForm />} />
                 <Route path="/login" element={<LoginForm />} />

@@ -74,10 +74,45 @@ const ProjectDetails = () => {
     const [totalInvested, setTotalInvested] = useState(0);
     const [investmentProgress, setInvestmentProgress] = useState(0);
     const [kycData, setKycData] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [savingToFavorites, setSavingToFavorites] = useState(false);
     const tabRef = useRef();
 
     useEffect(() => {
-       
+        window.scrollTo(0, 0);
+    }, []);
+
+    // Get user data from localStorage
+    useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                console.log("User data from localStorage:", user);
+                setUserId(user.user_id);
+                
+                // Check if this project is already in favorites
+                if (user.user_id) {
+                    axios.get(`/api/users/${user.user_id}/favorites`)
+                        .then(response => {
+                            const favorites = response.data;
+                            const isProjectInFavorites = favorites.some(
+                                fav => fav.project_id === parseInt(id)
+                            );
+                            setIsFavorite(isProjectInFavorites);
+                        })
+                        .catch(error => {
+                            console.error('Error checking favorites:', error);
+                        });
+                }
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+            }
+        }
+    }, [id]);
+
+    useEffect(() => {
         axios.get(`/api/projects/${id}`)
             .then(response => {
                 const projectData = response.data;
@@ -120,6 +155,48 @@ const ProjectDetails = () => {
                 setLoading(false);
             });
     }, [id]);
+
+    // Handle adding/removing from favorites
+    const handleToggleFavorite = () => {
+        if (!userId) {
+            alert("Please log in to save projects to your favorites.");
+            return;
+        }
+
+        setSavingToFavorites(true);
+
+        if (isFavorite) {
+            // Remove from favorites
+            axios.delete(`/api/users/${userId}/favorites/${id}`)
+                .then(() => {
+                    setIsFavorite(false);
+                    alert("Project removed from your favorites!");
+                })
+                .catch(error => {
+                    console.error('Error removing from favorites:', error);
+                    alert("Failed to remove project from favorites");
+                })
+                .finally(() => {
+                    setSavingToFavorites(false);
+                });
+        } else {
+            // Add to favorites
+            axios.post(`/api/users/${userId}/favorites`, {
+                project_id: id
+            })
+                .then(() => {
+                    setIsFavorite(true);
+                    alert("Project saved to your favorites!");
+                })
+                .catch(error => {
+                    console.error('Error adding to favorites:', error);
+                    alert("Failed to save project to favorites");
+                })
+                .finally(() => {
+                    setSavingToFavorites(false);
+                });
+        }
+    };
 
     const handleInvestmentSubmit = (data) => {
         // Store the investment data and proceed to payment page
@@ -181,7 +258,6 @@ const ProjectDetails = () => {
     };
 
     useEffect(() => {
-        window.scrollTo(0, 0);
         if (tabRef.current) {
             tabRef.current.scrollIntoView({ behavior: 'smooth' });
         }
@@ -254,7 +330,6 @@ const ProjectDetails = () => {
 
     if (loading) return <div className="text-center py-8">Loading...</div>;
     if (error) return <div className="text-center py-8 text-red-600">{error}</div>;
-    
 
     return (
         <>
@@ -292,9 +367,17 @@ const ProjectDetails = () => {
 
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
-                            <button className="action-buttons">
-                                <FaRegBookmark className="icon-button" />
-                                <span>Save for later</span>
+                            <button 
+                                className="action-buttons"
+                                onClick={handleToggleFavorite}
+                                disabled={savingToFavorites}
+                            >
+                                {isFavorite ? (
+                                    <RxBookmark className="icon-button text-blue-500" />
+                                ) : (
+                                    <FaRegBookmark className="icon-button" />
+                                )}
+                                <span>{isFavorite ? "Saved to favorites" : "Save for later"}</span>
                             </button>
                             <button className="action-buttons">
                                 <PiShareFat className="icon-button" />
@@ -394,16 +477,16 @@ const ProjectDetails = () => {
                             </div>
                         )}
 
-{showPaymentPage && investmentData && (
-    <PaymentPage
-        amount={investmentData.amount} // Pass the investment amount
-        investmentData={investmentData} // Pass all investment data
-        onSuccess={() => {
-            // Handle successful payment
-            // For example: update user state, show confirmation, navigate to success page
-        }}
-    />
-)}
+                        {showPaymentPage && investmentData && (
+                            <PaymentPage
+                                amount={investmentData.amount} // Pass the investment amount
+                                investmentData={investmentData} // Pass all investment data
+                                onSuccess={() => {
+                                    // Handle successful payment
+                                    // For example: update user state, show confirmation, navigate to success page
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
             )}

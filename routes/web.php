@@ -127,8 +127,22 @@ Route::get('/followings', function () {
 Route::get('/contact', function () {
     return view('welcome');
 });
+Route::get('/favorites', function () {
+    return view('welcome');
+});
 
+use App\Http\Controllers\FavoriteController;
 
+Route::get('/api/users/{userId}/favorites', [FavoriteController::class, 'index']);
+
+// Check if a specific project is favorited by user
+Route::get('/api/users/{userId}/favorites/{projectId}', [FavoriteController::class, 'check']);
+
+// Add a project to favorites
+Route::post('/api/users/{userId}/favorites', [FavoriteController::class, 'store']);
+
+// Remove a project from favorites
+Route::delete('/api/users/{userId}/favorites/{projectId}', [FavoriteController::class, 'destroy']);
 
 
 
