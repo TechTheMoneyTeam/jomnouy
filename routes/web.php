@@ -128,6 +128,11 @@ Route::get('/contact', function () {
     return view('welcome');
 });
 
+
+
+
+
+
 use App\Http\Controllers\UserController;
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 Route::post('/api/forgot-password', [PasswordResetController::class, 'sendResetEmail']);

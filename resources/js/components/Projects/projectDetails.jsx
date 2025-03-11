@@ -6,6 +6,7 @@ import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
 import InvestmentForm from './InvestmentForm';
 import KYCForm from './Kycform'; // Import the InvestmentForm
+import PaymentPage from './PaymentPage'; // Import the PaymentPage
 import { FaRegBookmark } from "react-icons/fa6";
 import { RxBookmark } from "react-icons/rx";
 import { PiShareFat } from "react-icons/pi";
@@ -52,6 +53,7 @@ const ProgressBar = ({ progress }) => {
     );
 };
 
+
 const ProjectDetails = () => {
     const { id } = useParams();
     const [project, setProject] = useState(null);
@@ -67,6 +69,8 @@ const ProjectDetails = () => {
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [showKYCForm, setShowKYCForm] = useState(false);
     const [showInvestmentForm, setShowInvestmentForm] = useState(false);
+    const [showPaymentPage, setShowPaymentPage] = useState(false); // New state for payment page
+    const [investmentData, setInvestmentData] = useState(null); // Store investment data for payment
     const [totalInvested, setTotalInvested] = useState(0);
     const [investmentProgress, setInvestmentProgress] = useState(0);
     const [kycData, setKycData] = useState(null);
@@ -116,14 +120,33 @@ const ProjectDetails = () => {
             });
     }, [id]);
 
-    const handleInvestmentSuccess = (investmentData) => {
-        const newTotalInvested = investmentData.total_invested || 0;
+    const handleInvestmentSubmit = (data) => {
+        // Store the investment data and proceed to payment page
+        setInvestmentData(data);
+        setShowInvestmentForm(false);
+        setShowPaymentPage(true);
+    };
+
+    const handlePaymentSuccess = (paymentData) => {
+        // Update the project's investment data
+        const newTotalInvested = totalInvested + (investmentData?.amount || 0);
         setTotalInvested(newTotalInvested);
         setInvestmentProgress(
             project.funding_goal
                 ? Math.min((newTotalInvested / project.funding_goal) * 100, 100)
                 : 0
         );
+
+        // Reset the investment flow
+        resetInvestmentFlow();
+
+        // Show a success message
+        alert("Your investment has been processed successfully!");
+    };
+
+    const handlePaymentFailure = () => {
+        // Handle failed payment
+        alert("Payment failed. Please try again later.");
         resetInvestmentFlow();
     };
 
@@ -131,7 +154,9 @@ const ProjectDetails = () => {
         setShowTermsModal(false);
         setShowKYCForm(false);
         setShowInvestmentForm(false);
+        setShowPaymentPage(false);
         setKycData(null);
+        setInvestmentData(null);
     };
 
     const handleInvestClick = () => {
@@ -227,6 +252,7 @@ const ProjectDetails = () => {
 
     if (loading) return <div className="text-center py-8">Loading...</div>;
     if (error) return <div className="text-center py-8 text-red-600">{error}</div>;
+    
 
     return (
         <>
@@ -330,7 +356,7 @@ const ProjectDetails = () => {
             </div>
 
             {/* Modal Overlay */}
-            {(showTermsModal || showKYCForm || showInvestmentForm) && (
+            {(showTermsModal || showKYCForm || showInvestmentForm || showPaymentPage) && (
                 <div className="modal-overlay">
                     <div className="modal-backdrop" onClick={resetInvestmentFlow}></div>
                     <div className="modal-container">
@@ -361,10 +387,21 @@ const ProjectDetails = () => {
                                     fundingGoal={project.funding_goal}
                                     currentTotalInvested={totalInvested}
                                     kycData={kycData}
-                                    onInvestmentSuccess={handleInvestmentSuccess}
+                                    onInvestmentSuccess={handleInvestmentSubmit} // Updated to new handler
                                 />
                             </div>
                         )}
+
+{showPaymentPage && investmentData && (
+    <PaymentPage
+        amount={investmentData.amount} // Pass the investment amount
+        investmentData={investmentData} // Pass all investment data
+        onSuccess={() => {
+            // Handle successful payment
+            // For example: update user state, show confirmation, navigate to success page
+        }}
+    />
+)}
                     </div>
                 </div>
             )}
