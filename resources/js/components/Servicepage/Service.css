@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .header {
     @apply bg-white text-white py-4 px-6;
     position: sticky;
@@ -13,14 +12,14 @@
 .hero-button1 {
     @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
     position: absolute;
-    right: 15rem; 
-    top: 72%; 
+    right: 15rem;
+    top: 72%;
     transform: translateY(-50%);
     z-index: 50;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
 
-.nouy{
+.nouy {
     @apply text-custom-orange;
 }
 
@@ -28,13 +27,11 @@
     @apply flex justify-between items-center;
 }
 
-
 .logo {
     @apply relative font-bold text-black;
     @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
     text-decoration: none;
 }
-
 
 .nav-links {
     @apply flex space-x-10;
@@ -44,300 +41,181 @@
 .nav-link {
     @apply relative text-lg text-black transition-all duration-200;
     text-decoration: none; /* This is important */
-  }
-  
-  .nav-link::after {
-    content: '';
+}
+
+.nav-link::after {
+    content: "";
     @apply absolute left-0 bottom-0 w-0 h-[2px] bg-custom-orange transition-all duration-300;
-  }
-  
-  .nav-link:hover::after,
-  .nav-link.active::after {
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
     @apply w-full;
-  }
-  
-  .nav-link.active-link {
+}
+
+.nav-link.active-link {
     @apply text-custom-orange font-semibold;
-  }
+}
+
 .button-group {
     @apply flex space-x-4 items-center;
 }
-
 
 button {
     @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
 }
 
-  
 .login-button {
     @apply relative overflow-hidden bg-custom-orange text-white border border-custom-orange px-3 py-1 rounded-lg;
     @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
-  }
-  
-  .login-button::before {
-    content: '';
+}
+
+.login-button::before {
+    content: "";
     @apply absolute top-0 left-0 w-0 h-full bg-white transition-all duration-200 ease-in-out;
     z-index: 0;
-  }
-  
-  .login-button:hover::before {
+}
+
+.login-button:hover::before {
     @apply w-full;
-  }
-  
-  .login-button span {
+}
+
+.login-button span {
     @apply relative z-10 transition-colors duration-200 ease-in-out;
-  }
-  
-  .login-button:hover span {
+}
+
+.login-button:hover span {
     @apply text-black;
-  }
-  
-  .login-button:hover {
+}
+
+.login-button:hover {
     @apply border-custom-orange;
-  }
-  .login-button1 {
+}
+
+.login-button1 {
     @apply relative overflow-hidden bg-white text-black border border-black px-3 py-1 rounded-lg;
     @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
-  }
-  
-  .login-button1::before {
-    content: '';
+}
+
+.login-button1::before {
+    content: "";
     @apply absolute top-0 left-0 w-0 h-full bg-white transition-all duration-200 ease-in-out;
     z-index: 0;
-  }
-  
-  .login-button1:hover::before {
-    @apply w-full;
-  }
-  
-  .login-button1 span {
-    @apply relative z-10 transition-colors duration-200 ease-in-out;
-  }
-  
-  .login-button1:hover span {
-    @apply text-black;
-  }
-  
-  .login-button1:hover {
-    @apply border-custom-orange;
-  }
-  
-  
-  
+}
 
+.login-button1:hover::before {
+    @apply w-full;
+}
+
+.login-button1 span {
+    @apply relative z-10 transition-colors duration-200 ease-in-out;
+}
+
+.login-button1:hover span {
+    @apply text-black;
+}
+
+.login-button1:hover {
+    @apply border-custom-orange;
+}
 
 .search-button {
     @apply hover:bg-gray-600;
-    color: #F07900;
+    color: #f07900;
 }
-
 
 .language-button {
     @apply hover:bg-green-700;
     border-radius: 10px;
-    color: #F07900;
+    color: #f07900;
     border-color: black;
     border-width: 1px;
-
 }
-
 
 .flag-icon {
     @apply mr-2;
 }
 
 .hero-service {
-  @apply relative w-full min-h-screen overflow-hidden mt-0 bg-cover bg-center;
+    @apply relative w-full min-h-screen overflow-hidden mt-0 bg-cover bg-center;
 }
 
 .hero-service img {
-  @apply absolute top-0 left-0 w-full h-full object-cover opacity-80; /* Ensure the image is fully visible */
-  animation: none; /* Remove any animation */
+    @apply absolute top-0 left-0 w-full h-full object-cover opacity-80; /* Ensure the image is fully visible */
 }
 
 .hero-content-service {
-  @apply absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
+    @apply absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
 }
 
 .hero-title1 {
-  @apply relative text-6xl font-bold  text-black;
-  bottom: 20px
-}
-.hero-title2 {
-  @apply relative text-6xl font-bold text-black ;
-  
+    @apply relative text-6xl font-bold text-black;
+    bottom: 20px;
 }
 
+.hero-title2 {
+    @apply relative text-6xl font-bold text-black;
+}
 
 .hero-text1 {
-  @apply relative text-lg text-black mb-6;
-  top: 20px;
-
+    @apply relative text-lg text-black mb-6;
+    top: 20px;
 }
 
-
 .hero-btn-primary1 {
-  @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
+    @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
 }
 
 .hero-btn-primary1::before {
-  content: "";
-  @apply absolute top-0 left-[-100%] w-full h-full bg-white transition-all duration-300 text-custom-orange;
+    content: "";
+    @apply absolute top-0 left-[-100%] w-full h-full bg-white transition-all duration-300 text-custom-orange;
 }
 
-.hero-btn-primary1:hover::before {
-  @apply left-0;
-}
 .hero-btn-primary1 span {
-  @apply relative z-10 transition-colors duration-300 ease-in-out;
+    @apply relative z-10 transition-colors duration-300 ease-in-out;
 }
+
 .hero-btn-primary1:hover span {
-  @apply text-custom-orange;
+    @apply text-custom-orange;
 }
 
 .hero-btn-secondary1 {
-  @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
-}
-
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-title1, .hero-title2, .hero-text1, .hero-btn-primary1, .hero-btn-secondary1 {
-  @apply opacity-0;
-  animation-duration: 0.5s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
-}
-.hero-title1 {
-  animation: slideInLeft 0.8s ease-out forwards;
-  animation-delay: 0.5s;
-}
-
-.hero-title2 {
-  animation: slideInRight 0.8s ease-out forwards;
-  animation-delay: 0.8s;
-}
-
-.hero-text1 {
-  animation: slideUp 0.8s ease-out forwards;
-  animation-delay: 1.1s;
-}
-
-.hero-btn-primary1 {
-  animation: slideUp 0.8s ease-out forwards;
-  animation-delay: 1.4s;
-}
-
-.hero-btn-secondary1 {
-  animation: slideUp 0.8s ease-out forwards;
-  animation-delay: 1.7s;
-}
-@keyframes imageFade {
-  0% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.hero-service img {
-  @apply absolute top-0 left-0 w-full h-full object-cover;
-  /* animation: imageFade 5s ease-in-out infinite; Loops every 5 seconds */
+    @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
 }
 
 .hero-buttons {
-  @apply flex flex-row space-x-4;
+    @apply flex flex-row space-x-4;
 }
 
 .hero-service {
-  opacity: 0;
-  transform: translateY(50px); /* Start off-screen */
-  transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(50px); /* Start off-screen */
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .hero-service.show-hero {
-  opacity: 1;
-  transform: translateY(0); /* Move to normal position */
+    opacity: 1;
+    transform: translateY(0); /* Move to normal position */
 }
 
 .hero-content-service {
-  opacity: 0;
-  transform: translateY(50px); /* Start off-screen */
-  transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(50px); /* Start off-screen */
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .hero-content-service.show-hero {
-  opacity: 1;
-  transform: translateY(0); /* Move to normal position */
+    opacity: 1;
+    transform: translateY(0); /* Move to normal position */
 }
+
 .services-section {
     padding: 50px 0;
     text-align: center;
     justify-items: center;
-
 }
 
 .services-title {
-
     @apply text-5xl font-semibold mb-4 text-black;
 }
 
@@ -347,20 +225,17 @@ button {
     gap: 60px;
     align-items: center;
     justify-items: center;
-    margin-top: 30px;/* Centering the cards */
+    margin-top: 30px; /* Centering the cards */
 }
 
 /* Tailwind classes for .service-card */
 .service-card {
-  @apply w-[80%] max-w-[350px] p-5 bg-[#f5f5f5] rounded-lg shadow-md text-center transform transition-transform duration-200 ease-in-out hover:shadow-lg ;
+    @apply w-[80%] max-w-[350px] p-5 bg-[#f5f5f5] rounded-lg shadow-md text-center transform transition-transform duration-200 ease-in-out hover:shadow-lg;
 }
+
 .service-card:hover {
-  transform: translateY(-20px) !important;
+    transform: translateY(-20px) !important;
 }
-
-/* Tailwind classes for hover effect */
-
-
 
 .service-card img {
     width: 100%;
@@ -370,7 +245,7 @@ button {
 }
 
 .service-title {
-  @apply relative text-black font-bold text-3xl;
+    @apply relative text-black font-bold text-3xl;
     margin: 50px 0;
     color: #000000;
 }
@@ -380,69 +255,51 @@ button {
     color: #818181;
 }
 
-
-
-
-@keyframes slideUpCard {
-  from {
-    opacity: 0;
-    transform: translateY(0px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(20px);
-  }
-}
-
 .service-card {
-  opacity: 0;
-  transform: translateY(50px); /* Start off-screen */
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 0;
+    transform: translateY(50px); /* Start off-screen */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .service-card.show {
-  opacity: 1;
-  transform: translateY(0); /* Move to normal position */
+    opacity: 1;
+    transform: translateY(0); /* Move to normal position */
 }
 
 .about-section {
-  @apply bg-white p-8 text-center;
+    @apply bg-white p-8 text-center;
 }
 
 .about-title {
-  @apply text-5xl font-semibold mb-4 text-gray-800;
+    @apply text-5xl font-semibold mb-4 text-gray-800;
 }
 
 .about-text {
-  @apply text-base text-lg text-gray-600 mt-10 mb-10;
+    @apply text-base text-lg text-gray-600 mt-10 mb-10;
 }
 
 .about-container {
-  @apply grid grid-cols-1 sm:grid-cols-2 mx-auto max-w-7xl gap-12 place-items-center;
-
+    @apply grid grid-cols-1 sm:grid-cols-2 mx-auto max-w-7xl gap-12 place-items-center;
 }
-
 
 .about-card {
-  @apply relative bg-black bg-opacity-50 rounded-lg shadow-md  flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[550px];
+    @apply relative bg-black bg-opacity-50 rounded-lg shadow-md flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[550px];
 }
+
 .about-image {
-  @apply w-full h-full opacity-30 object-cover rounded-lg ;
+    @apply w-full h-full opacity-30 object-cover rounded-lg;
 }
 
 .about-card-title {
-  @apply absolute font-bold text-black text-5xl;
-  @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-  @apply text-center break-words max-w-full;
+    @apply absolute font-bold text-black text-5xl;
+    @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+    @apply text-center break-words max-w-full;
 }
-
 
 .about-text span {
-  @apply font-semibold text-custom-orange;
+    @apply font-semibold text-custom-orange;
 }
-
 
 .analytics-image {
     @apply w-full max-w-[600px] h-[[650px]];
 }
-

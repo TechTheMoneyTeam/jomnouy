@@ -27,15 +27,8 @@ const Home = () => {
 
     const Header = () => {
         const location = useLocation();
-        const [isdark, setisdark] = useState(false);
-        const onToggle = () => {
-            setisdark(!isdark);
-            if (isdark) {
-                document.documentElement.classList.add("dark");
-            } else {
-                document.documentElement.classList.remove("dark");
-            }
-        }
+
+   
 
             
         return (
