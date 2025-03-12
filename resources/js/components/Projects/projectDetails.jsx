@@ -170,11 +170,11 @@ const ProjectDetails = () => {
             axios.delete(`/api/users/${userId}/favorites/${id}`)
                 .then(() => {
                     setIsFavorite(false);
-                    alert("Project removed from your favorites!");
+                    
                 })
                 .catch(error => {
                     console.error('Error removing from favorites:', error);
-                    alert("Failed to remove project from favorites");
+                    
                 })
                 .finally(() => {
                     setSavingToFavorites(false);
@@ -186,11 +186,11 @@ const ProjectDetails = () => {
             })
                 .then(() => {
                     setIsFavorite(true);
-                    alert("Project saved to your favorites!");
+                    
                 })
                 .catch(error => {
                     console.error('Error adding to favorites:', error);
-                    alert("Failed to save project to favorites");
+          
                 })
                 .finally(() => {
                     setSavingToFavorites(false);

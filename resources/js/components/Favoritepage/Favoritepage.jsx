@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar10 from '../Navbar/Navbarforview';
-import { FaRegClock, FaTrash } from 'react-icons/fa';
+import { FaRegClock, FaTrash, FaHeart } from 'react-icons/fa';
 import { PiShareFat } from 'react-icons/pi';
-import './favorites.css';
+import styles from './Favorites.module.css';
 
 const FavoritesPage = () => {
     const [favorites, setFavorites] = useState([]);
@@ -12,7 +12,7 @@ const FavoritesPage = () => {
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState('');
-    
+    const [filterActive, setFilterActive] = useState('all');
 
     // Function to calculate days since creation
     const getDaysSinceCreation = (createdAt) => {
@@ -24,12 +24,11 @@ const FavoritesPage = () => {
     };
 
     useEffect(() => {
-        // Get user data from local storage using the new approach
+        // Get user data from local storage
         const userData = localStorage.getItem('user');
         if (userData) {
             try {
                 const user = JSON.parse(userData);
-                console.log("User data from localStorage:", user);
                 setUsername(user.username || '');
                 setUserId(user.user_id);
 
@@ -73,94 +72,139 @@ const FavoritesPage = () => {
         }
     };
 
-    if (loading) return <div className="text-center py-8">Loading your favorite projects...</div>;
-    if (error) return <div className="text-center py-8 text-red-600">{error}</div>;
+    const filteredFavorites = favorites.filter(project => {
+        if (filterActive === 'all') return true;
+        if (filterActive === 'funded' && (project.total_invested / project.funding_goal) >= 1) return true;
+        if (filterActive === 'in-progress' && (project.total_invested / project.funding_goal) < 1) return true;
+        return false;
+    });
+
+    if (loading) return <div className={styles.loadingContainer}><div className={styles.loader}></div></div>;
+    if (error) return <div className={styles.errorContainer}>{error}</div>;
 
     return (
-        <>
+        <div className={styles.pageWrapper}>
             <Navbar10 />
-            <div className="favorites-container max-w-6xl mx-auto px-4 py-8">
-                <h1 className="text-2xl font-bold mb-6">
-                    {username ? `${username}'s Favorite Projects` : 'My Favorite Projects'}
-                </h1>
+            <div className={styles.heroSection}>
+                <div className={styles.heroContent}>
+                    <h1 className={styles.heroTitle}>My Favorite Projects</h1>
+                    <p className={styles.heroSubtitle}>
+                        {username ? `${username}'s curated list of inspiring projects` : 'Your curated list of inspiring projects'}
+                    </p>
+                </div>
+            </div>
 
-                {favorites.length === 0 ? (
-                    <div className="empty-favorites">
-                        <p>You haven't saved any projects yet.</p>
-                        <Link to="/" className="browse-projects-btn">Browse Projects</Link>
+            <div className={styles.container}>
+                <div className={styles.filterSection}>
+                    <div className={styles.filterButtons}>
+                        <button 
+                            className={`${styles.filterButton} ${filterActive === 'all' ? styles.active : ''}`}
+                            onClick={() => setFilterActive('all')}
+                        >
+                            All Projects
+                        </button>
+                        <button 
+                            className={`${styles.filterButton} ${filterActive === 'funded' ? styles.active : ''}`}
+                            onClick={() => setFilterActive('funded')}
+                        >
+                            Fully Funded
+                        </button>
+                        <button 
+                            className={`${styles.filterButton} ${filterActive === 'in-progress' ? styles.active : ''}`}
+                            onClick={() => setFilterActive('in-progress')}
+                        >
+                            In Progress
+                        </button>
+                    </div>
+                    <div className={styles.stats}>
+                        <div className={styles.statItem}>
+                            <span className={styles.statValue}>{favorites.length}</span>
+                            <span className={styles.statLabel}>Favorites</span>
+                        </div>
+                    </div>
+                </div>
+
+                {filteredFavorites.length === 0 ? (
+                    <div className={styles.emptyState}>
+                        <div className={styles.emptyStateIcon}>
+                            <FaHeart size={50} />
+                        </div>
+                        <h2 className={styles.emptyStateTitle}>No favorites yet</h2>
+                        <p className={styles.emptyStateText}>
+                            You haven't added any projects to your favorites collection yet.
+                        </p>
+                        <Link to="/projectlist1" className={styles.browseButton}>
+                            Discover Projects
+                        </Link>
                     </div>
                 ) : (
-                    <div className="favorites-grid">
-                        {favorites.map((project) => (
-                            <div key={project.project_id} className="favorite-card">
-                                <div className="favorite-image">
-                                    <Link to={`/projects/${project.project_id}`}>
-                                        <img
-                                            src={project.project_img_url || project.image_url || project.project_img || "/api/placeholder/400/320"}
-                                            alt={project.title}
-                                            className="w-full h-48 object-cover rounded-t-lg"
-                                        />
-                                    </Link>
-                                </div>
-                                <div className="favorite-content p-4">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <Link to={`/projects/${project.project_id}`} className="favorite-title">
-                                            <h3 className="font-medium text-lg">{project.title}</h3>
+                    <div className={styles.favoritesGrid}>
+                        {filteredFavorites.map((project) => {
+                            const fundingPercentage = (project.total_invested / project.funding_goal) * 100;
+                            const isFunded = fundingPercentage >= 100;
+                            
+                            return (
+                                <div key={project.project_id} className={styles.favoriteCard}>
+                                    <div className={styles.cardImageContainer}>
+                                        <Link to={`/projects/${project.project_id}`}>
+                                            <img
+                                                src={project.project_img_url || project.image_url || project.project_img || "/api/placeholder/400/320"}
+                                                alt={project.title}
+                                                className={styles.cardImage}
+                                            />
+                                            {isFunded && (
+                                                <div className={styles.fundedBadge}>
+                                                    Fully Funded
+                                                </div>
+                                            )}
                                         </Link>
-                                        <div className="favorite-actions">
-                                            <button
-                                                className="action-btn text-red-500"
-                                                onClick={() => handleRemoveFavorite(project.project_id)}
-                                                title="Remove from favorites"
-                                            >
-                                                <FaTrash />
-                                            </button>
-                                            <button className="action-btn">
-                                                <PiShareFat className="share-icon" title="Share project" />
-                                            </button>
-                                        </div>
+                                        <button
+                                            className={styles.removeButton}
+                                            onClick={() => handleRemoveFavorite(project.project_id)}
+                                            title="Remove from favorites"
+                                        >
+                                            <FaTrash />
+                                        </button>
                                     </div>
-
-                                    <p className="favorite-description text-sm text-gray-600 mb-4">
-                                        {project.project_des?.substring(0, 120)}
-                                        {project.project_des?.length > 120 ? '...' : ''}
-                                    </p>
-
-                                    <div className="flex items-center text-sm text-gray-500 mb-2">
-                                        <div className="flex items-center mr-4">
-                                            <FaRegClock className="w-4 h-4 mr-1 text-black/70" />
-                                            <span className="text-black/70 font-semibold">
-                                                {getDaysSinceCreation(project.created_at)} days ago
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="favorite-footer mt-4">
-                                        <div className="funding-progress">
-                                            <div className="progress-bar">
-                                                <div
-                                                    className="progress-fill"
+                                    <div className={styles.cardContent}>
+                                        <Link to={`/projects/${project.project_id}`} className={styles.projectTitle}>
+                                            <h3>{project.title}</h3>
+                                        </Link>
+                                        <p className={styles.projectDescription}>
+                                            {project.project_des?.substring(0, 120)}
+                                            {project.project_des?.length > 120 ? '...' : ''}
+                                        </p>
+                                        <div className={styles.fundingContainer}>
+                                            <div className={styles.progressBarContainer}>
+                                                <div 
+                                                    className={styles.progressBar}
                                                     style={{
-                                                        width: `${Math.min((project.total_invested / project.funding_goal) * 100, 100)}%`,
-                                                        backgroundColor: project.total_invested / project.funding_goal < 0.5 ? '#FFA500' : '#FF7F00'
+                                                        width: `${Math.min(fundingPercentage, 100)}%`,
                                                     }}
+                                                    data-funded={isFunded}
                                                 ></div>
                                             </div>
-                                            <div className="funding-info mt-2">
-                                                <span className="funding-amount">US$ {project.total_invested?.toLocaleString()}</span>
-                                                <span className="funding-percentage">
-                                                    {((project.total_invested / project.funding_goal) * 100).toFixed(2)}%
-                                                </span>
+                                            <div className={styles.fundingDetails}>
+                                                <div className={styles.fundingAmount}>
+                                                    <span className={styles.currencySymbol}>US$</span>
+                                                    <span className={styles.amount}>{project.total_invested?.toLocaleString()}</span>
+                                                </div>
+                                                <div className={styles.fundingPercentage}>
+                                                    {fundingPercentage.toFixed(1)}%
+                                                </div>
+                                            </div>
+                                            <div className={styles.fundingGoal}>
+                                                of US$ {project.funding_goal?.toLocaleString()} goal
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </div>
-        </>
+        </div>
     );
 };
 
