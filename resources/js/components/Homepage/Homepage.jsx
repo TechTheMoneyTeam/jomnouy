@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-    MapPin,
-    Phone,
-    Mail,
-    Facebook,
-    Linkedin,
-    Twitter,
-    Search,
-} from "lucide-react";
 import axios from "axios";
 import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
@@ -31,8 +22,8 @@ const Home = () => {
             <div className="hero-background"></div>
             <div className="hero-content">
                 <div className="hero-text-section">
-                    <h1 className="hero-title">Change your <span>Life</span></h1>
-                    <p className="hero-description">With</p>
+                    <h1 className="hero-title">Change your</h1>
+                    <p className="hero-description"><span>Life</span> With</p>
                     <p className="hero-description2">
                         "Jom<span>nouy"</span>
                     </p>
@@ -113,7 +104,7 @@ const Home = () => {
 
         return (
             <div className="project-container">
-                <h2 className="project-title-section">Tops Projects</h2>
+                <h2 className="project-title-section" data-aos="fade-up">Tops Projects</h2>
 
                 {/* Pagination Buttons */}
                 <div className="absolute top-0 right-0 flex gap-2 z-10">
