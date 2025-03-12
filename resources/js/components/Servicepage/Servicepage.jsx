@@ -20,9 +20,9 @@ const Service = () => {
     const toggleLanguage = () => {
         setLanguage((prev) => (prev === "en" ? "km" : "en"));
     };
-
     // Intersection Observer to detect when service cards come into view
     useEffect(() => {
+        
          AOS.init({
                         duration: 1000,
                         easing: 'ease-in-out',
@@ -84,7 +84,7 @@ const Service = () => {
     
 
     const Hero = () => (
-        <div className="hero-service">
+        <div id ="services" className="hero-service">
             <img src="/img/serviceimg.png" alt="Hero Background" />
             <div className="hero-content-service">
                 <h1 className="hero-title1" data-aos="fade-up" data-aos-duration = "600">Opportunities don't happen.</h1>

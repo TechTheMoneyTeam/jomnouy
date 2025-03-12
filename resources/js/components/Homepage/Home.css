@@ -3,39 +3,6 @@
 @tailwind utilities;
 @tailwind screens;
 
-/* Header */
-.header {
-  @apply bg-white text-white py-4 px-6 sticky top-0 z-50 shadow-md;
-}
-
-.nav-container {
-  @apply flex justify-between items-center;
-}
-
-.logo {
-  @apply text-2xl font-bold text-custom-orange no-underline;
-}
-
-.button-group {
-  @apply flex space-x-4 items-center;
-}
-
-button {
-  @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
-}
-
-.search-button {
-  @apply hover:bg-gray-600 text-custom-orange;
-}
-
-.language-button {
-  @apply hover:bg-green-700 rounded-lg text-custom-orange border border-black;
-}
-
-.flag-icon {
-  @apply mr-2;
-}
-
 /* Hero Section */
 .hero {
   @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 min-h-screen;
@@ -82,11 +49,11 @@ button {
 }
 
 .hero-content {
-  @apply relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full max-w-7xl px-6 md:px-12;
+  @apply relative z-10 top-1/2  grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full max-w-7xl px-6 md:px-12;
 }
 
 .hero-text-section {
-  @apply relative bg-white p-8 max-w-lg px-10 h-[530px]
+  @apply relative bg-white pl-14 pt-14 max-w-lg px-10 h-[530px]
          shadow-[-45px_28px_0px_rgba(0,0,0,0.2)] overflow-hidden;
   border-top-right-radius: 45% 193px;
   border-bottom-left-radius: 45% 193px;
@@ -94,15 +61,17 @@ button {
 }
 
 .hero-title {
-  @apply md:text-7xl font-bold text-gray-900 leading-tight ml-5 mb-12 mt-5;
+  @apply md:text-7xl font-bold text-black leading-tight ;
 }
-
+.hero-title span{
+  @apply text-custom-orange;
+}
 .hero-description {
-  @apply md:text-5xl text-gray-700 mt-12 leading-relaxed ml-5;
+  @apply md:text-5xl text-black font-semibold leading-relaxed ;
 }
 
 .hero-description2 {
-  @apply md:text-5xl text-black font-bold leading-relaxed ml-5 mt-8;
+  @apply md:text-5xl text-black font-bold leading-relaxed ;
 }
 
 .hero-description2 span {
@@ -110,9 +79,7 @@ button {
 }
 
 .hero-button {
-  @apply relative inline-block bg-black text-white py-3 px-12 rounded-full font-semibold transition-all duration-300 ease-in-out;
-  left: 50px;
-  top: 100px;
+  @apply relative inline-block bg-black text-white mt-8 ml-2 px-12 py-2 rounded-full font-semibold transition-all duration-300 ease-in-out;
   animation: slideInLeft 1s ease-out 0.2s;
 }
 
@@ -133,7 +100,7 @@ button {
 }
 
 .analytics-image {
-  @apply w-full max-w-[700px] h-auto;
+  @apply w-full h-auto;
 }
 
 /* Project Section */

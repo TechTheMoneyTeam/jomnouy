@@ -17,6 +17,7 @@ import Footer from "../footer/footer";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Service from "../Servicepage/Servicepage";
+import Header from "../Header_landingpage/header_landing";
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
@@ -25,66 +26,18 @@ const Home = () => {
         setLanguage((prev) => (prev === "en" ? "km" : "en"));
     };
 
-    const Header = () => {
-        const location = useLocation();
-
-   
-
-            
-        return (
-            <header className="header">
-                <nav className="nav-container">
-                    <Link to="/" className="logo">
-                        Jom<span className="nouy">nouy</span>
-                    </Link>
-                    <div className="nav-links">
-                        {["/", "/services", "/about"].map((path) => (
-                            <Link
-                                key={path}
-                                to={path}
-                                className={`nav-link ${
-                                    location.pathname === path
-                                        ? "active-link"
-                                        : ""
-                                }`}
-                            >
-                                {path === "/"
-                                    ? "Home"
-                                    : path.slice(1).charAt(0).toUpperCase() +
-                                      path.slice(2)}
-                            </Link>
-                        ))}
-                        <Link to="/login" className="login-button">
-                            <span>Login</span>
-                        </Link>
-                    </div>
-                    <div className="button-group">
-                    
-                        <button
-                            onClick={toggleLanguage}
-                            className="language-button"
-                        >
-                            <span className="flag-icon">🇰🇭</span>
-                            {language === "en" ? "English" : "ខ្មែរ"}
-                        </button>
-                    </div>
-                </nav>
-            </header>
-        );
-    };
-
     const Hero = () => (
         <section className="hero">
             <div className="hero-background"></div>
             <div className="hero-content">
                 <div className="hero-text-section">
-                    <h1 className="hero-title">ផ្លាស់ប្តូរជីវិត</h1>
-                    <p className="hero-description">របស់អ្នកជាមួយ</p>
+                    <h1 className="hero-title">Change your <span>Life</span></h1>
+                    <p className="hero-description">With</p>
                     <p className="hero-description2">
                         "Jom<span>nouy"</span>
                     </p>
                     <a href="/signup" className="hero-button">
-                        ចាប់ផ្តើមឥឡូវនេះ ➜
+                        Start now ➜
                     </a>
                 </div>
                 <div className="hero-image-wrapper">
@@ -353,141 +306,21 @@ const Home = () => {
             </div>
         );
     };
-    const AuctionProject = () => {
-        const [projects, setProjects] = useState([]);
-        const [currentIndex, setCurrentIndex] = useState(0);
-        const [loading, setLoading] = useState(true);
-        const [error, setError] = useState(null);
-        const [showContactModal, setShowContactModal] = useState(false);
-      
-        useEffect(() => {
-          const fetchProjects = async () => {
-            try {
-              const response = await axios.get("/api/projects");
-      
-              const shuffledProjects = response.data.sort(() => 0.5 - Math.random());
-              setProjects(shuffledProjects);
-              setError(null);
-            } catch (error) {
-              console.error("Error fetching projects:", error);
-              setError("Failed to load featured project");
-            } finally {
-              setLoading(false);
-            }
-          };
-      
-          fetchProjects();
-        }, []);
-      
-        if (loading)
-          return <p className="text-center">Loading featured project...</p>;
-        if (error) return <p className="text-center">{error}</p>;
-        if (projects.length === 0)
-          return <p className="text-center">No projects available.</p>;
-      
-        const handlePrev = () => {
-          setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? projects.length - 1 : prevIndex - 1
-          );
-        };
-      
-        const handleNext = () => {
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-        };
-      
-        const currentProject = projects[currentIndex];
-        const userName =
-          currentProject.user?.username ||
-          currentProject.user?.name ||
-          currentProject.user?.full_name ||
-          "Unknown User";
-      
-        return (
-          <div className="new-startup-container">
-            <div className="new-container-title">
-              <span>Highest</span> Auction
-            </div>
-            <div className="new-content-container">
-              <button onClick={handlePrev} className="new-arrow-button left">
-                ←
-              </button>
-              <div className="new-image-container">
-                <img
-                  src={
-                    currentProject.project_img
-                      ? `/storage/${currentProject.project_img}`
-                      : "/img/default-project.png"
-                  }
-                  alt={currentProject.title}
-                  className="new-image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "/img/default-project.png";
-                  }}
-                />
-              </div>
-              <div className="new-text-container">
-                <h2 className="new-project-title">
-                  {currentProject.title || "Untitled Project"}
-                </h2>
-                <p className="new-project-creator">By {userName}</p>
-                <p className="new-project-description">
-                  {currentProject.project_des || "No description available"}
-                </p>
-                <p className="new-project-type">
-                  {currentProject.categories || "Project"}
-                </p>
-                <p className="new-project-goal">
-                  <strong>Investment Goal:</strong> $
-                  {currentProject.funding_goal?.toLocaleString() || "Not specified"}
-                </p>
-                <p className="new-project-min">
-                  <strong>Min Investment:</strong> $
-                  {currentProject.reserve_price?.toLocaleString() || "Not specified"}
-                </p>
-      
-                <div className="new-button-container">
-                  <button
-                    onClick={() => setShowContactModal(true)}
-                    className="new-button1"
-                  >
-                    <span>Contact Founder</span>
-                  </button>
-                  <Link to="/projectlist1" className="new-button2">
-                    <span>See More</span>
-                  </Link>
-                </div>
-              </div>
-              <button onClick={handleNext} className="new-arrow-button right">
-                →
-              </button>
-            </div>
-      
-            {/* Contact Founder Modal */}
-            {showContactModal && currentProject && (
-              <ContactFounder
-                project={currentProject}
-                onClose={() => setShowContactModal(false)}
-              />
-            )}
-          </div>
-        );
-      };
-      
-
-
-
- 
 
     return (
-        <>
-            <Header />
-            <Hero />
-            <ProjectShow />
-            <FeaturedProject />
-            {/* <AuctionProject /> */}
+<>      <Header />
+        <section id="home">
+        
+        <Hero /> 
+        <ProjectShow />
+        <FeaturedProject />
+        </section>
+
+        <section id="services">
             <Service />
-            <Footer />
+        </section>
+            
+        <Footer />
         </>
     );
 };
