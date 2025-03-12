@@ -197,27 +197,21 @@ button {
 }
 
 .project-card {
-  @apply p-4 flex flex-col w-full sm:w-[280px] max-w-[320px] h-auto sm:h-auto mr-0 rounded-2xl transition-transform duration-300 ease-in-out;
-  animation: slideInProjectCard 1s ease-out;
-  @apply mb-6; /* Added margin bottom for spacing between project cards */
-  position: relative;
+  @apply relative p-4 flex flex-col w-full sm:w-[280px] max-w-[320px] h-auto sm:h-auto mr-0 rounded-2xl;
+  @apply mb-6;
 }
 
-.project-card:hover {
-  @apply scale-105 shadow-xl;
-}
 
 .project-title-card {
-  @apply text-center text-2xl font-bold mt-2 overflow-hidden whitespace-nowrap text-ellipsis; /* Truncates text by default */
-  transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+  @apply text-center text-2xl font-bold mt-2 overflow-hidden whitespace-nowrap text-ellipsis; /* Truncates text by default */ /* Smooth transition for hover effect */
 }
-
+.project-card:hover  {
+  @apply scale-105 shadow-xl;
+}
 /* On hover of the project card, expand the title */
 .project-card:hover .project-title-card {
-  @apply whitespace-normal overflow-visible; /* Expands and shows full text */
+  @apply whitespace-normal overflow-visible;
 }
-
-
 .project-image {
   @apply w-full h-48 object-cover rounded-2xl;
 }
@@ -347,7 +341,7 @@ button {
 /* Startup.css */
 /* Startup.css */
 .startup-container {
-  @apply flex flex-col w-full max-w-full mx-auto mt-12 mb-12 overflow-hidden relative h-auto;
+  @apply flex flex-col w-full max-w-7xl mx-auto mt-12 mb-12 overflow-hidden relative h-auto;
 }
 
 .container-title {
@@ -363,15 +357,15 @@ button {
 }
 
 .image-container {
-  @apply flex-1 flex items-center justify-center bg-white overflow-hidden shadow-md h-[60vh]; /* Increased height to 60vh to fit more space */
+  @apply flex-1 flex items-center justify-center bg-white overflow-hidden shadow-md h-[70vh]; /* Increased height to 60vh to fit more space */
 }
 
 .text-container {
-  @apply flex-1 p-8 bg-white h-[60vh]; /* Increased height to 60vh to match the image container */
+  @apply flex-1 pr-8 pl-8 bg-white h-auto; /* Increased height to 60vh to match the image container */
 }
 
-.image {
-  @apply w-full h-full object-cover ; /* Maintain aspect ratio while filling the container */
+.image { 
+  @apply w-full h-full object-cover rounded-lg ; /* Maintain aspect ratio while filling the container */
 }
 
 .project-title {
