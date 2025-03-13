@@ -149,7 +149,7 @@ const Home = () => {
 
         return (
             <div className="project-container">
-                <h2 className="project-title-section">Tops Projectw</h2>
+                <h2 className="project-title-section">Tops Projects</h2>
 
                 {/* Pagination Buttons */}
                 <div className="absolute top-0 right-0 flex gap-2 z-10">
