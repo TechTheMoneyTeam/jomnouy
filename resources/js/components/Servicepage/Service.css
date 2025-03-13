@@ -1,8 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .hero-service {
-  @apply relative w-full min-h-screen overflow-hidden mt-12 bg-cover bg-center;
+    @apply relative w-full min-h-screen overflow-hidden mt-12 bg-cover bg-center;
 }
 
 .hero-service img {

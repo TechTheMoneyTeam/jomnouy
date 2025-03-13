@@ -43,6 +43,7 @@ const Home = () => {
     );
 
     const ProjectShow = () => {
+
         const [projects, setProjects] = useState([]);
         const [loading, setLoading] = useState(true);
         const [error, setError] = useState(null);
@@ -224,11 +225,12 @@ const Home = () => {
 
         return (
             
-            <div className="startup-container" >
+            <div className="startup-container" data-aos="slidefade-right" data-duration="500">
                 <div className="container-title" data-aos="fade-up" data-aos-duration="800">
                     Featured <span>Project</span>
                 </div>
                 <div className="content-container">
+                    
                     <button onClick={handlePrev} className="arrow-button left"> 
                         ←
                     </button>
