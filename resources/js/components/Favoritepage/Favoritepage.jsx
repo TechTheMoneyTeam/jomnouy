@@ -89,7 +89,7 @@ const FavoritesPage = () => {
                 <div className={styles.heroContent}>
                     <h1 className={styles.heroTitle}>My Favorite Projects</h1>
                     <p className={styles.heroSubtitle}>
-                        {username ? `${username}'s curated list of inspiring projects` : 'Your curated list of inspiring projects'}
+                        {username ? `${username}'s favorited list of inspiring projects` : 'Your curated list of inspiring projects'}
                     </p>
                 </div>
             </div>

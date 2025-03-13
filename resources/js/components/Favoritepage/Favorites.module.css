@@ -8,6 +8,7 @@
 
 /* Hero Section */
 .heroSection {
+  margin-top: 2rem;
   background: linear-gradient(135deg, #fa9631 0%, #F07900 100%);
   color: white;
   padding: 4rem 2rem;
