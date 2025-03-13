@@ -11,8 +11,10 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { RxBookmark } from "react-icons/rx";
 import { PiShareFat } from "react-icons/pi";
 import { FaRegClock } from "react-icons/fa";
+import { Users, BriefcaseBusiness, CalendarRange } from "lucide-react";
 import FAQAccordion from "../tab_bar/faq";
 import TermsAndConditions from "./TermsAndConditions";
+
 
 const getDaysSinceCreation = (createdAt) => {
     const created = new Date(createdAt);
@@ -22,7 +24,6 @@ const getDaysSinceCreation = (createdAt) => {
     return diffDays;
 };
 
-// Updated function to calculate days between auction start and end dates
 const getDaysRemaining = (endDate, startDate) => {
     if (!endDate || !startDate) return 0;
 
@@ -33,17 +34,17 @@ const getDaysRemaining = (endDate, startDate) => {
 
         if (isNaN(end.getTime()) || isNaN(start.getTime())) return 0;
 
-        // If auction hasn't started yet, return days between start and end dates
+
         if (now < start) {
             const diffTime = end - start;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays > 0 ? diffDays : 0;
         }
 
-        // If auction has ended
+
         if (now > end) return 0;
 
-        // If auction is ongoing, return remaining days
+
         const diffTime = end - now;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays > 0 ? diffDays : 0;
@@ -53,7 +54,6 @@ const getDaysRemaining = (endDate, startDate) => {
     }
 };
 
-// New function to check if auction has started
 const hasAuctionStarted = (startDate) => {
     if (!startDate) return true; // Default to true if no start date
 
@@ -104,6 +104,8 @@ const ProjectDetails = () => {
     const [savingToFavorites, setSavingToFavorites] = useState(false);
     const [isProjectCreator, setIsProjectCreator] = useState(false);
     const [auctionStarted, setAuctionStarted] = useState(true);
+    const [totalInvestments, setTotalInvestments] = useState(0);
+    const [uniqueInvestors, setUniqueInvestors] = useState(0);
     const tabRef = useRef();
 
     useEffect(() => {
@@ -166,7 +168,7 @@ const ProjectDetails = () => {
 
                 setLoading(false);
 
-                // Fetch total amount invested from the Investment table
+                // First get the total investment amount using the correct endpoint
                 axios.get(`/api/projects/${id}/investments/total`)
                     .then(response => {
                         const totalAmount = response.data.total_amount || 0;
@@ -179,6 +181,50 @@ const ProjectDetails = () => {
                     })
                     .catch(error => {
                         console.error('Error fetching total investment:', error);
+                        setTotalInvested(0);
+                        setInvestmentProgress(0);
+                    });
+
+                // Then get all investments to count them
+                axios.get(`/api/projects/${id}/investments`)
+                    .then(response => {
+                        // Fix: Check what the actual response format is and handle it appropriately
+                        const investments = response.data;
+                        console.log('Investments response:', investments);
+
+                        // Check what data shape we're getting and handle accordingly
+                        if (Array.isArray(investments)) {
+
+                            setTotalInvestments(investments.length);
+
+                            // Count unique investors
+                            const uniqueIds = new Set(investments.map(inv => inv.user_id));
+                            setUniqueInvestors(uniqueIds.size);
+                        } else if (investments && typeof investments === 'object') {
+                            // If it's an object with a data property that contains the array
+                            const investmentsArray = investments.data || investments.investments || [];
+
+                            if (Array.isArray(investmentsArray)) {
+                                setTotalInvestments(investmentsArray.length);
+
+                                // Count unique investors
+                                const uniqueIds = new Set(investmentsArray.map(inv => inv.user_id));
+                                setUniqueInvestors(uniqueIds.size);
+                            } else {
+                                console.error('Cannot find investments array in response:', investments);
+                                setTotalInvestments(0);
+                                setUniqueInvestors(0);
+                            }
+                        } else {
+                            console.error('Investments data has unexpected format:', investments);
+                            setTotalInvestments(0);
+                            setUniqueInvestors(0);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching investments:', error);
+                        setTotalInvestments(0);
+                        setUniqueInvestors(0);
                     });
             })
             .catch(() => {
@@ -197,7 +243,7 @@ const ProjectDetails = () => {
             });
     }, [id]);
 
-    // Handle adding/removing from favorites
+
     const handleToggleFavorite = () => {
         if (!userId) {
             alert("Please log in to save projects to your favorites.");
@@ -207,7 +253,7 @@ const ProjectDetails = () => {
         setSavingToFavorites(true);
 
         if (isFavorite) {
-            // Remove from favorites
+
             axios.delete(`/api/users/${userId}/favorites/${id}`)
                 .then(() => {
                     setIsFavorite(false);
@@ -219,7 +265,7 @@ const ProjectDetails = () => {
                     setSavingToFavorites(false);
                 });
         } else {
-            // Add to favorites
+
             axios.post(`/api/users/${userId}/favorites`, {
                 project_id: id
             })
@@ -251,13 +297,12 @@ const ProjectDetails = () => {
     };
 
     const handleInvestClick = () => {
-        // If not logged in, prompt to login
+
         if (!userId) {
             alert("Please log in to invest in this project.");
             return;
         }
 
-        // If the user is the project creator, don't allow investment
         if (isProjectCreator) {
             alert("You cannot invest in your own project.");
             return;
@@ -287,7 +332,6 @@ const ProjectDetails = () => {
             tabRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [activeTab]);
-
     const RelatedProjects = ({ projects, loading }) => {
         return (
             <div className="container mx-auto px-4 py-8 ">
@@ -376,12 +420,24 @@ const ProjectDetails = () => {
                         <ProgressBar progress={investmentProgress} />
                         <p className="text-funding mt-2 text-gray-600">US$ {totalInvested.toLocaleString()}</p>
                         <p className="mt-2 text-gray-600">Pledged of US$ {project.funding_goal?.toLocaleString()} goal</p>
-                        <p className="mt-2 text-gray-600 text-2xl font-medium">
-                            {((totalInvested / project.funding_goal) * 100).toFixed(2)}%
-                        </p>
-                        <p className="mt-1 text-gray-600">Reaching Funding Goal</p>
-                        <p className="mt-6 text-gray-600 text-2xl font-medium">{daysRemaining}</p>
+                        <div className="mt-2 flex items-center">
+                            <Users className="mr-2" size={20} />
+                            <p className="text-gray-600 text-2xl font-medium">{uniqueInvestors}</p>
+                        </div>
+                        <p className="mt-1 text-gray-600">Unique Investors</p>
+
+                        <div className="mt-2 flex items-center">
+                            <BriefcaseBusiness className="mr-2" size={20} />
+                            <p className="text-gray-600 text-2xl font-medium">{totalInvestments}</p>
+                        </div>
+                        <p className="mt-1 text-gray-600">Total Investments Made</p>
+
+                        <div className="mt-2 flex items-center">
+                            <CalendarRange className="mr-2" size={20} />
+                            <p className="text-gray-600 text-2xl font-medium">{daysRemaining}</p>
+                        </div>
                         <p className="mt-1 text-gray-600">Days Remaining</p>
+
                         <p className="mt-6 text-gray-600 text-2xl font-medium">Status: {project.status}</p>
 
                         {isProjectCreator ? (
