@@ -14,18 +14,13 @@
     @apply absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
 }
 
-.hero-title1 {
-    @apply relative text-6xl font-bold text-black;
-    bottom: 20px;
-}
-
+.hero-title1,
 .hero-title2 {
     @apply relative text-6xl font-bold text-black;
 }
 
 .hero-text1 {
     @apply relative text-lg text-black mb-6;
-    top: 20px;
 }
 
 .hero-btn-primary1 {
@@ -52,86 +47,228 @@
 .hero-buttons {
     @apply flex flex-row space-x-4;
 }
-
-.hero-service {
-    opacity: 0;
-    transform: translateY(50px); /* Start off-screen */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+/* Page ending service line with arrow indicator */
+.service-line3 {
+    @apply max-w-7xl mx-auto my-16 relative;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 122, 0, 0.2) 10%, 
+        #FF7A00 50%, 
+        rgba(255, 122, 0, 0.2) 90%, 
+        transparent 100%);
+    border: none;
+    position: relative;
 }
 
-.hero-service.show-hero {
-    opacity: 1;
-    transform: translateY(0); /* Move to normal position */
+/* Animated arrow indicator suggesting next page */
+.service-line3::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    border-right: 3px solid #FF7A00;
+    border-bottom: 3px solid #FF7A00;
+    transform-origin: center;
+    transform: translateX(-50%) rotate(45deg);
+    animation: bounceArrow 2s infinite ease-in-out;
 }
 
-.hero-content-service {
-    opacity: 0;
-    transform: translateY(50px); /* Start off-screen */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+/* Add shadow for depth */
+.service-line3::before {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 1px;
+    background-color: rgba(255, 122, 0, 0.15);
+    bottom: -2px;
+    left: 15%;
 }
 
-.hero-content-service.show-hero {
-    opacity: 1;
-    transform: translateY(0); /* Move to normal position */
+/* Bounce animation for the arrow */
+@keyframes bounceArrow {
+    0%, 100% {
+        bottom: -12px;
+    }
+    50% {
+        bottom: -20px;
+    }
 }
 
+/* Optional: Add hover effect when cursor is over the line */
+.service-line3:hover {
+    cursor: pointer;
+}
+
+.service-line3:hover::after {
+    animation-duration: 1s;
+    border-right: 3px solid #FF9A40;
+    border-bottom: 3px solid #FF9A40;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-line3 {
+        @apply max-w-full mx-6;
+    }
+}
 .services-section {
-    padding: 50px 0;
-    text-align: center;
-    justify-items: center;
+    @apply mt-8 p-12 text-center mb-12;
+    min-height: 80vh;
 }
 
 .services-title {
-    @apply text-5xl font-semibold mb-4 text-black;
+    @apply text-6xl font-bold mb-4 text-black;
 }
 
 .services-container {
+    @apply grid gap-12 px-6 max-w-7xl mt-8 mx-auto justify-center;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(300px, 1fr)
+    );
+}
+
+/* Card Styles */
+.service-card1, .service-card2, .service-card3 {
+    @apply bg-white rounded-2xl shadow-lg relative overflow-hidden;
+    min-height: 400px;
     display: flex;
-    flex-direction: row; /* Stacking the cards vertically */
-    gap: 60px;
+    flex-direction: column;
     align-items: center;
-    justify-items: center;
-    margin-top: 30px; /* Centering the cards */
+    transition: transform 0.8s ease, box-shadow 0.5s ease;
 }
 
-/* Tailwind classes for .service-card */
-.service-card {
-    @apply w-[80%] max-w-[350px] p-5 bg-[#f5f5f5] rounded-lg shadow-md text-center transform transition-transform duration-200 ease-in-out hover:shadow-lg;
+/* Hover effect for each card individually */
+.service-card1:hover, .service-card2:hover, .service-card3:hover {
+    @apply shadow-2xl;
+    transform: translateY(-8px);
 }
 
-.service-card:hover {
-    transform: translateY(-20px) !important;
+/* Image Styles */
+.service-card1 img, .service-card2 img, .service-card3 img {
+    @apply w-full h-64 object-cover;
+    flex-shrink: 0;
 }
 
-.service-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
+/* Title Styling */
 .service-title {
-    @apply relative text-black font-bold text-3xl;
-    margin: 50px 0;
-    color: #000000;
+    @apply text-3xl font-bold text-custom-orange p-4;
 }
 
-.service-description {
-    font-size: 16px;
-    color: #818181;
+/* Description Styling - Full description always visible */
+.service-description1, .service-description2, .service-description3 {
+    @apply text-base text-gray-600 p-6;
+    /* Remove line clamping to show full description */
+    display: block;
+    overflow: visible;
+    /* No need for height transition since description is always fully visible */
 }
 
-.service-card {
-    opacity: 0;
-    transform: translateY(50px); /* Start off-screen */
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+/* Description Span Styling */
+.service-description1 span, .service-description2 span, .service-description3 span {
+    @apply text-lg font-bold text-black;
 }
 
-.service-card.show {
-    opacity: 1;
-    transform: translateY(0); /* Move to normal position */
+.service-description1 span span, .service-description2 span span, .service-description3 span span {
+    @apply text-custom-orange;
 }
 
+@media (max-width: 768px) {
+    .services-container {
+        @apply flex flex-col items-center;
+    }
+    
+    .service-card1,
+    .service-card2,
+    .service-card3 {
+        @apply w-full max-w-sm;
+    }
+}
+/* First service line - gradient with dot pattern */
+.service-line1 {
+    @apply max-w-7xl mx-auto my-12;
+    height: 4px;
+    background-image: linear-gradient(90deg, 
+        transparent, 
+        #FF7A00 20%, 
+        #FF7A00 80%, 
+        transparent 100%);
+    border: none;
+    position: relative;
+    overflow: visible;
+}
+
+/* Decorative dots for first line */
+.service-line1::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background-color: #FF7A00;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 122, 0, 0.6);
+}
+
+.service-line1::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 122, 0, 0.2);
+    bottom: -4px;
+    left: 0;
+}
+
+/* Second service line - dashed with endpoints */
+.service-line2 {
+    @apply max-w-7xl mx-auto my-12;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 8px,
+        #FF7A00 8px,
+        #FF7A00 16px
+    );
+    border: none;
+    position: relative;
+}
+
+/* Decorative endpoints for second line */
+.service-line2::before,
+.service-line2::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #FF7A00;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.service-line2::before {
+    left: 0;
+}
+
+.service-line2::after {
+    right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-line1,
+    .service-line2 {
+        @apply max-w-full mx-6;
+    }
+}
 .about-section {
     @apply bg-white p-8 text-center;
 }

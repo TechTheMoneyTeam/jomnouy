@@ -13,6 +13,10 @@ import Header from "../Header_landingpage/header_landing";
 const Home = () => {
     const [language, setLanguage] = useState("en");
 
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to the top of the page on mount
+    }, []);
+
     const toggleLanguage = () => {
         setLanguage((prev) => (prev === "en" ? "km" : "en"));
     };
@@ -43,7 +47,6 @@ const Home = () => {
     );
 
     const ProjectShow = () => {
-
         const [projects, setProjects] = useState([]);
         const [loading, setLoading] = useState(true);
         const [error, setError] = useState(null);
