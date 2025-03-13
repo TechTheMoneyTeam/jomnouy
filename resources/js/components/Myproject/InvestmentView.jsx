@@ -68,10 +68,15 @@ const InvestmentApprovalDashboard = () => {
     setLoading(true);
     try {
       // Verify this project belongs to the current user before fetching investments
-      const projectBelongsToUser = projects.some(p => 
-        (p.project_id === pid || p.id === pid) && 
-        (p.user_id === userId || p.creator_id === userId)
-      );
+      const projectBelongsToUser = projects.some(p => {
+        console.log("Comparing:", 
+          String(p.project_id || p.id), "==", String(pid), 
+          "AND", 
+          String(p.user_id || p.creator_id), "==", String(userId)
+        );
+        return (String(p.project_id || p.id) === String(pid)) && 
+               (String(p.user_id) === String(userId) || String(p.creator_id) === String(userId));
+      });
       
       if (!projectBelongsToUser) {
         setError('You do not have permission to view investments for this project.');
