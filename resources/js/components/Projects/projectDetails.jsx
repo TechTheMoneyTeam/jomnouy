@@ -22,21 +22,48 @@ const getDaysSinceCreation = (createdAt) => {
     return diffDays;
 };
 
-const getDaysRemaining = (endDate) => {
-    if (!endDate) return 0;
+// Updated function to calculate days between auction start and end dates
+const getDaysRemaining = (endDate, startDate) => {
+    if (!endDate || !startDate) return 0;
 
     try {
         const end = new Date(endDate);
+        const start = new Date(startDate);
         const now = new Date();
-        if (isNaN(end.getTime())) return 0;
+
+        if (isNaN(end.getTime()) || isNaN(start.getTime())) return 0;
+
+        // If auction hasn't started yet, return days between start and end dates
+        if (now < start) {
+            const diffTime = end - start;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays > 0 ? diffDays : 0;
+        }
+
+        // If auction has ended
         if (now > end) return 0;
 
+        // If auction is ongoing, return remaining days
         const diffTime = end - now;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays > 0 ? diffDays : 0;
     } catch (error) {
         console.error("Error calculating days remaining:", error);
         return 0;
+    }
+};
+
+// New function to check if auction has started
+const hasAuctionStarted = (startDate) => {
+    if (!startDate) return true; // Default to true if no start date
+
+    try {
+        const start = new Date(startDate);
+        const now = new Date();
+        return now >= start;
+    } catch (error) {
+        console.error("Error checking auction start:", error);
+        return true; // Default to true in case of error
     }
 };
 
@@ -76,6 +103,7 @@ const ProjectDetails = () => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [savingToFavorites, setSavingToFavorites] = useState(false);
     const [isProjectCreator, setIsProjectCreator] = useState(false);
+    const [auctionStarted, setAuctionStarted] = useState(true);
     const tabRef = useRef();
 
     useEffect(() => {
@@ -90,7 +118,7 @@ const ProjectDetails = () => {
                 const user = JSON.parse(userData);
                 console.log("User data from localStorage:", user);
                 setUserId(user.user_id);
-                
+
                 // Check if this project is already in favorites
                 if (user.user_id) {
                     axios.get(`/api/users/${user.user_id}/favorites`)
@@ -121,15 +149,21 @@ const ProjectDetails = () => {
                 const projectComments = projectData.comments || [];
                 setComments(projectComments);
                 setCommentCount(projectComments.length);
-                setDaysRemaining(getDaysRemaining(projectData.auction_end_date));
-                
+
+                // Check if auction has started
+                const started = hasAuctionStarted(projectData.auction_start_date);
+                setAuctionStarted(started);
+
+                // Calculate days remaining between start and end dates
+                setDaysRemaining(getDaysRemaining(projectData.auction_end_date, projectData.auction_start_date));
+
                 // Check if current user is the project creator
                 const userData = localStorage.getItem('user');
                 if (userData) {
                     const user = JSON.parse(userData);
                     setIsProjectCreator(projectData.user_id === user.user_id);
                 }
-                
+
                 setLoading(false);
 
                 // Fetch total amount invested from the Investment table
@@ -202,33 +236,9 @@ const ProjectDetails = () => {
     };
 
     const handleInvestmentSubmit = (data) => {
-        // Store the investment data and proceed to payment page
         setInvestmentData(data);
         setShowInvestmentForm(false);
         setShowPaymentPage(true);
-    };
-
-    const handlePaymentSuccess = (paymentData) => {
-        // Update the project's investment data
-        const newTotalInvested = totalInvested + (investmentData?.amount || 0);
-        setTotalInvested(newTotalInvested);
-        setInvestmentProgress(
-            project.funding_goal
-                ? Math.min((newTotalInvested / project.funding_goal) * 100, 100)
-                : 0
-        );
-
-        // Reset the investment flow
-        resetInvestmentFlow();
-
-        // Show a success message
-        alert("Your investment has been processed successfully!");
-    };
-
-    const handlePaymentFailure = () => {
-        // Handle failed payment
-        alert("Payment failed. Please try again later.");
-        resetInvestmentFlow();
     };
 
     const resetInvestmentFlow = () => {
@@ -246,13 +256,13 @@ const ProjectDetails = () => {
             alert("Please log in to invest in this project.");
             return;
         }
-        
+
         // If the user is the project creator, don't allow investment
         if (isProjectCreator) {
             alert("You cannot invest in your own project.");
             return;
         }
-        
+
         setShowTermsModal(true);
     };
 
@@ -343,6 +353,7 @@ const ProjectDetails = () => {
         );
     };
 
+
     if (loading) return <div className="text-center py-8">Loading...</div>;
     if (error) return <div className="text-center py-8 text-red-600">{error}</div>;
 
@@ -374,27 +385,37 @@ const ProjectDetails = () => {
                         <p className="mt-6 text-gray-600 text-2xl font-medium">Status: {project.status}</p>
 
                         {isProjectCreator ? (
-  <div className="disabled-button-container">
-    <button
-      className="invest-button disabled-button"
-      disabled={true}
-    >
-      You cannot invest in your own project
-    </button>
-    <span className="tooltip-text">Project creators cannot invest in their own projects</span>
-  </div>
-) : (
-  <button
-    className="invest-button"
-    onClick={handleInvestClick}
-  >
-    Invest in this project
-  </button>
-)}
+                            <div className="disabled-button-container">
+                                <button
+                                    className="invest-button disabled-button"
+                                    disabled={true}
+                                >
+                                    You cannot invest in your own project
+                                </button>
+                                <span className="tooltip-text">Project creators cannot invest in their own projects</span>
+                            </div>
+                        ) : !auctionStarted ? (
+                            <div className="disabled-button-container">
+                                <button
+                                    className="invest-button auction-not-started"
+                                    disabled={true}
+                                >
+                                    Auction has not started yet
+                                </button>
+                                <span className="tooltip-text">Investment will be available when the auction starts on {new Date(project.auction_start_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            </div>
+                        ) : (
+                            <button
+                                className="invest-button"
+                                onClick={handleInvestClick}
+                            >
+                                Invest in this project
+                            </button>
+                        )}
 
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
-                            <button 
+                            <button
                                 className="action-buttons"
                                 onClick={handleToggleFavorite}
                                 disabled={savingToFavorites}
@@ -508,8 +529,8 @@ const ProjectDetails = () => {
                             <PaymentPage
                                 amount={investmentData.amount}
                                 investmentData={investmentData}
-                                onSuccess={handlePaymentSuccess}
-                                onFailure={handlePaymentFailure}
+                                onSuccess={() => {
+                                }}
                             />
                         )}
                     </div>
