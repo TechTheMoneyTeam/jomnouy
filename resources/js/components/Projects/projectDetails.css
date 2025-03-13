@@ -240,6 +240,17 @@
   box-shadow: none !important;
 }
 
+.auction-not-started {
+  background-color: #f1af67 !important;
+  color: #888888 !important;
+  border: 1px solid #f9a750 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  pointer-events: none;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
 .disabled-button:hover {
   background-color: #cccccc !important;
   transform: none !important;
