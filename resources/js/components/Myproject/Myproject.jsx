@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Clock, DollarSign, Users, BarChart3, Award, Percent } from 'lucide-react';
+import { Clock, DollarSign, Users } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit, faMoneyBillWave, faChartLine, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faExternalLinkAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import Navbars from '../Navbar/Navbarformyproject';
 import styles from './MyProjects.module.css';
 
@@ -47,15 +47,6 @@ const MyProjects = () => {
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState('');
-    const [activeTab, setActiveTab] = useState('projects');
-    const [userInvestments, setUserInvestments] = useState([]);
-    const [investmentStats, setInvestmentStats] = useState({
-        total_investment_amount: 0,
-        pending_amount: 0,
-        approved_amount: 0,
-        completed_amount: 0,
-        project_count: 0
-    });
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
@@ -75,7 +66,6 @@ const MyProjects = () => {
     useEffect(() => {
         if (userId) {
             fetchUserProjects();
-            fetchUserInvestments();
         } else {
             setLoading(false);
         }
@@ -136,29 +126,6 @@ const MyProjects = () => {
         }
     };
 
-    const fetchUserInvestments = async () => {
-        try {
-            const response = await axios.get(`/api/user-investments/${userId}`);
-            console.log("User investments fetched:", response.data);
-            
-            // Check various response formats
-            const investmentsData = response.data.investments || response.data;
-            const stats = {
-                total_investment_amount: response.data.total_investment_amount || 0,
-                pending_amount: response.data.pending_amount || 0,
-                approved_amount: response.data.approved_amount || 0,
-                completed_amount: response.data.completed_amount || 0,
-                project_count: response.data.project_count || 0
-            };
-            
-            setUserInvestments(investmentsData);
-            setInvestmentStats(stats);
-        } catch (error) {
-            console.error('Failed to fetch user investments:', error);
-            // Don't show error for investments to keep the UI clean
-        }
-    };
-
     const fetchProjectInvestments = async (projectId) => {
         try {
             const response = await axios.get(`/api/project-investments/${projectId}`);
@@ -211,10 +178,6 @@ const MyProjects = () => {
         window.location.href = `/projects/${projectId}`;
     };
 
-    const viewInvestmentDetails = (investmentId) => {
-        window.location.href = `/investment/${investmentId}`;
-    };
-
     const viewInvestmentApprovalDashboard = (projectId) => {
         window.location.href = `/investment-approval-dashboard/${projectId}`;
     };
@@ -252,30 +215,6 @@ const MyProjects = () => {
         return Math.min(Math.round((totalInvested / fundingGoal) * 100), 100);
     };
 
-    const formatDate = (dateString) => {
-        if (!dateString) return "N/A";
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-        });
-    };
-
-    const getInvestmentStatusColor = (status) => {
-        switch (status?.toLowerCase()) {
-            case 'approved':
-                return styles.statusApproved;
-            case 'completed':
-                return styles.statusCompleted;
-            case 'rejected':
-                return styles.statusRejected;
-            case 'pending':
-            default:
-                return styles.statusPending;
-        }
-    };
-
     if (!userId) {
         return (
             <div className={styles.notLoggedIn}>
@@ -295,11 +234,10 @@ const MyProjects = () => {
             <Navbars />
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>My Dashboard</h1>
+                    <h1 className={styles.title}>My Projects</h1>
                     <p className={styles.welcomeText}>
-                        Welcome back, <strong>{username}</strong>
+                        Welcome back, <span className={styles.username}>{username}</span>
                     </p>
-                    <p className={styles.userIdText}>User ID: {userId}</p>
                 </div>
                 
                 {error && (
@@ -314,275 +252,153 @@ const MyProjects = () => {
                     </div>
                 )}
                 
-                <div className={styles.tabContainer}>
-                    <button 
-                        className={`${styles.tabButton} ${activeTab === 'projects' ? styles.activeTab : ''}`}
-                        onClick={() => setActiveTab('projects')}
-                    >
-                        My Projects ({projects.length})
-                    </button>
-                    <button 
-                        className={`${styles.tabButton} ${activeTab === 'investments' ? styles.activeTab : ''}`}
-                        onClick={() => setActiveTab('investments')}
-                    >
-                        My Investments ({userInvestments.length})
-                    </button>
-                </div>
-                
-                {activeTab === 'projects' && (
-                    <div className={styles.projectsContainer}>
-                        <div className={styles.projectsHeader}>
-                            <h2 className={styles.sectionTitle}>
-                                You have <span className={styles.highlight}>{projects.length} projects</span>
-                            </h2>
+                <div className={styles.projectsContainer}>
+                    <div className={styles.projectsHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            You have <span className={styles.highlight}>{projects.length} projects</span>
+                        </h2>
+                        <button
+                            onClick={() => window.location.href = '/create-project'}
+                            className={styles.createButton}
+                        >
+                            Create New Project
+                        </button>
+                    </div>
+                    
+                    {projects.length > 0 ? (
+                        <div className={styles.projectGrid}>
+                            {projects.map((project) => {
+                                const projectId = project.project_id || project.id;
+                                const investmentData = projectInvestments[projectId] || {
+                                    total_investment_amount: 0,
+                                    total_approved_amount: 0,
+                                    funding_percentage: 0
+                                };
+                                
+                                return (
+                                    <Card key={projectId} className={styles.projectCard}>
+                                        <div className={styles.cardHeader}>
+                                            <img
+                                                src={project.project_img_url || project.image_url || "/api/placeholder/400/200"}
+                                                alt={project.title}
+                                                className={styles.projectImage}
+                                                onError={(e) => {
+                                                    e.target.src = "/api/placeholder/400/200";
+                                                }}
+                                            />
+                                            <StatusBadge status={project.status} />
+                                        </div>
+                                        
+                                        <CardContent>
+                                            <div className={styles.projectTitleRow}>
+                                                <div className={styles.avatar}></div>
+                                                <span className={styles.projectTitle}>{project.title}</span>
+                                            </div>
+                                            
+                                            <div className={styles.projectType}>
+                                                {project.project_type || project.type || "N/A"}
+                                            </div>
+                                            
+                                            <div className={styles.projectDescription}>
+                                                {project.description?.slice(0, 100)}
+                                                {project.description?.length > 100 ? '...' : ''}
+                                            </div>
+                                            
+                                            <div className={styles.fundingProgress}>
+                                                <div className={styles.progressLabel}>
+                                                    <span>Funding Progress</span>
+                                                    <span>{calculateProgress(projectId)}%</span>
+                                                </div>
+                                                <div className={styles.progressBar}>
+                                                    <div 
+                                                        className={styles.progressFill} 
+                                                        style={{ width: `${calculateProgress(projectId)}%` }}
+                                                    />
+                                                </div>
+                                            </div>
+                                            
+                                            <div className={styles.statsRow}>
+                                                <div className={styles.stat}>
+                                                    <DollarSign size={16} className={styles.statIcon} />
+                                                    <span className={styles.statValue}>
+                                                        ${formatFunding(project.funding_goal || project.funding || 0)}
+                                                    </span>
+                                                    <span className={styles.statLabel}>Goal</span>
+                                                </div>
+                                                
+                                                <div className={styles.stat}>
+                                                    <Users size={16} className={styles.statIcon} />
+                                                    <span className={styles.statValue}>
+                                                        {investmentData.investments?.length || 0}
+                                                    </span>
+                                                    <span className={styles.statLabel}>Investors</span>
+                                                </div>
+                                                
+                                                <div className={styles.stat}>
+                                                    <Clock size={16} className={styles.statIcon} />
+                                                    <span className={styles.statValue}>
+                                                        {getDaysSinceCreation(project.created_at)}
+                                                    </span>
+                                                    <span className={styles.statLabel}>Days</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className={styles.actionButtons}>
+                                                <button
+                                                    onClick={() => viewProjectDetails(projectId)}
+                                                    className={styles.viewButton}
+                                                    title="View Project Details"
+                                                >
+                                                    <FontAwesomeIcon icon={faExternalLinkAlt} />
+                                                </button>
+                                                <button
+                                                    onClick={() => editProject(projectId)}
+                                                    className={styles.editButton}
+                                                    title="Edit Project"
+                                                >
+                                                    <FontAwesomeIcon icon={faEdit} />
+                                                </button>
+                                                <button
+                                                    onClick={() => deleteProject(projectId)}
+                                                    className={styles.deleteButton}
+                                                    title="Delete Project"
+                                                    disabled={project.status === 'completed' || project.status === 'approved'}
+                                                >
+                                                    <FontAwesomeIcon icon={faTrash} />
+                                                </button>
+                                                <button
+                                                    onClick={() => viewInvestmentApprovalDashboard(projectId)}
+                                                    className={styles.investmentButton}
+                                                    title="View Investment Approval Dashboard"
+                                                >
+                                                    <h1> Go to Dashboard</h1>
+                                                </button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                );
+                            })}
+                        </div>
+                    ) : !loading ? (
+                        <div className={styles.noProjects}>
+                            <div className={styles.emptyStateIcon}></div>
+                            <p>You haven't created any projects yet.</p>
                             <button
                                 onClick={() => window.location.href = '/create-project'}
                                 className={styles.createButton}
                             >
-                                Create New Project
+                                Create Your First Project
                             </button>
-                            {loading && (
-                                <div className={styles.spinner} />
-                            )}
                         </div>
-                        
-                        {projects.length > 0 ? (
-                            <div className={styles.projectGrid}>
-                                {projects.map((project) => {
-                                    const projectId = project.project_id || project.id;
-                                    const investmentData = projectInvestments[projectId] || {
-                                        total_investment_amount: 0,
-                                        total_approved_amount: 0,
-                                        funding_percentage: 0
-                                    };
-                                    
-                                    return (
-                                        <Card key={projectId} className={styles.projectCard}>
-                                            <div className={styles.cardHeader}>
-                                                <img
-                                                    src={project.project_img_url || project.image_url || "/api/placeholder/400/200"}
-                                                    alt={project.title}
-                                                    className={styles.projectImage}
-                                                    onError={(e) => {
-                                                        e.target.src = "/api/placeholder/400/200";
-                                                    }}
-                                                />
-                                                <StatusBadge status={project.status} />
-                                            </div>
-                                            
-                                            <CardContent>
-                                                <div className={styles.projectTitleRow}>
-                                                    <div className={styles.avatar} />
-                                                    <span className={styles.projectTitle}>{project.title}</span>
-                                                </div>
-                                                
-                                                <div className={styles.projectType}>
-                                                    {project.project_type || project.type || "N/A"}
-                                                </div>
-                                                
-                                                <div className={styles.projectInfo}>
-                                                    <span>Project ID: {projectId}</span>
-                                                </div>
-                                                
-                                                <div className={styles.fundingProgress}>
-                                                    <div className={styles.progressLabel}>
-                                                        <span>Funding Progress</span>
-                                                        <span>{calculateProgress(projectId)}%</span>
-                                                    </div>
-                                                    <div className={styles.progressBar}>
-                                                        <div 
-                                                            className={styles.progressFill} 
-                                                            style={{ width: `${calculateProgress(projectId)}%` }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className={styles.statsRow}>
-                                                    <div className={styles.stat}>
-                                                        <DollarSign size={14} />
-                                                        <span className={styles.statValue}>
-                                                            ${formatFunding(project.funding_goal || project.funding || 0)}
-                                                        </span>
-                                                        <span className={styles.statLabel}>Goal</span>
-                                                    </div>
-                                                    
-                                                    <div className={styles.stat}>
-                                                        <Users size={14} />
-                                                        <span className={styles.statValue}>
-                                                            {investmentData.investments?.length || 0}
-                                                        </span>
-                                                        <span className={styles.statLabel}>Investors</span>
-                                                    </div>
-                                                    
-                                                    <div className={styles.stat}>
-                                                        <Clock size={14} />
-                                                        <span className={styles.statValue}>
-                                                            {getDaysSinceCreation(project.created_at)}
-                                                        </span>
-                                                        <span className={styles.statLabel}>Days</span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className={styles.actionButtons}>
-                                                    <button
-                                                        onClick={() => viewProjectDetails(projectId)}
-                                                        className={styles.viewButton}
-                                                        title="View Project Details"
-                                                    >
-                                                        <FontAwesomeIcon icon={faExternalLinkAlt} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => editProject(projectId)}
-                                                        className={styles.editButton}
-                                                        title="Edit Project"
-                                                    >
-                                                        <FontAwesomeIcon icon={faEdit} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => deleteProject(projectId)}
-                                                        className={styles.deleteButton}
-                                                        title="Delete Project"
-                                                        disabled={project.status === 'completed' || project.status === 'approved'}
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrash} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => viewInvestmentApprovalDashboard(projectId)}
-                                                        className={styles.viewButton}
-                                                        title="View Investment Approval Dashboard"
-                                                    >
-                                                        <FontAwesomeIcon icon={faChartLine} />
-                                                    </button>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    );
-                                })}
-                            </div>
-                        ) : !loading ? (
-                            <div className={styles.noProjects}>
-                                <p>You haven't created any projects yet.</p>
-                                <button
-                                    onClick={() => window.location.href = '/create-project'}
-                                    className={styles.createButton}
-                                >
-                                    Create Your First Project
-                                </button>
-                            </div>
-                        ) : null}
-                        
-                        {loading && projects.length === 0 && (
-                            <div className={styles.loadingContainer}>
-                                <div className={styles.largeSpinner} />
-                                <p>Loading your projects...</p>
-                            </div>
-                        )}
-                    </div>
-                )}
-                
-                {activeTab === 'investments' && (
-                    <div className={styles.investmentsContainer}>
-                        <div className={styles.investmentsHeader}>
-                            <h2 className={styles.sectionTitle}>
-                                Your Investment Portfolio
-                            </h2>
+                    ) : null}
+                    
+                    {loading && (
+                        <div className={styles.loadingContainer}>
+                            <div className={styles.spinner}></div>
+                            <p>Loading your projects...</p>
                         </div>
-                        
-                        <div className={styles.statsCards}>
-                            <Card className={styles.statCard}>
-                                <CardContent>
-                                    <div className={styles.statCardIcon}><DollarSign size={24} /></div>
-                                    <div className={styles.statCardValue}>${formatFunding(investmentStats.total_investment_amount)}</div>
-                                    <div className={styles.statCardLabel}>Total Invested</div>
-                                </CardContent>
-                            </Card>
-                            
-                            <Card className={styles.statCard}>
-                                <CardContent>
-                                    <div className={styles.statCardIcon}><Award size={24} /></div>
-                                    <div className={styles.statCardValue}>${formatFunding(investmentStats.approved_amount + investmentStats.completed_amount)}</div>
-                                    <div className={styles.statCardLabel}>Active Investments</div>
-                                </CardContent>
-                            </Card>
-                            
-                            <Card className={styles.statCard}>
-                                <CardContent>
-                                    <div className={styles.statCardIcon}><BarChart3 size={24} /></div>
-                                    <div className={styles.statCardValue}>{investmentStats.project_count}</div>
-                                    <div className={styles.statCardLabel}>Projects</div>
-                                </CardContent>
-                            </Card>
-                            
-                            <Card className={styles.statCard}>
-                                <CardContent>
-                                    <div className={styles.statCardIcon}><Percent size={24} /></div>
-                                    <div className={styles.statCardValue}>
-                                        {userInvestments.length > 0 ? 
-                                            (userInvestments.reduce((sum, inv) => sum + parseFloat(inv.equity_percentage || 0), 0) / userInvestments.length).toFixed(1) : 
-                                            "0"}%
-                                    </div>
-                                    <div className={styles.statCardLabel}>Avg. Equity</div>
-                                </CardContent>
-                            </Card>
-                        </div>
-                        
-                        {userInvestments.length > 0 ? (
-                            <div className={styles.investmentsList}>
-                                <div className={styles.investmentsTable}>
-                                    <div className={styles.tableHeader}>
-                                        <div className={styles.tableCell}>Project</div>
-                                        <div className={styles.tableCell}>Amount</div>
-                                        <div className={styles.tableCell}>Equity</div>
-                                        <div className={styles.tableCell}>Status</div>
-                                        <div className={styles.tableCell}>Date</div>
-                                        <div className={styles.tableCell}>Actions</div>
-                                    </div>
-                                    
-                                    {userInvestments.map((investment) => (
-                                        <div key={investment.investment_id || investment.id} className={styles.tableRow}>
-                                            <div className={styles.tableCell}>
-                                                {investment.project?.title || "Unknown Project"}
-                                            </div>
-                                            <div className={styles.tableCell}>
-                                                ${parseFloat(investment.amount).toLocaleString()}
-                                            </div>
-                                            <div className={styles.tableCell}>
-                                                {parseFloat(investment.equity_percentage).toFixed(2)}%
-                                            </div>
-                                            <div className={styles.tableCell}>
-                                                <span className={`${styles.investmentStatus} ${getInvestmentStatusColor(investment.status)}`}>
-                                                    {investment.status}
-                                                </span>
-                                            </div>
-                                            <div className={styles.tableCell}>
-                                                {formatDate(investment.created_at)}
-                                            </div>
-                                            <div className={styles.tableCell}>
-                                                <button
-                                                    onClick={() => viewInvestmentDetails(investment.investment_id || investment.id)}
-                                                    className={styles.viewButton}
-                                                    title="View Investment Details"
-                                                >
-                                                    <FontAwesomeIcon icon={faChartLine} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : (
-                            <div className={styles.noInvestments}>
-                                <p>You haven't made any investments yet.</p>
-                                <button
-                                    onClick={() => window.location.href = '/projects'}
-                                    className={styles.browseButton}
-                                >
-                                    Browse Projects to Invest
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </>
     );
