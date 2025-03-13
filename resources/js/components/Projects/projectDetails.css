@@ -227,7 +227,67 @@
     font-weight: 500;
     cursor: pointer;
   }
-  
+  /* Add this to your projectDetails.css file */
+
+.disabled-button {
+  background-color: #cccccc !important;
+  color: #888888 !important;
+  border: 1px solid #aaaaaa !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  pointer-events: none;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.disabled-button:hover {
+  background-color: #cccccc !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.disabled-button:active {
+  transform: none !important;
+}
+
+/* Tooltip for disabled button (optional) */
+.disabled-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.disabled-button-container .tooltip-text {
+  visibility: hidden;
+  width: 220px;
+  background-color: #F07900;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.disabled-button-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.disabled-button-container .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #F07900 transparent transparent transparent;
+}
   /* KYC Form Styles */
   .kyc-form-container {
     padding: 30px;

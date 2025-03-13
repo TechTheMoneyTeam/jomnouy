@@ -5,8 +5,8 @@ import Navbar10 from '../Navbar/Navbarforview';
 import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
 import InvestmentForm from './InvestmentForm';
-import KYCForm from './Kycform'; // Import the InvestmentForm
-import PaymentPage from './PaymentPage'; // Import the PaymentPage
+import KYCForm from './Kycform';
+import PaymentPage from './PaymentPage';
 import { FaRegBookmark } from "react-icons/fa6";
 import { RxBookmark } from "react-icons/rx";
 import { PiShareFat } from "react-icons/pi";
@@ -22,7 +22,6 @@ const getDaysSinceCreation = (createdAt) => {
     return diffDays;
 };
 
-// New function to calculate days remaining until auction end
 const getDaysRemaining = (endDate) => {
     if (!endDate) return 0;
 
@@ -53,7 +52,6 @@ const ProgressBar = ({ progress }) => {
     );
 };
 
-
 const ProjectDetails = () => {
     const { id } = useParams();
     const [project, setProject] = useState(null);
@@ -69,14 +67,15 @@ const ProjectDetails = () => {
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [showKYCForm, setShowKYCForm] = useState(false);
     const [showInvestmentForm, setShowInvestmentForm] = useState(false);
-    const [showPaymentPage, setShowPaymentPage] = useState(false); // New state for payment page
-    const [investmentData, setInvestmentData] = useState(null); // Store investment data for payment
+    const [showPaymentPage, setShowPaymentPage] = useState(false);
+    const [investmentData, setInvestmentData] = useState(null);
     const [totalInvested, setTotalInvested] = useState(0);
     const [investmentProgress, setInvestmentProgress] = useState(0);
     const [kycData, setKycData] = useState(null);
     const [userId, setUserId] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
     const [savingToFavorites, setSavingToFavorites] = useState(false);
+    const [isProjectCreator, setIsProjectCreator] = useState(false);
     const tabRef = useRef();
 
     useEffect(() => {
@@ -123,6 +122,14 @@ const ProjectDetails = () => {
                 setComments(projectComments);
                 setCommentCount(projectComments.length);
                 setDaysRemaining(getDaysRemaining(projectData.auction_end_date));
+                
+                // Check if current user is the project creator
+                const userData = localStorage.getItem('user');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    setIsProjectCreator(projectData.user_id === user.user_id);
+                }
+                
                 setLoading(false);
 
                 // Fetch total amount invested from the Investment table
@@ -170,11 +177,9 @@ const ProjectDetails = () => {
             axios.delete(`/api/users/${userId}/favorites/${id}`)
                 .then(() => {
                     setIsFavorite(false);
-                    
                 })
                 .catch(error => {
                     console.error('Error removing from favorites:', error);
-                    
                 })
                 .finally(() => {
                     setSavingToFavorites(false);
@@ -186,11 +191,9 @@ const ProjectDetails = () => {
             })
                 .then(() => {
                     setIsFavorite(true);
-                    
                 })
                 .catch(error => {
                     console.error('Error adding to favorites:', error);
-          
                 })
                 .finally(() => {
                     setSavingToFavorites(false);
@@ -238,6 +241,18 @@ const ProjectDetails = () => {
     };
 
     const handleInvestClick = () => {
+        // If not logged in, prompt to login
+        if (!userId) {
+            alert("Please log in to invest in this project.");
+            return;
+        }
+        
+        // If the user is the project creator, don't allow investment
+        if (isProjectCreator) {
+            alert("You cannot invest in your own project.");
+            return;
+        }
+        
         setShowTermsModal(true);
     };
 
@@ -358,12 +373,24 @@ const ProjectDetails = () => {
                         <p className="mt-1 text-gray-600">Days Remaining</p>
                         <p className="mt-6 text-gray-600 text-2xl font-medium">Status: {project.status}</p>
 
-                        <button
-                            className="invest-button"
-                            onClick={handleInvestClick}
-                        >
-                            Invest in this project
-                        </button>
+                        {isProjectCreator ? (
+  <div className="disabled-button-container">
+    <button
+      className="invest-button disabled-button"
+      disabled={true}
+    >
+      You cannot invest in your own project
+    </button>
+    <span className="tooltip-text">Project creators cannot invest in their own projects</span>
+  </div>
+) : (
+  <button
+    className="invest-button"
+    onClick={handleInvestClick}
+  >
+    Invest in this project
+  </button>
+)}
 
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
@@ -472,19 +499,17 @@ const ProjectDetails = () => {
                                     fundingGoal={project.funding_goal}
                                     currentTotalInvested={totalInvested}
                                     kycData={kycData}
-                                    onInvestmentSuccess={handleInvestmentSubmit} // Updated to new handler
+                                    onInvestmentSuccess={handleInvestmentSubmit}
                                 />
                             </div>
                         )}
 
                         {showPaymentPage && investmentData && (
                             <PaymentPage
-                                amount={investmentData.amount} // Pass the investment amount
-                                investmentData={investmentData} // Pass all investment data
-                                onSuccess={() => {
-                                    // Handle successful payment
-                                    // For example: update user state, show confirmation, navigate to success page
-                                }}
+                                amount={investmentData.amount}
+                                investmentData={investmentData}
+                                onSuccess={handlePaymentSuccess}
+                                onFailure={handlePaymentFailure}
                             />
                         )}
                     </div>
