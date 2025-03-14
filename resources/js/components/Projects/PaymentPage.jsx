@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './aba-payment.module.css';
 
 const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
@@ -9,6 +9,9 @@ const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('input'); // 'input', 'processing', 'success', 'error'
   const [error, setError] = useState('');
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Format card number with spaces
   const formatCardNumber = (value) => {

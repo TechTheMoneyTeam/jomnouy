@@ -321,6 +321,7 @@ const ProjectDetails = () => {
         setShowKYCForm(false);
         setShowInvestmentForm(true);
     };
+  
 
     const handleCommentsUpdate = (updatedComments) => {
         setComments(updatedComments);
@@ -332,6 +333,13 @@ const ProjectDetails = () => {
             tabRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [activeTab]);
+
+    useEffect(() => {
+        if (showPaymentPage) {
+            window.scrollTo(0, 0);
+        }
+    }, [showPaymentPage]);
+
     const RelatedProjects = ({ projects, loading }) => {
         return (
             <div className="container mx-auto px-4 py-8 ">
@@ -396,6 +404,7 @@ const ProjectDetails = () => {
             </div>
         );
     };
+    
 
 
     if (loading) return <div className="text-center py-8">Loading...</div>;
@@ -581,16 +590,21 @@ const ProjectDetails = () => {
                             </div>
                         )}
 
-                        {showPaymentPage && investmentData && (
-                            <PaymentPage
-                                amount={investmentData.amount}
-                                investmentData={investmentData}
-                                onSuccess={() => {
-                                }}
-                            />
-                        )}
-                    </div>
-                </div>
+{showPaymentPage && investmentData && (
+    <div className="modal-overlay">
+        <div className="modal-backdrop"></div>
+        <div className="modal-container" style={{ marginTop: '50px', alignSelf: 'flex-start' }}>
+            <PaymentPage
+                amount={investmentData.amount}
+                investmentData={investmentData}
+                onSuccess={() => {
+                }}
+            />
+        </div>
+    </div>
+)}
+</div>
+</div>
             )}
         </>
     );

@@ -109,9 +109,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .modal-backdrop {
+}
+
+.modal-backdrop {
     position: absolute;
     top: 0;
     left: 0;
@@ -119,9 +119,9 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
-  }
-  
-  .modal-container {
+}
+
+.modal-container {
     position: relative;
     z-index: 1001;
     width: 100%;
@@ -131,9 +131,9 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .modal-close-button {
+}
+
+.modal-close-button {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -143,27 +143,27 @@
     cursor: pointer;
     color: #666;
     z-index: 1002;
-  }
-  
-  .modal-close-button:hover {
+}
+
+.modal-close-button:hover {
     color: #000;
-  }
-  
-  /* Terms and Conditions Modal */
-  .terms-modal {
+}
+
+/* Terms and Conditions Modal */
+.terms-modal {
     padding: 30px;
     background-color: white;
     border-radius: 8px;
-  }
-  
-  .terms-title {
+}
+
+.terms-title {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 20px;
     color: #333;
-  }
-  
-  .terms-text {
+}
+
+.terms-text {
     max-height: 400px;
     overflow-y: auto;
     padding: 15px;
@@ -171,39 +171,39 @@
     border: 1px solid #eee;
     border-radius: 6px;
     background-color: #f9f9f9;
-  }
-  
-  .terms-text p {
+}
+
+.terms-text p {
     margin-bottom: 15px;
-  }
-  
-  .terms-text ol {
+}
+
+.terms-text ol {
     padding-left: 20px;
-  }
-  
-  .terms-text li {
+}
+
+.terms-text li {
     margin-bottom: 10px;
-  }
-  
-  .terms-checkbox {
+}
+
+.terms-checkbox {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
     
-  }
-  
-  .terms-checkbox input {
+}
+
+.terms-checkbox input {
     margin-right: 10px;
     color: #F07900;
-  }
-  
-  .terms-buttons {
+}
+
+.terms-buttons {
     display: flex;
     justify-content: space-between;
     color: #F07900;
-  }
-  
-  .terms-accept-button {
+}
+
+.terms-accept-button {
     padding: 10px 20px;
     background-color: #F07900;
     color: white;
@@ -211,14 +211,14 @@
     border-radius: 4px;
     font-weight: 500;
     cursor: pointer;
-  }
-  
-  .terms-accept-button:disabled {
+}
+
+.terms-accept-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
-  }
-  
-  .terms-cancel-button {
+}
+
+.terms-cancel-button {
     padding: 10px 20px;
     background-color: white;
     color: #666;
@@ -226,8 +226,8 @@
     border-radius: 4px;
     font-weight: 500;
     cursor: pointer;
-  }
-  /* Add this to your projectDetails.css file */
+}
+/* Add this to your projectDetails.css file */
 
 .disabled-button {
   background-color: #cccccc !important;
@@ -260,6 +260,7 @@
 .disabled-button:active {
   transform: none !important;
 }
+
 
 /* Tooltip for disabled button (optional) */
 .disabled-button-container {
@@ -299,32 +300,32 @@
   border-style: solid;
   border-color: #F07900 transparent transparent transparent;
 }
-  /* KYC Form Styles */
-  .kyc-form-container {
-    padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-  }
-  
-  .kyc-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .kyc-subtitle {
-    color: #666;
-    margin-bottom: 25px;
-  }
-  
-  .kyc-form {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .form-section {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 20px;
-  }
+/* KYC Form Styles */
+.kyc-form-container {
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.kyc-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.kyc-subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.kyc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-section {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}

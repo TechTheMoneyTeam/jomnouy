@@ -628,7 +628,7 @@ const initializeEquityTiers = () => {
                                 </div>
                             </div>
 
-                            <div className={styles.fieldGroup}>
+                            {/* <div className={styles.fieldGroup}>
                                 <div className={styles.fieldLabel}>
                                     <h3>Reserve Price</h3>
                                     <p className={styles.fieldDescription}>
@@ -659,7 +659,7 @@ const initializeEquityTiers = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+                             */}
                             <div className={styles.buttonContainer}>
                                 <button 
                                     type="button" 
@@ -1052,11 +1052,7 @@ const initializeEquityTiers = () => {
                                     <span>${formData.funding_goal}</span>
                                 </div>
                                 
-                                <div className={styles.summaryItem}>
-                                    <span className={styles.summaryLabel}>Reserve Price:</span>
-                                    <span>${formData.reserve_price}</span>
-                                </div>
-                                
+                        
                                 <div className={styles.summaryItem}>
                                     <span className={styles.summaryLabel}>Duration:</span>
                                     <span>{formData.auction_start_date} to {formData.auction_end_date}</span>

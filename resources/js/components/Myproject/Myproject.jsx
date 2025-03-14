@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Clock, DollarSign, Users } from 'lucide-react';
+import { Clock, DollarSign, BriefcaseBusiness } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faExternalLinkAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import Navbars from '../Navbar/Navbarformyproject';
@@ -258,7 +258,7 @@ const MyProjects = () => {
                             You have <span className={styles.highlight}>{projects.length} projects</span>
                         </h2>
                         <button
-                            onClick={() => window.location.href = '/create-project'}
+                            onClick={() => window.location.href = '/create'}
                             className={styles.createButton}
                         >
                             Create New Project
@@ -327,11 +327,11 @@ const MyProjects = () => {
                                                 </div>
                                                 
                                                 <div className={styles.stat}>
-                                                    <Users size={16} className={styles.statIcon} />
+                                                    <BriefcaseBusiness size={16} className={styles.statIcon} />
                                                     <span className={styles.statValue}>
                                                         {investmentData.investments?.length || 0}
                                                     </span>
-                                                    <span className={styles.statLabel}>Investors</span>
+                                                    <span className={styles.statLabel}>Investments</span>
                                                 </div>
                                                 
                                                 <div className={styles.stat}>
