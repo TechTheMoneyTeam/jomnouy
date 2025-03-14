@@ -5,8 +5,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
 import ContactFounder from "../Contactfounder/Contactfounder";
 import Footer from "../footer/footer";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Service from "../Servicepage/Servicepage";
 import Header from "../Header_landingpage/header_landing";
 
@@ -25,13 +25,38 @@ const Home = () => {
         <section className="hero">
             <div className="hero-background"></div>
             <div className="hero-content">
-                <div className="hero-text-section">
-                    <h1 className="hero-title">Change your</h1>
-                    <p className="hero-description"><span>Life</span> With</p>
-                    <p className="hero-description2">
+                <div
+                    className="hero-text-section"
+                    data-aos="fade-up"
+                    data-aos-duration="500"
+                >
+                    <h1
+                        className="hero-title"
+                        data-aos="fade-up"
+                        data-aos-duration="600"
+                    >
+                        Change your
+                    </h1>
+                    <p
+                        className="hero-description"
+                        data-aos="fade-up"
+                        data-aos-duration="700"
+                    >
+                        <span>Life</span> With
+                    </p>
+                    <p
+                        className="hero-description2"
+                        data-aos="fade-up"
+                        data-aos-duration="800"
+                    >
                         "Jom<span>nouy"</span>
                     </p>
-                    <a href="/signup" className="hero-button">
+                    <a
+                        href="/signup"
+                        className="hero-button"
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                    >
                         Start now ➜
                     </a>
                 </div>
@@ -58,9 +83,9 @@ const Home = () => {
             window.scrollTo(0, 0);
             AOS.init({
                 duration: 1000,
-                easing: 'ease-in-out',
+                easing: "ease-in-out",
                 once: false,
-                mirror: false
+                mirror: false,
             });
             const fetchProjects = async () => {
                 try {
@@ -108,7 +133,9 @@ const Home = () => {
 
         return (
             <div className="project-container">
-                <h2 className="project-title-section" data-aos="fade-up">Tops Projects</h2>
+                <h2 className="project-title-section" data-aos="fade-up">
+                    Tops Projects
+                </h2>
 
                 {/* Pagination Buttons */}
                 <div className="absolute top-0 right-0 flex gap-2 z-10">
@@ -132,7 +159,12 @@ const Home = () => {
                             "Unknown User";
 
                         return (
-                            <div key={index} className="project-card" data-aos="flip-up" data-aos-duration="1000">
+                            <div
+                                key={index}
+                                className="project-card"
+                                data-aos="flip-up"
+                                data-aos-duration="1000"
+                            >
                                 <img
                                     src={
                                         project.project_img
@@ -155,7 +187,9 @@ const Home = () => {
                                     Owner : <b>{userName}</b>
                                 </p>
                                 <p className="project-description2">
-                                    {" "}{project.project_des ||"No description available"}
+                                    {" "}
+                                    {project.project_des ||
+                                        "No description available"}
                                 </p>
                             </div>
                         );
@@ -227,17 +261,27 @@ const Home = () => {
             "Unknown User";
 
         return (
-            
-            <div className="startup-container" data-aos="slidefade-right" data-duration="500">
-                <div className="container-title" data-aos="fade-up" data-aos-duration="800">
+            <div
+                className="startup-container"
+                data-aos="slidefade-right"
+                data-duration="500"
+            >
+                <div
+                    className="container-title"
+                    data-aos="fade-up"
+                    data-aos-duration="800"
+                >
                     Featured <span>Project</span>
                 </div>
                 <div className="content-container">
-                    
-                    <button onClick={handlePrev} className="arrow-button left"> 
+                    <button onClick={handlePrev} className="arrow-button left">
                         ←
                     </button>
-                    <div className="image-container" data-aos="fade-down-right" data-aos-duration="1000">
+                    <div
+                        className="image-container"
+                        data-aos="fade-down-right"
+                        data-aos-duration="1000"
+                    >
                         <img
                             src={
                                 currentProject.project_img
@@ -252,17 +296,26 @@ const Home = () => {
                             }}
                         />
                     </div>
-                    <div className="text-container" data-aos="fade-down-left" data-aos-duration="1000">
+                    <div
+                        className="text-container"
+                        data-aos="fade-down-left"
+                        data-aos-duration="1000"
+                    >
                         <h2 className="project-title">
                             {currentProject.title || "Untitled Project"}
                         </h2>
-                        <p className="project-creator">Owner : <b>{userName}</b></p>
+                        <p className="project-creator">
+                            Owner : <b>{userName}</b>
+                        </p>
                         <p className="project-description">
                             {currentProject.project_des ||
                                 "No description available"}
                         </p>
                         <p className="project-type">
-                            Project Type : <strong>{currentProject.categories || "Project"}</strong>
+                            Project Type :{" "}
+                            <strong>
+                                {currentProject.categories || "Project"}
+                            </strong>
                         </p>
                         <p className="project-goal">
                             <strong>Investment Goal : </strong> $
@@ -304,19 +357,18 @@ const Home = () => {
     };
 
     return (
-<>      <Header />
-        <section id="home">
-        
-        <Hero /> 
-        <ProjectShow />
-        <FeaturedProject />
-        </section>
-
-        <section id="services">
-            <Service />
-        </section>
-            
-        <Footer />
+        <>
+            {" "}
+            <Header />
+            <section id="home">
+                <Hero />
+                <ProjectShow />
+                <FeaturedProject />
+            </section>
+            <section id="services">
+                <Service />
+            </section>
+            <Footer />
         </>
     );
 };

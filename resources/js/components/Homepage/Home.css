@@ -73,7 +73,7 @@
   @apply relative bg-white pl-2 md:pl-8 pt-[4rem] md:pt-[4rem] px-8 shadow-2xl overflow-hidden;
   border-top-right-radius: 45% 193px;
   border-bottom-left-radius: 45% 193px;
-  animation: slideInLeft 1.2s cubic-bezier(0.17, 0.67, 0.3, 0.98);
+  /* animation: slideInLeft 1.2s cubic-bezier(0.17, 0.67, 0.3, 0.98); */
   box-shadow: -45px 28px 0px rgba(0, 0, 0, 0.15),
     0 15px 30px rgba(0, 0, 0, 0.1);
   transition: transform 0.5s ease, box-shadow 0.5s ease;
