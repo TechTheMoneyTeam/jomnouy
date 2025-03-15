@@ -14,8 +14,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react"; // Import arrow icons
 import "./Home.css";
 import ContactFounder from "../Contactfounder/Contactfounder";
 import Footer from "../footer/footer";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Service from "../Servicepage/Servicepage";
 
 const Home = () => {
@@ -35,9 +35,8 @@ const Home = () => {
             } else {
                 document.documentElement.classList.remove("dark");
             }
-        }
+        };
 
-            
         return (
             <header className="header">
                 <nav className="nav-container">
@@ -66,7 +65,6 @@ const Home = () => {
                         </Link>
                     </div>
                     <div className="button-group">
-                    
                         <button
                             onClick={toggleLanguage}
                             className="language-button"
@@ -117,9 +115,9 @@ const Home = () => {
             window.scrollTo(0, 0);
             AOS.init({
                 duration: 1000,
-                easing: 'ease-in-out',
+                easing: "ease-in-out",
                 once: false,
-                mirror: false
+                mirror: false,
             });
             const fetchProjects = async () => {
                 try {
@@ -191,7 +189,12 @@ const Home = () => {
                             "Unknown User";
 
                         return (
-                            <div key={index} className="project-card" data-aos="flip-up" data-aos-duration="1000">
+                            <div
+                                key={index}
+                                className="project-card"
+                                data-aos="flip-up"
+                                data-aos-duration="1000"
+                            >
                                 <img
                                     src={
                                         project.project_img
@@ -214,7 +217,9 @@ const Home = () => {
                                     Owner : <b>{userName}</b>
                                 </p>
                                 <p className="project-description2">
-                                    {" "}{project.project_des ||"No description available"}
+                                    {" "}
+                                    {project.project_des ||
+                                        "No description available"}
                                 </p>
                             </div>
                         );
@@ -286,16 +291,23 @@ const Home = () => {
             "Unknown User";
 
         return (
-            
-            <div className="startup-container" >
-                <div className="container-title" data-aos="fade-up" data-aos-duration="800">
+            <div className="startup-container">
+                <div
+                    className="container-title"
+                    data-aos="fade-up"
+                    data-aos-duration="800"
+                >
                     Featured <span>Project</span>
                 </div>
                 <div className="content-container">
-                    <button onClick={handlePrev} className="arrow-button left"> 
+                    <button onClick={handlePrev} className="arrow-button left">
                         ←
                     </button>
-                    <div className="image-container" data-aos="fade-down-right" data-aos-duration="1000">
+                    <div
+                        className="image-container"
+                        data-aos="fade-down-right"
+                        data-aos-duration="1000"
+                    >
                         <img
                             src={
                                 currentProject.project_img
@@ -310,17 +322,26 @@ const Home = () => {
                             }}
                         />
                     </div>
-                    <div className="text-container" data-aos="fade-down-left" data-aos-duration="1000">
+                    <div
+                        className="text-container"
+                        data-aos="fade-down-left"
+                        data-aos-duration="1000"
+                    >
                         <h2 className="project-title">
                             {currentProject.title || "Untitled Project"}
                         </h2>
-                        <p className="project-creator">Owner : <b>{userName}</b></p>
+                        <p className="project-creator">
+                            Owner : <b>{userName}</b>
+                        </p>
                         <p className="project-description">
                             {currentProject.project_des ||
                                 "No description available"}
                         </p>
                         <p className="project-type">
-                            Project Type : <strong>{currentProject.categories || "Project"}</strong>
+                            Project Type :{" "}
+                            <strong>
+                                {currentProject.categories || "Project"}
+                            </strong>
                         </p>
                         <p className="project-goal">
                             <strong>Investment Goal : </strong> $
@@ -366,125 +387,131 @@ const Home = () => {
         const [loading, setLoading] = useState(true);
         const [error, setError] = useState(null);
         const [showContactModal, setShowContactModal] = useState(false);
-      
+
         useEffect(() => {
-          const fetchProjects = async () => {
-            try {
-              const response = await axios.get("/api/projects");
-      
-              const shuffledProjects = response.data.sort(() => 0.5 - Math.random());
-              setProjects(shuffledProjects);
-              setError(null);
-            } catch (error) {
-              console.error("Error fetching projects:", error);
-              setError("Failed to load featured project");
-            } finally {
-              setLoading(false);
-            }
-          };
-      
-          fetchProjects();
+            const fetchProjects = async () => {
+                try {
+                    const response = await axios.get("/api/projects");
+
+                    const shuffledProjects = response.data.sort(
+                        () => 0.5 - Math.random()
+                    );
+                    setProjects(shuffledProjects);
+                    setError(null);
+                } catch (error) {
+                    console.error("Error fetching projects:", error);
+                    setError("Failed to load featured project");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchProjects();
         }, []);
-      
+
         if (loading)
-          return <p className="text-center">Loading featured project...</p>;
+            return <p className="text-center">Loading featured project...</p>;
         if (error) return <p className="text-center">{error}</p>;
         if (projects.length === 0)
-          return <p className="text-center">No projects available.</p>;
-      
+            return <p className="text-center">No projects available.</p>;
+
         const handlePrev = () => {
-          setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? projects.length - 1 : prevIndex - 1
-          );
+            setCurrentIndex((prevIndex) =>
+                prevIndex === 0 ? projects.length - 1 : prevIndex - 1
+            );
         };
-      
+
         const handleNext = () => {
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
         };
-      
+
         const currentProject = projects[currentIndex];
         const userName =
-          currentProject.user?.username ||
-          currentProject.user?.name ||
-          currentProject.user?.full_name ||
-          "Unknown User";
-      
+            currentProject.user?.username ||
+            currentProject.user?.name ||
+            currentProject.user?.full_name ||
+            "Unknown User";
+
         return (
-          <div className="new-startup-container">
-            <div className="new-container-title">
-              <span>Highest</span> Auction
-            </div>
-            <div className="new-content-container">
-              <button onClick={handlePrev} className="new-arrow-button left">
-                ←
-              </button>
-              <div className="new-image-container">
-                <img
-                  src={
-                    currentProject.project_img
-                      ? `/storage/${currentProject.project_img}`
-                      : "/img/default-project.png"
-                  }
-                  alt={currentProject.title}
-                  className="new-image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "/img/default-project.png";
-                  }}
-                />
-              </div>
-              <div className="new-text-container">
-                <h2 className="new-project-title">
-                  {currentProject.title || "Untitled Project"}
-                </h2>
-                <p className="new-project-creator">By {userName}</p>
-                <p className="new-project-description">
-                  {currentProject.project_des || "No description available"}
-                </p>
-                <p className="new-project-type">
-                  {currentProject.categories || "Project"}
-                </p>
-                <p className="new-project-goal">
-                  <strong>Investment Goal:</strong> $
-                  {currentProject.funding_goal?.toLocaleString() || "Not specified"}
-                </p>
-                <p className="new-project-min">
-                  <strong>Min Investment:</strong> $
-                  {currentProject.reserve_price?.toLocaleString() || "Not specified"}
-                </p>
-      
-                <div className="new-button-container">
-                  <button
-                    onClick={() => setShowContactModal(true)}
-                    className="new-button1"
-                  >
-                    <span>Contact Founder</span>
-                  </button>
-                  <Link to="/projectlist1" className="new-button2">
-                    <span>See More</span>
-                  </Link>
+            <div className="new-startup-container">
+                <div className="new-container-title">
+                    <span>Highest</span> Auction
                 </div>
-              </div>
-              <button onClick={handleNext} className="new-arrow-button right">
-                →
-              </button>
+                <div className="new-content-container">
+                    <button
+                        onClick={handlePrev}
+                        className="new-arrow-button left"
+                    >
+                        ←
+                    </button>
+                    <div className="new-image-container">
+                        <img
+                            src={
+                                currentProject.project_img
+                                    ? `/storage/${currentProject.project_img}`
+                                    : "/img/default-project.png"
+                            }
+                            alt={currentProject.title}
+                            className="new-image"
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = "/img/default-project.png";
+                            }}
+                        />
+                    </div>
+                    <div className="new-text-container">
+                        <h2 className="new-project-title">
+                            {currentProject.title || "Untitled Project"}
+                        </h2>
+                        <p className="new-project-creator">By {userName}</p>
+                        <p className="new-project-description">
+                            {currentProject.project_des ||
+                                "No description available"}
+                        </p>
+                        <p className="new-project-type">
+                            {currentProject.categories || "Project"}
+                        </p>
+                        <p className="new-project-goal">
+                            <strong>Investment Goal:</strong> $
+                            {currentProject.funding_goal?.toLocaleString() ||
+                                "Not specified"}
+                        </p>
+                        <p className="new-project-min">
+                            <strong>Min Investment:</strong> $
+                            {currentProject.reserve_price?.toLocaleString() ||
+                                "Not specified"}
+                        </p>
+
+                        <div className="new-button-container">
+                            <button
+                                onClick={() => setShowContactModal(true)}
+                                className="new-button1"
+                            >
+                                <span>Contact Founder</span>
+                            </button>
+                            <Link to="/projectlist1" className="new-button2">
+                                <span>See More</span>
+                            </Link>
+                        </div>
+                    </div>
+                    <button
+                        onClick={handleNext}
+                        className="new-arrow-button right"
+                    >
+                        →
+                    </button>
+                </div>
+
+                {/* Contact Founder Modal */}
+                {showContactModal && currentProject && (
+                    <ContactFounder
+                        project={currentProject}
+                        onClose={() => setShowContactModal(false)}
+                    />
+                )}
             </div>
-      
-            {/* Contact Founder Modal */}
-            {showContactModal && currentProject && (
-              <ContactFounder
-                project={currentProject}
-                onClose={() => setShowContactModal(false)}
-              />
-            )}
-          </div>
         );
-      };
-      
-
-
-
- 
+    };
 
     return (
         <>
