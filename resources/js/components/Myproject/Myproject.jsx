@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Clock, DollarSign, BriefcaseBusiness } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faExternalLinkAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
-import Navbars from '../Navbar/Navbarformyproject';
+import Navbar from '../Navbar/Navbar';
 import styles from './MyProjects.module.css';
 
 const Card = ({ className, children }) => (
@@ -231,7 +231,7 @@ const MyProjects = () => {
 
     return (
         <>
-            <Navbars />
+            <Navbar />
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>My Projects</h1>

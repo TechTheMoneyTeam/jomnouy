@@ -48,6 +48,20 @@ Route::get('/investments/{id}', function () {
     return view('welcome');
 });
 
+// project multi filter
+Route::get('/api/filtered-projects', [ProjectController::class, 'getFilteredProjects']);
+// project ending soon
+// Route::get('/api/projects/ending-soon', [ProjectController::class, 'getEndingSoonProjects']);
+
+// Correct route definition
+Route::get('/api/category/{category}', [ProjectController::class, 'getProjectsByCategory']);
+// Route::get('/projects/{id}', function () {
+//     return view('welcome');
+// })->where('id', '[^/]+');
+Route::get('/category/{categoryName}', function () {
+    return view('welcome');  // Ensure this view contains your React app
+})->where('categoryName', '[^/]+');  // Match any category name
+
 
  
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);

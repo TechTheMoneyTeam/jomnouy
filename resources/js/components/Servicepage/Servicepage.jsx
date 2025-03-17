@@ -252,7 +252,7 @@ const Service = () => {
                                 "https://img.freepik.com/free-photo/multiracial-group-young-creative-people-smart-casual-wear-discussing-business-brainstorming-meeting-ideas-mobile-application-software-design-project-modern-office_7861-3067.jpg?t=st=1741938246~exp=1741941846~hmac=c67a19b12913be863f457d9f98b4b8db193279ee196fbe6bc9b5d32e3450f404&w=1380",
                                 "https://img.freepik.com/free-photo/person-using-tablet_53876-13420.jpg?t=st=1741938449~exp=1741942049~hmac=48bb3f726e9928c0a1c186afbdcc1ac3290ee3b18069231f1adda8a383737c61&w=996",
                                 "/img/feature1-3.png",
-                                "",
+                        
                             ]} 
                         />
                     </div>
@@ -324,9 +324,9 @@ const Service = () => {
                     <div className="feature-image-wrapper" data-aos="fade-up-left" data-aos-duration="1000">
                         <ImageSlider 
                             images={[
-                                "/img/feature4-1.png",
-                                "/img/feature4-2.png",
-                                "/img/feature4-3.png",
+                                "https://img.freepik.com/free-vector/gradient-ssl-illustration_23-2149247155.jpg?t=st=1742200658~exp=1742204258~hmac=1ba1e6555156ed828d63289aa976fb01898d15dfc32587f40cad531b6586a03a&w=740",
+                                "https://img.freepik.com/free-photo/global-world-wide-friendship-worker-success_1134-1147.jpg?t=st=1742200731~exp=1742204331~hmac=99e2f1c749a95b3d8e3003e778efa9e24e753a2e42f7b0848bec3b502b01d81a&w=1060",
+                                "https://img.freepik.com/premium-photo/photo-two-young-asian-business-people-white-background_296537-11735.jpg?w=1060",
                             ]} 
                         />
                     </div>

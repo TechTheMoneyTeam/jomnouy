@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\User;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -196,6 +197,50 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch project: ' . $e->getMessage()], 500);
         }
+    }
+
+public function getFilteredProjects(Request $request)
+    {
+        try {
+            // Start building the query
+            $query = Project::query();
+
+            // Apply category filter if provided
+            if ($request->has('category') && $request->category !== 'All categories') {
+                $query->where('categories', $request->category);
+            }
+
+            // Apply project type filter only if it's not "All projects type"
+            if ($request->has('type') && $request->type !== 'All projects type') {
+                $query->where('project_type', $request->type);
+            }
+
+            // Filter for projects with auction ending within 1 to 7 days
+            $query->whereBetween('auction_end_date', [
+                Carbon::now()->addDays(1)->startOfDay(),
+                Carbon::now()->addDays(7)->endOfDay()
+            ]);
+
+            // Execute query and get results
+            $projects = $query->get();
+
+            return response()->json($projects);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to retrieve projects',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+public function getProjectsByCategory($category)
+    {
+        $projects = Project::where('categories', $category)->get(); // Use the correct column name
+
+        if ($projects->isEmpty()) {
+            return response()->json(['message' => 'No projects found in this category'], 404);
+        }
+
+        return response()->json($projects);
     }
 
     /**

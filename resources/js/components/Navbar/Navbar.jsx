@@ -88,7 +88,7 @@ const Navbar = () => {
     return (
         <div className='mx-auto max-w-7xl m-12'>
             <nav className="max-w-screen-xl mx-auto flex items-center justify-between">
-                <Link to="/projectlist1" onClick={() => {
+                <Link to="/" onClick={() => {
                     setActiveTab('All');
                     localStorage.setItem('activeCategory', 'All');
                 }}>
@@ -115,7 +115,7 @@ const Navbar = () => {
                             Create project
                         </button>
                     </Link>
-                    <div className="profile flex items-center gap-4 cursor-pointer">
+                    <div className="profile flex items-center gap-4 cursor-pointer z-[9999]">
                         <DropdownMenu username={username} />
                     </div>
                 </div>

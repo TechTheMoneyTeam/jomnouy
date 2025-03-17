@@ -22,6 +22,9 @@ import ProjectDetails from '../components/Projects/projectDetails';
 import EditProject from '../components/Myproject/EditProject';
 import InvestmentApprovalDashboard from '../components/Myproject/InvestmentView';
 import FavoritesPage from '../components/Favoritepage/Favoritepage';
+import ProjectNearYou from '../components/ProjectCategory/ProjectNear';
+import CategoryPage from '../components/ProjectCategory/ProjectCategory';
+import ProjectEndingSoon from '../components/ProjectCategory/ProjectEndingSoon';
 
 const Index = () => {
     return (
@@ -52,6 +55,12 @@ const Index = () => {
                 <Route path="/contact" element={<ContactFounder />} />
                 <Route path="/followings" element={<Following />} />
                 <Route path="/noti" element={<Notification />} />
+
+
+                <Route path="/project-near-you" element={<ProjectNearYou />} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
+            <Route path="/project-ending-soon" element={<ProjectEndingSoon />} />
+
             </Routes>
         </div>
     );
