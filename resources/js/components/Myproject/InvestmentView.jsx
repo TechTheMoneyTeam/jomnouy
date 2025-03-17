@@ -18,7 +18,10 @@ const InvestmentApprovalDashboard = () => {
     rejected: 0,
     completed: 0,
     totalAmount: 0,
-    uniqueInvestors: 0
+    uniqueInvestors: 0,
+    term_1_5: 0,
+    term_5_10: 0,
+    term_10_plus: 0
   });
   const [statusFilter, setStatusFilter] = useState('all');
   const [sortField, setSortField] = useState('created_at');
@@ -45,14 +48,14 @@ const InvestmentApprovalDashboard = () => {
   const fetchProjects = async (userId) => {
     try {
       const response = await axios.get(`/api/projects?user_id=${userId}`);
-      
+
       // Filter projects to only include those owned by the current user
-      const userProjects = response.data.filter(project => 
+      const userProjects = response.data.filter(project =>
         (project.user_id === userId || project.creator_id === userId)
       );
-      
+
       setProjects(userProjects);
-      
+
       if (userProjects.length > 0) {
         setProjectId(userProjects[0].project_id || userProjects[0].id);
       } else {
@@ -69,47 +72,47 @@ const InvestmentApprovalDashboard = () => {
     try {
       // Verify this project belongs to the current user before fetching investments
       const projectBelongsToUser = projects.some(p => {
-        console.log("Comparing:", 
-          String(p.project_id || p.id), "==", String(pid), 
-          "AND", 
+        console.log("Comparing:",
+          String(p.project_id || p.id), "==", String(pid),
+          "AND",
           String(p.user_id || p.creator_id), "==", String(userId)
         );
-        return (String(p.project_id || p.id) === String(pid)) && 
-               (String(p.user_id) === String(userId) || String(p.creator_id) === String(userId));
+        return (String(p.project_id || p.id) === String(pid)) &&
+          (String(p.user_id) === String(userId) || String(p.creator_id) === String(userId));
       });
-      
+
       if (!projectBelongsToUser) {
         setError('You do not have permission to view investments for this project.');
         setInvestments([]);
         setLoading(false);
         return;
       }
-      
+
       const response = await axios.get(`/api/project-investments/${pid}`);
       let investmentsData = response.data.investments || response.data;
-      
+
       // Apply status filter
       if (statusFilter !== 'all') {
         investmentsData = investmentsData.filter(inv => inv.status === statusFilter);
       }
-      
+
       // Apply sorting
       investmentsData.sort((a, b) => {
         let valueA = a[sortField];
         let valueB = b[sortField];
-        
+
         if (sortField === 'amount' || sortField === 'equity_percentage') {
           valueA = parseFloat(valueA);
           valueB = parseFloat(valueB);
         }
-        
+
         if (valueA < valueB) return sortDirection === 'asc' ? -1 : 1;
         if (valueA > valueB) return sortDirection === 'asc' ? 1 : -1;
         return 0;
       });
 
       setInvestments(investmentsData);
-      
+
       // Calculate statistics
       const uniqueInvestors = new Set(investmentsData.map(inv => inv.user_id)).size;
       const pendingCount = investmentsData.filter(inv => inv.status === 'pending').length;
@@ -117,7 +120,11 @@ const InvestmentApprovalDashboard = () => {
       const rejectedCount = investmentsData.filter(inv => inv.status === 'rejected').length;
       const completedCount = investmentsData.filter(inv => inv.status === 'completed').length;
       const totalAmount = investmentsData.reduce((sum, inv) => sum + parseFloat(inv.amount || 0), 0);
-      
+      const term_1_5_count = investmentsData.filter(inv => inv.investment_term === '1-5').length;
+const term_5_10_count = investmentsData.filter(inv => inv.investment_term === '5-10').length;
+const term_10_plus_count = investmentsData.filter(inv => inv.investment_term === '10+').length;
+
+
       setStats({
         total: investmentsData.length,
         pending: pendingCount,
@@ -125,9 +132,12 @@ const InvestmentApprovalDashboard = () => {
         rejected: rejectedCount,
         completed: completedCount,
         totalAmount: totalAmount,
-        uniqueInvestors: uniqueInvestors
+        uniqueInvestors: uniqueInvestors,
+        term_1_5: term_1_5_count,
+  term_5_10: term_5_10_count,
+  term_10_plus: term_10_plus_count
       });
-      
+
       setError(null);
     } catch (error) {
       console.error('Failed to fetch investments:', error);
@@ -141,26 +151,26 @@ const InvestmentApprovalDashboard = () => {
   const updateInvestmentStatus = async (investmentId, newStatus) => {
     try {
       await axios.put(`/api/investments/${investmentId}`, { status: newStatus });
-      
+
       // Update the local state to reflect the change
-      setInvestments(investments.map(inv => 
-        (inv.investment_id || inv.id) === investmentId 
-          ? { ...inv, status: newStatus } 
+      setInvestments(investments.map(inv =>
+        (inv.investment_id || inv.id) === investmentId
+          ? { ...inv, status: newStatus }
           : inv
       ));
-      
+
       // Update the statistics
-      const updatedInvestments = investments.map(inv => 
-        (inv.investment_id || inv.id) === investmentId 
-          ? { ...inv, status: newStatus } 
+      const updatedInvestments = investments.map(inv =>
+        (inv.investment_id || inv.id) === investmentId
+          ? { ...inv, status: newStatus }
           : inv
       );
-      
+
       const pendingCount = updatedInvestments.filter(inv => inv.status === 'pending').length;
       const approvedCount = updatedInvestments.filter(inv => inv.status === 'approved').length;
       const rejectedCount = updatedInvestments.filter(inv => inv.status === 'rejected').length;
       const completedCount = updatedInvestments.filter(inv => inv.status === 'completed').length;
-      
+
       setStats(prev => ({
         ...prev,
         pending: pendingCount,
@@ -168,7 +178,7 @@ const InvestmentApprovalDashboard = () => {
         rejected: rejectedCount,
         completed: completedCount
       }));
-      
+
     } catch (error) {
       console.error('Failed to update investment status:', error);
       alert(`Failed to update status: ${error.response?.data?.message || error.message}`);
@@ -191,10 +201,10 @@ const InvestmentApprovalDashboard = () => {
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   };
 
@@ -448,7 +458,10 @@ const InvestmentApprovalDashboard = () => {
                       {investment.payment_method}
                     </td>
                     <td className={styles.tableCell}>
-                      {investment.investment_term}
+                      {investment.investment_term === '1-5' ? '1-5 Years' :
+                        investment.investment_term === '5-10' ? '5-10 Years' :
+                          investment.investment_term === '10+' ? '10+ Years' :
+                            investment.investment_term}
                     </td>
                     <td className={styles.tableCell}>
                       {formatDate(investment.created_at)}

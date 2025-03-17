@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
-const InvestmentForm = ({ 
-  projectId, 
-  fundingGoal, 
-  currentTotalInvested, 
-  kycData, 
-  onInvestmentSuccess 
+const InvestmentForm = ({
+  projectId,
+  fundingGoal,
+  currentTotalInvested,
+  kycData,
+  onInvestmentSuccess
 }) => {
   const [loading, setLoading] = useState(false);
   const [project, setProject] = useState(null);
@@ -37,8 +37,8 @@ const InvestmentForm = ({
       const user = JSON.parse(userData);
       setUsername(user.username);
       setUserId(user.user_id);
-      setFormData(prev => ({ 
-        ...prev, 
+      setFormData(prev => ({
+        ...prev,
         user_id: user.user_id,
         project_id: projectId
       }));
@@ -49,15 +49,15 @@ const InvestmentForm = ({
   useEffect(() => {
     const fetchProjectDetails = async () => {
       if (!projectId) return;
-      
+
       setLoading(true);
       try {
         const response = await axios.get(`/api/projects/${projectId}`);
         setProject(response.data);
-        
+
         // If we have funding goal from props, use it, otherwise use from API
         const goal = fundingGoal || response.data.funding_goal;
-        
+
         // Pre-calculate equity if project has equity_offered
         if (response.data.equity_offered) {
           setBaseEquity(parseFloat(response.data.equity_offered));
@@ -89,10 +89,10 @@ const InvestmentForm = ({
       // Parse the amount as float for calculations
       const investmentAmount = parseFloat(amount);
       if (isNaN(investmentAmount)) return;
-  
+
       // Get base equity from project.equity_offered
       let baseEquityValue = 0;
-  
+
       if (project.equity_offered) {
         baseEquityValue = parseFloat(project.equity_offered);
       } else if (project.equity_tiers) {
@@ -108,7 +108,7 @@ const InvestmentForm = ({
                 }
               }
             }
-  
+
             if (highestQualifyingTier) {
               baseEquityValue = parseFloat(highestQualifyingTier.equity_percentage);
             }
@@ -117,28 +117,28 @@ const InvestmentForm = ({
           console.error('Error parsing equity tiers', e);
         }
       }
-  
+
       setBaseEquity(baseEquityValue);
-  
+
       // Calculate additional equity for amounts over funding goal
       let additionalEquityValue = 0;
       const projectFundingGoal = parseFloat(fundingGoal || project.funding_goal);
-  
+
       if (investmentAmount > projectFundingGoal) {
         const amountOverFundingGoal = investmentAmount - projectFundingGoal;
-        
+
         // Get equity per dollar
         const equityPerDollar = baseEquityValue / projectFundingGoal;
-        
+
         // Calculate additional equity
         additionalEquityValue = equityPerDollar * amountOverFundingGoal;
       }
-  
+
       setAdditionalEquity(additionalEquityValue);
-  
+
       // Calculate total equity
       const totalEquity = baseEquityValue + additionalEquityValue;
-  
+
       // Update form data
       setFormData(prev => ({ ...prev, equity_percentage: totalEquity.toFixed(2) }));
     } catch (e) {
@@ -189,6 +189,7 @@ const InvestmentForm = ({
     setIsSubmitting(true);
     setErrors({});
     setSubmitMessage('');
+    console.log("Form data being submitted:", formData);
 
     // Validation: Check if project is accepting investments
     if (project && !isProjectAcceptingInvestments(project)) {
@@ -218,7 +219,7 @@ const InvestmentForm = ({
     try {
       // Make the API request to create an investment
       const response = await axios.post('/api/investments', formData);
-      
+
       // Call the success callback with the investment data
       if (onInvestmentSuccess) {
         onInvestmentSuccess({
@@ -368,34 +369,51 @@ const InvestmentForm = ({
               {errors.payment_method && <p className="mt-1 text-sm text-red-600">{errors.payment_method}</p>}
             </div>
           </div>
+          <input 
+  type="hidden" 
+  name="investment_term" 
+  value={formData.investment_term} 
+/>
 
           {/* Investment Term Buttons */}
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Investment Term *</label>
-            <div className="flex space-x-4">
-              <button
-                type="button"
-                className={`py-2 px-4 rounded-md ${formData.investment_term === '1-5' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
-                onClick={() => handleTermSelect('1-5')}
-              >
-                1-5 Years
-              </button>
-              <button
-                type="button"
-                className={`py-2 px-4 rounded-md ${formData.investment_term === '5-10' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
-                onClick={() => handleTermSelect('5-10')}
-              >
-                5-10 Years
-              </button>
-              <button
-                type="button"
-                className={`py-2 px-4 rounded-md ${formData.investment_term === '10+' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
-                onClick={() => handleTermSelect('10+')}
-              >
-                10+ Years
-              </button>
-            </div>
-          </div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">Investment Term *</label>
+  <div className="flex px-5">
+    <button
+      type="button"
+      className={`py-2 px-4 rounded-md transition-colors duration-200 ${
+        formData.investment_term === '1-5'
+          ? 'bg-blue-600 text-white' 
+          : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+      }`}
+      onClick={() => handleTermSelect('1-5')}
+    >
+      1-5 Years
+    </button>
+    <button
+      type="button"
+      className={`py-2 px-4 rounded-md ml-4 transition-colors duration-200 ${
+        formData.investment_term === '5-10'
+          ? 'bg-blue-600 text-white' 
+          : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+      }`}
+      onClick={() => handleTermSelect('5-10')}
+    >
+      5-10 Years
+    </button>
+    <button
+      type="button"
+      className={`py-2 px-4 rounded-md ml-4 transition-colors duration-200 ${
+        formData.investment_term === '10+'
+          ? 'bg-blue-600 text-white' 
+          : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+      }`}
+      onClick={() => handleTermSelect('10+')}
+    >
+      10+ Years
+    </button>
+  </div>
+</div>
 
           <div className="mt-4">
             <label htmlFor="investment_notes" className="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>

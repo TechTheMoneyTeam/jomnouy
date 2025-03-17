@@ -27,6 +27,7 @@ class Investment extends Model
         'amount',
         'equity_percentage',
         'status',
+        'investment_term',
         'payment_method',
         'transaction_id',
         'investment_notes',
