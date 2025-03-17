@@ -99,3 +99,15 @@
 .project-card1{
     @apply w-full h-48 object-cover;
 }
+.near-span{
+               @apply text-orange-500 text-sm flex items-center gap-1;
+}
+.hr-pro{
+               @apply mt-6 mb-14;
+}
+.pro-image{
+               @apply w-full h-48 object-cover;
+}
+.end-soon{
+    @apply overflow-x-auto;
+}

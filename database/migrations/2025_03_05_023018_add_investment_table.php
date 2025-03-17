@@ -13,24 +13,26 @@ return new class extends Migration
             $table->id('investment_id');
 
             // Project relationship
-            $table->unsignedBigInteger('project_id');
-            $table->foreign('project_id')
-                  ->references('project_id')
-                  ->on('projects')
-                  ->onDelete('cascade');
+            $table->integer('project_id'); // Ensure this matches the projects table
 
             // User relationship
-            $table->unsignedBigInteger('user_id');
+            $table->integer('user_id'); // Change to integer to match the users table
             $table->foreign('user_id')
-                  ->references('user_id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('user_id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            // Foreign key for project_id
+            $table->foreign('project_id')
+                ->references('project_id')
+                ->on('projects')
+                ->onDelete('cascade');
 
             // Investment details
             $table->decimal('amount', 15, 2)->default(0);
             $table->string('status', 20)->default('active');
             $table->timestamp('investment_date')->useCurrent();
-            
+
             // Optional equity tracking
             $table->decimal('equity', 5, 2)->nullable()->comment('Percentage of project equity');
 

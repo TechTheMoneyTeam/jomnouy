@@ -5,10 +5,27 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordResetController;
+use Intervention\Image\Facades\Image;
+// project multi filter
+Route::get('/api/filtered-projects', [ProjectController::class, 'getFilteredProjects']);
+// project ending soon
+// Route::get('/api/projects/ending-soon', [ProjectController::class, 'getEndingSoonProjects']);
+
+// Correct route definition
+Route::get('/api/category/{category}', [ProjectController::class, 'getProjectsByCategory']);
+// Route::get('/projects/{id}', function () {
+//     return view('welcome');
+// })->where('id', '[^/]+');
+Route::get('/category/{categoryName}', function () {
+    return view('welcome');  // Ensure this view contains your React app
+})->where('categoryName', '[^/]+');  // Match any category name
 
 Route::get('/api/profile', [ProfileController::class, 'getProfile']);
 Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
-
+// Route::get('/placeholder/{width}/{height}', function ($width, $height) {
+//     $image = Image::canvas($width, $height, '#cccccc');
+//     return $image->response('png');
+// });
 Route::get('/api/settings', [SettingsController::class, 'getSettings']);
 Route::post('/api/settings/change-password', [SettingsController::class, 'changePassword']);
 Route::post('/api/settings/change-password1', [SettingsController::class, 'changePassword1']);
@@ -95,10 +112,10 @@ Route::get('/contact', function () {
 });
 
 use App\Http\Controllers\UserController;
+
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 Route::post('/api/forgot-password', [PasswordResetController::class, 'sendResetEmail']);
 Route::post('/api/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);
-Route::post('/api/login', [UserController::class, 'login']);
-;
+Route::post('/api/login', [UserController::class, 'login']);;

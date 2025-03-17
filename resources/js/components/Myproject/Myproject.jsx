@@ -33,7 +33,7 @@ const MyProjects = () => {
                 setUserId(user.user_id);
             } catch (error) {
                 console.error("Error parsing user data:", error);
-                setError("Invalid user data in local storage");
+                setError("Invalid user data in local sstorage");
             }
         }
     }, []);

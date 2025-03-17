@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Project;
 use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -43,27 +45,27 @@ class ProjectController extends Controller
             }
 
             $validatedData = $validator->validated();
-            
+
             // Verify user exists
             $user = User::where('user_id', $validatedData['user_id'])->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
                 ], 404);
             }
-            
+
             // Find the next available project_id between 1 and 1064
             $projectId = null;
             $existingIds = Project::pluck('project_id')->toArray();
-            
+
             for ($i = 1; $i <= 1064; $i++) {
                 if (!in_array($i, $existingIds)) {
                     $projectId = $i;
                     break;
                 }
             }
-            
+
             // Check if we found an available ID
             if ($projectId === null) {
                 throw new \Exception('No available project IDs remaining');
@@ -112,7 +114,6 @@ class ProjectController extends Controller
                 'message' => 'Project created successfully',
                 'project' => $project
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project creation failed',
@@ -126,7 +127,7 @@ class ProjectController extends Controller
         try {
             // Verify user exists
             $user = User::where('user_id', $userId)->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
@@ -134,14 +135,13 @@ class ProjectController extends Controller
             }
 
             $projects = Project::where('user_id', $userId)
-                             ->with('user')
-                             ->orderBy('created_at', 'desc')
-                             ->get();
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             return response()->json([
                 'projects' => $projects
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to fetch projects',
@@ -150,8 +150,8 @@ class ProjectController extends Controller
         }
     }
 
-   
-    
+
+
     public function index()
     {
         try {
@@ -168,10 +168,10 @@ class ProjectController extends Controller
         try {
             // Fetch projects by type
             $projects = Project::where('project_type', $type)
-                         ->with('user')
-                         ->orderBy('created_at', 'desc')
-                         ->get();
-            
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
             return response()->json($projects, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch projects by type: ' . $e->getMessage()], 500);
@@ -182,31 +182,30 @@ class ProjectController extends Controller
     {
         try {
             $project = Project::with('user')->find($id);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             return response()->json($project, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch project: ' . $e->getMessage()], 500);
         }
-        
     }
 
     public function update(Request $request, $id)
     {
         try {
             $project = Project::find($id);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'title' => 'nullable|string|max:100',
@@ -232,7 +231,7 @@ class ProjectController extends Controller
                     'errors' => $validator->errors()
                 ], 422);
             }
-            
+
             // Update fields if provided
             if ($request->has('title')) $project->title = $request->title;
             if ($request->has('funding_goal')) $project->funding_goal = $request->funding_goal;
@@ -247,14 +246,14 @@ class ProjectController extends Controller
             if ($request->has('status')) $project->status = $request->status;
             if ($request->has('auction_start_date')) $project->auction_start_date = $request->auction_start_date;
             if ($request->has('auction_end_date')) $project->auction_end_date = $request->auction_end_date;
-            
+
             // Handle project image upload
             if ($request->hasFile('project_img')) {
                 // Delete old image if exists
                 if ($project->project_img) {
                     Storage::disk('public')->delete($project->project_img);
                 }
-                
+
                 $imagePath = $request->file('project_img')->store('project_images', 'public');
                 $project->project_img = $imagePath;
             }
@@ -265,22 +264,21 @@ class ProjectController extends Controller
                 if ($project->project_video) {
                     Storage::disk('public')->delete($project->project_video);
                 }
-                
+
                 $videoPath = $request->file('project_video')->store('project_videos', 'public');
                 $project->project_video = $videoPath;
             }
-            
+
             $project->updated_at = now();
             $project->save();
-            
+
             // Load the user relationship
             $project->load('user');
-            
+
             return response()->json([
                 'message' => 'Project updated successfully',
                 'project' => $project
             ], 200);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project update failed',
@@ -293,33 +291,86 @@ class ProjectController extends Controller
     {
         try {
             $project = Project::find($id);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             // Delete associated files
             if ($project->project_img) {
                 Storage::disk('public')->delete($project->project_img);
             }
-            
+
             if ($project->project_video) {
                 Storage::disk('public')->delete($project->project_video);
             }
-            
+
             // Delete the project
             $project->delete();
-            
+
             return response()->json([
                 'message' => 'Project deleted successfully'
             ], 200);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project deletion failed',
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    // Fetch projects by category
+    public function getProjectsByCategory($category)
+    {
+        $projects = Project::where('categories', $category)->get(); // Use the correct column name
+
+        if ($projects->isEmpty()) {
+            return response()->json(['message' => 'No projects found in this category'], 404);
+        }
+
+        return response()->json($projects);
+    }
+    public function getEndingSoonProjects()
+    {
+        $today = Carbon::now();
+        $nextWeek = Carbon::now()->addDays(7);
+
+        $projects = Project::whereBetween('auction_end_date', [$today, $nextWeek])
+            ->orderBy('auction_end_date', 'asc')
+            ->get();
+        return response()->json($projects);
+    }
+    public function getFilteredProjects(Request $request)
+    {
+        try {
+            // Start building the query
+            $query = Project::query();
+
+            // Apply category filter if provided
+            if ($request->has('category') && $request->category !== 'All categories') {
+                $query->where('categories', $request->category);
+            }
+
+            // Apply project type filter only if it's not "All projects type"
+            if ($request->has('type') && $request->type !== 'All projects type') {
+                $query->where('project_type', $request->type);
+            }
+
+            // Filter for projects with auction ending within 1 to 7 days
+            $query->whereBetween('auction_end_date', [
+                Carbon::now()->addDays(1)->startOfDay(),
+                Carbon::now()->addDays(7)->endOfDay()
+            ]);
+
+            // Execute query and get results
+            $projects = $query->get();
+
+            return response()->json($projects);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to retrieve projects',
+                'message' => $e->getMessage()
             ], 500);
         }
     }

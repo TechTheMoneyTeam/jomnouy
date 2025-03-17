@@ -187,6 +187,9 @@ const ProjectDetails = () => {
                                             </span>
                                         </div>
                                     </div>
+                                    <div className="m-2 description text-xs text-black/80 font-normal opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        {project.project_des}
+                                    </div>
                                 </div>
                             </div>
                         ))
