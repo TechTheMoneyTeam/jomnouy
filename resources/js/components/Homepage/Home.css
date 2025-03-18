@@ -706,3 +706,8 @@ body {
 .arrow-button.right:hover {
   @apply bg-gray-800 bg-opacity-50 scale-110;
 }
+
+.blur-background {
+  filter: blur(5px);
+  pointer-events: none; /* Prevent interactions with the blurred background */
+}

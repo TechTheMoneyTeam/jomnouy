@@ -12,6 +12,7 @@ import Header from "../Header_landingpage/header_landing";
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
+    const [showContactModal, setShowContactModal] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
@@ -345,7 +346,7 @@ const Home = () => {
                     </button>
                 </div>
 
-                {/* Contact Founder Modal */}
+           
                 {showContactModal && currentProject && (
                     <ContactFounder
                         project={currentProject}
@@ -357,8 +358,7 @@ const Home = () => {
     };
 
     return (
-        <>
-            {" "}
+        <div className={showContactModal ? "blur-background" : ""}>
             <Header />
             <section id="home">
                 <Hero />
@@ -369,7 +369,7 @@ const Home = () => {
                 <Service />
             </section>
             <Footer />
-        </>
+        </div>
     );
 };
 

@@ -1,35 +1,42 @@
 .contactFounderModal {
-    position: fixed;
+    position: fixed; /* Change from absolute to fixed */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.5);
+   
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
 .contactFounderContent {
-    background-color: white;
-    border-radius: 12px;
-    padding: 2rem;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: rgb(255, 255, 255);
+    padding: 40px;
+    border-radius: 30px;
+    width: 100%;
+    height: 98%;
+    max-width: 800px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    border: 2px solid #000000;
+    
+    overflow: hidden; /* Prevents border from being cut */
+   
+    box-sizing: border-box;
 }
 
 .closeButton {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #666;
-    transition: color 0.2s;
 }
 
 .closeButton:hover {
@@ -37,7 +44,8 @@
 }
 
 .modalTitle {
-    font-size: 1.5rem;
+    margin-top: 0;
+    font-size: 2rem; /* Increased font size */
     margin-bottom: 0.5rem;
     color: #333;
 }
@@ -51,10 +59,10 @@
 .contactForm {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
 }
 
 .formGroup {
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -82,31 +90,28 @@
 
 .contactMethodOptions {
     display: flex;
-    gap: 1.5rem;
+    gap: 10px;
 }
 
 .radioLabel {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 5px;
     cursor: pointer;
 }
 
 .submitButton {
-    background-color: #F07900;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    transition: background-color 0.2s;
+    background-color: #F07900;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
     margin-top: 0.5rem;
+    transition: background-color 0.2s;
 }
 
 .submitButton:hover {
@@ -114,23 +119,23 @@
 }
 
 .submitButton:disabled {
-    background-color: #9e9e9e;
+    background-color: #cccccc;
     cursor: not-allowed;
 }
 
 /* New styles for the updated component */
 .disabledInput {
-    background-color: #f5f5f5;
+    background-color: #f0f0f0;
     color: #666;
     cursor: not-allowed;
 }
 
 .errorMessage {
+    color: red;
+    margin-bottom: 10px;
     background-color: #ffebee;
-    color: #c62828;
     padding: 0.75rem;
     border-radius: 8px;
-    margin-bottom: 1rem;
     font-size: 0.9rem;
     display: flex;
     align-items: center;
