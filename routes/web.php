@@ -6,6 +6,13 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\KycVerificationController;
+use App\Http\Controllers\FollowingController;
+
+
+Route::get('/api/following', [FollowingController::class, 'getFollowing']);
+Route::get('/api/users/search', [FollowingController::class, 'searchUsers']);
+Route::post('/api/follow', [FollowingController::class, 'followUser']);
+Route::post('/api/unfollow', [FollowingController::class, 'unfollowUser']);
 
 Route::get('/api/profile', [ProfileController::class, 'getProfile']);
 Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
