@@ -86,7 +86,9 @@
   margin-left: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  z-index: 1 !important;
 }
+
 
 .searchButton:hover {
   background-color: #F07900;

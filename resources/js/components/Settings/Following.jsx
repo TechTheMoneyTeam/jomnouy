@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './SettingsCSS/Following.module.css';
 import { Link } from 'react-router-dom';
 import Navbar2 from '../Navbar/Navbarforsubmit';
-import '../Navbar/Navbar.css';
+
 import axios from 'axios';
 
 const Following = () => {

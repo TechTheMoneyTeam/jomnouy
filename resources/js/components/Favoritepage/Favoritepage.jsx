@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Navbar2 from '../Navbar/Navbarforsubmit';
+import Navbar4 from '../Navbar/Navbarselect';
 import { FaRegClock, FaTrash, FaHeart } from 'react-icons/fa';
 import { PiShareFat } from 'react-icons/pi';
 import styles from './Favorites.module.css';
@@ -84,7 +84,7 @@ const FavoritesPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <Navbar2 />
+            <Navbar4 />
             <div className={styles.heroSection}>
                 <div className={styles.heroContent}>
                     <h1 className={styles.heroTitle}>My Favorite Projects</h1>
