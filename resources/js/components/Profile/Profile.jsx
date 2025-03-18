@@ -32,7 +32,6 @@ const ProfileDisplay = () => {
       setLoading(true);
       const response = await fetch(`/api/profile?username=${username}`);
       const data = await response.json();
-      
       if (data.success) {
         setProfileData(data.profile);
       } else {
@@ -64,9 +63,9 @@ const ProfileDisplay = () => {
   const getProfilePictureOrInitial = () => {
     if (profileData.profile_picture) {
       return (
-        <img 
-          src={`/storage/${profileData.profile_picture}`} 
-          alt={`${userInfo.username}'s profile`} 
+        <img
+          src={`/storage/${profileData.profile_picture}`}
+          alt={`${userInfo.username}'s profile`}
           style={{
             width: '100%',
             height: '100%',
@@ -76,7 +75,7 @@ const ProfileDisplay = () => {
         />
       );
     }
-    
+
     return userInfo.username?.charAt(0).toUpperCase() || '?';
   };
 
@@ -209,7 +208,7 @@ const ProfileDisplay = () => {
                 {getProfilePictureOrInitial()}
               </div>
               <h2 style={styles.username}>{userInfo.username || 'No username found'}</h2>
-              
+
               {profileData.bio ? (
                 <p style={styles.bio}>{profileData.bio}</p>
               ) : (
@@ -217,17 +216,17 @@ const ProfileDisplay = () => {
                   Let people know about you more. <a href="/profile/edit" style={styles.bioLink}>Add a biography</a>
                 </p>
               )}
-              
+
               {profileData.location && (
                 <div style={styles.location}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   <span>{profileData.location}</span>
                 </div>
               )}
-              
+
               <a href="/profile/edit" style={styles.editProfileBtn}>
                 Edit Profile
               </a>
@@ -260,7 +259,6 @@ const ProfileDisplay = () => {
                   <h3 style={styles.sectionTitle}>Details</h3>
                   <p style={styles.detailText}>{formatDate(userInfo.created_at)}</p>
                   <p style={styles.detailText}>Invested {investments.length} projects</p>
-                  <p style={styles.detailText}>User ID: {userInfo.user_id || 'No ID found'}</p>
                   <p style={styles.detailText}>User Type: {userInfo.user_type || 'No type found'}</p>
                 </div>
 
@@ -275,7 +273,7 @@ const ProfileDisplay = () => {
                         {profileData.facebook_link}
                       </a>
                     )}
-                    
+
                     {profileData.youtube_link && (
                       <a href={profileData.youtube_link} target="_blank" rel="noopener noreferrer" style={styles.linkItem}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="#6b7280" xmlns="http://www.w3.org/2000/svg">
@@ -285,7 +283,7 @@ const ProfileDisplay = () => {
                         {profileData.youtube_link}
                       </a>
                     )}
-                    
+
                     {profileData.tiktok_link && (
                       <a href={profileData.tiktok_link} target="_blank" rel="noopener noreferrer" style={styles.linkItem}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="#6b7280" xmlns="http://www.w3.org/2000/svg">
@@ -294,7 +292,7 @@ const ProfileDisplay = () => {
                         {profileData.tiktok_link}
                       </a>
                     )}
-                    
+
                     {profileData.website && (
                       <a href={profileData.website} target="_blank" rel="noopener noreferrer" style={styles.linkItem}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" xmlns="http://www.w3.org/2000/svg">
@@ -305,13 +303,13 @@ const ProfileDisplay = () => {
                         {profileData.website}
                       </a>
                     )}
-                    
-                    {!profileData.facebook_link && !profileData.youtube_link && 
-                     !profileData.tiktok_link && !profileData.website && (
-                      <p style={styles.detailText}>
-                        No outside links added. <a href="/profile/edit" style={styles.bioLink}>Add links</a>
-                      </p>
-                    )}
+
+                    {!profileData.facebook_link && !profileData.youtube_link &&
+                      !profileData.tiktok_link && !profileData.website && (
+                        <p style={styles.detailText}>
+                          No outside links added. <a href="/profile/edit" style={styles.bioLink}>Add links</a>
+                        </p>
+                      )}
                   </div>
                 </div>
               </>
@@ -336,14 +334,8 @@ const ProfileDisplay = () => {
           </>
         )}
       </div>
-      
-      <div className="categories-container py-4 flex justify-center items-center space-x-6">
-        {['Music', 'Sport', 'Technologies', 'Art', 'Fashions', 'Games', 'Theater', 'Publishing', 'Design', 'Food & Beverage', 'Health & Fitness', 'Education', 'Photography'].map((category) => (
-          <div className="category-item" key={category}>
-            <a href="#" className="text-semibold">{category}</a>
-          </div>
-        ))}
-      </div>
+
+
     </>
   );
 };

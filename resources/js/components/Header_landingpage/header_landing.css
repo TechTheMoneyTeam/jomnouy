@@ -9,6 +9,7 @@
     z-index: 50;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
+
 .hero-button1 {
     @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
     position: absolute;
@@ -24,7 +25,8 @@
 }
 
 .nav-container {
-    @apply flex justify-between items-center;
+    @apply flex items-center justify-between;
+    width: 100%;
 }
 
 .logo {
@@ -34,8 +36,18 @@
 }
 
 .nav-links {
-    @apply flex space-x-10;
-    text-decoration: none;
+    @apply flex items-center justify-center;
+    flex: 1;
+}
+
+/* Center navigation links */
+.nav-links-center {
+    @apply flex items-center space-x-10 justify-center;
+}
+
+/* Profile container styling */
+.profile-container {
+    @apply flex justify-end items-center;
 }
 
 .nav-link {
@@ -66,7 +78,7 @@ button {
 }
 
 .login-button {
-    @apply relative overflow-hidden bg-custom-orange text-white border border-custom-orange px-3 py-1 rounded-lg;
+    @apply relative overflow-hidden bg-custom-orange text-white border border-custom-orange px-3 py-1 rounded-lg ml-10;
     @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
 }
 
@@ -117,4 +129,24 @@ button {
 
 .login-button1:hover {
     @apply border-custom-orange;
+}
+
+/* Dropdown menu styles */
+.absolute.right-0.mt-2.w-48 {
+    @apply bg-white border rounded-lg shadow-xl;
+}
+
+.absolute.right-0.mt-2.w-48 a {
+    @apply block px-4 py-2 text-black hover:bg-custom-orange hover:text-white transition-all duration-200;
+    text-decoration: none;
+}
+
+/* Custom styling for the profile dropdown */
+.profile-container .relative div[class*="absolute"] {
+    @apply bg-white border rounded-lg shadow-xl;
+}
+
+.profile-container .relative div[class*="absolute"] a {
+    @apply block px-4 py-2 text-black hover:bg-custom-orange hover:text-white transition-all duration-200;
+    text-decoration: none;
 }

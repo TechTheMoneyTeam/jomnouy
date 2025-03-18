@@ -121,7 +121,7 @@ const LoginForm = () => {
                             />
                         </div>
                         <a href="#" onClick={openForgotPassword} className="text-end underline">Forgot password?</a>
-                        <button type="submit" className="submit-btn">Login</button>
+                        <button type="submit" className="submit-btn10">Login</button>
                         <div className="text-center mt-2 text-gray-500 text-xs">
                             <span>Don't have an account? </span>
                             <Link to="/signup" className="text-blue-600">Create account</Link>
