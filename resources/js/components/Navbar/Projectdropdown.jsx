@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const DropdownMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [username, setUsername] = useState('');
+    const [userType, setUserType] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
     const [loading, setLoading] = useState(true);
     const dropdownRef = useRef(null); 
@@ -13,6 +14,7 @@ const DropdownMenu = () => {
         if (userData) {
             const user = JSON.parse(userData);
             setUsername(user.username);
+            setUserType(user.user_type);
             fetchProfileData(user.username);
         } else {
             setLoading(false);
@@ -76,9 +78,11 @@ const DropdownMenu = () => {
                     <Link to="/projectlist1" className="block px-4 py-2 hover:bg-gray-200 transition">
                         Listed Project
                     </Link>
-                    <Link to="/my-project" className="block px-4 py-2 hover:bg-gray-200 transition">
-                        My Project
-                    </Link>
+                    {userType !== 'investor' && (
+                        <Link to="/my-project" className="block px-4 py-2 hover:bg-gray-200 transition">
+                            My Project
+                        </Link>
+                    )}
                     <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200 transition">
                         Profile
                     </Link>
@@ -91,7 +95,6 @@ const DropdownMenu = () => {
                     <Link to="/logout" className="block px-4 py-2 hover:bg-gray-200 transition">
                         Log out
                     </Link>
-                   
                 </div>
             )}
         </div>

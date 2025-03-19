@@ -66,3 +66,9 @@ body {
 .cateBtn-inactive {
                @apply px-4 py-2 bg-[#C0C0C0] bg-opacity-15 rounded-md whitespace-nowrap text-sm font-medium transition-colors text-black ;
 }
+.navDivider {
+    height: 1px;
+    background-color: #e0e0e0;
+    width: 100%;
+    margin-top: 3rem;
+}

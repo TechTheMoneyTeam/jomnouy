@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Navbar10 from '../Navbar/Navbarforview';
+import Navbar2 from '../Navbar/Navbarforsubmit';
 import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
 import InvestmentForm from './InvestmentForm';
@@ -412,7 +412,7 @@ const ProjectDetails = () => {
 
     return (
         <>
-            <Navbar10 />
+            <Navbar2 />
             <div className="max-w-6xl mx-auto px-4 py-8" style={{ margin: "30px 200px" }}>
                 <h2 className="text-title">{project.title}</h2>
                 <p className="text-description mt-4">{project.project_des}</p>
@@ -427,8 +427,9 @@ const ProjectDetails = () => {
 
                     <div className="right-container p-4">
                         <ProgressBar progress={investmentProgress} />
-                        <p className="text-funding mt-2 text-gray-600">US$ {totalInvested.toLocaleString()}</p>
-                        <p className="mt-2 text-gray-600">Pledged of US$ {project.funding_goal?.toLocaleString()} goal</p>
+                        <p className="text-funding mt-2 text-gray-600">Goal of US$ {project.funding_goal?.toLocaleString()}</p>
+                        <p className="text-gray-600 text-xl font-medium">Total US$ {totalInvested.toLocaleString() } Offered</p>
+                    
                         <div className="mt-2 flex items-center">
                             <Users className="mr-2" size={20} />
                             <p className="text-gray-600 text-2xl font-medium">{uniqueInvestors}</p>

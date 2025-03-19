@@ -9,8 +9,6 @@ export default defineConfig({
         laravel({
             input: ['resources/js/app.jsx'],
             refresh: true,
-            // Add this to ensure proper HMR
-            detectTls: true,
         }),
         react(),
     ],
@@ -23,23 +21,20 @@ export default defineConfig({
         },
     },
     server: {
+        host: true,
+        strictPort: true,
         hmr: {
+            clientPort: 5173,
             host: 'localhost',
-            protocol: 'ws',
         },
         watch: {
             usePolling: true,
-            interval: 1000,
-        },
-        proxy: {
-            '/': 'http://localhost:8000',
+            interval: 500, // decreased polling interval
         },
     },
     build: {
-        // Set this to prevent getting stuck on rebuilds
-        watch: {
-            clearScreen: false,
-        },
+        outDir: 'public/build',
+        manifest: true,
         rollupOptions: {
             output: {
                 manualChunks(id) {
@@ -50,5 +45,10 @@ export default defineConfig({
             }
         },
         chunkSizeWarningLimit: 5000,
+    },
+    resolve: {
+        alias: {
+            '@': '/resources/js',
+        },
     },
 });

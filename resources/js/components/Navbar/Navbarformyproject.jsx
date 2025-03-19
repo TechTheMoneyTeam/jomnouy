@@ -13,7 +13,7 @@ const Navbars = () => {
         const userData = localStorage.getItem('user');
         if (userData) {
             const user = JSON.parse(userData);
-            setUsername(user.username);
+            setUsername(user.username || 'Guest'); 
 
         }
     }, []);

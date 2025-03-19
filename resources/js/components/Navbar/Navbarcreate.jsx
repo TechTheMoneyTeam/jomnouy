@@ -12,7 +12,7 @@ const Navbar3 = () => {
         const userData = localStorage.getItem('user');
         if (userData) {
             const user = JSON.parse(userData);
-            setUsername(user.username);
+            setUsername(user.username || 'Guest'); 
         }
     }, []);
 
@@ -44,6 +44,7 @@ const Navbar3 = () => {
                     </div>
                 </div>
             </nav>
+             <div className="navDivider"></div>
 
 
         </div>

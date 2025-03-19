@@ -8,6 +8,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [username, setUsername] = useState('');
+    const [userType, setUserType] = useState('');
     const [activeTab, setActiveTab] = useState('All');
     const ref = useRef(null);
 
@@ -78,12 +79,36 @@ const Navbar = () => {
         if (userData) {
             try {
                 const user = JSON.parse(userData);
-                setUsername(user.username);
+                setUsername(user.username || 'Guest'); 
+                setUserType(user.user_type);
             } catch (error) {
                 console.error("Error parsing user data:", error);
             }
         }
     }, []);
+
+    // Function to render create project button conditionally
+    const renderCreateProjectButton = () => {
+        if (userType === 'investor') {
+            return (
+                <button 
+                    className="create-btn opacity-50 cursor-not-allowed" 
+                    disabled={true}
+                    title="Investors cannot create projects"
+                >
+                    Create project
+                </button>
+            );
+        } else {
+            return (
+                <Link to="/create">
+                    <button className="create-btn hover:bg-orange-600">
+                        Create project
+                    </button>
+                </Link>
+            );
+        }
+    };
 
     return (
         <div className='mx-auto max-w-7xl m-12'>
@@ -110,11 +135,7 @@ const Navbar = () => {
                     />
                 </div>
                 <div className="flex items-center space-x-4">
-                    <Link to="/create">
-                        <button className="create-btn hover:bg-orange-600">
-                            Create project
-                        </button>
-                    </Link>
+                    {renderCreateProjectButton()}
                     <div className="profile flex items-center gap-4 cursor-pointer z-[9999]">
                         <DropdownMenu username={username} />
                     </div>

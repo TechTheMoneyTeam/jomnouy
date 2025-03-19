@@ -272,7 +272,7 @@ const Home = () => {
                     data-aos="fade-up"
                     data-aos-duration="800"
                 >
-                    Featured <span>Project</span>
+                    Featured <span>Projects</span>
                 </div>
                 <div className="content-container">
                     <button onClick={handlePrev} className="arrow-button left">
