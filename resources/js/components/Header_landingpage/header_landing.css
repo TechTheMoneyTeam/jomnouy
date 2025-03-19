@@ -2,39 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-.header {
-    @apply bg-white text-white py-4 px-6;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-}
-.hero-button1 {
-    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
-    position: absolute;
-    right: 15rem;
-    top: 72%;
-    transform: translateY(-50%);
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+.nav-wrapper {
+    @apply flex  items-center justify-center ; /* Centers the navbar initially */
 }
 
+.nav-container {
+    @apply fixed top-0 bg-white rounded-lg shadow-lg flex gap-4 justify-between 
+    items-center z-20 max-w-screen-xl mx-auto px-10 py-4 mt-2;
+}
+.nav-container.Scrolled {
+    @apply mt-0 shadow-md; 
+}
+.logo {
+    @apply relative font-bold text-black pr-4 ;
+ /* Tailwind's utility for bottom positioning */
+    text-decoration: none;
+}
 .nouy {
     @apply text-custom-orange;
 }
 
-.nav-container {
-    @apply flex justify-between items-center;
-}
-
-.logo {
-    @apply relative font-bold text-black;
-    @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
-    text-decoration: none;
-}
-
 .nav-links {
-    @apply flex space-x-10;
+    @apply flex items-center space-x-10 cursor-pointer;
     text-decoration: none;
 }
 

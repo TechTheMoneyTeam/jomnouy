@@ -17,10 +17,6 @@ const Home = () => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
     }, []);
 
-    const toggleLanguage = () => {
-        setLanguage((prev) => (prev === "en" ? "km" : "en"));
-    };
-
     const Hero = () => (
         <section className="hero">
             <div className="hero-background"></div>
@@ -51,14 +47,14 @@ const Home = () => {
                     >
                         "Jom<span>nouy"</span>
                     </p>
-                    <a
+                    <button
                         href="/signup"
-                        className="hero-button"
+                        className="hero-button1"
                         data-aos="fade-up"
                         data-aos-duration="1000"
                     >
                         Start now ➜
-                    </a>
+                    </button>
                 </div>
                 <div className="hero-image-wrapper">
                     <img

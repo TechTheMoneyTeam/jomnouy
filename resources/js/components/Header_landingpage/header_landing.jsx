@@ -1,19 +1,32 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
+import { useState, useEffect } from "react";
+import { Link as ScrollLink } from "react-scroll";
 import "./header_landing.css";
 
 const Header = () => {
     const location = useLocation();
     const [language, setLanguage] = useState("en");
+    const [isScrolled, setIsScrolled] = useState(false);
 
-    const toggleLanguage = () => {
-        setLanguage((prevLang) => (prevLang === "en" ? "km" : "en"));
-    };
+    // Scroll event listener
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     return (
-        <header className="header">
-            <nav className="nav-container">
+        <div className="nav-wrapper">
+            <nav className={`nav-container transition-all duration-300 ${isScrolled ? "mt-0 shadow-md" : "mt-20"}`}>
                 <Link to="/" className="logo">
                     Jom<span className="nouy">nouy</span>
                 </Link>
@@ -55,15 +68,8 @@ const Header = () => {
                         <span>Login</span>
                     </Link>
                 </div>
-                <div className="button-group">
-                    <button
-                        onClick={toggleLanguage}
-                        className="language-button"
-                    >
-                    </button>
-                </div>
             </nav>
-        </header>
+        </div>
     );
 };
 

@@ -4,338 +4,104 @@
 @tailwind screens;
 
 /* Hero Section */
+/* Hero Section */
 .hero {
-  @apply relative w-full bg-white overflow-hidden flex items-center justify-center py-16 h-auto;
+  @apply relative shadow-lg w-full bg-gradient-to-br from-white via-custom-orange to-custom-orange overflow-hidden flex items-center justify-center py-24 h-screen;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes heroBackgroundSlide {
-  0% {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInLeft {
-  0% {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInRight {
-  0% {
-    transform: translateX(100px);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* Hero Background with smoother animation */
 .hero-background {
-  @apply absolute inset-0 bg-custom-orange z-10;
-  border-top-right-radius: 20% 187px;
-  border-bottom-left-radius: 28% 431px;
-  animation: heroBackgroundSlide 1s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-/* Add subtle pattern overlay to the background */
-.hero-background::after {
-  content: "";
   @apply absolute inset-0;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-  opacity: 0.4;
+  background: rgba(255, 165, 0, 0.15); /* Using custom-orange with opacity */
+  backdrop-filter: blur(20px);
+  border-radius: 30% 70% 50% 50% / 50% 40% 60% 50%;
+  animation: heroBackgroundSlide 1.5s ease-out;
+  z-index: 5;
 }
 
-/* Hero Content Layout */
+/* Hero Content */
 .hero-content {
-  @apply relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-x-[15rem] place-items-center w-auto px-6 md:px-12 mx-auto;
-  min-height: 80vh;
+  @apply relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 px-6 md:px-12 max-w-6xl mx-auto;
+  align-items: center;
 }
 
-/* Text Section Styling */
+/* Text Section */
 .hero-text-section {
-  @apply relative bg-white pl-2 md:pl-8 pt-[4rem] md:pt-[4rem] px-8 shadow-2xl overflow-hidden;
-  border-top-right-radius: 45% 193px;
-  border-bottom-left-radius: 45% 193px;
-  /* animation: slideInLeft 1.2s cubic-bezier(0.17, 0.67, 0.3, 0.98); */
-  box-shadow: -45px 28px 0px rgba(0, 0, 0, 0.15),
-    0 15px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-  height: auto;
-  min-height: 600px;
-  /* Increased vertical space */
-  max-height: 700px;
-  /* Increased max height */
-  width: 100%;
-  max-width: 700px;
-  /* Increased max width for balance */
+  @apply relative bg-white bg-opacity-80 rounded-3xl p-10 shadow-xl;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1.2s ease-out;
+  max-width: 600px;
 }
 
-.hero-text-section>* {
-  @apply max-w-[100%] w-auto;
-  /* Keep content from touching edges */
-}
-
-/* Add decorative elements */
-.hero-text-section::before {
-  content: "";
-  @apply absolute top-0 right-0 w-16 h-16 bg-custom-orange opacity-90;
-  clip-path: polygon(100% 0, 0 0, 100% 100%);
-}
-
-.hero-text-section::after {
-  content: "";
-  @apply absolute bottom-0 left-0 w-24 h-24 bg-custom-orange opacity-20;
-  clip-path: polygon(0 100%, 100% 100%, 0 0);
-}
-
-/* Typography with enhanced contrast */
 .hero-title {
-  @apply text-5xl pb-8 md:text-6xl lg:text-7xl font-bold text-black leading-tight mb-4;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
-}
-
-.hero-description span {
-  @apply text-custom-orange relative;
-  display: inline-block;
-  z-index: 1;
-}
-
-.hero-description span::after {
-  content: "";
-  @apply absolute bottom-0 left-0 w-full bg-custom-orange opacity-20;
-  height: 30%;
-  z-index: -1;
-  transform: skewX(-10deg);
+  @apply text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight;
 }
 
 .hero-description {
-  @apply text-4xl pb-8 sm:text-5xl md:text-6xl lg:text-6xl text-black font-bold leading-relaxed mb-2;
+  @apply text-xl md:text-2xl text-gray-700 mt-4;
 }
-
 .hero-description2 {
-  @apply text-3xl sm:text-3xl md:text-5xl lg:text-7xl text-black font-bold leading-relaxed;
+  @apply text-xl md:text-3xl font-bold text-black mt-4;
 }
-
-.hero-description2 span {
-  @apply text-custom-orange font-bold relative;
-  display: inline-block;
+.hero-description2 span{
+  @apply text-custom-orange;
 }
-
-/* Enhanced Button Styles */
-.hero-button {
-  @apply relative inline-block bg-black text-xl text-white mt-[4rem] ml-4 px-8 sm:px-16 py-4 rounded-full font-semibold;
-  animation: slideInLeft 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s backwards;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.hero-button:hover {
-  transform: translateX(10px) rotate(2deg);
-  @apply bg-custom-orange;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-}
-
-.hero-button:active {
-  transform: translateX(10px) scale(0.98);
-}
-
-.hero-button::after {
-  @apply absolute right-0 opacity-0;
-  transform: translateX(-10px);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.hero-button:hover::after {
-  opacity: 1;
-  transform: translateX(-24px);
-}
-
 .hero-button1 {
-  @apply inline-block rounded-lg bg-custom-orange px-6 sm:px-8 py-2 sm:py-3 text-xl sm:text-2xl md:text-3xl font-semibold text-white;
-  position: absolute;
-  right: 10%;
-  top: 72%;
-  transform: translateY(-50%);
-  z-index: 50;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease;
+  @apply inline-block bg-black text-white px-6 py-3 mt-6 rounded-full text-lg font-semibold shadow-md transition-all duration-200 ease-in;
+
 }
 
 .hero-button1:hover {
-  @apply bg-[#E65C00];
-  transform: translateY(-52%) scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px) rotate(-2.5deg) !important; /* Slight scale and rotation */
+  @apply bg-custom-orange text-black;
 }
 
-/* Image Section with Enhanced Animation */
 .hero-image-wrapper {
-  @apply flex justify-center items-center relative z-20;
-  animation: slideInRight 1.2s cubic-bezier(0.17, 0.67, 0.3, 0.98);
-  transform-origin: center center;
-  transition: transform 0.5s ease;
-  width: 100%;
-  /* Make sure it takes full width */
-  max-width: 650px;
-  /* Increased from default */
-  margin: 0 auto;
-  /* Center it */
-}
-
-.hero-image-wrapper:hover {
-  transform: scale(1.02) rotate(1deg);
+  @apply flex justify-center items-center relative;
+  animation: slideInRight 1.2s ease-out;
 }
 
 .analytics-image {
-  @apply w-full h-auto mx-auto;
-  max-width: 100%;
-  /* Make image fill the wrapper */
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-  object-fit: contain;
-  /* Ensure image maintains aspect ratio */
+  @apply w-full max-w-lg ;
+  transition: transform 0.5s ease;
 }
 
 .analytics-image:hover {
-  transform: translateY(-10px);
+  transform: translateY(-10px) rotate(2.5deg);
 }
 
-/* Floating Elements Animation */
-.floating {
-  animation: floating 3s ease-in-out infinite;
-}
-
-html,
-body {
-  @apply m-0 p-0 min-h-screen;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 1200px) {
-  .hero-image-wrapper {
-    left: 0;
-  }
-
-  .hero-button1 {
-    right: 5%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .hero-text-section {
-    max-width: 100%;
-  }
-
-  .hero-button1 {
-    @apply static mt-8 mr-auto text-2xl;
-    transform: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-content {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-
-  .hero-text-section {
-    @apply pl-8 pt-8 px-6;
-    min-height: 350px;
-  }
-
-  .hero-title {
-    @apply text-4xl;
-  }
-
-  .hero-description,
-  .hero-description2 {
-    @apply text-2xl;
-  }
-
-  .hero-image-wrapper {
-    margin-top: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-text-section {
-    border-top-right-radius: 25% 100px;
-    border-bottom-left-radius: 25% 100px;
-  }
-
-  .hero-button {
-    @apply px-6 py-2;
-  }
-}
-
-/* Animation Keyframes */
+/* Keyframe Animations */
 @keyframes heroBackgroundSlide {
   from {
     transform: translateY(-100%);
     opacity: 0;
   }
-
   to {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 @keyframes slideInRight {
   from {
-    transform: translateX(100%);
+    transform: translateX(100px);
     opacity: 0;
   }
-
   to {
     transform: translateX(0);
     opacity: 1;
   }
 }
 
-@keyframes floating {
-  0% {
-    transform: translateY(0px);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-
-  50% {
-    transform: translateY(-15px);
-  }
-
-  100% {
-    transform: translateY(0px);
+  to {
+    opacity: 1;
   }
 }
-
 /* Project Section */
 /* Base container styles with improved transitions */
 .project-container {
@@ -361,17 +127,46 @@ body {
 }
 
 .project-grid {
-  @apply justify-center flex gap-6 flex-wrap;
+  @apply grid grid-cols-5 gap-4 justify-center;
   transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* Enhanced project card with smooth animations */
 .project-card {
-  @apply relative p-4 flex flex-col w-full sm:w-[280px] max-w-[320px] mr-0 rounded-2xl mb-6 bg-white;
+  @apply relative p-2 flex flex-col w-full max-w-[320px] mr-0 rounded-2xl mb-6 bg-white;
+  
+  /* Responsive widths for different screen sizes */
+  @apply sm:w-[280px] md:w-[300px] lg:w-[250px] xl:w-[250px];
 
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     box-shadow 0.4s ease, height 0.4s ease;
 }
+
+/* Responsive grid layout */
+@media (max-width: 1280px) { /* xl screen size */
+  .project-grid {
+    grid-template-columns: repeat(4, 1fr); /* Show 4 cards on large screens */
+  }
+}
+
+@media (max-width: 1024px) { /* lg screen size */
+  .project-grid {
+    grid-template-columns: repeat(3, 1fr); /* Show 3 cards on medium screens */
+  }
+}
+
+@media (max-width: 768px) { /* md screen size */
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr); /* Show 2 cards on small screens */
+  }
+}
+
+@media (max-width: 480px) { /* sm screen size */
+  .project-grid {
+    grid-template-columns: 1fr; /* Show 1 card per row on very small screens */
+  }
+}
+
 
 .project-card:hover {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -449,9 +244,6 @@ body {
 /* Title section with animation */
 .project-title-section {
   @apply text-6xl text-custom-orange sm:text-5xl md:text-6xl font-bold mb-12 mt-12 text-center;
-  background: linear-gradient(90deg, #ff8a00, #9b9b9b, #ff8a00);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   animation: gradient 4s ease infinite;
   background-size: 200% 200%;
 }
