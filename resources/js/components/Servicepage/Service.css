@@ -26,12 +26,9 @@
 .hero-btn-primary1 {
     @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
 }
-
-.hero-btn-primary1::before {
-    content: "";
-    @apply absolute top-0 left-[-100%] w-full h-full bg-white transition-all duration-300 text-custom-orange;
+.hero-btn-primary1:hover{
+    @apply bg-white border border-custom-orange transition-colors duration-300 ease-in-out; 
 }
-
 .hero-btn-primary1 span {
     @apply relative z-10 transition-colors duration-300 ease-in-out;
 }
@@ -139,14 +136,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: transform 0.8s ease, box-shadow 0.5s ease;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 /* Hover effect for each card individually */
-.service-card1:hover, .service-card2:hover, .service-card3:hover {
-    @apply shadow-2xl;
-    transform: translateY(-8px);
+.service-card1:hover, 
+.service-card2:hover, 
+.service-card3:hover {
+    @apply shadow-2xl hover:-translate-y-2 hover:scale-105 transition-transform duration-300;
 }
+
 
 /* Image Styles */
 .service-card1 img, .service-card2 img, .service-card3 img {
@@ -278,7 +277,7 @@
 }
 
 .about-text {
-    @apply text-base text-lg text-gray-600 mt-10 mb-10;
+    @apply max-w-4xl mx-auto text-lg text-gray-600 mt-10 mb-10 text-center;
 }
 
 .about-container {
@@ -294,9 +293,13 @@
 }
 
 .about-card-title {
-    @apply absolute font-bold text-black text-5xl;
+    @apply absolute py-4 font-bold text-black text-5xl;
     @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-    @apply text-center break-words max-w-full;
+    @apply text-center break-words max-w-full transition-transform duration-300 ease-in-out;
+}
+
+.about-card:hover .about-card-title {
+    @apply scale-105 rotate-2;
 }
 
 .about-text span {
@@ -305,4 +308,98 @@
 
 .analytics-image {
     @apply w-full max-w-[600px] h-[[650px]];
+}
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* Feature Section Styles */
+/* Feature Section Styles */
+.feature-section {
+    @apply w-full max-w-[1400px] mx-auto py-20 px-5;
+}
+
+.feature-title {
+    @apply text-5xl text-custom-orange text-center font-semibold mb-16;
+}
+
+.feature-line {
+    @apply w-4/5 my-10 mx-auto border-none h-px bg-gradient-to-r from-transparent via-[#c19a5b]/50 to-transparent;
+}
+
+.feature-container {
+    @apply flex items-center mb-20 gap-10 h-[80vh];
+}
+
+#reverse {
+    flex-direction: row-reverse;
+}
+
+.feature-image-wrapper {
+    @apply flex-1 max-w-[50%] aspect-square rounded-lg overflow-hidden shadow-lg;
+}
+
+.feature-content {
+    @apply flex-1 p-5 flex flex-col justify-center;
+}
+
+.feature-content-title {
+    @apply text-[1.8rem] text-custom-orange font-medium mb-5 mt-0;
+}
+
+.feature-content-text {
+    @apply text-[1.1rem] leading-7 text-gray-600;
+}
+
+/* Image Slider Styles */
+.image-slider {
+    @apply relative w-full h-full overflow-hidden;
+}
+
+.slider-image {
+    @apply absolute top-0 left-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out;
+}
+
+.slider-image.active {
+    @apply opacity-100;
+}
+
+.slider-dots {
+    @apply absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2;
+}
+
+.slider-dot {
+    @apply  w-2.5 h-2.5 rounded-full bg-gray-500 cursor-pointer transition-colors duration-300;
+}
+
+.slider-dot.active {
+    @apply bg-custom-orange;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .feature-container,
+    .feature-container.reverse {
+        @apply flex-col h-auto min-h-[80vh];
+    }
+
+    .feature-image-wrapper {
+        @apply max-w-full h-auto aspect-square;
+    }
+
+    .feature-content-title {
+        @apply text-[1.5rem] mt-5;
+    }
+
+    .feature-content-text {
+        @apply text-base;
+    }
+}
+@media (max-width: 768px) {
+    .feature-container,
+    .feature-container:nth-child(odd),
+    .feature-container:nth-child(even) {
+        @apply flex-col;
+    }
 }
