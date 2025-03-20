@@ -361,10 +361,8 @@ const InvestmentForm = ({
                 required
               >
                 <option value="">Select payment method</option>
-                <option value="credit_card">Credit Card</option>
-                <option value="bank_transfer">Bank Transfer</option>
-                <option value="crypto">Cryptocurrency</option>
-                <option value="other">Other</option>
+                <option value="aba_bank">ABA Bank</option>
+
               </select>
               {errors.payment_method && <p className="mt-1 text-sm text-red-600">{errors.payment_method}</p>}
             </div>

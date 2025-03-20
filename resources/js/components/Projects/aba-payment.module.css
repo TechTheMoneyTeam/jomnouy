@@ -12,7 +12,96 @@
   --aba-border-radius: 8px;
   --aba-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+.abaPaymentMethods {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
 
+.abaPaymentMethodButton {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: left;
+  width: 100%;
+}
+
+.abaPaymentMethodButton:hover {
+  background-color: #f0f0f0;
+  border-color: #d0d0d0;
+}
+
+.abaPaymentMethodIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background-color: #e6f7ff;
+  border-radius: 8px;
+  margin-right: 16px;
+  color: #0070f3;
+}
+
+.abaPaymentMethodText {
+  flex: 1;
+  color: #002d45;
+}
+
+.abaPaymentMethodText h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.abaPaymentMethodText p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.abaQrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: var(--aba-white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.abaQrCode {
+  padding: 10px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.abaQrCode img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.abaQrMerchant {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 16px 0;
+  color: #444;
+  text-transform: uppercase;
+}
+
+/* For the background on the QR payment page */
 .abaPaymentContainer {
   max-width: 480px;
   margin: 0 auto;
@@ -23,6 +112,61 @@
   overflow: hidden;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   min-height: 100vh;
+}
+
+/* Update the button style to match the screenshot */
+.abaButton {
+  width: 100%;
+  background-color: var(--aba-red);
+  color: var(--aba-white);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px;
+  border: none;
+  border-radius: var(--aba-border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.abaFullScreenQr {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 50px;
+  height: 90%;
+ 
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.abaFullScreenQrImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.abaQrInfoOverlay {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  z-index: 11;
+}
+
+.abaQrInstructions {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.abaButton:hover {
+  background-color: var(--aba-dark-red);
 }
 
 .abaHeader {
@@ -39,7 +183,7 @@
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--aba-white);
+  color: var(--aba-black);
   background: none;
   border: none;
   font-size: 24px;
@@ -138,22 +282,7 @@
   gap: 16px;
 }
 
-.abaButton {
-  width: 100%;
-  background-color: var(--aba-red);
-  color: var(--aba-white);
-  font-size: 16px;
-  font-weight: 600;
-  padding: 14px;
-  border: none;
-  border-radius: var(--aba-border-radius);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
 
-.abaButton:hover {
-  background-color: var(--aba-dark-red);
-}
 
 .abaButton:disabled {
   background-color: #f0f0f0;

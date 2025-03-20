@@ -7,11 +7,28 @@ const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState('input'); // 'input', 'processing', 'success', 'error'
+  const [paymentStatus, setPaymentStatus] = useState('method-selection'); // 'method-selection', 'input', 'qr', 'processing', 'success', 'error'
+  const [paymentMethod, setPaymentMethod] = useState(''); // 'card' or 'qr'
   const [error, setError] = useState('');
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Add keyboard event listener for 'p' key when in QR mode
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (paymentStatus === 'qr' && e.key.toLowerCase() === 'p') {
+        handleQrPayment();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyPress);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [paymentStatus]);
 
   // Format card number with spaces
   const formatCardNumber = (value) => {
@@ -38,6 +55,16 @@ const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
       return v.slice(0, 2) + (v.length > 2 ? '/' + v.slice(2, 4) : '');
     }
     return v;
+  };
+
+  const handlePaymentMethodSelect = (method) => {
+    setPaymentMethod(method);
+    setPaymentStatus(method === 'card' ? 'input' : 'qr');
+  };
+
+  const handleBack = () => {
+    setPaymentStatus('method-selection');
+    setPaymentMethod('');
   };
 
   const handleSubmit = (e) => {
@@ -74,20 +101,106 @@ const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
     }, 2000);
   };
 
+  const handleQrPayment = () => {
+    // Change status to processing
+    setPaymentStatus('processing');
+    setIsProcessing(true);
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      setPaymentStatus('success');
+      setIsProcessing(false);
+      if (onSuccess) onSuccess();
+    }, 2000);
+  };
+
   return (
     <div className={styles.abaPaymentContainer}>
       <div className={styles.abaHeader}>
-        <button className={styles.abaBackButton}>
-          <span>&#8249;</span>
-        </button>
+        {(paymentStatus === 'input' || paymentStatus === 'qr') && (
+          <button className={styles.abaBackButton} onClick={handleBack}>
+            <span>&#8249;</span>
+          </button>
+        )}
+        {paymentStatus === 'method-selection' && (
+          <button className={styles.abaBackButton}>
+            <span>&#8249;</span>
+          </button>
+        )}
         <h2 className={styles.abaTitle}>ABA<sup className={styles.abaSup}>'</sup> Payment</h2>
       </div>
       
       <div className={styles.abaContent}>
+        {paymentStatus === 'method-selection' && (
+          <>
+            <div className={styles.abaWelcomeSection}>
+              <h1 className={styles.abaWelcomeTitle}>Select Payment Method</h1>
+              <p className={styles.abaWelcomeText}>
+                Please choose your preferred payment method.
+              </p>
+            </div>
+            
+            <div className={styles.abaAmountSection}>
+              <div className={styles.abaAmountLabel}>Total Amount</div>
+              <div className={styles.abaAmount}>${amount.toFixed(2)}</div>
+            </div>
+            
+            <div className={styles.abaPaymentMethods}>
+              <button 
+                className={styles.abaPaymentMethodButton} 
+                onClick={() => handlePaymentMethodSelect('card')}
+              >
+                <div className={styles.abaPaymentMethodIcon}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="5" y1="15" x2="8" y2="15" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className={styles.abaPaymentMethodText}>
+                  <h3>Credit Card</h3>
+                  <p>Pay with Visa, MasterCard, etc.</p>
+                </div>
+              </button>
+              
+              <button 
+                className={styles.abaPaymentMethodButton}
+                onClick={() => handlePaymentMethodSelect('qr')}
+              >
+                <div className={styles.abaPaymentMethodIcon}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2"/>
+                    <rect x="14" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2"/>
+                    <rect x="3" y="14" width="7" height="7" stroke="currentColor" strokeWidth="2"/>
+                    <rect x="14" y="14" width="7" height="7" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M17 10L17 14" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M14 7L10 7" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M7 14L7 10" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M10 17L14 17" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className={styles.abaPaymentMethodText}>
+                  <h3>QR Code</h3>
+                  <p>Scan with your mobile banking app</p>
+                </div>
+              </button>
+            </div>
+            
+            <div className={styles.abaSecurityText}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C10.6 22 9.30001 21.5 8.40001 20.7L3.30001 15.6C2.50001 14.8 2.00001 13.6 2.00001 12.4V7.10001C2.00001 4.70001 3.90001 2.70001 6.30001 2.60001C6.60001 2.60001 6.80001 2.60001 7.10001 2.60001L12 5.30001L16.9 2.60001C17.2 2.50001 17.4 2.50001 17.7 2.50001C20.1 2.60001 22.0001 4.60001 22.0001 7.00001V12.3C22.0001 13.5 21.5 14.7 20.7 15.5L15.6 20.6C14.7 21.5 13.4 22 12 22Z" stroke="currentColor" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 12.5C11.4 12.5 11 12.1 11 11.5V9.5C11 8.9 11.4 8.5 12 8.5C12.6 8.5 13 8.9 13 9.5V11.5C13 12.1 12.6 12.5 12 12.5Z" fill="currentColor"/>
+                <path d="M12 16C11.4 16 11 15.6 11 15C11 14.4 11.4 14 12 14C12.6 14 13 14.4 13 15C13 15.6 12.6 16 12 16Z" fill="currentColor"/>
+              </svg>
+              Your payment information is secure and encrypted
+            </div>
+          </>
+        )}
+        
         {paymentStatus === 'input' && (
           <>
             <div className={styles.abaWelcomeSection}>
-              <h1 className={styles.abaWelcomeTitle}>Complete Your Payment</h1>
+              <h1 className={styles.abaWelcomeTitle}>Card Payment</h1>
               <p className={styles.abaWelcomeText}>
                 Please enter your card details below to process your payment securely.
               </p>
@@ -185,6 +298,17 @@ const PaymentPage = ({ onSuccess, amount = 299.99, investmentData }) => {
               Your payment information is secure and encrypted
             </div>
           </>
+        )}
+        
+        {paymentStatus === 'qr' && (
+          <div className={styles.abaFullScreenQr}>
+        
+            <img 
+              src="/img/qr.jpg" 
+              alt="ABA Pay QR Code" 
+              className={styles.abaFullScreenQrImage} 
+            />
+          </div>
         )}
         
         {paymentStatus === 'processing' && (
