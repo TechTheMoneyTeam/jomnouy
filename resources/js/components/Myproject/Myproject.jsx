@@ -433,7 +433,7 @@ const MyProjects = () => {
                                                     <CheckCheck size={16} className={styles.statusIcon} />
                                                     <span className={styles.statusCount}>
                                                         {investmentData.completed_count > 0 
-                                                            ? `${investmentData.completed_count} x` 
+                                                            ? `Done` 
                                                             : '0'}
                                                     </span>
                                                     <span className={styles.statusLabel}>Completed</span>

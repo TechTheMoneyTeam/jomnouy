@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbars from '../Navbar/Navbarformyproject';
+import Navbar2 from '../Navbar/Navbarforsubmit';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './EditProject.module.css'; // You'll need to create this CSS module
 
@@ -27,7 +27,7 @@ const EditProject = () => {
             const response = await axios.get(`/api/projects/${id}`);
             console.log("Project fetched successfully:", response.data);
             const projectData = response.data;
-            
+
             setProject({
                 title: projectData.title || '',
                 description: projectData.description || '',
@@ -36,7 +36,7 @@ const EditProject = () => {
                 status: projectData.status || 'draft',
                 project_img_url: projectData.project_img_url || projectData.image_url || ''
             });
-            
+
             setError(null);
         } catch (error) {
             console.error('Failed to fetch project:', error);
@@ -58,7 +58,7 @@ const EditProject = () => {
         // Handle image upload if needed
         // This is a placeholder for file upload handling
         console.log("Image selected:", e.target.files[0]);
-        
+
         // If you want to display a preview
         if (e.target.files && e.target.files[0]) {
             const reader = new FileReader();
@@ -74,14 +74,14 @@ const EditProject = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
             setLoading(true);
             const response = await axios.put(`/api/projects/${id}`, project);
             console.log("Project updated successfully:", response.data);
-            
+
             // Redirect to the project details page
-            navigate(`/project/${id}`);
+            navigate(`/projects/${id}`);
         } catch (error) {
             console.error('Failed to update project:', error);
             setError('Failed to update the project. Please check your input and try again.');
@@ -92,7 +92,7 @@ const EditProject = () => {
     if (loading && !project.title) {
         return (
             <>
-                <Navbars />
+                <Navbar2 />
                 <div className={styles.container}>
                     <div className={styles.loadingContainer}>
                         <div className={styles.spinner} />
@@ -105,12 +105,12 @@ const EditProject = () => {
 
     return (
         <>
-            <Navbars />
+            <Navbar2 />
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>Edit Project</h1>
                 </div>
-                
+
                 {error && (
                     <div className={styles.error}>
                         {error}
@@ -122,7 +122,7 @@ const EditProject = () => {
                         </button>
                     </div>
                 )}
-                
+
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.formGroup}>
                         <label htmlFor="title" className={styles.label}>Project Title</label>
@@ -133,10 +133,10 @@ const EditProject = () => {
                             value={project.title}
                             onChange={handleChange}
                             className={styles.input}
-                            required
+
                         />
                     </div>
-                    
+
                     <div className={styles.formGroup}>
                         <label htmlFor="description" className={styles.label}>Description</label>
                         <textarea
@@ -146,10 +146,10 @@ const EditProject = () => {
                             onChange={handleChange}
                             className={styles.textarea}
                             rows="6"
-                            required
+
                         />
                     </div>
-                    
+
                     <div className={styles.formRow}>
                         <div className={styles.formGroup}>
                             <label htmlFor="funding_goal" className={styles.label}>Funding Goal ($)</label>
@@ -160,11 +160,11 @@ const EditProject = () => {
                                 value={project.funding_goal}
                                 onChange={handleChange}
                                 className={styles.input}
-                                required
+
                                 min="1"
                             />
                         </div>
-                        
+
                         <div className={styles.formGroup}>
                             <label htmlFor="project_type" className={styles.label}>Project Type</label>
                             <select
@@ -173,7 +173,7 @@ const EditProject = () => {
                                 value={project.project_type}
                                 onChange={handleChange}
                                 className={styles.select}
-                                required
+
                             >
                                 <option value="">Select a type</option>
                                 <option value="Startup">Startup</option>
@@ -186,25 +186,8 @@ const EditProject = () => {
                             </select>
                         </div>
                     </div>
-                    
-                    <div className={styles.formGroup}>
-                        <label htmlFor="status" className={styles.label}>Project Status</label>
-                        <select
-                            id="status"
-                            name="status"
-                            value={project.status}
-                            onChange={handleChange}
-                            className={styles.select}
-                            required
-                        >
-                            <option value="draft">Draft</option>
-                            <option value="pending">Pending</option>
-                            <option value="active">Active</option>
-                            <option value="funding">Funding</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-                    
+
+
                     <div className={styles.formGroup}>
                         <label htmlFor="project_image" className={styles.label}>Project Image</label>
                         <div className={styles.imageUpload}>
@@ -214,6 +197,12 @@ const EditProject = () => {
                                         src={project.project_img_url}
                                         alt="Project Preview"
                                         className={styles.previewImage}
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                            objectFit: 'contain',
+                                            maxHeight: '300px'
+                                        }}
                                     />
                                 </div>
                             )}
@@ -230,7 +219,7 @@ const EditProject = () => {
                             </button>
                         </div>
                     </div>
-                    
+
                     <div className={styles.formActions}>
                         <button
                             type="button"

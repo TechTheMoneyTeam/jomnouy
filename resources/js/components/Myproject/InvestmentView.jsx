@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Check, X, Award, Filter, RefreshCw, Clock, DollarSign, Users, AlertCircle } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { 
+  PieChart, Pie, Cell, 
+  LineChart, Line, 
+  XAxis, YAxis, 
+  CartesianGrid, Tooltip, 
+  Legend, ResponsiveContainer 
+} from 'recharts';
 import styles from './InvestmentApprovalDashboard.module.css';
 import Navbar4 from '../Navbar/Navbarselect';
 
@@ -29,6 +35,9 @@ const InvestmentApprovalDashboard = () => {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState(null);
 
+  // Colors for pie chart
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -121,9 +130,8 @@ const InvestmentApprovalDashboard = () => {
       const completedCount = investmentsData.filter(inv => inv.status === 'completed').length;
       const totalAmount = investmentsData.reduce((sum, inv) => sum + parseFloat(inv.amount || 0), 0);
       const term_1_5_count = investmentsData.filter(inv => inv.investment_term === '1-5').length;
-const term_5_10_count = investmentsData.filter(inv => inv.investment_term === '5-10').length;
-const term_10_plus_count = investmentsData.filter(inv => inv.investment_term === '10+').length;
-
+      const term_5_10_count = investmentsData.filter(inv => inv.investment_term === '5-10').length;
+      const term_10_plus_count = investmentsData.filter(inv => inv.investment_term === '10+').length;
 
       setStats({
         total: investmentsData.length,
@@ -134,8 +142,8 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
         totalAmount: totalAmount,
         uniqueInvestors: uniqueInvestors,
         term_1_5: term_1_5_count,
-  term_5_10: term_5_10_count,
-  term_10_plus: term_10_plus_count
+        term_5_10: term_5_10_count,
+        term_10_plus: term_10_plus_count
       });
 
       setError(null);
@@ -206,6 +214,42 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
       month: 'short',
       day: 'numeric'
     });
+  };
+  
+  // Prepare data for pie chart
+  const pieChartData = [
+    { name: 'Pending', value: stats.pending, color: '#FFBB28' },
+    { name: 'Approved', value: stats.approved, color: '#00C49F' },
+    { name: 'Rejected', value: stats.rejected, color: '#FF8042' },
+    { name: 'Completed', value: stats.completed, color: '#0088FE' }
+  ].filter(item => item.value > 0);
+  
+  // Prepare data for line chart - group investments by date
+  const prepareLineChartData = () => {
+    const dataMap = new Map();
+    
+    investments.forEach(inv => {
+      const date = formatDate(inv.created_at);
+      const amount = parseFloat(inv.amount || 0);
+      
+      if (dataMap.has(date)) {
+        dataMap.set(date, {
+          date,
+          totalAmount: dataMap.get(date).totalAmount + amount,
+          count: dataMap.get(date).count + 1
+        });
+      } else {
+        dataMap.set(date, {
+          date,
+          totalAmount: amount,
+          count: 1
+        });
+      }
+    });
+    
+    // Convert map to array and sort by date
+    return Array.from(dataMap.values())
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
   };
 
   return (
@@ -328,18 +372,69 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
       </div>
 
       {investments.length > 0 && (
-        <div className={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={investments}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="user_id" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="amount" fill="#F07900" />
-              <Bar dataKey="equity_percentage" fill="#FFB366" />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className={styles.chartsContainer}>
+          {/* Pie Chart */}
+          <div className={styles.chartContainer}>
+            <h3 className={styles.chartTitle}>Investment Status Distribution</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieChartData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={true}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                >
+                  {pieChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [`${value}`, 'Count']} />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          
+          {/* Line Chart */}
+          <div className={styles.chartContainer}>
+            <h3 className={styles.chartTitle}>Investment Trends Over Time</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={prepareLineChartData()}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+                <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="totalAmount"
+                  name="Investment Amount"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+                <Line 
+                  yAxisId="right" 
+                  type="monotone" 
+                  dataKey="count" 
+                  name="Number of Investments"
+                  stroke="#82ca9d" 
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
 

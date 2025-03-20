@@ -55,7 +55,7 @@ const Navbar = () => {
     return (
         <div className='mx-auto max-w-7xl m-12'>
             <nav className="max-w-screen-xl mx-auto flex items-center justify-between">
-                <Link to="/" onClick={() => {
+                <Link to="/projectlist1" onClick={() => {
                     setActiveTab('All');
                     localStorage.setItem('activeCategory', 'All');
                 }}>
