@@ -15,7 +15,7 @@ const Home = () => {
     const [showContactModal, setShowContactModal] = useState(false);
 
     useEffect(() => {
-        window.scrollTo(0, 0); // Scroll to the top of the page on mount
+        window.scrollTo(0, 0); 
     }, []);
 
     const toggleLanguage = () => {

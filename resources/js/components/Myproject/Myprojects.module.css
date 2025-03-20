@@ -61,6 +61,7 @@
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
+  position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -92,13 +93,7 @@
   margin-bottom: 0.75rem;
 }
 
-.avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background-color: #F07900;
-  margin-right: 0.75rem;
-}
+
 
 .projectTitle {
   font-size: 1.25rem;
@@ -122,31 +117,22 @@
   margin-bottom: 1rem;
 }
 
-.projectDescription {
-  color: #555;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
-  height: 58px;
-  overflow: hidden;
-}
 
-/* Status badges */
 .statusBadge {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.35rem 0.75rem;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  padding: 6px 12px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  display: inline-block; /* Ensures the badge respects its content */
 }
 
-.statusActive {
-  background-color: #10b981;
+.statusCompleted {
+  background-color: #6366f1; /* Indigo color */
   color: white;
 }
 
@@ -154,11 +140,12 @@
   background-color: #F07900;
   color: white;
 }
-
-.statusCompleted {
-  background-color: #6366f1;
+.statusApproved{
+  background-color: #029819;
   color: white;
 }
+
+
 
 .statusDraft {
   background-color: #9ca3af;
@@ -258,6 +245,134 @@
   height: auto;
   aspect-ratio: 1.5/1;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.menuContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.menuButton {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.verticalMenu {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.menuItem {
+  padding: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menuItem:last-child {
+  border-bottom: none;
+}
+
+.menuItem:hover {
+  background-color: #f7f7f7;
+}
+
+.menuItem.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.statusBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statusCompleted {
+  background-color: #6366f1;
+  color: white;
+}
+/* InvestmentStatus.module.css */
+.investmentStatus {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  table-layout: fixed;
+}
+
+.investmentItem {
+  display: table-cell;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  vertical-align: middle;
+}
+
+.statusIcon {
+  color: #6c757d;
+  margin-bottom: 8px;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.statusCount {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.statusLabel {
+  display: block;
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+.statusAmount {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #212529;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .investmentStatus {
+    display: block;
+    width: 100%;
+  }
+  
+  .investmentItem {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+  }
 }
 
 /* Individual button styles */
@@ -417,8 +532,31 @@
 }
 
 /* Create button */
+.buttonContainer {
+  display: flex;
+  gap: 1rem; /* Space between buttons */
+}
+.buttonGroup {
+  display: flex;
+  gap: 1rem; /* Space between buttons */
+}
+
 .createButton {
   background-color: #F07900;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboardButton {
+  background-color: #000000;
   color: white;
   border: none;
   padding: 0.75rem 1.25rem;

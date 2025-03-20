@@ -20,6 +20,9 @@ const CardContent = ({ className, children }) => (
 const ProjectListing = () => {
     const [visibleCount, setVisibleCount] = useState(8); // Show first 18 projects
     const [visibleCount2, setVisibleCount2] = useState(4); // Show first 18 projects
+      useEffect(() => {
+            window.scrollTo(0, 0); 
+        }, []);
 
     const loadMore = () => {
         setVisibleCount((prevCount) => prevCount + 8); // Load 18 more projects on each click
