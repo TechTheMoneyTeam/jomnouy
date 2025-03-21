@@ -381,7 +381,7 @@ const InvestmentForm = ({
       type="button"
       className={`py-2 px-4 rounded-md transition-colors duration-200 ${
         formData.investment_term === '1-5'
-          ? 'bg-blue-600 text-white' 
+          ? 'bg-custom-orange text-white' 
           : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
       }`}
       onClick={() => handleTermSelect('1-5')}
@@ -392,7 +392,7 @@ const InvestmentForm = ({
       type="button"
       className={`py-2 px-4 rounded-md ml-4 transition-colors duration-200 ${
         formData.investment_term === '5-10'
-          ? 'bg-blue-600 text-white' 
+          ? 'bg-custom-orange text-white' 
           : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
       }`}
       onClick={() => handleTermSelect('5-10')}
@@ -403,7 +403,7 @@ const InvestmentForm = ({
       type="button"
       className={`py-2 px-4 rounded-md ml-4 transition-colors duration-200 ${
         formData.investment_term === '10+'
-          ? 'bg-blue-600 text-white' 
+          ? 'bg-custom-orange text-white' 
           : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
       }`}
       onClick={() => handleTermSelect('10+')}
@@ -497,7 +497,7 @@ const InvestmentForm = ({
           <button
             type="submit"
             disabled={isSubmitting || (project && !isProjectAcceptingInvestments(project))}
-            className={`px-6 py-2 bg-blue-600 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${(isSubmitting || (project && !isProjectAcceptingInvestments(project))) ? 'opacity-75 cursor-not-allowed' : ''}`}
+            className={`px-6 py-2 bg-custom-orange text-white font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${(isSubmitting || (project && !isProjectAcceptingInvestments(project))) ? 'opacity-75 cursor-not-allowed' : ''}`}
           >
             {isSubmitting ? 'Processing...' : 'Continue to Payment'}
           </button>

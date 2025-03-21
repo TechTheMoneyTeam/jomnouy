@@ -175,15 +175,9 @@ const EditProfile = () => {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.leftSection}>
-            <div className={styles.formGroup}>
-              <label>Username</label>
-              <input
-                type="text"
-                name="username"
-                value={username}
-                disabled
-                className={styles.input} />
-            </div>
+          <h2 className={styles.sectionTitle}>Username: {username}</h2>
+
+        
 
             <div className={styles.formGroup}>
               <label>Profile Picture</label>

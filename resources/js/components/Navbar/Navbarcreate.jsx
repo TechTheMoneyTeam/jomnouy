@@ -38,7 +38,7 @@ const Navbar3 = () => {
                                 <span>Preview</span>
                             </button>
                         </Link>
-                        <div className="profile flex items-center gap-4 cursor-pointer">
+                        <div className="profile flex items-center gap-4 cursor-pointer z-[999]">
                             <DropdownMenu />
                         </div>
                     </div>

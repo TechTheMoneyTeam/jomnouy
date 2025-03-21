@@ -291,7 +291,7 @@ const InvestmentApprovalDashboard = () => {
             onChange={(e) => setStatusFilter(e.target.value)}
             className={styles.statusFilter}
           >
-            <option value="all">All Statuses</option>
+            <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="approved">Approved</option>
             <option value="rejected">Rejected</option>

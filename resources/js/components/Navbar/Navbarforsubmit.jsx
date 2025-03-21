@@ -71,7 +71,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex items-center space-x-4">
                     {renderCreateProjectButton()}
-                    <div className="profile flex items-center gap-4 cursor-pointer z-[9999]">
+                    <div className="profile flex items-center gap-4 cursor-pointer z-[999]">
                         <DropdownMenu username={username} />
                     </div>
                 </div>

@@ -6,7 +6,7 @@ body {
                margin: 60px 200px 200px 200px;
 }
 .create-btn{
-               @apply bg-orange-500  text-white px-6 py-2 rounded-md font-medium
+               @apply bg-custom-orange  text-white px-6 py-2 rounded-md font-medium
 }
 .navbar-container {
                @apply flex;
@@ -40,11 +40,11 @@ body {
 }
 
 .profile {
-               @apply flex items-center ml-6 space-x-4;
+               @apply flex items-center ml-6 space-x-4 ;
 }
 
 .avatar-image {
-               @apply w-8 h-8 rounded-full ring-2 ring-gray-300 dark:ring-gray-500;
+               @apply w-8 h-8 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 ;
 }
 
 .categories-container {
