@@ -63,10 +63,10 @@ const CommentSection = () => {
         <div className='max-w-3xl mx-auto mt-8'>
             {/* Updated Comment Header with Fixed Count Badge */}
             <div className="flex items-center mb-4 border-b border-gray-300 pb-2">
-                <div className="font-bold text-lg mr-2">COMMENT</div>
-                <div className="bg-[#F07900] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm absolute ml-24 -mt-2">
-                    {commentCount}
-                </div>
+                <div className="font-bold text-lg mr-2"><span className="bg-[#F07900] text-white rounded-full  flex items-center justify-center w-7 h-7 ml-24 ">{commentCount}</span>COMMENT  </div>
+
+                   
+            
             </div>
             
             <div className="bg-[#C0C0C0]/[0.20] p-8 rounded-xl mt-4">

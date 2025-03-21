@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar2 from '../Navbar/Navbarforsubmit';
 import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
+import { Link } from 'react-router-dom';
 import InvestmentForm from './InvestmentForm';
 import KYCForm from './Kycform';
 import PaymentPage from './PaymentPage';
@@ -321,7 +322,7 @@ const ProjectDetails = () => {
         setShowKYCForm(false);
         setShowInvestmentForm(true);
     };
-  
+
 
     const handleCommentsUpdate = (updatedComments) => {
         setComments(updatedComments);
@@ -345,9 +346,11 @@ const ProjectDetails = () => {
             <div className="container mx-auto px-4 py-8 ">
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-semibold text-gray-800">Related Projects</h2>
-                    <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-                        See more
-                    </button>
+                    <Link to="/projectlist1" className="underline">
+                        <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                            See more
+                        </button></Link>
+
                 </div>
                 <div className="related-project m-4">
                     {loading ? (
@@ -404,7 +407,7 @@ const ProjectDetails = () => {
             </div>
         );
     };
-    
+
 
 
     if (loading) return <div className="text-center py-8">Loading...</div>;
@@ -428,8 +431,8 @@ const ProjectDetails = () => {
                     <div className="right-container p-4">
                         <ProgressBar progress={investmentProgress} />
                         <p className="text-funding mt-2 text-gray-600">Goal of US$ {project.funding_goal?.toLocaleString()}</p>
-                        <p className="text-gray-600 text-xl font-medium">Total US$ {totalInvested.toLocaleString() } Offered</p>
-                    
+                        <p className="text-gray-600 text-xl font-medium">Total US$ {totalInvested.toLocaleString()} Offered</p>
+
                         <div className="mt-2 flex items-center">
                             <Users className="mr-2" size={20} />
                             <p className="text-gray-600 text-2xl font-medium">{uniqueInvestors}</p>
@@ -509,11 +512,7 @@ const ProjectDetails = () => {
                             onClick={() => setActiveTab(tab)}
                         >
                             {tab.toUpperCase()}
-                            {tab === "comment" && (
-                                <span className="num-comment">
-                                    {commentCount}
-                                </span>
-                            )}
+                            
                         </button>
                     ))}
                 </div>
@@ -591,21 +590,21 @@ const ProjectDetails = () => {
                             </div>
                         )}
 
-{showPaymentPage && investmentData && (
-    <div className="modal-overlay">
-        <div className="modal-backdrop"></div>
-        <div className="modal-container" style={{ marginTop: '50px', alignSelf: 'flex-start' }}>
-            <PaymentPage
-                amount={investmentData.amount}
-                investmentData={investmentData}
-                onSuccess={() => {
-                }}
-            />
-        </div>
-    </div>
-)}
-</div>
-</div>
+                        {showPaymentPage && investmentData && (
+                            <div className="modal-overlay">
+                                <div className="modal-backdrop"></div>
+                                <div className="modal-container" style={{ marginTop: '50px', alignSelf: 'flex-start' }}>
+                                    <PaymentPage
+                                        amount={investmentData.amount}
+                                        investmentData={investmentData}
+                                        onSuccess={() => {
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
             )}
         </>
     );
