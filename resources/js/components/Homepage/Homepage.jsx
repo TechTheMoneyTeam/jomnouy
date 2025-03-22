@@ -19,11 +19,11 @@ const Home = () => {
 
     const Hero = () => (
         <section className="hero">
-            <div className="hero-background"></div>
+            <div className="hero-background" data-aos="fade-up" data-aos-duration="400"></div>
             <div className="hero-content">
                 <div
                     className="hero-text-section"
-                    data-aos="fade-up"
+                    data-aos="fade-down-left"
                     data-aos-duration="500"
                 >
                     <h1
@@ -56,9 +56,9 @@ const Home = () => {
                         Start now ➜
                     </button>
                 </div>
-                <div className="hero-image-wrapper">
+                <div className="hero-image-wrapper" data-aos="fade-down-right" data-aos-duration="600">
                     <img
-                        src="/img/hero.png"
+                        src="/img/img3.png.png"
                         alt="Illustration of investment opportunities"
                         className="analytics-image"
                     />
