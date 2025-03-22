@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-area {
+               @apply w-full h-12 bg-transparent  text-lg border-none resize-none focus:outline-none;
+}
+.text-area:focus {
+               @apply border-b focus:border-green-500;
+}

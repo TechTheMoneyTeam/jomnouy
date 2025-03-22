@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nav-wrapper {
+    @apply flex  items-center justify-center ; /* Centers the navbar initially */
+}
+
+.nav-container {
+    @apply fixed top-0 bg-white rounded-lg shadow-lg flex gap-4 justify-between 
+    items-center z-20 max-w-screen-xl mx-auto px-10 py-4 mt-2;
+}
+.nav-container.Scrolled {
+    @apply mt-0 shadow-md; 
+}
+.logo {
+    @apply relative font-bold text-black pr-4 ;
+ /* Tailwind's utility for bottom positioning */
+    text-decoration: none;
+}
+.nouy {
+    @apply text-custom-orange;
+}
+
+.nav-links {
+    @apply flex items-center space-x-10 cursor-pointer;
+    text-decoration: none;
+}
+
+.nav-link {
+    @apply relative text-lg text-black transition-all duration-200;
+    text-decoration: none; /* This is important */
+}
+
+.nav-link::after {
+    content: "";
+    @apply absolute left-0 bottom-0 w-0 h-[2px] bg-custom-orange transition-all duration-300;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    @apply w-full;
+}
+
+.nav-link.active-link {
+    @apply text-custom-orange font-semibold;
+}
+
+.button-group {
+    @apply flex space-x-4 items-center;
+}
+
+button {
+    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
+}
+
+.login-button {
+    @apply relative overflow-hidden bg-custom-orange text-white border border-custom-orange px-3 py-1 rounded-lg;
+    @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
+}
+
+.login-button::before {
+    content: "";
+    @apply absolute top-0 left-0 w-0 h-full bg-white transition-all duration-200 ease-in-out;
+    z-index: 0;
+}
+
+.login-button:hover::before {
+    @apply w-full;
+}
+
+.login-button span {
+    @apply relative z-10 transition-colors duration-200 ease-in-out;
+}
+
+.login-button:hover span {
+    @apply text-black;
+}
+
+.login-button:hover {
+    @apply border-custom-orange;
+}
+
+.login-button1 {
+    @apply relative overflow-hidden bg-white text-black border border-black px-3 py-1 rounded-lg;
+    @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
+}
+
+.login-button1::before {
+    content: "";
+    @apply absolute top-0 left-0 w-0 h-full bg-white transition-all duration-200 ease-in-out;
+    z-index: 0;
+}
+
+.login-button1:hover::before {
+    @apply w-full;
+}
+
+.login-button1 span {
+    @apply relative z-10 transition-colors duration-200 ease-in-out;
+}
+
+.login-button1:hover span {
+    @apply text-black;
+}
+
+.login-button1:hover {
+    @apply border-custom-orange;
+}
+

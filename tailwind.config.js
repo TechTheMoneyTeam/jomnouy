@@ -12,12 +12,14 @@ export default {
         './resources//*.jsx',
         './resources/**/*.vue',
     ],
+    darkMode: 'class', // or 'media' or 'class'
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
+     
                 'custom-orange': '#F07900',
             },
         },

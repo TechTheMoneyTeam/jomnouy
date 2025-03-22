@@ -12,6 +12,20 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+            'http://example.com/foo/bar',
+            'http://localhost:8000/api/projects',
+            'http://localhost:8000/api/*',
+            'http://localhost:8000/*',
+            'http://127.0.0.1:8000/api/settings/change-password',
+            'http://127.0.0.1:8000/api/settings/change-password1',
+            'http://localhost:8000/api/settings/change-password',
+            'http://127.0.0.1:8000/api/profile/update'
+
+            
+            
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

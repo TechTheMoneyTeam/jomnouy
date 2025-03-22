@@ -1,195 +1,532 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind screens;
 
-
-.header {
-    @apply bg-white text-white py-4 px-6;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-}
-.hero-button1 {
-    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
-    position: absolute;
-    right: 15rem; 
-    top: 72%; 
-    transform: translateY(-50%);
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-}
-
-
-
-.nav-container {
-    @apply flex justify-between items-center;
-}
-
-
-.logo {
-    @apply text-2xl font-bold text-custom-orange;
-    text-decoration: none;
-}
-
-
-.nav-links {
-    @apply flex space-x-6;
-}
-
-.nav-link {
-    @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
-    text-decoration: none;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
-}
-
-
-.active-link {
-    text-decoration: none;
-    border-bottom: 2px solid #F07900;
-    color: #F07900;
-}
-
-.nav-link.active-link:hover {
-    text-decoration: none;
-    color: #F07900;
-}
-
-
-.button-group {
-    @apply flex space-x-4 items-center;
-}
-
-
-button {
-    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
-}
-
-.login-button {
-    @apply bg-custom-orange hover:bg-blue-700;
-}
-
-
-.search-button {
-    @apply hover:bg-gray-600;
-    color: #F07900;
-}
-
-
-.language-button {
-    @apply hover:bg-green-700;
-    border-radius: 10px;
-    color: #F07900;
-    border-color: black;
-    border-width: 1px;
-
-}
-
-
-.flag-icon {
-    @apply mr-2;
-}
-
+/* Hero Section */
+/* Hero Section */
 .hero {
-    @apply relative min-h-[500px] w-full overflow-hidden mt-8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @apply relative shadow-lg w-full bg-gradient-to-br from-white via-custom-orange to-custom-orange overflow-hidden flex items-center justify-center py-24 h-screen;
+  display: flex;
+  flex-direction: column;
 }
-
 
 .hero-background {
-    @apply absolute inset-0;
-    background-color: #F07900;
-    border-radius: 0px 187px 0px 431px;
-    z-index: 1;
+  @apply absolute inset-0;
+  background: rgba(255, 165, 0, 0.15); /* Using custom-orange with opacity */
+  backdrop-filter: blur(20px);
+  border-radius: 30% 70% 50% 50% / 50% 40% 60% 50%;
+  animation: heroBackgroundSlide 1.5s ease-out;
+  z-index: 5;
 }
 
-
+/* Hero Content */
 .hero-content {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 p-8;
+  @apply relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 px-6 md:px-12 max-w-6xl mx-auto;
+  align-items: center;
 }
 
-
+/* Text Section */
 .hero-text-section {
-    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20;
-    padding: 20px;
+  @apply relative bg-white bg-opacity-80 rounded-3xl p-10 shadow-xl;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1.2s ease-out;
+  max-width: 600px;
 }
-
-.hero-text-background {
-    @apply absolute inset-0;
-    background-color: white;
-    border-radius: 0px 123px 0px 123px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-
-    z-index: 10;
-}
-
 
 .hero-title {
-    @apply text-5xl font-bold text-gray-900 relative z-30;
-    
+  @apply text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight;
 }
 
 .hero-description {
-    @apply text-3xl font-bold text-gray-800 relative z-30;
-
-
+  @apply text-xl md:text-2xl text-gray-700 mt-4;
+}
+.hero-description2 {
+  @apply text-xl md:text-3xl font-bold text-black mt-4;
+}
+.hero-description2 span{
+  @apply text-custom-orange;
+}
+.hero-button1 {
+  @apply inline-block bg-black text-white px-6 py-3 mt-6 rounded-full text-lg font-semibold shadow-md transition-all duration-200 ease-in;
 
 }
 
-.hero-button {
-    @apply inline-block rounded-lg bg-black px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
-    position: relative;
-    z-index: 50;
-    margin-left: 35%;
+.hero-button1:hover {
+  transform: translateY(-10px) rotate(-2.5deg) !important; /* Slight scale and rotation */
+  @apply bg-custom-orange text-black;
 }
-
 
 .hero-image-wrapper {
-    @apply relative flex justify-center items-center;
+  @apply flex justify-center items-center relative;
+  animation: slideInRight 1.2s ease-out;
 }
 
 .analytics-image {
-    @apply w-full max-w-[600px] h-auto;
+  @apply w-full max-w-lg ;
+  transition: transform 0.5s ease;
 }
 
-.footer {
-    @apply bg-custom-orange text-white py-10 mt-16;
+.analytics-image:hover {
+  transform: translateY(-10px) rotate(2.5deg);
 }
 
-.footer-grid {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
+/* Keyframe Animations */
+@keyframes heroBackgroundSlide {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.footer-title {
-    @apply text-lg font-bold;
+@keyframes slideInRight {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.footer-list {
-    @apply space-y-2;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Project Section */
+/* Base container styles with improved transitions */
+.project-container {
+  @apply relative p-8 mt-12 mb-12 mx-auto overflow-hidden;
+  transition: transform 0.5s ease, height 0.5s ease, box-shadow 0.5s ease;
+  min-height: 80vh;
 }
 
-.footer-link {
-    @apply text-white hover:text-yellow-300 transition;
+/* Navigation button with hover effect */
+.nav-button {
+  @apply p-2 bg-gray-800 text-white rounded-full shadow-md;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.footer-contact {
-    @apply flex items-center space-x-2;
+.nav-button:hover {
+  @apply bg-gray-600 transform scale-105;
+}
+
+/* Project grid container with smooth transitions */
+.project-grid-wrapper {
+  @apply overflow-hidden relative;
+  perspective: 1000px;
+}
+
+.project-grid {
+  @apply grid grid-cols-5 gap-4 justify-center;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Enhanced project card with smooth animations */
+.project-card {
+  @apply relative p-2 flex flex-col w-full max-w-[320px] mr-0 rounded-2xl mb-6 bg-white;
+  
+  /* Responsive widths for different screen sizes */
+  @apply sm:w-[280px] md:w-[300px] lg:w-[250px] xl:w-[250px];
+
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.4s ease, height 0.4s ease;
+}
+
+/* Responsive grid layout */
+@media (max-width: 1280px) { /* xl screen size */
+  .project-grid {
+    grid-template-columns: repeat(4, 1fr); /* Show 4 cards on large screens */
+  }
+}
+
+@media (max-width: 1024px) { /* lg screen size */
+  .project-grid {
+    grid-template-columns: repeat(3, 1fr); /* Show 3 cards on medium screens */
+  }
+}
+
+@media (max-width: 768px) { /* md screen size */
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr); /* Show 2 cards on small screens */
+  }
+}
+
+@media (max-width: 480px) { /* sm screen size */
+  .project-grid {
+    grid-template-columns: 1fr; /* Show 1 card per row on very small screens */
+  }
 }
 
 
-.footer-bottom {
-    @apply mt-6 text-center text-white;
+.project-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* transform: translateY(-10px) ; */
 }
 
-.footer-social {
-    @apply flex justify-center space-x-4 mt-4;
+/* Smooth title transition */
+.project-title-card {
+  @apply text-center text-xl font-bold mt-3 overflow-hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all 0.4s ease;
+  max-height: 30px;
 }
 
-.social-icon {
-    @apply text-white hover:text-black transition;
+.project-card:hover .project-title-card {
+  white-space: normal;
+  overflow: visible;
+  max-height: 100px;
+}
+
+/* Image with subtle hover effect */
+.project-image {
+  @apply w-full object-cover rounded-xl;
+  aspect-ratio: 16/9;
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.project-card:hover .project-image {
+  filter: brightness(1.05);
+  transform: scale(1.02);
+}
+
+.project-username {
+  @apply text-center text-lg font-medium text-gray-700 mt-2;
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .project-username {
+  @apply text-custom-orange;
+}
+
+/* Description with smooth expand effect */
+.project-description2 {
+  @apply text-center text-sm text-gray-500 break-words overflow-hidden mt-3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  transition: max-height 0.5s ease, -webkit-line-clamp 0.5s ease;
+  max-height: 60px;
+}
+
+.project-card:hover .project-description2 {
+  -webkit-line-clamp: 5;
+  max-height: 100px;
+}
+
+/* Explore button with smooth hover and position transitions */
+.explore-btn {
+  @apply relative z-10 text-gray-800 border-2 border-double border-gray-200 py-2 px-6 md:px-8 rounded-md mx-auto mt-3 text-center block;
+  transition: background-color 0.5s ease, transform 0.5s ease,
+    border-color 0.5s ease, color 0.5s ease, margin-top 0.5s ease;
+  width: fit-content;
+}
+
+.explore-btn:hover {
+  @apply bg-custom-orange text-white transform scale-110;
+}
+
+.project-card:hover .explore-btn {
+  @apply mt-4;
+}
+
+/* Title section with animation */
+.project-title-section {
+  @apply text-6xl text-custom-orange sm:text-5xl md:text-6xl font-bold mb-12 mt-12 text-center;
+  animation: gradient 4s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Navigation buttons with improved animation */
+.prev-btn,
+.next-btn {
+  @apply p-3 mt-4 mr-4 text-black border-2 rounded-lg border-gray-200 bg-white;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  @apply bg-gray-800 text-white border-gray-800 transform scale-105;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.prev-btn {
+  @apply rounded-l-lg rounded-r-none;
+}
+
+.next-btn {
+  @apply rounded-r-lg rounded-l-none;
+}
+
+/* Pagination indicators - new addition */
+.pagination-dots {
+  @apply flex justify-center gap-2 mt-6;
+}
+
+.dot {
+  @apply w-2 h-2 rounded-full bg-gray-300;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  @apply bg-blue-600 w-6;
+}
+
+/* Responsive Design - Enhanced */
+@media screen and (max-width: 768px) {
+  .project-grid {
+    @apply flex-col items-center;
+  }
+
+  .project-card {
+    @apply w-full max-w-[320px];
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .project-title-section {
+    @apply text-3xl;
+  }
+
+  .explore-btn {
+    @apply px-8 py-2;
+    width: 80%;
+  }
+
+  .prev-btn,
+  .next-btn {
+    @apply p-2 mt-2;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-content {
+    @apply grid-cols-1 lg:grid-cols-2;
+  }
+
+  .hero-button {
+    @apply py-3 px-10 text-xl;
+  }
+
+  .project-grid {
+    @apply gap-6;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    @apply grid-cols-1;
+  }
+
+  .hero-button {
+    @apply py-2 px-6 text-lg;
+  }
+
+  .project-grid {
+    @apply flex-wrap gap-5;
+  }
+
+  .project-card {
+    @apply w-full sm:w-[250px] h-auto;
+  }
+
+  .project-title-section {
+    @apply text-2xl font-bold;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero-title {
+    @apply text-3xl;
+  }
+
+  .hero-description,
+  .hero-description2 {
+    @apply text-lg;
+  }
+
+  .hero-button {
+    @apply px-6 py-2 text-base;
+  }
+
+  .project-card {
+    @apply w-full max-w-[240px] h-auto;
+  }
+
+  .project-title-section {
+    @apply text-xl;
+  }
+
+  .hero-content {
+    @apply px-4;
+  }
+
+  .project-grid {
+    @apply gap-4;
+  }
+
+  .explore-btn {
+    @apply px-4 py-1 text-sm;
+    width: 90%;
+  }
+}
+
+/* Card enter/exit animations */
+.card-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.card-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.card-exit {
+  opacity: 1;
+}
+
+.card-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Startup.css */
+/* Startup.css */
+/* Startup.css */
+.startup-container {
+  @apply flex flex-col w-full max-w-7xl mx-auto overflow-hidden relative h-auto;
+  min-height: 80vh;
+}
+
+.container-title {
+  @apply text-6xl font-bold text-black text-center pb-[5rem];
+}
+
+.container-title span {
+  @apply text-custom-orange;
+}
+
+.content-container {
+  @apply flex flex-col sm:flex-row flex-1 gap-8 relative rounded-md shadow-md;
+}
+
+.image-container {
+  @apply flex items-center justify-center bg-white overflow-hidden shadow-md;
+  width: 70vh;
+  /* Fixed width */
+  height: 70vh;
+  /* Fixed height to match width */
+  aspect-ratio: 1;
+  /* Ensures the container remains square */
+}
+
+.image-container:hover .image {
+  @apply scale-110 transform transition-all duration-500 rounded-md;
+}
+
+.text-container {
+  @apply flex-1 pr-8 pl-8 bg-white h-auto rounded-md;
+  /* Increased height to 60vh to match the image container */
+}
+
+.image {
+  @apply w-full h-full object-cover rounded-lg;
+  /* Maintain aspect ratio while filling the container */
+}
+
+.project-title {
+  @apply text-4xl font-bold mb-6 text-center sm:text-left;
+}
+
+.project-creator {
+  @apply text-xl text-black sm:text-left;
+}
+
+.project-description {
+  @apply mb-6 mt-6 text-gray-500 text-center sm:text-left leading-relaxed overflow-y-auto max-h-[120px];
+  /* Increased scrollable height */
+}
+
+.project-type,
+.project-goal,
+.project-min {
+  @apply mb-2 text-lg text-black;
+}
+
+.project-type {
+  @apply text-lg font-semibold text-black;
+}
+
+.button-container {
+  @apply flex gap-6 mt-8 justify-center sm:justify-start;
+  /* Buttons spaced out with center alignment */
+}
+
+.button1,
+.button2 {
+  @apply text-xl font-semibold py-3 px-8 rounded-lg transition-all duration-300 ease-in-out;
+}
+
+.button1 {
+  @apply bg-custom-orange text-white shadow-md;
+  /* Custom color for Contact Owner button */
+}
+
+.button1:hover {
+  @apply text-black scale-105 shadow-xl;
+  /* Hover effect */
+}
+
+.button2 {
+  @apply bg-transparent border-2 border-custom-orange text-custom-orange py-3 px-6;
+  /* See More button with different style */
+}
+
+.button2:hover {
+  @apply text-black scale-105 scale-110 shadow-xl;
+  /* Hover effect */
+}
+
+.arrow-button {
+  @apply absolute top-1/2 -translate-y-1/2 text-3xl cursor-pointer transition-all duration-300 ease-in-out;
+}
+
+.arrow-button.left {
+  @apply left-0 bg-gray-800 bg-opacity-10 w-8 h-20 flex items-center justify-center;
+}
+
+.arrow-button.right {
+  @apply right-0 bg-gray-800 bg-opacity-10 w-8 h-20 flex items-center justify-center;
+}
+
+.arrow-button.left:hover,
+.arrow-button.right:hover {
+  @apply bg-gray-800 bg-opacity-50 scale-110;
 }

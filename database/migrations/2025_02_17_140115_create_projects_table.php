@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('title', 100)->nullable();
             $table->float('funding_goal')->nullable();
             $table->string('status', 20)->nullable();
-            $table->timestamp('created_at')->nullable();
             $table->string('project_type', 20)->nullable();
             $table->string('project_des', 1000)->nullable();
             $table->string('project_img')->nullable();
             $table->float('reserve_price')->nullable();
             $table->integer('project_categoryId')->nullable();
+            $table->timestamps(); 
+  
         });
     }
 

@@ -2,241 +2,407 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.header {
-    @apply bg-white text-white py-4 px-6;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+.hero-service {
+    @apply relative w-full min-h-screen overflow-hidden mt-12 bg-cover bg-center;
 }
-.hero-button1 {
-    @apply inline-block rounded-lg bg-custom-orange px-8 py-3 text-3xl font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+
+.hero-service img {
+    @apply absolute top-0 left-0 w-full h-full object-cover opacity-80; /* Ensure the image is fully visible */
+}
+
+.hero-content-service {
+    @apply absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
+}
+
+.hero-title1,
+.hero-title2 {
+    @apply relative text-6xl font-bold text-black;
+}
+
+.hero-text1 {
+    @apply relative text-lg text-black mb-6;
+}
+
+.hero-btn-primary1 {
+    @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
+}
+
+.hero-btn-primary1::before {
+    content: "";
+    @apply absolute top-0 left-[-100%] w-full h-full bg-white transition-all duration-300 text-custom-orange;
+}
+
+.hero-btn-primary1 span {
+    @apply relative z-10 transition-colors duration-300 ease-in-out;
+}
+
+.hero-btn-primary1:hover span {
+    @apply text-custom-orange;
+}
+
+.hero-btn-secondary1 {
+    @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
+}
+
+.hero-buttons {
+    @apply flex flex-row space-x-4;
+}
+/* Page ending service line with arrow indicator */
+.service-line3 {
+    @apply max-w-7xl mx-auto my-16 relative;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 122, 0, 0.2) 10%, 
+        #FF7A00 50%, 
+        rgba(255, 122, 0, 0.2) 90%, 
+        transparent 100%);
+    border: none;
+    position: relative;
+}
+
+/* Animated arrow indicator suggesting next page */
+.service-line3::after {
+    content: "";
     position: absolute;
-    right: 15rem; 
-    top: 72%; 
-    transform: translateY(-50%);
-    z-index: 50;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    border-right: 3px solid #FF7A00;
+    border-bottom: 3px solid #FF7A00;
+    transform-origin: center;
+    transform: translateX(-50%) rotate(45deg);
+    animation: bounceArrow 2s infinite ease-in-out;
 }
 
-.nouy{
-    @apply text-custom-orange;
+/* Add shadow for depth */
+.service-line3::before {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 1px;
+    background-color: rgba(255, 122, 0, 0.15);
+    bottom: -2px;
+    left: 15%;
 }
 
-.nav-container {
-    @apply flex justify-between items-center;
+/* Bounce animation for the arrow */
+@keyframes bounceArrow {
+    0%, 100% {
+        bottom: -12px;
+    }
+    50% {
+        bottom: -20px;
+    }
 }
 
-
-.logo {
-    @apply text-2xl font-bold text-black;
-    text-decoration: none;
+/* Optional: Add hover effect when cursor is over the line */
+.service-line3:hover {
+    cursor: pointer;
 }
 
-
-.nav-links {
-    @apply flex space-x-10;
-    text-decoration: none;
+.service-line3:hover::after {
+    animation-duration: 1s;
+    border-right: 3px solid #FF9A40;
+    border-bottom: 3px solid #FF9A40;
 }
 
-.nav-link {
-    @apply relative text-lg text-black transition-all duration-200;
-    text-decoration: none; /* This is important */
-  }
-  
-  .nav-link::after {
-    content: '';
-    @apply absolute left-0 bottom-0 w-0 h-[2px] bg-custom-orange transition-all duration-200;
-  }
-  
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    @apply w-full;
-  }
-  
-  .nav-link.active-link {
-    @apply text-custom-orange font-semibold !important;
-    text-underline-offset: none; /* Optional, just in case */
-  }
-  
-  
-
-
-
-/* .active-link {
-    text-decoration: none;
-    border-bottom: 2px solid #F07900;
-    color: #F07900;
-} */
-
-/* .nav-link.active-link:hover {
-    text-decoration: none;
-    color: #F07900;
-} */
-
-
-.button-group {
-    @apply flex space-x-4 items-center;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-line3 {
+        @apply max-w-full mx-6;
+    }
+}
+.services-section {
+    @apply mt-8 p-12 text-center mb-12;
+    min-height: 80vh;
 }
 
-
-button {
-    @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 z-50;
+.services-title {
+    @apply text-6xl font-bold mb-4 text-black;
 }
 
-  
-.login-button {
-    @apply relative overflow-hidden bg-custom-orange text-white border border-custom-orange px-3 py-1 rounded-lg;
-    position: relative;
-    
-    
-  }
-  
-  .login-button::before {
-    content: '';
-    @apply absolute top-0 left-0 w-0 h-full bg-white transition-all duration-300 ease-in-out;
-    z-index: 0;
-  }
-  
-  .login-button:hover::before {
-    @apply w-full;
-  }
-  
-  .login-button span {
-    @apply relative z-10 transition-all duration-300 ease-in-out;
-    
-  }
-  
-  .login-button:hover span {
-    @apply text-custom-orange;
-    z-index: 10;
-  }
-  
-  .login-button:hover {
-    @apply border-custom-orange;
-  }
-  
-  
-
-
-.search-button {
-    @apply hover:bg-gray-600;
-    color: #F07900;
+.services-container {
+    @apply grid gap-12 px-6 max-w-7xl mt-8 mx-auto justify-center;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(300px, 1fr)
+    );
 }
 
-
-.language-button {
-    @apply hover:bg-green-700;
-    border-radius: 10px;
-    color: #F07900;
-    border-color: black;
-    border-width: 1px;
-
-}
-
-
-.flag-icon {
-    @apply mr-2;
-}
-
-.hero {
-    @apply relative min-h-[500px] w-full overflow-hidden mt-8;
+/* Card Styles */
+.service-card1, .service-card2, .service-card3 {
+    @apply bg-white rounded-2xl shadow-lg relative overflow-hidden;
+    min-height: 400px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Hover effect for each card individually */
+.service-card1:hover, 
+.service-card2:hover, 
+.service-card3:hover {
+    @apply shadow-2xl hover:-translate-y-2 hover:scale-105 transition-transform duration-300;
 }
 
 
-.hero-background {
-    @apply absolute inset-0;
-    background-color: #F07900;
-    border-radius: 0px 187px 0px 431px;
-    z-index: 1;
+/* Image Styles */
+.service-card1 img, .service-card2 img, .service-card3 img {
+    @apply w-full h-64 object-cover;
+    flex-shrink: 0;
 }
 
-
-.hero-content {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 p-8;
+/* Title Styling */
+.service-title {
+    @apply text-3xl font-bold text-custom-orange p-4;
 }
 
-
-.hero-text-section {
-    @apply space-y-4 ml-32 pr-8 w-1/2 relative z-20;
-    padding: 20px;
+/* Description Styling - Full description always visible */
+.service-description1, .service-description2, .service-description3 {
+    @apply text-base text-gray-600 p-6;
+    /* Remove line clamping to show full description */
+    display: block;
+    overflow: visible;
+    /* No need for height transition since description is always fully visible */
 }
 
-.hero-text-background {
-    @apply absolute inset-0;
-    background-color: white;
-    border-radius: 0px 123px 0px 123px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-
-    z-index: 10;
+/* Description Span Styling */
+.service-description1 span, .service-description2 span, .service-description3 span {
+    @apply text-lg font-bold text-black;
 }
 
+.service-description1 span span, .service-description2 span span, .service-description3 span span {
+    @apply text-custom-orange;
+}
 
-.hero-title {
-    @apply text-5xl font-bold text-gray-900 relative z-30;
+@media (max-width: 768px) {
+    .services-container {
+        @apply flex flex-col items-center;
+    }
     
+    .service-card1,
+    .service-card2,
+    .service-card3 {
+        @apply w-full max-w-sm;
+    }
 }
-
-.hero-description {
-    @apply text-3xl font-bold text-gray-800 relative z-30;
-
-
-
-}
-
-.hero-button {
-    @apply inline-block rounded-lg bg-black px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E65C00];
+/* First service line - gradient with dot pattern */
+.service-line1 {
+    @apply max-w-7xl mx-auto my-12;
+    height: 4px;
+    background-image: linear-gradient(90deg, 
+        transparent, 
+        #FF7A00 20%, 
+        #FF7A00 80%, 
+        transparent 100%);
+    border: none;
     position: relative;
-    z-index: 50;
-    margin-left: 35%;
+    overflow: visible;
 }
 
+/* Decorative dots for first line */
+.service-line1::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background-color: #FF7A00;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 122, 0, 0.6);
+}
 
-.hero-image-wrapper {
-    @apply relative flex justify-center items-center;
+.service-line1::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 122, 0, 0.2);
+    bottom: -4px;
+    left: 0;
+}
+
+/* Second service line - dashed with endpoints */
+.service-line2 {
+    @apply max-w-7xl mx-auto my-12;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 8px,
+        #FF7A00 8px,
+        #FF7A00 16px
+    );
+    border: none;
+    position: relative;
+}
+
+/* Decorative endpoints for second line */
+.service-line2::before,
+.service-line2::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #FF7A00;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.service-line2::before {
+    left: 0;
+}
+
+.service-line2::after {
+    right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-line1,
+    .service-line2 {
+        @apply max-w-full mx-6;
+    }
+}
+.about-section {
+    @apply bg-white p-8 text-center;
+}
+
+.about-title {
+    @apply text-5xl font-semibold mb-4 text-gray-800;
+}
+
+.about-text {
+    @apply max-w-4xl mx-auto text-lg text-gray-600 mt-10 mb-10 text-center;
+}
+
+.about-container {
+    @apply grid grid-cols-1 sm:grid-cols-2 mx-auto max-w-7xl gap-12 place-items-center;
+}
+
+.about-card {
+    @apply relative bg-black bg-opacity-50 rounded-lg shadow-md flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[550px];
+}
+
+.about-image {
+    @apply w-full h-full opacity-30 object-cover rounded-lg;
+}
+
+.about-card-title {
+    @apply absolute py-4 font-bold text-black text-5xl;
+    @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+    @apply text-center break-words max-w-full transition-transform duration-300 ease-in-out;
+}
+
+.about-card:hover .about-card-title {
+    @apply scale-105 rotate-2;
+}
+
+.about-text span {
+    @apply font-semibold text-custom-orange;
 }
 
 .analytics-image {
-    @apply w-full max-w-[600px] h-auto;
+    @apply w-full max-w-[600px] h-[[650px]];
 }
-
-.footer {
-    @apply bg-custom-orange text-white py-10 mt-16;
-}
-
-.footer-grid {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6;
-}
-
-.footer-title {
-    @apply text-lg font-bold;
-}
-
-.footer-list {
-    @apply space-y-2;
-}
-
-.footer-link {
-    @apply text-white hover:text-yellow-300 transition;
-}
-
-.footer-contact {
-    @apply flex items-center space-x-2;
+html {
+    scroll-behavior: smooth;
 }
 
 
-.footer-bottom {
-    @apply mt-6 text-center text-white;
+/* Feature Section Styles */
+/* Feature Section Styles */
+.feature-section {
+    @apply w-full max-w-[1400px] mx-auto py-20 px-5;
 }
 
-.footer-social {
-    @apply flex justify-center space-x-4 mt-4;
+.feature-title {
+    @apply text-[2.5rem] text-[#c19a5b] text-center font-semibold mb-16;
 }
 
-.social-icon {
-    @apply text-white hover:text-black transition;
+.feature-line {
+    @apply w-4/5 my-10 mx-auto border-none h-px bg-gradient-to-r from-transparent via-[#c19a5b]/50 to-transparent;
+}
+
+.feature-container {
+    @apply flex items-center mb-20 gap-10 h-[80vh];
+}
+
+#reverse {
+    flex-direction: row-reverse;
+}
+
+.feature-image-wrapper {
+    @apply flex-1 max-w-[50%] aspect-square rounded-lg overflow-hidden shadow-lg;
+}
+
+.feature-content {
+    @apply flex-1 p-5 flex flex-col justify-center;
+}
+
+.feature-content-title {
+    @apply text-[1.8rem] text-custom-orange font-medium mb-5 mt-0;
+}
+
+.feature-content-text {
+    @apply text-[1.1rem] leading-7 text-gray-600;
+}
+
+/* Image Slider Styles */
+.image-slider {
+    @apply relative w-full h-full overflow-hidden;
+}
+
+.slider-image {
+    @apply absolute top-0 left-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out;
+}
+
+.slider-image.active {
+    @apply opacity-100;
+}
+
+.slider-dots {
+    @apply absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2;
+}
+
+.slider-dot {
+    @apply  w-2.5 h-2.5 rounded-full bg-gray-500 cursor-pointer transition-colors duration-300;
+}
+
+.slider-dot.active {
+    @apply bg-custom-orange;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .feature-container,
+    .feature-container.reverse {
+        @apply flex-col h-auto min-h-[80vh];
+    }
+
+    .feature-image-wrapper {
+        @apply max-w-full h-auto aspect-square;
+    }
+
+    .feature-content-title {
+        @apply text-[1.5rem] mt-5;
+    }
+
+    .feature-content-text {
+        @apply text-base;
+    }
+}
+@media (max-width: 768px) {
+    .feature-container,
+    .feature-container:nth-child(odd),
+    .feature-container:nth-child(even) {
+        @apply flex-col;
+    }
 }

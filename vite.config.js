@@ -8,6 +8,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/js/app.jsx'],
+            require:('@tailwindcss/nesting'),
             refresh: true,
         }),
         react(),
