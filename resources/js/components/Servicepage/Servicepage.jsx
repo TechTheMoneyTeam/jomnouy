@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Service.css";
+// Import your service image
+// Adjust path as needed
 
 const Service = () => {
-    // Initialize AOS and scroll to top when component mounts
     useEffect(() => {
         window.scrollTo(0, 0);
         AOS.init({
@@ -17,62 +18,42 @@ const Service = () => {
     }, []);
 
     const Hero = () => (
-        <>
-            <div id="services" className="hero-service">
-                <img
-                    src="/img/serviceimg.png"
-                    alt="Hero Background"
-                    data-aos="fade-down"
-                    data-aos-duration="500"
-                />
-                <div className="hero-content-service">
-                    <h1
-                        className="hero-title1"
-                        data-aos="fade-up"
-                        data-aos-duration="600"
-                    >
-                        Opportunities don't happen.
-                    </h1>
-                    <h1
-                        className="hero-title2"
-                        data-aos="fade-up"
-                        data-aos-duration="700"
-                    >
-                        You create them.
-                    </h1>
-                    <p
-                        className="hero-text1"
-                        data-aos="fade-up"
+        <div className="hero-service">
+            <div className="customer-card-container">
+                {/* Left: Image */}
+                <div className="customer-card-image">
+                    <img
+                        src="/img/serviceimg.png"
+                        alt="Customer Service"
+                        className="img" 
+                        data-aos="fade-down"
                         data-aos-duration="800"
-                    >
-                        Connecting creators with the companies looking to
-                        sponsor them.
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/img/default-service.png"; // Fallback image
+                        }}
+                    />
+                </div>
+
+                {/* Right: Text Content */}
+                <div className="customer-card-content">
+                    <h2 className="title-service" data-aos="fade-left" data-aos-duration="800">
+                        CUSTOMER <span className="subtitle" data-aos="fade-left" data-aos-duration="800">Service</span>
+                    </h2>
+                    <p className="description" data-aos="fade-left" data-aos-duration="800">
+                        We provide 24/7 assistance to ensure a seamless
+                        experience. Whether you need product guidance or
+                        technical support, our expert team is always ready to
+                        help!
                     </p>
-                    <div className="hero-buttons">
-                        <Link
-                            to="/signup"
-                            className="hero-btn-primary1"
-                            data-aos="fade-up-left"
-                            data-aos-duration="900"
-                        >
-                            <button>
-                                <span>Become a member</span>
-                            </button>
-                        </Link>
-                        <Link
-                            to="/about"
-                            className="hero-btn-secondary1"
-                            data-aos="fade-up-left"
-                            data-aos-duration="1000"
-                        >
-                            <button>
-                                <span>Learn More</span>
-                            </button>
-                        </Link>
+                    <div className="btn-container"data-aos="fade-left" data-aos-duration="800">
+                        <button className="primary-button" data-aos="fade-up" data-aos-duration="800">Become a member </button>
                     </div>
+
+                    <p className="website" data-aos="fade-up" data-aos-duration="800">www.<span>ជំនួយ</span>-jomnouy.com</p>
                 </div>
             </div>
-        </>
+        </div>
     );
 
     const Services = () => (
