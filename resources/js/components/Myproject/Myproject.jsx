@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Clock, DollarSign, BriefcaseBusiness, CheckCircle, AlertCircle, MoreVertical, CircleDashed,UserCheck,CheckCheck } from 'lucide-react';
+import { Clock, DollarSign, BriefcaseBusiness, CheckCircle, AlertCircle, MoreVertical, CircleDashed, UserCheck, CheckCheck } from 'lucide-react';
 import Navbar2 from '../Navbar/Navbarforsubmit';
 import styles from './MyProjects.module.css';
 
@@ -38,6 +38,38 @@ const StatusBadge = ({ status }) => {
     );
 };
 
+// Delete Confirmation Modal Component
+const DeleteModal = ({ isOpen, onClose, onConfirm, projectTitle }) => {
+    if (!isOpen) return null;
+    
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <h3 className={styles.modalTitle}>Confirm Delete</h3>
+                <p className={styles.modalMessage}>
+                    Are you sure you want to delete the project 
+                    <span className={styles.highlightText}> "{projectTitle}" </span>?
+                    This action cannot be undone.
+                </p>
+                <div className={styles.modalActions}>
+                    <button 
+                        className={styles.cancelButton} 
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        className={styles.deleteButton} 
+                        onClick={onConfirm}
+                    >
+                        Delete Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const MyProjects = () => {
     const [projects, setProjects] = useState([]);
     const [projectInvestments, setProjectInvestments] = useState({});
@@ -46,6 +78,12 @@ const MyProjects = () => {
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState('');
     const [openDropdown, setOpenDropdown] = useState(null);
+    // State for delete confirmation modal
+    const [deleteModal, setDeleteModal] = useState({
+        isOpen: false,
+        projectId: null,
+        projectTitle: ''
+    });
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
@@ -204,10 +242,29 @@ const MyProjects = () => {
         }
     };
 
-    const deleteProject = async (projectId) => {
-        if (!confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
-            return;
-        }
+    // Open delete confirmation modal
+    const openDeleteConfirmation = (projectId) => {
+        const project = projects.find(p => (p.project_id || p.id) === projectId);
+        setDeleteModal({
+            isOpen: true,
+            projectId: projectId,
+            projectTitle: project.title || 'this project'
+        });
+    };
+
+    // Close delete confirmation modal
+    const closeDeleteModal = () => {
+        setDeleteModal({
+            isOpen: false,
+            projectId: null,
+            projectTitle: ''
+        });
+    };
+
+    // Actual delete project function
+    const deleteProject = async () => {
+        const projectId = deleteModal.projectId;
+        if (!projectId) return;
 
         try {
             await axios.delete(`/api/projects/${projectId}`);
@@ -216,9 +273,11 @@ const MyProjects = () => {
             const newProjectInvestments = { ...projectInvestments };
             delete newProjectInvestments[projectId];
             setProjectInvestments(newProjectInvestments);
+            closeDeleteModal();
         } catch (error) {
             console.error('Failed to delete project:', error);
             setError('Failed to delete the project. Please try again.');
+            closeDeleteModal();
         }
     };
 
@@ -233,7 +292,6 @@ const MyProjects = () => {
     const viewInvestmentApprovalDashboard = (projectId) => {
         window.location.href = `/investment-approval-dashboard/${projectId}`;
     };
-
 
     const toggleDropdown = (e, projectId) => {
         e.stopPropagation();
@@ -302,195 +360,201 @@ const MyProjects = () => {
                     </div>
                 )}
 
-<div className={styles.projectsContainer}>
-    <div className={styles.projectsHeader}>
-        <h2 className={styles.sectionTitle}>
-            You have <span className={styles.highlight}>{projects.length} projects</span>
-        </h2>
-        
-        <div className={styles.buttonGroup}>
-            <button
-                onClick={() => window.location.href = '/create'}
-                className={styles.createButton}
-            >
-                Create New Project
-            </button>
-            <button
-                onClick={() => window.location.href = '/investment-approval-dashboard/1'}
-                className={styles.dashboardButton}
-            >
-                Dashboard
-            </button>
-        </div>
-    </div>
-</div>
-
-                    {projects.length > 0 ? (
-                        <div className={styles.projectGrid}>
-                            {projects.map((project) => {
-                                const projectId = project.project_id || project.id;
-                                const investmentData = projectInvestments[projectId] || {
-                                    pending_count: 0,
-                                    approved_count: 0,
-                                    completed_count: 0,
-                                    total_pending_amount: 0,
-                                    total_approved_amount: 0,
-                                    total_completed_amount: 0,
-                                    total_raised_amount: 0
-                                };
-
-                                const investmentStatus = investmentData.pending_count > 0 ? 'pending' :
-                                    investmentData.approved_count > 0 ? 'approved' :
-                                        investmentData.completed_count > 0 ? 'completed' : 'TBD';
-                                
-                                const isCompleted = investmentStatus === 'completed' || investmentStatus === 'approved';
-
-                                return (
-                                    <Card key={projectId} className={styles.projectCard}>
-                                        <div className={styles.cardHeader}>
-                                            <StatusBadge status={investmentStatus} />
-                                            <img
-                                                src={project.project_img_url || project.image_url || "/api/placeholder/400/200"}
-                                                alt={project.title}
-                                                className={styles.projectImage}
-                                                onError={(e) => {
-                                                    e.target.src = "/api/placeholder/400/200";
-                                                }}
-                                                onClick={() => viewProjectDetails(projectId)}
-                                            />
-                                            <div className={styles.menuContainer}>
-                                                <button 
-                                                    className={styles.menuButton}
-                                                    onClick={(e) => toggleDropdown(e, projectId)}
-                                                >
-                                                    <MoreVertical size={20} />
-                                                </button>
-                                                {openDropdown === projectId && (
-                                                    <div className={styles.verticalMenu}>
-                                                        <div 
-                                                            className={styles.menuItem}
-                                                            onClick={() => viewProjectDetails(projectId)}
-                                                        >
-                                                            View Details
-                                                        </div>
-                                                        <div 
-                                                            className={styles.menuItem}
-                                                            onClick={() => editProject(projectId)}
-                                                        >
-                                                            Edit Project
-                                                        </div>
-                                                        <div 
-                                                            className={`${styles.menuItem} ${isCompleted ? styles.disabled : ''}`}
-                                                            onClick={() => !isCompleted && deleteProject(projectId)}
-                                                        >
-                                                            Delete Project
-                                                        </div>
-                                                        <div 
-                                                            className={styles.menuItem}
-                                                            onClick={() => viewInvestmentApprovalDashboard(projectId)}
-                                                        >
-                                                            Investment Dashboard
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <CardContent>
-                                            <div className={styles.projectTitleRow}>
-                                                
-                                                <span className={styles.projectTitle}>{project.title}</span>
-                                            </div>
-                                            <div className={styles.projectType}>
-                                                {project.project_type || project.type || "N/A"}
-                                            </div>
-                                            <div className={styles.projectDescription}>
-                                                {project.description?.slice(0, 100)}
-                                                {project.description?.length > 100 ? '...' : ''}
-                                            </div>
-                                       
-                                            <div className={styles.investmentStatus}>
-                                                <div className={styles.investmentItem}>
-                                                    <CircleDashed size={16} className={styles.statusIcon} />
-                                                    <span className={styles.statusCount}>{investmentData.pending_count}</span>
-                                                    <span className={styles.statusLabel}>Pending</span>
-                                                    <span className={styles.statusAmount}>
-                                                        {formatFunding(investmentData.total_pending_amount)}
-                                                    </span>
-                                                </div>
-                                                <div className={styles.investmentItem}>
-                                                    <UserCheck size={16} className={styles.statusIcon} />
-                                                    <span className={styles.statusCount}>
-                                                        {investmentData.approved_count > 0 
-                                                            ? `${investmentData.approved_count} x` 
-                                                            : '0'}
-                                                    </span>
-                                                    <span className={styles.statusLabel}>Approved</span>
-                                                    <span className={styles.statusAmount}>
-                                                        {formatFunding(investmentData.total_approved_amount)}
-                                                    </span>
-                                                </div>
-                                                <div className={styles.investmentItem}>
-                                                    <CheckCheck size={16} className={styles.statusIcon} />
-                                                    <span className={styles.statusCount}>
-                                                        {investmentData.completed_count > 0 
-                                                            ? `Done` 
-                                                            : '0'}
-                                                    </span>
-                                                    <span className={styles.statusLabel}>Completed</span>
-                                                    <span className={styles.statusAmount}>
-                                                        {formatFunding(investmentData.total_completed_amount)}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className={styles.statsRow}>
-                                            <div className={styles.stat}>
-                                                    <DollarSign size={16} className={styles.statIcon} />
-                                                    <span className={styles.statValue}>
-                                                        {formatFunding(project.funding_goal || project.funding || 0)}
-                                                    </span>
-                                                    <span className={styles.statLabel}>Goal</span>
-                                                </div>
-                                                <div className={styles.stat}>
-                                                    <BriefcaseBusiness size={16} className={styles.statIcon} />
-                                                    <span className={styles.statValue}>
-                                                        {investmentData.total_investment_count || 0}
-                                                    </span>
-                                                    <span className={styles.statLabel}>Investments</span>
-                                                </div>
-                                                <div className={styles.stat}>
-                                                    <Clock size={16} className={styles.statIcon} />
-                                                    <span className={styles.statValue}>
-                                                        {getDaysSinceCreation(project.created_at)}
-                                                    </span>
-                                                    <span className={styles.statLabel}>Days</span>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                );
-                            })}
-                        </div>
-                    ) : !loading ? (
-                        <div className={styles.noProjects}>
-                            <div className={styles.emptyStateIcon}></div>
-                            <p>You haven't created any projects yet.</p>
+                <div className={styles.projectsContainer}>
+                    <div className={styles.projectsHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            You have <span className={styles.highlight}>{projects.length} projects</span>
+                        </h2>
+                        
+                        <div className={styles.buttonGroup}>
                             <button
-                                onClick={() => window.location.href = '/create-project'}
+                                onClick={() => window.location.href = '/create'}
                                 className={styles.createButton}
                             >
-                                Create Your First Project
+                                Create New Project
+                            </button>
+                            <button
+                                onClick={() => window.location.href = '/investment-approval-dashboard/1'}
+                                className={styles.dashboardButton}
+                            >
+                                Dashboard
                             </button>
                         </div>
-                    ) : null}
-
-                    {loading && (
-                        <div className={styles.loadingContainer}>
-                            <div className={styles.spinner}></div>
-                            <p>Loading your projects...</p>
-                        </div>
-                    )}
+                    </div>
                 </div>
-            
+
+                {projects.length > 0 ? (
+                    <div className={styles.projectGrid}>
+                        {projects.map((project) => {
+                            const projectId = project.project_id || project.id;
+                            const investmentData = projectInvestments[projectId] || {
+                                pending_count: 0,
+                                approved_count: 0,
+                                completed_count: 0,
+                                total_pending_amount: 0,
+                                total_approved_amount: 0,
+                                total_completed_amount: 0,
+                                total_raised_amount: 0
+                            };
+
+                            const investmentStatus = investmentData.pending_count > 0 ? 'pending' :
+                                investmentData.approved_count > 0 ? 'approved' :
+                                    investmentData.completed_count > 0 ? 'completed' : 'TBD';
+                            
+                            const isCompleted = investmentStatus === 'completed' || investmentStatus === 'approved';
+
+                            return (
+                                <Card key={projectId} className={styles.projectCard}>
+                                    <div className={styles.cardHeader}>
+                                        <StatusBadge status={investmentStatus} />
+                                        <img
+                                            src={project.project_img_url || project.image_url || "/api/placeholder/400/200"}
+                                            alt={project.title}
+                                            className={styles.projectImage}
+                                            onError={(e) => {
+                                                e.target.src = "/api/placeholder/400/200";
+                                            }}
+                                            onClick={() => viewProjectDetails(projectId)}
+                                        />
+                                        <div className={styles.menuContainer}>
+                                            <button 
+                                                className={styles.menuButton}
+                                                onClick={(e) => toggleDropdown(e, projectId)}
+                                            >
+                                                <MoreVertical size={20} />
+                                            </button>
+                                            {openDropdown === projectId && (
+                                                <div className={styles.verticalMenu}>
+                                                    <div 
+                                                        className={styles.menuItem}
+                                                        onClick={() => viewProjectDetails(projectId)}
+                                                    >
+                                                        View Details
+                                                    </div>
+                                                    <div 
+                                                        className={styles.menuItem}
+                                                        onClick={() => editProject(projectId)}
+                                                    >
+                                                        Edit Project
+                                                    </div>
+                                                    <div 
+                                                        className={`${styles.menuItem} ${isCompleted ? styles.disabled : ''}`}
+                                                        onClick={() => !isCompleted && openDeleteConfirmation(projectId)}
+                                                    >
+                                                        Delete Project
+                                                    </div>
+                                                    <div 
+                                                        className={styles.menuItem}
+                                                        onClick={() => viewInvestmentApprovalDashboard(projectId)}
+                                                    >
+                                                        Investment Dashboard
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <CardContent>
+                                        <div className={styles.projectTitleRow}>
+                                            <span className={styles.projectTitle}>{project.title}</span>
+                                        </div>
+                                        <div className={styles.projectType}>
+                                            {project.project_type || project.type || "N/A"}
+                                        </div>
+                                        <div className={styles.projectDescription}>
+                                            {project.description?.slice(0, 100)}
+                                            {project.description?.length > 100 ? '...' : ''}
+                                        </div>
+                                   
+                                        <div className={styles.investmentStatus}>
+                                            <div className={styles.investmentItem}>
+                                                <CircleDashed size={16} className={styles.statusIcon} />
+                                                <span className={styles.statusCount}>{investmentData.pending_count}</span>
+                                                <span className={styles.statusLabel}>Pending</span>
+                                                <span className={styles.statusAmount}>
+                                                    {formatFunding(investmentData.total_pending_amount)}
+                                                </span>
+                                            </div>
+                                            <div className={styles.investmentItem}>
+                                                <UserCheck size={16} className={styles.statusIcon} />
+                                                <span className={styles.statusCount}>
+                                                    {investmentData.approved_count > 0 
+                                                        ? `${investmentData.approved_count} x` 
+                                                        : '0'}
+                                                </span>
+                                                <span className={styles.statusLabel}>Approved</span>
+                                                <span className={styles.statusAmount}>
+                                                    {formatFunding(investmentData.total_approved_amount)}
+                                                </span>
+                                            </div>
+                                            <div className={styles.investmentItem}>
+                                                <CheckCheck size={16} className={styles.statusIcon} />
+                                                <span className={styles.statusCount}>
+                                                    {investmentData.completed_count > 0 
+                                                        ? `Done` 
+                                                        : '0'}
+                                                </span>
+                                                <span className={styles.statusLabel}>Completed</span>
+                                                <span className={styles.statusAmount}>
+                                                    {formatFunding(investmentData.total_completed_amount)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className={styles.statsRow}>
+                                            <div className={styles.stat}>
+                                                <DollarSign size={16} className={styles.statIcon} />
+                                                <span className={styles.statValue}>
+                                                    {formatFunding(project.funding_goal || project.funding || 0)}
+                                                </span>
+                                                <span className={styles.statLabel}>Goal</span>
+                                            </div>
+                                            <div className={styles.stat}>
+                                                <BriefcaseBusiness size={16} className={styles.statIcon} />
+                                                <span className={styles.statValue}>
+                                                    {investmentData.total_investment_count || 0}
+                                                </span>
+                                                <span className={styles.statLabel}>Investments</span>
+                                            </div>
+                                            <div className={styles.stat}>
+                                                <Clock size={16} className={styles.statIcon} />
+                                                <span className={styles.statValue}>
+                                                    {getDaysSinceCreation(project.created_at)}
+                                                </span>
+                                                <span className={styles.statLabel}>Days</span>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            );
+                        })}
+                    </div>
+                ) : !loading ? (
+                    <div className={styles.noProjects}>
+                        <div className={styles.emptyStateIcon}></div>
+                        <p>You haven't created any projects yet.</p>
+                        <button
+                            onClick={() => window.location.href = '/create-project'}
+                            className={styles.createButton}
+                        >
+                            Create Your First Project
+                        </button>
+                    </div>
+                ) : null}
+
+                {loading && (
+                    <div className={styles.loadingContainer}>
+                        <div className={styles.spinner}></div>
+                        <p>Loading your projects...</p>
+                    </div>
+                )}
+
+                {/* Delete Confirmation Modal */}
+                <DeleteModal 
+                    isOpen={deleteModal.isOpen}
+                    onClose={closeDeleteModal}
+                    onConfirm={deleteProject}
+                    projectTitle={deleteModal.projectTitle}
+                />
+            </div>
         </>
     );
 };
