@@ -39,7 +39,7 @@
   @apply text-2xl md:text-3xl text-gray-700 py-4 ;
 }
 .hero-description2 {
-  @apply text-3xl md:text-4xl font-bold text-custom-orange ;
+  @apply text-3xl   md:text-4xl font-extrabold text-custom-orange ;
 }
 .hero-description2 span{
   @apply text-black;

@@ -14,9 +14,9 @@
     @apply top-0 shadow-md; 
 }
 .logo {
-    @apply relative font-bold text-black pr-4 ;
- /* Tailwind's utility for bottom positioning */
+    @apply relative text-2xl font-extrabold text-black pr-4;
     text-decoration: none;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 .nouy {
     @apply text-custom-orange;

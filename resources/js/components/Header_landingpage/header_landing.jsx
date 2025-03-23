@@ -26,7 +26,7 @@ const Header = () => {
     return (
         <div className="nav-wrapper">
             <nav className={`nav-container transition-all duration-300 ${isScrolled ? "top-0 shadow-md" : "top-20"}`}>
-                <Link to="/" className="logo">
+                <Link to="/" className="logo drop-shadow-lg">
                     Jom<span className="nouy">nouy</span>
                 </Link>
                 <div className="nav-links">
