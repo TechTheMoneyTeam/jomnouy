@@ -6,7 +6,7 @@
 /* Hero Section */
 /* Hero Section */
 .hero {
-  @apply relative  w-full  overflow-hidden flex items-center justify-center py-24 h-screen;
+  @apply relative w-full overflow-hidden flex items-center justify-center py-24 h-screen;
   display: flex;
   flex-direction: column;
 }

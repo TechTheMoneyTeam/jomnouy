@@ -9,6 +9,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Service from "../Servicepage/Servicepage";
 import Header from "../Header_landingpage/header_landing";
+import AboutUs from "../Aboutpage/Aboutus";
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
@@ -363,6 +364,9 @@ const Home = () => {
             </section>
             <section id="services">
                 <Service />
+            </section>
+            <section id="about">
+                <AboutUs />
             </section>
             <Footer />
         </>
