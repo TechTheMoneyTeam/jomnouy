@@ -313,7 +313,7 @@ const InvestmentApprovalDashboard = () => {
         <div className={styles.statCard}>
           <div className={styles.statContent}>
             <div>
-              <p className={styles.statLabel}>Total Investments</p>
+              <p className={styles.statLabel}>Total Investments Offered</p>
               <p className={styles.statValue}>{stats.total}</p>
             </div>
             <div className={`${styles.iconContainer} ${styles.iconBlue}`}>
@@ -337,7 +337,7 @@ const InvestmentApprovalDashboard = () => {
         <div className={styles.statCard}>
           <div className={styles.statContent}>
             <div>
-              <p className={styles.statLabel}>Unique Investors</p>
+              <p className={styles.statLabel}>Investors Amount</p>
               <p className={styles.statValue}>{stats.uniqueInvestors}</p>
             </div>
             <div className={`${styles.iconContainer} ${styles.iconGreen}`}>
@@ -361,7 +361,7 @@ const InvestmentApprovalDashboard = () => {
         <div className={styles.statCard}>
           <div className={styles.statContent}>
             <div>
-              <p className={styles.statLabel}>Total Amount</p>
+              <p className={styles.statLabel}>Total Amount Offered</p>
               <p className={styles.statValue}>{formatCurrency(stats.totalAmount)}</p>
             </div>
             <div className={`${styles.iconContainer} ${styles.iconOrange}`}>

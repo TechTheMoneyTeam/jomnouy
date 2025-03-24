@@ -431,27 +431,34 @@ const ProjectDetails = () => {
                     <div className="right-container p-4">
                         <ProgressBar progress={investmentProgress} />
                         <p className="text-funding mt-2 text-gray-600">Goal of US$ {project.funding_goal?.toLocaleString()}</p>
-                        <p className="text-gray-600 text-xl font-medium">Total US$ {totalInvested.toLocaleString()} Offered</p>
+                        <p className="text-2xl mt-2 text-gray-600">For Base Equity of {project.equity_offered} %</p>
+              
+                        <p className="text-gray-600 text-xl font-medium mt-3">Total US$ {totalInvested.toLocaleString()} Offered</p>
+                        
 
                         <div className="mt-2 flex items-center">
                             <Users className="mr-2" size={20} />
-                            <p className="text-gray-600 text-2xl font-medium">{uniqueInvestors}</p>
+                            <p className="text-gray-600 text-3xl font-medium">{uniqueInvestors}</p>
                         </div>
                         <p className="mt-1 text-gray-600">Unique Investors</p>
 
                         <div className="mt-2 flex items-center">
                             <BriefcaseBusiness className="mr-2" size={20} />
-                            <p className="text-gray-600 text-2xl font-medium">{totalInvestments}</p>
+                            <p className="text-gray-600 text-3xl font-medium">{totalInvestments}</p>
                         </div>
                         <p className="mt-1 text-gray-600">Total Investments Made</p>
 
                         <div className="mt-2 flex items-center">
                             <CalendarRange className="mr-2" size={20} />
-                            <p className="text-gray-600 text-2xl font-medium">{daysRemaining}</p>
+                            <p className="text-gray-600 text-3xl font-medium">{daysRemaining}</p>
                         </div>
                         <p className="mt-1 text-gray-600">Days Remaining</p>
+                        {/* <p className="mt-1 text-gray-600">Investment 1-5 years + {project.return_1_5_years} of equity</p>
+                        <p className="mt-1 text-gray-600">Investment 5-10 years + {project.return_1_5_years}</p>
+                        <p className="mt-1 text-gray-600">Investment Over 10 years + {project.return_1_5_years}</p> */}
 
-                        <p className="mt-6 text-gray-600 text-2xl font-medium">Status: {project.status}</p>
+
+                      
 
                         {isProjectCreator ? (
                             <div className="disabled-button-container">

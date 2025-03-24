@@ -84,6 +84,9 @@ const MyProjects = () => {
         projectId: null,
         projectTitle: ''
     });
+      useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
