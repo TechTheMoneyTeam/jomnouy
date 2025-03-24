@@ -10,9 +10,6 @@
     @apply fixed top-0 bg-white rounded-lg shadow-lg flex gap-4 justify-between 
     items-center z-20 max-w-screen-xl mx-auto px-10 py-4 mt-2;
 }
-.nav-container.Scrolled {
-    @apply mt-0 shadow-md; 
-}
 .logo {
     @apply relative font-bold text-black pr-4 ;
  /* Tailwind's utility for bottom positioning */
@@ -107,4 +104,3 @@ button {
 .login-button1:hover {
     @apply border-custom-orange;
 }
-
