@@ -2,51 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-.hero-service {
-    @apply relative w-full min-h-screen overflow-hidden mt-12 bg-cover bg-center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Customer Card Container */
+.customer-card-container {
+    @apply flex flex-col md:flex-row items-center justify-between bg-white
+    p-10 md:p-16 rounded-3xl w-screen mx-auto h-[90vh];
 }
 
-.hero-service img {
-    @apply absolute top-0 left-0 w-full h-full object-cover opacity-80; /* Ensure the image is fully visible */
+/* Left Side: Image */
+.customer-card-image {
+    @apply w-full md:w-1/2 flex justify-center;
 }
 
-.hero-content-service {
-    @apply absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
+.customer-card-image .img {
+    @apply max-w-full h-auto object-cover ;
+    filter: hue-rotate(-10deg) contrast(110%);
 }
 
-.hero-title1,
-.hero-title2 {
-    @apply relative text-6xl font-bold text-black;
+/* Right Side: Text Content */
+.customer-card-content {
+    @apply w-full md:w-1/2 text-center md:text-left px-8;
 }
 
-.hero-text1 {
-    @apply relative text-lg text-black mb-6;
+/* Title & Subtitle */
+.title-service {
+    @apply text-5xl md:text-6xl font-extrabold text-[#F07900] leading-tight drop-shadow-lg;
 }
 
-.hero-btn-primary1 {
-    @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
+.subtitle {
+    @apply text-3xl md:text-4xl text-gray-800 font-semibold mt-3;
 }
 
-.hero-btn-primary1::before {
-    content: "";
-    @apply absolute top-0 left-[-100%] w-full h-full bg-white transition-all duration-300 text-custom-orange;
+/* Description */
+.description {
+    @apply text-gray-700 text-lg md:text-xl mt-5 leading-relaxed tracking-wide;
 }
 
-.hero-btn-primary1 span {
-    @apply relative z-10 transition-colors duration-300 ease-in-out;
+/* Button Container */
+.btn-container {
+    @apply flex justify-center md:justify-start mt-8;
 }
 
-.hero-btn-primary1:hover span {
-    @apply text-custom-orange;
+/* Primary Button */
+.primary-button {
+    @apply px-8 py-4 bg-[#F07900] text-white font-semibold text-lg 
+    rounded-full shadow-md 
+    transition-all duration-300 ease-in-out;
+}
+.primary-button:hover {
+    @apply text-black scale-105 shadow-xl !important;
+}
+/* Website Link */
+.website {
+    @apply mt-6 text-lg text-gray-500 font-medium italic; 
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #F07900; /* Cursor effect */
+    animation: typing 3s steps(30, end) infinite alternate-reverse, blink 0.7s step-end infinite;
 }
 
-.hero-btn-secondary1 {
-    @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
+/* Typing Effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 38%;
+    }
 }
 
-.hero-buttons {
-    @apply flex flex-row space-x-4;
+/* Blinking Cursor Effect */
+@keyframes blink {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #F07900;
+    }
 }
+
+.website span {
+    @apply text-custom-orange font-semibold;
+}
+
 /* Page ending service line with arrow indicator */
 .service-line3 {
     @apply max-w-7xl mx-auto my-16 relative;
@@ -87,6 +129,22 @@
     bottom: -2px;
     left: 15%;
 }
+.services-section {
+    @apply mt-8 p-12 text-center mb-12;
+    min-height: 80vh;
+}
+
+.services-title {
+    @apply text-6xl font-bold mb-4 text-black;
+}
+
+.services-container {
+    @apply grid gap-12 px-6 max-w-7xl mt-8 mx-auto justify-center ;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(300px, 1fr)
+    );
+}
 
 /* Bounce animation for the arrow */
 @keyframes bounceArrow {
@@ -115,38 +173,15 @@
         @apply max-w-full mx-6;
     }
 }
-.services-section {
-    @apply mt-8 p-12 text-center mb-12;
-    min-height: 80vh;
-}
-
-.services-title {
-    @apply text-6xl font-bold mb-4 text-black;
-}
-
-.services-container {
-    @apply grid gap-12 px-6 max-w-7xl mt-8 mx-auto justify-center;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(300px, 1fr)
-    );
-}
 
 /* Card Styles */
 .service-card1, .service-card2, .service-card3 {
-    @apply bg-white rounded-2xl shadow-lg relative overflow-hidden;
+    @apply bg-white rounded-lg  relative overflow-hidden;
     min-height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
 
-/* Hover effect for each card individually */
-.service-card1:hover, 
-.service-card2:hover, 
-.service-card3:hover {
-    @apply shadow-2xl hover:-translate-y-2 hover:scale-105 transition-transform duration-300;
 }
 
 
@@ -332,7 +367,7 @@ html {
 }
 
 .feature-container {
-    @apply flex items-center mb-20 gap-10 h-[80vh];
+    @apply flex items-center mb-20 gap-10 h-screen;
 }
 
 #reverse {
