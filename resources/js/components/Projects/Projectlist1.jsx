@@ -20,9 +20,6 @@ const CardContent = ({ className, children }) => (
 const ProjectListing = () => {
     const [visibleCount, setVisibleCount] = useState(8); // Show first 18 projects
     const [visibleCount2, setVisibleCount2] = useState(4); // Show first 18 projects
-    const [userId, setUserId] = useState(null);
-    const [favorites, setFavorites] = useState([]);
-    const [savingToFavorites, setSavingToFavorites] = useState(false);
       useEffect(() => {
             window.scrollTo(0, 0); 
         }, []);
@@ -120,62 +117,6 @@ const ProjectListing = () => {
         const end = new Date(endDate);
         const timeDiff = end - today;
         return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
-    };
-
-    useEffect(() => {
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            try {
-                const user = JSON.parse(userData);
-                setUserId(user.user_id);
-                if (user.user_id) {
-                    axios.get(`/api/users/${user.user_id}/favorites`)
-                        .then(response => {
-                            setFavorites(response.data);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching favorites:', error);
-                        });
-                }
-            } catch (error) {
-                console.error("Error parsing user data:", error);
-            }
-        }
-    }, []);
-
-    const handleToggleFavorite = (projectId) => {
-        if (!userId) {
-            alert("Please log in to save projects to your favorites.");
-            return;
-        }
-
-        setSavingToFavorites(true);
-
-        const isFavorite = favorites.some(fav => fav.project_id === projectId);
-
-        if (isFavorite) {
-            axios.delete(`/api/users/${userId}/favorites/${projectId}`)
-                .then(() => {
-                    setFavorites(favorites.filter(fav => fav.project_id !== projectId));
-                })
-                .catch(error => {
-                    console.error('Error removing from favorites:', error);
-                })
-                .finally(() => {
-                    setSavingToFavorites(false);
-                });
-        } else {
-            axios.post(`/api/users/${userId}/favorites`, { project_id: projectId })
-                .then(() => {
-                    setFavorites([...favorites, { project_id: projectId }]);
-                })
-                .catch(error => {
-                    console.error('Error adding to favorites:', error);
-                })
-                .finally(() => {
-                    setSavingToFavorites(false);
-                });
-        }
     };
 
     if (error) {
@@ -300,19 +241,7 @@ const ProjectListing = () => {
                                                         </div>
                                                     </div>
                                                     <div className="flex justify-end">
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                handleToggleFavorite(project.project_id);
-                                                            }}
-                                                            disabled={savingToFavorites}
-                                                        >
-                                                            {favorites.some(fav => fav.project_id === project.project_id) ? (
-                                                                <RxBookmark className="text-blue-500" />
-                                                            ) : (
-                                                                <RxBookmark />
-                                                            )}
-                                                        </button>
+                                                        <RxBookmark />
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
@@ -402,7 +331,7 @@ const ProjectListing = () => {
                                             <div className="flex items-center mb-3">
                                                 <div className="profile-avatar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
+                                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
                                                     </svg>
                                                 </div>
                                                 <div className="ml-2 flex flex-col flex-grow">
@@ -412,19 +341,7 @@ const ProjectListing = () => {
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-end">
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            handleToggleFavorite(project.project_id);
-                                                        }}
-                                                        disabled={savingToFavorites}
-                                                    >
-                                                        {favorites.some(fav => fav.project_id === project.project_id) ? (
-                                                            <RxBookmark className="text-blue-500" />
-                                                        ) : (
-                                                            <RxBookmark />
-                                                        )}
-                                                    </button>
+                                                    <RxBookmark />
                                                 </div>
                                             </div>
                                             <div className="flex items-center text-sm text-gray-500 mb-2">

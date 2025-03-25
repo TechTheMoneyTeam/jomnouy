@@ -81,6 +81,7 @@ const ProgressBar = ({ progress }) => {
 };
 
 const ProjectDetails = () => {
+    const [showInvestmentPerksModal, setShowInvestmentPerksModal] = useState(false);
     const { id } = useParams();
     const [project, setProject] = useState(null);
     const [projects, setAllProjects] = useState([]);
@@ -243,6 +244,13 @@ const ProjectDetails = () => {
                 setLoading(false);
             });
     }, [id]);
+    const handleOpenInvestmentPerks = () => {
+        setShowInvestmentPerksModal(true);
+    };
+
+    const handleCloseInvestmentPerks = () => {
+        setShowInvestmentPerksModal(false);
+    };
 
 
     const handleToggleFavorite = () => {
@@ -452,7 +460,44 @@ const ProjectDetails = () => {
                             <CalendarRange className="mr-2" size={20} />
                             <p className="text-gray-600 text-3xl font-medium">{daysRemaining}</p>
                         </div>
-                        <p className="mt-1 text-gray-600">Days Remaining</p>
+                        <p className="mt-1 text-gray-600">Days Remaining</p>  
+                        <button className="mt-1 bg-transparent text-custom-orange rounded font-bold" onClick={handleOpenInvestmentPerks}>
+                            View Investment Perks
+                        </button>  
+                        {showInvestmentPerksModal && (
+                <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
+                        <button 
+                            className="absolute top-2 right-2 text-2xl text-gray-600 hover:text-gray-900"
+                            onClick={handleCloseInvestmentPerks}
+                        >
+                            &times;
+                        </button>
+                        <h2 className="text-xl font-bold mb-4">Investment Perks</h2>
+                        <div className="space-y-3">
+                            <div className="bg-gray-100 p-3 rounded-md">
+                                <h3 className="font-semibold">1-5 Years Investment</h3>
+                                <p className="text-gray-600">
+                                    + {project.return_1_5_years || 'N/A'}% Equity Return
+                                </p>
+                            </div>
+                            <div className="bg-gray-100 p-3 rounded-md">
+                                <h3 className="font-semibold">5-10 Years Investment</h3>
+                                <p className="text-gray-600">
+                                    + {project.return_5_10_years || 'N/A'}% Equity Return
+                                </p>
+                            </div>
+                            <div className="bg-gray-100 p-3 rounded-md">
+                                <h3 className="font-semibold">Over 10 Years Investment</h3>
+                                <p className="text-gray-600">
+                                    + {project.return_10_plus_years || 'N/A'}% Equity Return
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+  
                         {/* <p className="mt-1 text-gray-600">Investment 1-5 years + {project.return_1_5_years} of equity</p>
                         <p className="mt-1 text-gray-600">Investment 5-10 years + {project.return_1_5_years}</p>
                         <p className="mt-1 text-gray-600">Investment Over 10 years + {project.return_1_5_years}</p> */}
