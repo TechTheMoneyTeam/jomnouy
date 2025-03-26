@@ -17,23 +17,44 @@ const Home = () => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
     }, []);
 
-    const toggleLanguage = () => {
-        setLanguage((prev) => (prev === "en" ? "km" : "en"));
-    };
-
     const Hero = () => (
         <section className="hero">
             <div className="hero-background"></div>
             <div className="hero-content">
-                <div className="hero-text-section">
-                    <h1 className="hero-title">Change your</h1>
-                    <p className="hero-description"><span>Life</span> With</p>
-                    <p className="hero-description2">
+                <div
+                    className="hero-text-section"
+                    data-aos="fade-up"
+                    data-aos-duration="500"
+                >
+                    <h1
+                        className="hero-title"
+                        data-aos="fade-up"
+                        data-aos-duration="600"
+                    >
+                        Change your
+                    </h1>
+                    <p
+                        className="hero-description"
+                        data-aos="fade-up"
+                        data-aos-duration="700"
+                    >
+                        <span>Life</span> With
+                    </p>
+                    <p
+                        className="hero-description2"
+                        data-aos="fade-up"
+                        data-aos-duration="800"
+                    >
                         "Jom<span>nouy"</span>
                     </p>
-                    <a href="/signup" className="hero-button">
+                    <button
+                        href="/signup"
+                        className="hero-button1"
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                    >
                         Start now ➜
-                    </a>
+                    </button>
                 </div>
                 <div className="hero-image-wrapper">
                     <img
@@ -108,7 +129,9 @@ const Home = () => {
 
         return (
             <div className="project-container">
-                <h2 className="project-title-section" data-aos="fade-up">Tops Projects</h2>
+                <h2 className="project-title-section" data-aos="fade-up">
+                    Tops Projects
+                </h2>
 
                 {/* Pagination Buttons */}
                 <div className="absolute top-0 right-0 flex gap-2 z-10">
@@ -234,14 +257,20 @@ const Home = () => {
             "Unknown User";
 
         return (
-            
-            <div className="startup-container" data-aos="slidefade-right" data-duration="500">
-                <div className="container-title" data-aos="fade-up" data-aos-duration="800">
+            <div
+                className="startup-container"
+                data-aos="slidefade-right"
+                data-duration="500"
+            >
+                <div
+                    className="container-title"
+                    data-aos="fade-up"
+                    data-aos-duration="800"
+                >
                     Featured <span>Project</span>
                 </div>
                 <div className="content-container">
-                    
-                    <button onClick={handlePrev} className="arrow-button left"> 
+                    <button onClick={handlePrev} className="arrow-button left">
                         ←
                     </button>
                     <div
@@ -324,19 +353,18 @@ const Home = () => {
     };
 
     return (
-<>      <Header />
-        <section id="home">
-        
-        <Hero /> 
-        <ProjectShow />
-        <FeaturedProject />
-        </section>
-
-        <section id="services">
-            <Service />
-        </section>
-            
-        <Footer />
+        <>
+            {" "}
+            <Header />
+            <section id="home">
+                <Hero />
+                <ProjectShow />
+                <FeaturedProject />
+            </section>
+            <section id="services">
+                <Service />
+            </section>
+            <Footer />
         </>
     );
 };
