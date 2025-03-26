@@ -15,13 +15,15 @@
 }
 
 .nav-container {
-    @apply fixed top-2 bg-white rounded-lg shadow-lg flex gap-4 justify-between 
-    items-center z-20 max-w-screen-xl mx-auto px-10 py-4 transition-all duration-300 ease-in-out;
+    @apply fixed top-0 bg-white shadow-2xl flex gap-4 justify-between 
+    items-center z-20 max-w-screen-xl mx-auto px-10 py-2 top-2 transition-all 
+    duration-500 ease-in-out rounded-bl-2xl rounded-br-2xl;
 }
+
 .logo {
-    @apply relative text-2xl font-bold text-black pr-4 ;
- /* Tailwind's utility for bottom positioning */
+    @apply relative text-2xl font-extrabold text-black pr-4;
     text-decoration: none;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 .nouy {
     @apply text-custom-orange;
@@ -112,8 +114,3 @@ button {
 .login-button1:hover {
     @apply border-custom-orange;
 }
-
-body {
-    @apply overflow-hidden;
-}
-

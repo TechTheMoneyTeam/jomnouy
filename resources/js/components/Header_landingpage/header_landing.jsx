@@ -7,7 +7,6 @@ const Header = () => {
     const location = useLocation();
     const [language, setLanguage] = useState("en");
     const [isScrolled, setIsScrolled] = useState(false);
-
     // Scroll event listener
     useEffect(() => {
         const handleScroll = () => {
@@ -26,11 +25,7 @@ const Header = () => {
 
     return (
         <div className="nav-wrapper">
-            <nav
-                className={`nav-container transition-[margin-top] duration-300 ${
-                    isScrolled ? "top-0 shadow-md" : "mt-20"
-                }`}
-            >
+            <nav className={`nav-container transition-all duration-300 ${isScrolled ? "mt-0 shadow-md" : "mt-20"}`}>
                 <Link to="/" className="logo">
                     Jom<span className="nouy">nouy</span>
                 </Link>

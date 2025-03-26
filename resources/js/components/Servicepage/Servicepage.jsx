@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Service.css";
+// Import your service image
+// Adjust path as needed
 
 const Service = () => {
-    // Initialize AOS and scroll to top when component mounts
     useEffect(() => {
         window.scrollTo(0, 0);
         AOS.init({
@@ -17,63 +18,42 @@ const Service = () => {
     }, []);
 
     const Hero = () => (
-        <>
-           
-            <div id="services" className="hero-service">
-                <img
-                    src="/img/serviceimg.png"
-                    alt="Hero Background"
-                    data-aos="fade-down"
-                    data-aos-duration="500"
-                />
-                <div className="hero-content-service">
-                    <h1
-                        className="hero-title1"
-                        data-aos="fade-up"
-                        data-aos-duration="600"
-                    >
-                        Opportunities don't happen.
-                    </h1>
-                    <h1
-                        className="hero-title2"
-                        data-aos="fade-up"
-                        data-aos-duration="700"
-                    >
-                        You create them.
-                    </h1>
-                    <p
-                        className="hero-text1"
-                        data-aos="fade-up"
+        <div className="hero-service">
+            <div className="customer-card-container">
+                {/* Left: Image */}
+                <div className="customer-card-image">
+                    <img
+                        src="/img/serviceimg.png"
+                        alt="Customer Service"
+                        className="img" 
+                        data-aos="fade-down"
                         data-aos-duration="800"
-                    >
-                        Connecting creators with the companies looking to
-                        sponsor them.
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/img/default-service.png"; // Fallback image
+                        }}
+                    />
+                </div>
+
+                {/* Right: Text Content */}
+                <div className="customer-card-content">
+                    <h2 className="title-service" data-aos="fade-left" data-aos-duration="800">
+                        CUSTOMER <span className="subtitle" data-aos="fade-left" data-aos-duration="800">Service</span>
+                    </h2>
+                    <p className="description" data-aos="fade-left" data-aos-duration="800">
+                        We provide 24/7 assistance to ensure a seamless
+                        experience. Whether you need product guidance or
+                        technical support, our expert team is always ready to
+                        help!
                     </p>
-                    <div className="hero-buttons">
-                        <Link
-                            to="/signup"
-                            className="hero-btn-primary1"
-                            data-aos="fade-up-left"
-                            data-aos-duration="900"
-                        >
-                            <button>
-                                <span>Become a member</span>
-                            </button>
-                        </Link>
-                        <Link
-                            to="/about"
-                            className="hero-btn-secondary1"
-                            data-aos="fade-up-left"
-                            data-aos-duration="1000"
-                        >
-                            <button>
-                                <span>Learn More</span>
-                            </button>
-                        </Link>
+                    <div className="btn-container"data-aos="fade-left" data-aos-duration="800">
+                        <button className="primary-button" data-aos="fade-up" data-aos-duration="800">Become a member </button>
                     </div>
+
+                    <p className="website" data-aos="fade-up" data-aos-duration="800">www.<span>ជំនួយ</span>-jomnouy.com</p>
                 </div>
             </div>
-        </>
+        </div>
     );
 
     const Services = () => (
@@ -82,7 +62,7 @@ const Service = () => {
             <h2
                 className="services-title"
                 data-aos="fade-down"
-                data-aos-duration="500"
+                data-aos-duration="800"
             >
                 Our Services
             </h2>
@@ -98,17 +78,16 @@ const Service = () => {
                         className="service-image"
                         alt="Find Sponsors"
                     />
-                    <h3 className="service-title">Find Sponsors</h3>
-                    <p className="service-description1">
+                    <h3 className="service-title">Project Start-Up</h3>
+                    <p className="service-description">
                         <span>
                             Jom<span>nouy</span>{" "}
                         </span>
-                        is a dedicated platform designed to help businesses,
-                        event organizers, content creators, and startups connect
-                        with potential sponsors. Whether you're looking for
-                        financial backing, product sponsorship, or strategic
-                        partnerships, our platform makes it easy to find and
-                        secure the right sponsors for your needs.
+                        to help entrepreneurs and innovators launch their
+                        projects from the ground up. Whether you're developing a
+                        new product, starting a business, or creating an
+                        innovative service, we provide the tools, resources, and
+                        guidance you need to get started and succeed.
                     </p>
                 </div>
                 {/* Service Card 2 */}
@@ -122,18 +101,17 @@ const Service = () => {
                         className="service-image"
                         alt="Investor"
                     />
-                    <h3 className="service-title">Investor</h3>
-                    <p className="service-description2">
+                    <h3 className="service-title">Finding Sponsor</h3>
+                    <p className="service-description">
                         <span>
                             Jom<span>nouy</span>{" "}
                         </span>
-                        is a dedicated platform designed to help entrepreneurs,
-                        startups, and growing businesses connect with potential
-                        investors who are looking for exciting opportunities.
-                        Whether you're seeking venture capital, angel investors,
-                        or private equity, our platform makes it easy to find
-                        the right investors who are interested in supporting
-                        innovative projects and business ideas.
+                        is a dedicated platform designed to help businesses,
+                        event organizers, content creators, and startups connect
+                        with potential sponsors. Whether you're looking for
+                        financial backing, product sponsorship, or strategic
+                        partnerships, our platform makes it easy to find and
+                        secure the right sponsors for your needs.
                     </p>
                 </div>
                 {/* Service Card 3 */}
@@ -147,16 +125,18 @@ const Service = () => {
                         className="service-image"
                         alt="Project Start-Up"
                     />
-                    <h3 className="service-title">Project Start-Up</h3>
-                    <p className="service-description3">
+                    <h3 className="service-title">Investor</h3>
+                    <p className="service-description">
                         <span>
                             Jom<span>nouy</span>{" "}
                         </span>
-                        to help entrepreneurs and innovators launch their
-                        projects from the ground up. Whether you're developing a
-                        new product, starting a business, or creating an
-                        innovative service, we provide the tools, resources, and
-                        guidance you need to get started and succeed.
+                        is a dedicated platform designed to help entrepreneurs,
+                        startups, and growing businesses connect with potential
+                        investors who are looking for exciting opportunities.
+                        Whether you're seeking venture capital, angel investors,
+                        or private equity, our platform makes it easy to find
+                        the right investors who are interested in supporting
+                        innovative projects and business ideas.
                     </p>
                 </div>
             </div>
@@ -165,30 +145,28 @@ const Service = () => {
     );
 
     const About = () => (
-        <div className="about-section">
-       
-                <h2
-                    className="about-title"
-                    data-aos="fade-up"
-                    data-aos-duration="800"
-                >
-                    Who Uses Looking For Sponsor?
-                </h2>
-                <p
-                    className="about-text"
-                    data-aos="fade-up"
-                    data-aos-duration="1000"
-                >
-                    ជំនួយ-Jom<span>nouy</span> is a dynamic platform that
-                    connects entrepreneurs, startups, and auction organizers
-                    with potential investors and sponsors, helping them secure
-                    the funding and resources needed to grow and succeed.
-                    Whether you're launching a new business, organizing an
-                    auction, or looking for financial backing to scale your
-                    venture, our platform streamlines the process of finding the
-                    right partners.
-                </p>
-        
+        <div className="about-section" data-aos="fade-down" data-aos-duration="1000">
+            <h2
+                className="about-title"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+            >
+                Who Uses Looking For Sponsor?
+            </h2>
+            <p
+                className="about-text"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+            >
+               <span> ជំនួយ-Jomnouy</span> is a dynamic platform that connects
+                entrepreneurs, startups, and auction organizers with potential
+                investors and sponsors, helping them secure the funding and
+                resources needed to grow and succeed. Whether you're launching a
+                new business, organizing an auction, or looking for financial
+                backing to scale your venture, our platform streamlines the
+                process of finding the right partners.
+            </p>
+
             <div className="about-container">
                 {/* About cards */}
                 {[
@@ -215,16 +193,16 @@ const Service = () => {
                 ].map((card, index) => (
                     <div
                         key={index}
-                        className="about-card"
+                        className="about-card-service"
                         data-aos={index % 2 === 0 ? "flip-right" : "flip-left"}
                         data-aos-duration="1000"
                     >
                         <img
                             src={card.img}
-                            className="about-image"
+                            className="about-image-service"
                             alt={card.alt}
                         />
-                        <h3 className="about-card-title">{card.title}</h3>
+                        <h3 className="about-card-title-service">{card.title}</h3>
                     </div>
                 ))}
             </div>
@@ -251,9 +229,9 @@ const Service = () => {
                             images={[
                                 "https://img.freepik.com/free-photo/multiracial-group-young-creative-people-smart-casual-wear-discussing-business-brainstorming-meeting-ideas-mobile-application-software-design-project-modern-office_7861-3067.jpg?t=st=1741938246~exp=1741941846~hmac=c67a19b12913be863f457d9f98b4b8db193279ee196fbe6bc9b5d32e3450f404&w=1380",
                                 "https://img.freepik.com/free-photo/person-using-tablet_53876-13420.jpg?t=st=1741938449~exp=1741942049~hmac=48bb3f726e9928c0a1c186afbdcc1ac3290ee3b18069231f1adda8a383737c61&w=996",
-                                "/img/feature1-3.png",
-                                "",
-                            ]} 
+                                "https://img.freepik.com/free-vector/service-24-7-concept-illustration_114360-7380.jpg?t=st=1742802041~exp=1742805641~hmac=66f4a812c175522997a48f09669f4f5cf9b390fe77d3b79e57347c9522ec8069&w=826",
+                                "https://img.freepik.com/free-vector/service-24-7-concept-illustration_114360-7380.jpg?t=st=1742802041~exp=1742805641~hmac=66f4a812c175522997a48f09669f4f5cf9b390fe77d3b79e57347c9522ec8069&w=826",
+                            ]}
                         />
                     </div>
                     <div className="feature-content" data-aos="fade-up-left" data-aos-duration="1000">
@@ -324,10 +302,10 @@ const Service = () => {
                     <div className="feature-image-wrapper" data-aos="fade-up-left" data-aos-duration="1000">
                         <ImageSlider 
                             images={[
-                                "/img/feature4-1.png",
-                                "/img/feature4-2.png",
-                                "/img/feature4-3.png",
-                            ]} 
+                                "https://img.freepik.com/free-photo/people-with-icons-theme-security_53876-46861.jpg?t=st=1742802175~exp=1742805775~hmac=5b2e586a2df43ba50ca9e8d7622861f0dbcef21ff6e48f404b5093aa6d81f674&w=996",
+                                "https://img.freepik.com/free-photo/people-with-icons-theme-security_53876-46861.jpg?t=st=1742802175~exp=1742805775~hmac=5b2e586a2df43ba50ca9e8d7622861f0dbcef21ff6e48f404b5093aa6d81f674&w=996",
+                                "https://img.freepik.com/free-photo/people-with-icons-theme-security_53876-46861.jpg?t=st=1742802175~exp=1742805775~hmac=5b2e586a2df43ba50ca9e8d7622861f0dbcef21ff6e48f404b5093aa6d81f674&w=996",
+                            ]}
                         />
                     </div>
                 </div>
