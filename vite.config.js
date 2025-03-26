@@ -1,24 +1,40 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/js/app.jsx'],
-            require:('@tailwindcss/nesting'),
             refresh: true,
         }),
         react(),
     ],
+    css: {
+        postcss: {
+            plugins: [
+                tailwindcss,
+                autoprefixer,
+            ],
+        },
+    },
     server: {
-        proxy: {
-            // Proxy all requests to Laravel
-            '/': 'http://localhost:8000', 
-            //  // Adjust this URL if Laravel is running on a different port
+        host: true,
+        strictPort: true,
+        hmr: {
+            clientPort: 5173,
+            host: 'localhost',
+        },
+        watch: {
+            usePolling: true,
+            interval: 500, // decreased polling interval
         },
     },
     build: {
+        outDir: 'public/build',
+        manifest: true,
         rollupOptions: {
             output: {
                 manualChunks(id) {
@@ -29,5 +45,10 @@ export default defineConfig({
             }
         },
         chunkSizeWarningLimit: 5000,
+    },
+    resolve: {
+        alias: {
+            '@': '/resources/js',
+        },
     },
 });

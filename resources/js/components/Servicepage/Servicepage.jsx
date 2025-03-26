@@ -18,6 +18,7 @@ const Service = () => {
 
     const Hero = () => (
         <>
+           
             <div id="services" className="hero-service">
                 <img
                     src="/img/serviceimg.png"
@@ -165,27 +166,29 @@ const Service = () => {
 
     const About = () => (
         <div className="about-section">
-            <h2
-                className="about-title"
-                data-aos="fade-up"
-                data-aos-duration="800"
-            >
-                Who Uses Looking For Sponsor?
-            </h2>
-            <p
-                className="about-text"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-            >
-                ជំនួយ-Jom<span>nouy</span> is a dynamic platform that connects
-                entrepreneurs, startups, and auction organizers with potential
-                investors and sponsors, helping them secure the funding and
-                resources needed to grow and succeed. Whether you're launching a
-                new business, organizing an auction, or looking for financial
-                backing to scale your venture, our platform streamlines the
-                process of finding the right partners.
-            </p>
-
+       
+                <h2
+                    className="about-title"
+                    data-aos="fade-up"
+                    data-aos-duration="800"
+                >
+                    Who Uses Looking For Sponsor?
+                </h2>
+                <p
+                    className="about-text"
+                    data-aos="fade-up"
+                    data-aos-duration="1000"
+                >
+                    ជំនួយ-Jom<span>nouy</span> is a dynamic platform that
+                    connects entrepreneurs, startups, and auction organizers
+                    with potential investors and sponsors, helping them secure
+                    the funding and resources needed to grow and succeed.
+                    Whether you're launching a new business, organizing an
+                    auction, or looking for financial backing to scale your
+                    venture, our platform streamlines the process of finding the
+                    right partners.
+                </p>
+        
             <div className="about-container">
                 {/* About cards */}
                 {[
@@ -228,169 +231,127 @@ const Service = () => {
         </div>
     );
 
+
     const FeatureSection = () => {
         return (
             <div className="feature-section">
                 <hr className="feature-line" data-aos="fade-right" />
-                <h2
+                <h2 
                     className="feature-title"
                     data-aos="fade-up"
                     data-aos-duration="700"
                 >
                     Premium Features For Your Success
                 </h2>
-
+                
                 {/* Container 1 - Image on left */}
-                <div className="feature-container">
-                    <div
-                        className="feature-image-wrapper"
-                        data-aos="fade-up-right"
-                        data-aos-duration="1000"
-                    >
-                        <ImageSlider
+                <div className="feature-container" >
+                    <div className="feature-image-wrapper" data-aos="fade-up-right" data-aos-duration="1000">
+                        <ImageSlider 
                             images={[
                                 "https://img.freepik.com/free-photo/multiracial-group-young-creative-people-smart-casual-wear-discussing-business-brainstorming-meeting-ideas-mobile-application-software-design-project-modern-office_7861-3067.jpg?t=st=1741938246~exp=1741941846~hmac=c67a19b12913be863f457d9f98b4b8db193279ee196fbe6bc9b5d32e3450f404&w=1380",
                                 "https://img.freepik.com/free-photo/person-using-tablet_53876-13420.jpg?t=st=1741938449~exp=1741942049~hmac=48bb3f726e9928c0a1c186afbdcc1ac3290ee3b18069231f1adda8a383737c61&w=996",
                                 "/img/feature1-3.png",
                                 "",
-                            ]}
+                            ]} 
                         />
                     </div>
-                    <div
-                        className="feature-content"
-                        data-aos="fade-up-left"
-                        data-aos-duration="1000"
-                    >
-                        <h3 className="feature-content-title">
-                            Full Service Meets All Your Needs
-                        </h3>
+                    <div className="feature-content" data-aos="fade-up-left" data-aos-duration="1000">
+                        <h3 className="feature-content-title">Full Service Meets All Your Needs</h3>
                         <p className="feature-content-text">
-                            In addition to the luxurious platform, Jomnouy also
-                            provides you the attentive and thoughtful service
-                            including expert guidance, 24-hr support, business
-                            matchmaking, and more.
+                            In addition to the luxurious platform, Jomnouy also provides
+                            you the attentive and thoughtful service including expert
+                            guidance, 24-hr support, business matchmaking, and more.
                         </p>
                     </div>
                 </div>
-
+                
                 {/* Container 2 - Image on right */}
-                <div className="feature-container reverse">
-                    <div
-                        className="feature-content"
-                        data-aos="fade-up-right"
-                        data-aos-duration="1000"
-                    >
-                        <h3 className="feature-content-title">
-                            Seamless Connection Experience
-                        </h3>
+                <div  className="feature-container reverse">
+                    <div className="feature-content" data-aos="fade-up-right" data-aos-duration="1000">
+                        <h3 className="feature-content-title">Seamless Connection Experience</h3>
                         <p className="feature-content-text">
-                            Our platform ensures entrepreneurs and investors can
-                            connect effortlessly with advanced matching
-                            algorithms, secure messaging, and comprehensive
-                            profile management to help you find the perfect
-                            partnership opportunities.
+                            Our platform ensures entrepreneurs and investors can connect
+                            effortlessly with advanced matching algorithms, secure messaging,
+                            and comprehensive profile management to help you find the
+                            perfect partnership opportunities.
                         </p>
                     </div>
-                    <div
-                        className="feature-image-wrapper"
-                        data-aos="fade-up-left"
-                        data-aos-duration="1000"
-                    >
-                        <ImageSlider
+                    <div className="feature-image-wrapper" data-aos="fade-up-left" data-aos-duration="1000">
+                        <ImageSlider 
                             images={[
                                 "https://img.freepik.com/free-photo/man-with-his-mobile-phone-working-network-connection_1134-50.jpg?t=st=1741941556~exp=1741945156~hmac=84e889d9910cd3c232df25713fff93d841fca30a5150a8b4cbbe0d219b84761b&w=996",
                                 "https://img.freepik.com/free-photo/security-system-locks-data-computer-safety-generated-by-ai_188544-26239.jpg?t=st=1741941595~exp=1741945195~hmac=250fa675f2f19f4985c22cfb3714113ef7829e66b2fae66f4e68ca9935308807&w=1060",
                                 "https://img.freepik.com/free-photo/female-scientist-white_53876-89029.jpg?t=st=1741941610~exp=1741945210~hmac=62cc968c62f08e9212a561308895b519447f2f35ab330f4235757c7ff2399da0&w=900",
-                            ]}
+                            ]} 
                         />
                     </div>
                 </div>
-
+                
                 {/* Container 3 - Image on left */}
-                <div className="feature-container">
-                    <div
-                        className="feature-image-wrapper"
-                        data-aos="fade-up-right"
-                        data-aos-duration="1000"
-                    >
-                        <ImageSlider
+                <div className="feature-container" >
+                    <div className="feature-image-wrapper" data-aos="fade-up-right" data-aos-duration="1000">
+                        <ImageSlider 
                             images={[
                                 "https://img.freepik.com/free-photo/hand-workplace-working-analysis-note_1150-1686.jpg?t=st=1741941428~exp=1741945028~hmac=1d7feab4ac811d40024bfcfa5f2735c8797eb35d2cf50be8b1f47103445e2890&w=900",
                                 "https://img.freepik.com/free-photo/businesswoman-having-online-conference-office_1098-20005.jpg?t=st=1741941458~exp=1741945058~hmac=254a0f33cfe9bfe7263505a12cc09d86f1755643dd2adfbe73000f473deb9270&w=996",
                                 "https://img.freepik.com/free-photo/financial-graph-stock-market-tablet_53876-95807.jpg?t=st=1741941509~exp=1741945109~hmac=ad20937805987ad67f7856aa5026928642f4344d5afee300e0c4066d94951a6a&w=996",
-                            ]}
+                            ]} 
                         />
                     </div>
-                    <div
-                        className="feature-content"
-                        data-aos="fade-up-left"
-                        data-aos-duration="1000"
-                    >
-                        <h3 className="feature-content-title">
-                            Growth Analytics & Reporting
-                        </h3>
+                    <div className="feature-content" data-aos="fade-up-left" data-aos-duration="1000">
+                        <h3 className="feature-content-title">Growth Analytics & Reporting</h3>
                         <p className="feature-content-text">
-                            Track your progress with our comprehensive analytics
-                            suite. Monitor engagement metrics, investment
-                            opportunities, and partnership results with detailed
-                            reports designed to help you optimize your
-                            strategies for maximum success.
+                            Track your progress with our comprehensive analytics suite.
+                            Monitor engagement metrics, investment opportunities, and 
+                            partnership results with detailed reports designed to help
+                            you optimize your strategies for maximum success.
                         </p>
                     </div>
                 </div>
-
+                
                 {/* Container 4 - Image on right */}
-                <div className="feature-container reverse">
-                    <div
-                        className="feature-content"
-                        data-aos="fade-up-right"
-                        data-aos-duration="1000"
-                    >
-                        <h3 className="feature-content-title">
-                            Secure & Trusted Partnerships
-                        </h3>
+                <div className="feature-container reverse" >
+                    <div className="feature-content" data-aos="fade-up-right" data-aos-duration="1000">
+                        <h3 className="feature-content-title">Secure & Trusted Partnerships</h3>
                         <p className="feature-content-text">
-                            We prioritize security and trust in every
-                            interaction. Our verification system ensures all
-                            participants are legitimate, while our secure
-                            communication channels protect your sensitive
-                            information throughout the sponsorship and
-                            investment process.
+                            We prioritize security and trust in every interaction. Our
+                            verification system ensures all participants are legitimate,
+                            while our secure communication channels protect your sensitive
+                            information throughout the sponsorship and investment process.
                         </p>
                     </div>
-                    <div
-                        className="feature-image-wrapper"
-                        data-aos="fade-up-left"
-                        data-aos-duration="1000"
-                    >
-                        <ImageSlider
+                    <div className="feature-image-wrapper" data-aos="fade-up-left" data-aos-duration="1000">
+                        <ImageSlider 
                             images={[
                                 "/img/feature4-1.png",
                                 "/img/feature4-2.png",
                                 "/img/feature4-3.png",
-                            ]}
+                            ]} 
                         />
                     </div>
                 </div>
+                
+                <hr className="feature-line" data-aos="fade-left" />
             </div>
         );
     };
-
+    
     // ImageSlider component for auto-animating images
     const ImageSlider = ({ images }) => {
         const [currentIndex, setCurrentIndex] = useState(0);
-
+        
         useEffect(() => {
             // Auto-rotate images every 3 seconds
             const interval = setInterval(() => {
-                setCurrentIndex((prevIndex) =>
+                setCurrentIndex((prevIndex) => 
                     prevIndex === images.length - 1 ? 0 : prevIndex + 1
                 );
             }, 3000);
-
+            
             return () => clearInterval(interval);
         }, [images.length]);
-
+        
         return (
             <div className="image-slider">
                 {images.map((image, index) => (
@@ -398,18 +359,14 @@ const Service = () => {
                         key={index}
                         src={image}
                         alt={`Feature slide ${index + 1}`}
-                        className={`slider-image ${
-                            index === currentIndex ? "active" : ""
-                        }`}
+                        className={`slider-image ${index === currentIndex ? "active" : ""}`}
                     />
                 ))}
                 <div className="slider-dots">
                     {images.map((_, index) => (
-                        <span
-                            key={index}
-                            className={`slider-dot ${
-                                index === currentIndex ? "active" : ""
-                            }`}
+                        <span 
+                            key={index} 
+                            className={`slider-dot ${index === currentIndex ? "active" : ""}`}
                             onClick={() => setCurrentIndex(index)}
                         />
                     ))}

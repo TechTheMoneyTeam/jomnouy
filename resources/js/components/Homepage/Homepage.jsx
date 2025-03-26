@@ -11,8 +11,6 @@ import Service from "../Servicepage/Servicepage";
 import Header from "../Header_landingpage/header_landing";
 
 const Home = () => {
-    const [language, setLanguage] = useState("en");
-
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
     }, []);

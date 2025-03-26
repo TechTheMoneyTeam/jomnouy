@@ -2,19 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    html, body {
+        @apply overflow-x-hidden; /* Prevent horizontal scrolling */
+        margin: 0; /* Remove default margins */
+        padding: 0; /* Remove default padding */
+    }
+}
+
 .nav-wrapper {
     @apply flex  items-center justify-center ; /* Centers the navbar initially */
 }
 
 .nav-container {
-    @apply fixed top-0 bg-white rounded-lg shadow-lg flex gap-4 justify-between 
-    items-center z-20 max-w-screen-xl mx-auto px-10 py-4 mt-2;
-}
-.nav-container.Scrolled {
-    @apply mt-0 shadow-md; 
+    @apply fixed top-2 bg-white rounded-lg shadow-lg flex gap-4 justify-between 
+    items-center z-20 max-w-screen-xl mx-auto px-10 py-4 transition-all duration-300 ease-in-out;
 }
 .logo {
-    @apply relative font-bold text-black pr-4 ;
+    @apply relative text-2xl font-bold text-black pr-4 ;
  /* Tailwind's utility for bottom positioning */
     text-decoration: none;
 }
@@ -23,7 +28,7 @@
 }
 
 .nav-links {
-    @apply flex items-center space-x-10 cursor-pointer;
+    @apply flex items-center space-x-6 cursor-pointer; /* Reduce space-x-10 to space-x-6 */
     text-decoration: none;
 }
 
@@ -47,7 +52,7 @@
 }
 
 .button-group {
-    @apply flex space-x-4 items-center;
+    @apply flex space-x-3 items-center; /* Reduce space-x-4 to space-x-3 */
 }
 
 button {
@@ -106,5 +111,9 @@ button {
 
 .login-button1:hover {
     @apply border-custom-orange;
+}
+
+body {
+    @apply overflow-hidden;
 }
 

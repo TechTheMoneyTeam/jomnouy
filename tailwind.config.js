@@ -1,32 +1,27 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+import nesting from '@tailwindcss/nesting';
 
-/** @type {import('tailwindcss').Config} */
+/ @type {import('tailwindcss').Config} */
 export default {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
+        './resources//*.blade.php',
+        './resources//*.js',
+        './resources//*.jsx',
         './resources/**/*.vue',
     ],
-    darkMode: 'class', // or 'media' or 'class'
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Montserrat', ...defaultTheme.fontFamily.serif],
-                primary: ['Montserrat',...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-     
                 'custom-orange': '#F07900',
-        
-            
             },
         },
     },
-    plugins: [
-        require('@tailwindcss/forms'),
-        require('@tailwindcss/nesting'),
-        require('@tailwindcss/line-clamp'), // Added line-clamp plugin
-    ],
+
+    plugins: [forms, nesting],
 };
