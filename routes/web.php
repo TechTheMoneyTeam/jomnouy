@@ -70,6 +70,7 @@ Route::get('/category/{categoryName}', function () {
 })->where('categoryName', '[^/]+');  // Match any category name
 
 
+
  
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/projects/{id}', function () {
@@ -175,4 +176,5 @@ Route::post('/api/reset-password', [PasswordResetController::class, 'resetPasswo
 
 Route::post('/api/signup', [UserController::class, 'signup']);
 Route::post('/api/login', [UserController::class, 'login']);
-;
+
+Route::get('/api/search', [ProjectController::class, 'search']);

@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import './Navbar.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DropdownMenu from './Projectdropdown';
-import { ChevronRight, Search } from 'lucide-react';
+import { ChevronRight, Search, X } from 'lucide-react';
+import axios from 'axios';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -10,7 +11,11 @@ const Navbar = () => {
     const [username, setUsername] = useState('');
     const [userType, setUserType] = useState('');
     const [activeTab, setActiveTab] = useState('All');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
     const ref = useRef(null);
+    const searchRef = useRef(null);
 
     const categories = [
         'All', 'Technology', 'Art', 'Design', 'Film', 'Music', 'Publishing',
@@ -18,7 +23,7 @@ const Navbar = () => {
         'Illustration', 'Theater', 'Education', 'Health', 'Environment'
     ];
 
-    // Scroll right function
+  
     const scrollRight = () => {
         if (ref.current) {
             ref.current.scrollBy({
@@ -27,9 +32,10 @@ const Navbar = () => {
             });
         }
     };
+
+  
     const handleCategoryClick = (category) => {
         setActiveTab(category);
-
         localStorage.setItem('activeCategory', category);
 
         if (category === 'All') {
@@ -38,20 +44,98 @@ const Navbar = () => {
             navigate(`/category/${category.toLowerCase()}`);
         }
     };
-    useEffect(() => {
-        const path = location.pathname;
 
-        // Check if we're on the "All" category page
+    
+    const performSearch = async (query) => {
+        if (!query) {
+            setSearchResults([]);
+            return;
+        }
+
+        try {
+            // Fetch search results from backend
+            const response = await axios.get('/api/search', {
+                params: { query: query.toLowerCase() }
+            });
+
+            const results = response.data;
+            setSearchResults(results);
+        } catch (error) {
+            console.error('Search error:', error);
+
+            // Fallback local search if API fails
+            const localResults = [
+
+                ...categories
+                    .filter(cat => cat.toLowerCase().includes(query.toLowerCase()))
+                    .map(cat => ({ type: 'Category', name: cat })),
+
+
+            ];
+
+            setSearchResults(localResults);
+        }
+    };
+
+   
+    const debouncedSearch = React.useCallback(
+        debounce((query) => performSearch(query), 300),
+        []
+    );
+
+    
+    const handleSearchChange = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        debouncedSearch(query);
+    };
+
+   
+    const handleSearchResultClick = (result) => {
+        if (result.type === 'Category') {
+            if (result.name === 'All') {
+                navigate('/projectlist1');
+            } else {
+                navigate(`/category/${result.name.toLowerCase()}`);
+            }
+        } else if (result.type === 'Project') {
+            navigate(`/projects/${result.id}`);
+        }
+
+     
+        setSearchQuery('');
+        setSearchResults([]);
+    };
+
+   
+    const clearSearch = () => {
+        setSearchQuery('');
+        setSearchResults([]);
+    };
+
+  
+    useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                setUsername(user.username || 'Guest');
+                setUserType(user.user_type);
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+            }
+        }
+
+      
+        const path = location.pathname;
         if (path === '/projectlist1') {
             setActiveTab('All');
             localStorage.setItem('activeCategory', 'All');
             return;
         }
 
-        // Check if we're on a specific category page
         if (path.startsWith('/category/')) {
             const urlCategory = path.split('/')[2];
-            // Find the matching category (case-insensitive)
             const matchedCategory = categories.find(
                 cat => cat.toLowerCase() === urlCategory
             );
@@ -63,7 +147,6 @@ const Navbar = () => {
             }
         }
 
-        // If neither of the above, fallback to localStorage
         const savedCategory = localStorage.getItem('activeCategory');
         if (savedCategory && categories.includes(savedCategory)) {
             setActiveTab(savedCategory);
@@ -73,26 +156,12 @@ const Navbar = () => {
         }
     }, [location.pathname, categories]);
 
-    // Load user data
-    useEffect(() => {
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            try {
-                const user = JSON.parse(userData);
-                setUsername(user.username || 'Guest'); 
-                setUserType(user.user_type);
-            } catch (error) {
-                console.error("Error parsing user data:", error);
-            }
-        }
-    }, []);
-
-    // Function to render create project button conditionally
+   
     const renderCreateProjectButton = () => {
         if (userType === 'investor') {
             return (
-                <button 
-                    className="create-btn opacity-50 cursor-not-allowed" 
+                <button
+                    className="create-btn opacity-50 cursor-not-allowed"
                     disabled={true}
                     title="Investors cannot create projects"
                 >
@@ -110,8 +179,20 @@ const Navbar = () => {
         }
     };
 
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
     return (
-        <div className='mx-auto max-w-7xl m-12'>
+        <div className='mx-auto max-w-7xl m-12 relative'>
             <nav className="max-w-screen-xl mx-auto flex items-center justify-between">
                 <Link to="/" onClick={() => {
                     setActiveTab('All');
@@ -124,16 +205,46 @@ const Navbar = () => {
                         </span>
                     </div>
                 </Link>
+
                 <div className="relative w-1/3">
-                    <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none ">
                         <Search className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                         type="text"
-                        placeholder="Search project, creator, and categories"
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        onFocus={() => setIsSearchFocused(true)}
+                        onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                        placeholder="Search project and categories"
+                        className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
+                    {searchQuery && (
+                        <button
+                            onClick={clearSearch}
+                            className="absolute inset-y-0 right-3 flex items-center"
+                        >
+                            <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        </button>
+                    )}
+
+                    {/* Search Results Dropdown */}
+                    {(isSearchFocused && searchResults.length > 0) && (
+                        <div className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-64 overflow-y-auto z-50">
+                            {searchResults.map((result, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => handleSearchResultClick(result)}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center z-50"
+                                >
+                                    <span>{result.name}</span>
+                                    <span className="text-xs text-gray-500">{result.type}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
+
                 <div className="flex items-center space-x-4">
                     {renderCreateProjectButton()}
                     <div className="profile flex items-center gap-4 cursor-pointer z-[9999]">
@@ -141,8 +252,9 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
+
             <div className="flex items-center pt-4">
-                <div className="cate-bar flex-1 overflow-x-auto scrollbar-hide" ref={ref}>
+                <div className="cate-bar flex-1 overflow-x-auto scrollbar-hide z-40" ref={ref}>
                     {categories.map((category) => (
                         <button
                             key={category}
