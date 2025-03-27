@@ -66,27 +66,27 @@ class ProjectController extends Controller
             }
 
             $validatedData = $validator->validated();
-            
+
             // Verify user exists
             $user = User::where('user_id', $validatedData['user_id'])->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
                 ], 404);
             }
-            
+
             // Find the next available project_id between 1 and 1064
             $projectId = null;
             $existingIds = Project::pluck('project_id')->toArray();
-            
+
             for ($i = 1; $i <= 1064; $i++) {
                 if (!in_array($i, $existingIds)) {
                     $projectId = $i;
                     break;
                 }
             }
-            
+
             // Check if we found an available ID
             if ($projectId === null) {
                 throw new \Exception('No available project IDs remaining');
@@ -100,7 +100,7 @@ class ProjectController extends Controller
                 } else {
                     $equityTiers = $request->equity_tiers;
                 }
-                
+
                 // Validate each tier has required properties
                 foreach ($equityTiers as $index => $tier) {
                     if (!isset($tier['amount']) || !isset($tier['equity_percentage'])) {
@@ -109,14 +109,14 @@ class ProjectController extends Controller
                             'errors' => ['equity_tiers' => ["Tier {$index} is missing required properties"]]
                         ], 422);
                     }
-                    
+
                     // Calculate percentage of total based on funding goal
                     if ($request->funding_goal > 0) {
-                        $equityTiers[$index]['percentage_of_total'] = 
+                        $equityTiers[$index]['percentage_of_total'] =
                             round(($tier['amount'] / $request->funding_goal) * 100, 2);
                     }
                 }
-                
+
                 // Re-encode as JSON for storage
                 $equityTiers = json_encode($equityTiers);
             }
@@ -186,20 +186,20 @@ class ProjectController extends Controller
     {
         try {
             $project = Project::with('user')->find($id);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             return response()->json($project, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch project: ' . $e->getMessage()], 500);
         }
     }
 
-public function getFilteredProjects(Request $request)
+    public function getFilteredProjects(Request $request)
     {
         try {
             // Start building the query
@@ -232,7 +232,7 @@ public function getFilteredProjects(Request $request)
             ], 500);
         }
     }
-public function getProjectsByCategory($category)
+    public function getProjectsByCategory($category)
     {
         $projects = Project::where('categories', $category)->get(); // Use the correct column name
 
@@ -251,13 +251,13 @@ public function getProjectsByCategory($category)
     {
         try {
             $project = Project::find($id);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'title' => 'nullable|string|max:100',
@@ -289,17 +289,17 @@ public function getProjectsByCategory($category)
                     'errors' => $validator->errors()
                 ], 422);
             }
-            
+
             // Process equity tiers if provided
             if ($request->has('equity_tiers') && !empty($request->equity_tiers)) {
                 $equityTiers = null;
-                
+
                 if (is_string($request->equity_tiers)) {
                     $equityTiers = json_decode($request->equity_tiers, true);
                 } else {
                     $equityTiers = $request->equity_tiers;
                 }
-                
+
                 // Validate each tier has required properties
                 foreach ($equityTiers as $index => $tier) {
                     if (!isset($tier['amount']) || !isset($tier['equity_percentage'])) {
@@ -308,41 +308,53 @@ public function getProjectsByCategory($category)
                             'errors' => ['equity_tiers' => ["Tier {$index} is missing required properties"]]
                         ], 422);
                     }
-                    
+
                     // Calculate percentage of total based on funding goal
                     if ($request->funding_goal > 0) {
-                        $equityTiers[$index]['percentage_of_total'] = 
+                        $equityTiers[$index]['percentage_of_total'] =
                             round(($tier['amount'] / $request->funding_goal) * 100, 2);
                     }
                 }
-                
+
                 // Re-encode as JSON for storage
                 $project->equity_tiers = json_encode($equityTiers);
             }
-            
+
             // Update fields if provided
             $fieldList = [
-                'title', 'funding_goal', 'project_type', 'project_des', 'project_story',
-                'reserve_price', 'categories', 'member_name', 'member_position',
-                'project_location', 'status', 'auction_start_date', 'auction_end_date',
+                'title',
+                'funding_goal',
+                'project_type',
+                'project_des',
+                'project_story',
+                'reserve_price',
+                'categories',
+                'member_name',
+                'member_position',
+                'project_location',
+                'status',
+                'auction_start_date',
+                'auction_end_date',
                 // Equity fields
-                'equity_offered', 'return_1_5_years', 
-                'return_5_10_years', 'return_10_plus_years'
+                'equity_offered',
+                'return_1_5_years',
+                'return_5_10_years',
+                'return_10_plus_years'
             ];
-            
+
             foreach ($fieldList as $field) {
                 if ($request->has($field)) {
                     $project->{$field} = $request->{$field};
                 }
             }
-            
+
             // Handle project image upload
             if ($request->hasFile('project_img')) {
                 // Delete old image if exists
                 if ($project->project_img) {
                     Storage::disk('public')->delete($project->project_img);
                 }
-                
+
                 $imagePath = $request->file('project_img')->store('project_images', 'public');
                 $project->project_img = $imagePath;
             }
@@ -353,22 +365,22 @@ public function getProjectsByCategory($category)
                 if ($project->project_video) {
                     Storage::disk('public')->delete($project->project_video);
                 }
-                
+
                 $videoPath = $request->file('project_video')->store('project_videos', 'public');
                 $project->project_video = $videoPath;
             }
-            
+
             $project->updated_at = now();
             $project->save();
-            
+
             // Load the user relationship
             $project->load('user');
-            
+
             return response()->json([
                 'message' => 'Project updated successfully',
                 'project' => $project
             ], 200);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project update failed',
@@ -384,29 +396,29 @@ public function getProjectsByCategory($category)
     {
         try {
             $project = Project::find($id);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             // Delete associated files
             if ($project->project_img) {
                 Storage::disk('public')->delete($project->project_img);
             }
-            
+
             if ($project->project_video) {
                 Storage::disk('public')->delete($project->project_video);
             }
-            
+
             // Delete the project
             $project->delete();
-            
+
             return response()->json([
                 'message' => 'Project deleted successfully'
             ], 200);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project deletion failed',
@@ -423,10 +435,10 @@ public function getProjectsByCategory($category)
         try {
             // Fetch projects by type
             $projects = Project::where('project_type', $type)
-                         ->with('user')
-                         ->orderBy('created_at', 'desc')
-                         ->get();
-            
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
             return response()->json($projects, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch projects by type: ' . $e->getMessage()], 500);
@@ -441,7 +453,7 @@ public function getProjectsByCategory($category)
         try {
             // Verify user exists
             $user = User::where('user_id', $userId)->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
@@ -449,9 +461,9 @@ public function getProjectsByCategory($category)
             }
 
             $projects = Project::where('user_id', $userId)
-                             ->with('user')
-                             ->orderBy('created_at', 'desc')
-                             ->get();
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             return response()->json([
                 'projects' => $projects
@@ -465,18 +477,16 @@ public function getProjectsByCategory($category)
         }
     }
 
-    /**
-     * Search projects by name.
-     */
+
     public function search(Request $request)
     {
         $query = $request->input('query');
 
-        // Search projects by title
+
         $projects = Project::where('title', 'LIKE', "%{$query}%")
             ->get(['project_id as id', 'title as name', 'categories']);
 
-        // Search categories
+
         $categories = Project::where('categories', 'LIKE', "%{$query}%")
             ->distinct()
             ->pluck('categories')
@@ -484,7 +494,7 @@ public function getProjectsByCategory($category)
                 return ['type' => 'Category', 'name' => $category];
             });
 
-        // Combine results
+
         $results = $projects->map(function ($project) {
             return [
                 'type' => 'Project',

@@ -574,42 +574,49 @@ const InvestmentApprovalDashboard = () => {
                     </td>
                     <td className={styles.tableCell}>
                       <div className={styles.actionButtons}>
-                        <button
-                          onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
-                          disabled={investment.status === 'approved'}
-                          className={`
-                            ${styles.actionButton}
-                            ${styles.approveButton}
-                            ${investment.status === 'approved' ? styles.buttonDisabled : ''}
-                          `}
-                          title="Approve"
-                        >
-                          <Check size={16} />
-                        </button>
-                        <button
-                          onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
-                          disabled={investment.status === 'rejected'}
-                          className={`
-                            ${styles.actionButton}
-                            ${styles.rejectButton}
-                            ${investment.status === 'rejected' ? styles.buttonDisabled : ''}
-                          `}
-                          title="Reject"
-                        >
-                          <X size={16} />
-                        </button>
-                        <button
-                          onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
-                          disabled={investment.status === 'completed' || investment.status === 'rejected'}
-                          className={`
-                            ${styles.actionButton}
-                            ${styles.completeButton}
-                            ${investment.status === 'completed' || investment.status === 'rejected' ? styles.buttonDisabled : ''}
-                          `}
-                          title="Complete"
-                        >
-                          <Award size={16} />
-                        </button>
+                        {investment.status === 'completed' ? (
+                          <span className={styles.completeText}>Complete</span>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
+                              disabled={investment.status === 'approved'}
+                              className={`
+                                ${styles.actionButton}
+                                ${styles.approveButton}
+                                ${investment.status === 'approved' ? styles.buttonDisabled : ''}
+                              `}
+                              title="Approve"
+                            >
+                              <Check size={16} />
+                            </button>
+                            <button
+                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
+                              disabled={investment.status === 'rejected'}
+                              className={`
+                                ${styles.actionButton}
+                                ${styles.rejectButton}
+                                ${investment.status === 'rejected' ? styles.buttonDisabled : ''}
+                              `}
+                              title="Reject"
+                            >
+                              <X size={16} />
+                            </button>
+                            <button
+                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
+                              disabled={investment.status === 'completed' || investment.status === 'rejected'}
+                              className={`
+                                ${styles.actionButton}
+                                ${styles.completeButton}
+                                ${investment.status === 'completed' ? styles.buttonBright : ''}
+                                ${investment.status === 'completed' || investment.status === 'rejected' ? styles.buttonDisabled : ''}
+                              `}
+                              title="Complete"
+                            >
+                              <Award size={16} />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>

@@ -154,6 +154,12 @@
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(240, 121, 0, 0.2);
   }
+  .buttonBright {
+    background-color: #007bff; /* Brighter blue */
+    color: #fff;
+    border: 1px solid #0056b3;
+  }
+  
   
   .refreshButton {
     display: flex;
@@ -439,13 +445,8 @@
   }
   
   .buttonDisabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .buttonDisabled:hover {
-    transform: none;
-    box-shadow: none;
+    opacity: 0.5; /* Makes the button appear lighter */
+    pointer-events: none; /* Ensures the button is not clickable */
   }
   
   .emptyState {
@@ -530,4 +531,11 @@
       transform: none;
       box-shadow: none;
     }
+  }
+
+  .completeText {
+    color: var(--info); /* Blue color */
+    font-weight: bold;
+    font-size: 0.875rem;
+    text-transform: uppercase;
   }

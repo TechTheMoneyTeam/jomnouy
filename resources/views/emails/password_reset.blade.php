@@ -29,7 +29,7 @@
             font-size: 16px;
         }
         p {
-            color: #333;
+            color: #000000;
         }
         .logo {
             font-family: Arial, sans-serif;
