@@ -1,248 +1,531 @@
+/* Main container and layout styles */
 .container {
-    max-width: 1200px;
-    margin:20px 200px 0px 200px;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.welcomeText {
+  font-size: 1.125rem;
+  color: #555;
+}
+
+.username {
+  font-weight: 700;
+  color: #F07900;
+}
+
+/* Project grid and cards */
+.projectsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+.highlight {
+  color: #F07900;
+  font-weight: 700;
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.75rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(240, 121, 0, 0.15);
+}
+
+.cardHeader {
+  position: relative;
+}
+
+.projectImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+/* Project info and styling */
+.projectTitleRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #F07900;
+  margin-right: 0.75rem;
+}
+
+.projectTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projectType {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(240, 121, 0, 0.1);
+  color: #F07900;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+.projectDescription {
+  color: #555;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  height: 58px;
+  overflow: hidden;
+}
+
+/* Status badges */
+.statusBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.statusActive {
+  background-color: #10b981;
+  color: white;
+}
+
+.statusFunding {
+  background-color: #F07900;
+  color: white;
+}
+
+.statusCompleted {
+  background-color: #6366f1;
+  color: white;
+}
+
+.statusDraft {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.statusPending {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.statusDefault {
+  background-color: #6b7280;
+  color: white;
+}
+
+/* Funding progress */
+.fundingProgress {
+  margin-bottom: 1.25rem;
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.progressBar {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #F07900, #FF9B3D);
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
+}
+
+/* Stats row */
+.statsRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.statIcon {
+  color: #F07900;
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Action buttons */
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Base button styles */
+.viewButton, .editButton, .deleteButton {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem; /* Reduce padding */
+  border-radius: 4px; /* Adjust border radius */
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  height: auto;
+  aspect-ratio: 1.5/1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual button styles */
+.viewButton {
+  background-color: #F07900;
+}
+
+.viewButton:hover {
+  background-color: #D76E00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(240, 121, 0, 0.3);
+}
+
+.editButton {
+  background-color: #34a853;
+}
+
+.editButton:hover {
+  background-color: #2d9044;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 168, 83, 0.3);
+}
+
+.deleteButton {
+  background-color: #ea4335;
+}
+
+.deleteButton:hover {
+  background-color: #d33426;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(234, 67, 53, 0.3);
+}
+
+.deleteButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Icon sizing */
+.viewButton svg, .editButton svg, .deleteButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Add tooltips (optional) */
+[title] {
+  position: relative;
+}
+
+[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 10;
+}
+/* New enhanced investmentButton (Dashboard button) */
+.investmentButton {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #F07900, #FF9B3D);
+  color: white;
+  box-shadow: 0 4px 12px rgba(240, 121, 0, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.investmentButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
+}
+
+.investmentButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(240, 121, 0, 0.4);
+}
+
+.investmentButton:hover::before {
+  left: 100%;
+}
+
+.investmentButton h1 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Empty state and loading */
+.noProjects {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+}
+
+.emptyStateIcon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background-color: rgba(240, 121, 0, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #F07900;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Create button */
+.createButton {
+  background-color: #F07900;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.createButton:hover {
+  background-color: #D76E00;
+}
+
+/* Error state */
+.error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.retryButton {
+  background-color: #b91c1c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.retryButton:hover {
+  background-color: #991b1b;
+}
+
+/* Login state */
+.notLoggedIn {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 500px;
+  margin: 3rem auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.loginButton {
+  background-color: #F07900;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1.5rem;
+}
+
+.loginButton:hover {
+  background-color: #D76E00;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .projectGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
   
   .header {
-    margin-bottom: 30px;
-  }
-  
-  .title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .welcomeText {
-    color: #666;
-    font-size: 1.1rem;
-    margin: 0;
-  }
-  
-  .projectsContainer {
-    margin-top: 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
   
   .projectsHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
   
-  .sectionTitle {
-    font-size: 1.2rem;
-    font-weight: 600;
+  .actionButtons {
+    flex-wrap: wrap;
   }
-  
-  .highlight {
-    color: #F07900;
-  }
-  
-  .spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 107, 53, 0.3);
-    border-top: 2px solid #F07900;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  .largeSpinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255, 107, 53, 0.3);
-    border-top: 4px solid #F07900;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
+}
+
+@media (max-width: 480px) {
   .projectGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: 1fr;
   }
   
-  .card {
-    background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .projectImage {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-  
-  .cardContent {
-    padding: 16px;
-  }
-  
-  .projectTitleRow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  
-  .avatar {
-    width: 24px;
-    height: 24px;
-    background-color: #ddd;
-    border-radius: 50%;
-  }
-  
-  .projectTitle {
-    font-weight: 600;
-  }
-  
-  .projectType {
-    font-size: 0.875rem;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .projectStats {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.875rem;
-    color: #666;
-  }
-  
-  .dot {
-    color: #666;
-  }
-  
-  .loadingContainer {
-    display: flex;
+  .statsRow {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    gap: 16px;
+    gap: 1rem;
   }
   
-  .noProjects {
-    text-align: center;
-    padding: 60px 20px;
-    background-color: #f9fafb;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  .stat {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
   }
-  
-  .noProjects p {
-    font-size: 1.1rem;
-    color: #666;
-    margin: 0;
-  }
-  
-  .createButton {
-    background-color: #F07900;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .createButton:hover {
-    background-color: #e85a2a;
-  }
-  
-  .error {
-    background-color: #fee2e2;
-    color: #b91c1c;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .retryButton {
-    background-color: #b91c1c;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  .notLoggedIn {
-    max-width: 500px;
-    margin: 100px auto;
-    text-align: center;
-    padding: 40px;
-    background-color: #f9fafb;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .notLoggedIn h2 {
-    margin-top: 0;
-    color: #374151;
-    margin-bottom: 24px;
-  }
-  
-  .loginButton {
-    background-color: #F07900;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .loginButton:hover {
-    background-color: #e85a2a;
-  }
-  .userIdText {
-    color: #777;
-    font-size: 0.9rem;
-    margin-top: 5px;
-  }
-  
-  .projectInfo {
-    font-size: 0.7rem;
-    color: #888;
-    margin: 5px 0;
-    border-top: 1px solid #eee;
-    padding-top: 5px;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .projectGrid {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .projectGrid {
-      grid-template-columns: 1fr;
-    }
-  }
+}

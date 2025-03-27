@@ -1,0 +1,302 @@
+/* aba-payment.module.css */
+
+:root {
+  --aba-red: #ed1c24;
+  --aba-dark-red: #c8151c;
+  --aba-blue: #003b5c;
+  --aba-deep-blue: #002d45;
+  --aba-gray: #f5f5f5;
+  --aba-dark-gray: #646464;
+  --aba-black: #2b2b2b;
+  --aba-white: #ffffff;
+  --aba-border-radius: 8px;
+  --aba-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.abaPaymentContainer {
+  max-width: 480px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, var(--aba-blue), var(--aba-deep-blue));
+  color: var(--aba-white);
+  border-radius: var(--aba-border-radius);
+  box-shadow: var(--aba-box-shadow);
+  overflow: hidden;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+}
+
+.abaHeader {
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+.abaSup {
+  color: red;
+}
+
+.abaBackButton {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--aba-white);
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.abaLogo {
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.abaTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 0;
+  color: var(--aba-white);
+}
+
+.abaContent {
+  padding: 24px;
+}
+
+.abaWelcomeSection {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.abaWelcomeTitle {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.abaWelcomeText {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.abaAmountSection {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.abaAmountLabel {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+}
+
+.abaAmount {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--aba-white);
+}
+
+.abaFormContainer {
+  background-color: var(--aba-white);
+  border-radius: var(--aba-border-radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.abaFormGroup {
+  margin-bottom: 20px;
+}
+
+.abaLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--aba-black);
+  margin-bottom: 8px;
+}
+
+.abaInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--aba-border-radius);
+  font-size: 16px;
+  transition: all 0.2s ease;
+  color: var(--aba-black);
+  background-color: var(--aba-white);
+}
+
+.abaInput:focus {
+  outline: none;
+  border-color: var(--aba-red);
+  box-shadow: 0 0 0 2px rgba(237, 28, 36, 0.2);
+}
+
+.abaInputGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.abaButton {
+  width: 100%;
+  background-color: var(--aba-red);
+  color: var(--aba-white);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px;
+  border: none;
+  border-radius: var(--aba-border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.abaButton:hover {
+  background-color: var(--aba-dark-red);
+}
+
+.abaButton:disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.abaSecurityText {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.abaSecurityText svg {
+  margin-right: 6px;
+}
+
+.abaErrorMessage {
+  background-color: #fff8f8;
+  border: 1px solid #ffebeb;
+  color: var(--aba-red);
+  padding: 12px 16px;
+  border-radius: var(--aba-border-radius);
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.abaProcessing {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--aba-white);
+  border-radius: var(--aba-border-radius);
+}
+
+.abaSpinner {
+  border: 4px solid rgba(237, 28, 36, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid var(--aba-red);
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.abaProcessingText {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--aba-black);
+  margin-bottom: 8px;
+}
+
+.abaProcessingSubtext {
+  font-size: 14px;
+  color: var(--aba-dark-gray);
+}
+
+.abaSuccess {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--aba-white);
+  border-radius: var(--aba-border-radius);
+}
+
+.abaSuccessIcon {
+  background-color: #e8f5e9;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.abaSuccessIcon svg {
+  color: #43a047;
+  width: 36px;
+  height: 36px;
+}
+
+.abaSuccessTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #43a047;
+  margin-bottom: 12px;
+}
+
+.abaSuccessText {
+  font-size: 16px;
+  color: var(--aba-dark-gray);
+  margin-bottom: 16px;
+}
+
+.abaTransactionId {
+  font-size: 14px;
+  color: var(--aba-dark-gray);
+  margin-bottom: 24px;
+  padding: 6px 12px;
+  background-color: var(--aba-gray);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.abaReturnButton {
+  background-color: var(--aba-red);
+  color: var(--aba-white);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--aba-border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.abaReturnButton:hover {
+  background-color: var(--aba-dark-red);
+}
+
+.abaFooter {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.abaStepIndicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.abaStepIndicatorActive {
+  background-color: var(--aba-white);
+}

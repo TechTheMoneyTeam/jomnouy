@@ -15,6 +15,7 @@ const ProfileDisplay = () => {
   });
   const [activeSection, setActiveSection] = useState('about');
   const [loading, setLoading] = useState(true);
+  const [investments, setInvestments] = useState([]);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -22,6 +23,7 @@ const ProfileDisplay = () => {
       const user = JSON.parse(userData);
       setUserInfo(user);
       fetchProfileData(user.username);
+      fetchUserInvestments(user.user_id);
     }
   }, []);
 
@@ -40,6 +42,16 @@ const ProfileDisplay = () => {
       console.error('Error fetching profile:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserInvestments = async (userId) => {
+    try {
+      const response = await fetch(`/api/user-investments-grouped/${userId}`);
+      const data = await response.json();
+      setInvestments(data);
+    } catch (error) {
+      console.error('Error fetching investments:', error);
     }
   };
 
@@ -238,7 +250,7 @@ const ProfileDisplay = () => {
                 }}
                 onClick={() => setActiveSection('invested')}
               >
-                Invested <span style={styles.badge}>0</span>
+                Invested <span style={styles.badge}>{investments.length}</span>
               </button>
             </div>
 
@@ -247,7 +259,7 @@ const ProfileDisplay = () => {
                 <div style={styles.detailsSection}>
                   <h3 style={styles.sectionTitle}>Details</h3>
                   <p style={styles.detailText}>{formatDate(userInfo.created_at)}</p>
-                  <p style={styles.detailText}>Invested 0 project</p>
+                  <p style={styles.detailText}>Invested {investments.length} projects</p>
                   <p style={styles.detailText}>User ID: {userInfo.user_id || 'No ID found'}</p>
                   <p style={styles.detailText}>User Type: {userInfo.user_type || 'No type found'}</p>
                 </div>
@@ -306,7 +318,20 @@ const ProfileDisplay = () => {
             )}
 
             {activeSection === 'invested' && (
-              <p style={styles.detailText}>No investments yet</p>
+              <div style={styles.detailsSection}>
+                <h3 style={styles.sectionTitle}>Investments</h3>
+                {investments.length > 0 ? (
+                  investments.map((investment) => (
+                    <div key={investment.project_id} style={styles.detailText}>
+                      <p>Project: {investment.project.title}</p>
+                      <p>Total Amount Invested: ${investment.total_amount}</p>
+                      <p>Number of Investments: {investment.investment_count}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p style={styles.detailText}>No investments yet</p>
+                )}
+              </div>
             )}
           </>
         )}

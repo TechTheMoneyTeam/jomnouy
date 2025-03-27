@@ -99,3 +99,345 @@
 .project-card1{
     @apply w-full h-48 object-cover;
 }
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-container {
+    position: relative;
+    z-index: 1001;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    z-index: 1002;
+}
+
+.modal-close-button:hover {
+    color: #000;
+}
+
+/* Terms and Conditions Modal */
+.terms-modal {
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.terms-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.terms-text {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+
+.terms-text p {
+    margin-bottom: 15px;
+}
+
+.terms-text ol {
+    padding-left: 20px;
+}
+
+.terms-text li {
+    margin-bottom: 10px;
+}
+
+.terms-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    
+}
+
+.terms-checkbox input {
+    margin-right: 10px;
+    color: #F07900;
+}
+
+.terms-buttons {
+    display: flex;
+    justify-content: space-between;
+    color: #F07900;
+}
+
+.terms-accept-button {
+    padding: 10px 20px;
+    background-color: #F07900;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.terms-accept-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.terms-cancel-button {
+    padding: 10px 20px;
+    background-color: white;
+    color: #666;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+}
+/* Add this to your projectDetails.css file */
+
+.disabled-button {
+  background-color: #cccccc !important;
+  color: #888888 !important;
+  border: 1px solid #aaaaaa !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  pointer-events: none;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.auction-not-started {
+  background-color: #f1af67 !important;
+  color: #888888 !important;
+  border: 1px solid #f9a750 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  pointer-events: none;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.disabled-button:hover {
+  background-color: #cccccc !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.disabled-button:active {
+  transform: none !important;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-description {
+               @apply text-black/[0.67];
+}
+
+.text-title {
+               @apply text-2xl font-semibold;
+}
+
+.text-funding {
+               @apply text-3xl font-semibold text-[#F07900];
+}
+.container{
+               @apply mt-8;
+}
+.invest-button {
+               @apply bg-[#F07900] text-white py-2 px-4 rounded-md w-full mt-5;
+}
+.left-container {
+               @apply flex-[2] h-full ;
+}
+.filter-button{
+               @apply flex space-x-2;
+}
+.right-container {
+               @apply flex-1 h-[full];
+}
+.icon-button{
+               @apply mr-2 h-4 w-4 ;
+}
+.categoies-buttons{
+               @apply mt-4 bg-white text-black/[0.67] text-xs py-2 px-2 rounded-2xl border border-[#C0C0C0]/[0.33] h-[30px] flex items-center space-x-1;
+
+}
+.action-buttons{
+               @apply bg-white text-black text-xs py-2 px-4 rounded-sm border border-[#C0C0C0] h-[30px] flex items-center space-x-2;
+}
+.buttons-container {
+               @apply flex justify-end space-x-4 mt-4;
+}
+.parent-container{
+               @apply flex flex-col h-full;
+}
+.c-text{
+               @apply mt-4 text-[#C0C0C0] text-xs;
+}
+.progress-container {
+               @apply relative w-full h-2 bg-[#F8A145]/[0.33] rounded-none;
+}
+
+.progress-bar {
+               @apply h-full bg-orange-500 rounded-none transition-all duration-500 ease-in-out;
+}
+
+.progress-text {
+               @apply absolute -top-6 left-1/2 transform -translate-x-1/2 font-bold text-gray-800 text-sm;
+}
+.tab-content{
+               @apply mt-4;
+}
+.tab-item {
+               @apply relative py-4 px-4 text-sm font-semibold text-gray-500 transition-colors duration-200 hover:text-gray-700;
+}
+.active-tab {
+               @apply text-black;
+}
+.active-tab::after {
+               content: "";
+               @apply absolute bottom-0 left-0 w-full h-[2px] bg-black transition-all duration-300 ease-in-out;
+}
+.hr1{
+               @apply mb-8 w-full mt-20;
+}
+.hr2 {
+               @apply mb-2 w-full mt-20;
+}
+.num-comment{
+               @apply absolute -top-1 -right-1 bg-[#F07900] text-white text-xs font-bold px-1.5 py-0.5 rounded-full
+}
+.report-btn{
+               @apply mt-6 text-xs text-black/[0.75] border border-[#C0C0C0] bg-transparent py-2 cursor-pointer rounded-md max-w-[250px] w-full;
+
+}
+.related-project {
+               @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4;
+}
+.project-image {
+               @apply w-full h-36 object-cover rounded-lg;
+}
+.profile-avatar {
+               @apply w-8 h-8 rounded-full flex items-center justify-center text-orange-500 mr-2 border border-gray-500/[0.50];
+}
+.related-project{
+               @apply mt-8;
+}
+.project-card1{
+    @apply w-full h-48 object-cover;
+}
+.near-span{
+               @apply text-orange-500 text-sm flex items-center gap-1;
+}
+.hr-pro{
+               @apply mt-6 mb-14;
+}
+.pro-image{
+               @apply w-full h-48 object-cover;
+}
+.end-soon{
+    @apply overflow-x-auto;
+}
+
+/* Tooltip for disabled button (optional) */
+.disabled-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.disabled-button-container .tooltip-text {
+  visibility: hidden;
+  width: 220px;
+  background-color: #F07900;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.disabled-button-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.disabled-button-container .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #F07900 transparent transparent transparent;
+}
+/* KYC Form Styles */
+.kyc-form-container {
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.kyc-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.kyc-subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.kyc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-section {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}

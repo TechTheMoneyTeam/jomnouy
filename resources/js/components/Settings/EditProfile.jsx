@@ -18,6 +18,7 @@ const EditProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [username, setUsername] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // New state variable
 
   // Array of 25 cities in Cambodia for the dropdown, with ".Cambodia" format
   const cambodiaCities = [
@@ -141,17 +142,14 @@ const EditProfile = () => {
       });
 
       const result = await response.json();
-      
-      if (response.ok && result.success) {
-        alert('Profile updated successfully!');
-        clearForm();  
-        fetchProfileData(username);  
+      if (result.success) {
+        setShowSuccessPopup(true); // Show success popup
+        setTimeout(() => setShowSuccessPopup(false), 3000); // Hide after 3 seconds
       } else {
-        throw new Error(result.message || 'Failed to update profile');
+        console.error('Error updating profile:', result.message);
       }
     } catch (error) {
-      console.error('Error updating profile:', error);
-      alert(`Failed to update profile: ${error.message}`);
+      console.error('Error submitting form:', error);
     }
   };
 
@@ -294,6 +292,12 @@ const EditProfile = () => {
             </a>
           </div>
         </form>
+
+        {showSuccessPopup && (
+          <div className={styles.successPopup}>
+            <span className={styles.successTick}>✔</span> Profile updated successfully
+          </div>
+        )}
       </div>
     </>
   );

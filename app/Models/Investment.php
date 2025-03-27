@@ -2,161 +2,100 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\DB;
 
 class Investment extends Model
 {
-    // Table name
-    protected $table = 'investment';
+    use HasFactory;
 
-    // Primary key
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
     protected $primaryKey = 'investment_id';
 
-    // Incrementing primary key
-    public $incrementing = true;
-
-    // Fillable fields
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'project_id', 
-        'user_id', 
-        'amount', 
-        'total_amount', 
-        'status', 
-        'investment_date', 
-        'equity'
+        'project_id',
+        'user_id',
+        'amount',
+        'equity_percentage',
+        'status',
+        'investment_term',
+        'payment_method',
+        'transaction_id',
+        'investment_notes',
+        'approved_at',
+        'rejected_at',
+        'completed_at',
     ];
 
-    // Attribute casting
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
-        'amount' => 'float',
-        'total_amount' => 'float',
-        'investment_date' => 'datetime',
-        'equity' => 'float'
+        'amount' => 'decimal:2',
+        'equity_percentage' => 'decimal:2',
+        'approved_at' => 'datetime',
+        'rejected_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-    // Default attributes
-    protected $attributes = [
-        'status' => 'active',
-    ];
-
-    // Relationships
-    public function project(): BelongsTo
+    /**
+     * Get the project that this investment belongs to.
+     */
+    public function project()
     {
         return $this->belongsTo(Project::class, 'project_id', 'project_id');
     }
 
-    public function user(): BelongsTo
+    /**
+     * Get the user that made this investment.
+     */
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
-
-    // Scopes
-    public function scopeActive($query)
-    {
-        return $query->where('status', 'active');
-    }
-
+    
     /**
-     * Calculate total investment for a project
-     *
-     * @param int $projectId
-     * @return float
+     * Scope a query to only include pending investments.
      */
-    public static function calculateTotalInvestment(int $projectId): float
+    public function scopePending($query)
     {
-        return self::where('project_id', $projectId)
-            ->where('status', 'active')
-            ->sum('amount');
+        return $query->where('status', 'pending');
     }
-
+    
     /**
-     * Calculate total number of investors
-     *
-     * @param int $projectId
-     * @return int
+     * Scope a query to only include approved investments.
      */
-    public static function calculateTotalInvestors(int $projectId): int
+    public function scopeApproved($query)
     {
-        return self::where('project_id', $projectId)
-            ->where('status', 'active')
-            ->distinct('user_id')
-            ->count('user_id');
+        return $query->where('status', 'approved');
     }
-
+    
     /**
-     * Find top investor for a project
-     *
-     * @param int $projectId
-     * @return User|null
+     * Scope a query to only include rejected investments.
      */
-    public static function findTopInvestor(int $projectId)
+    public function scopeRejected($query)
     {
-        $topInvestor = self::where('project_id', $projectId)
-            ->where('status', 'active')
-            ->select('user_id', DB::raw('SUM(amount) as total_investment'))
-            ->groupBy('user_id')
-            ->orderByDesc('total_investment')
-            ->first();
-
-        return $topInvestor ? User::find($topInvestor->user_id) : null;
+        return $query->where('status', 'rejected');
     }
-
+    
     /**
-     * Update project investment statistics
-     *
-     * @param int $projectId
-     * @return void
+     * Scope a query to only include completed investments.
      */
-    public static function updateProjectInvestmentStats(int $projectId)
+    public function scopeCompleted($query)
     {
-        $project = Project::findOrFail($projectId);
-
-        // Calculate investment metrics
-        $totalInvestment = self::calculateTotalInvestment($projectId);
-        $totalInvestors = self::calculateTotalInvestors($projectId);
-        $topInvestor = self::findTopInvestor($projectId);
-
-        // Update project with investment statistics
-        $project->update([
-            'total_invested' => $totalInvestment,
-            'total_investors' => $totalInvestors,
-            'top_investor_id' => $topInvestor ? $topInvestor->user_id : null
-        ]);
-    }
-
-    /**
-     * Prepare total amount before saving
-     *
-     * @param int $projectId
-     * @return float
-     */
-    public function prepareTotalAmount(int $projectId): float
-    {
-        return self::where('project_id', $projectId)
-            ->where('status', 'active')
-            ->sum('amount') + $this->amount;
-    }
-
-    /**
-     * Trigger investment stats update after investment creation or update
-     */
-    protected static function booted()
-    {
-        // Update total amount and project stats when a new investment is created
-        static::creating(function ($investment) {
-            $investment->total_amount = $investment->prepareTotalAmount($investment->project_id);
-        });
-
-        // Update project stats when a new investment is created
-        static::created(function ($investment) {
-            self::updateProjectInvestmentStats($investment->project_id);
-        });
-
-        // Update project stats when an investment is updated
-        static::updated(function ($investment) {
-            self::updateProjectInvestmentStats($investment->project_id);
-        });
+        return $query->where('status', 'completed');
     }
 }

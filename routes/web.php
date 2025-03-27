@@ -5,8 +5,20 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\KycVerificationController;
+// route for get related projects
+// Route::get('/api/projects', [ProjectController::class, 'getProjectsByCategoryRelated']);
+// Route::get('/api/category/{category}', [ProjectController::class, 'getProjectsByCategory']);
 
-Route::get('/api/profile', [ProfileController::class, 'getProfile']);
+
+// route for fetching he near by location
+Route::get('/api/projects/by-location', [ProjectController::class, 'getProjectsByLocation']);
+// Route for fetching ending soon projects
+Route::get('/api/projects/ending-soon', [ProjectController::class, 'getEndingSoonPrject']);
+
+// Route::get('/api/projects', [ProfileController::class, 'getEndingSoonPrject']);
+
+Route::get('/api/profile', [ProfileController::class, 'getProfile']);   
 Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
 
 Route::get('/api/settings', [SettingsController::class, 'getSettings']);
@@ -18,9 +30,50 @@ Route::get('/api/projects', [ProjectController::class, 'index']);
 
 use App\Http\Controllers\InvestmentController;
 
-Route::post('/api/projects/{id}/invest', [InvestmentController::class, 'invest']);
-Route::get('/api/projects/{id}/investments', [InvestmentController::class, 'projectInvestments']);
+Route::get('/api/investments', [InvestmentController::class, 'index']);
 Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
+
+// Create a new investment
+Route::post('/api/investments', [InvestmentController::class, 'store']);
+
+// Get specific investment by ID
+Route::get('/api/investments/{id}', [InvestmentController::class, 'show']);
+
+// Update specific investment
+Route::put('/api/investments/{id}', [InvestmentController::class, 'update']);
+Route::patch('/api/investments/{id}', [InvestmentController::class, 'update']);
+
+// Delete investment
+Route::delete('/api/investments/{id}', [InvestmentController::class, 'destroy']);
+
+// Get all investments for a specific project
+Route::get('/api/projects/{projectId}/investments', [InvestmentController::class, 'getProjectInvestments']);
+
+// Get all investments for a specific user
+Route::get('/api/users/{userId}/investments', [InvestmentController::class, 'getUserInvestments']);
+Route::get('/api/project-investments/{projectId}', [InvestmentController::class, 'getProjectInvestments']);
+
+Route::get('/investments', function () {
+    return view('welcome');
+});
+Route::get('/investments/{id}', function () {
+    return view('welcome');
+});
+
+// project multi filter
+Route::get('/api/filtered-projects', [ProjectController::class, 'getFilteredProjects']);
+// project ending soon
+// Route::get('/api/projects/ending-soon', [ProjectController::class, 'getEndingSoonProjects']);
+
+// Correct route definition
+Route::get('/api/category/{category}', [ProjectController::class, 'getProjectsByCategory']);
+
+// Route::get('/projects/{id}', function () {
+//     return view('welcome');
+// })->where('id', '[^/]+');
+Route::get('/category/{categoryName}', function () {
+    return view('welcome');  // Ensure this view contains your React app
+})->where('categoryName', '[^/]+');  // Match any category name
 
 
 
@@ -29,13 +82,15 @@ Route::get('/projects/{id}', function () {
     return view('welcome');
 })->where('id', '[^/]+');
 
-
+Route::resource('/api/kyc-verifications', KycVerificationController::class);
 
 Route::get('/api/projects/type/{type}', [ProjectController::class, 'getProjectsByType']);
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
 
-Route::post('/api/projects/{id}', [ProjectController::class, 'update']);
+Route::put('/api/projects/{id}', [ProjectController::class, 'update']);
+
+Route::post('/api/projects/{id}', [ProjectController::class, 'update'])->name('projects.update.form');
 Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
 
 Route::get('/', function () {
@@ -44,6 +99,12 @@ Route::get('/', function () {
 Route::get('/user', function () {
     return view('welcome');
 });
+Route::get('/edit-project/{id}', function () {
+    return view('welcome');
+})->where('id', '[0-9]+');
+Route::get('/investment-approval-dashboard/{id}', function () {
+    return view('welcome');
+})->where('id', '[0-9]+');
 Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
 Route::get('/services', function () {
     return view('welcome');
@@ -93,12 +154,31 @@ Route::get('/followings', function () {
 Route::get('/contact', function () {
     return view('welcome');
 });
+Route::get('/favorites', function () {
+    return view('welcome');
+});
+
+use App\Http\Controllers\FavoriteController;
+
+Route::get('/api/users/{userId}/favorites', [FavoriteController::class, 'index']);
+
+// Check if a specific project is favorited by user
+Route::get('/api/users/{userId}/favorites/{projectId}', [FavoriteController::class, 'check']);
+
+// Add a project to favorites
+Route::post('/api/users/{userId}/favorites', [FavoriteController::class, 'store']);
+
+// Remove a project from favorites
+Route::delete('/api/users/{userId}/favorites/{projectId}', [FavoriteController::class, 'destroy']);
+
+
+
 
 use App\Http\Controllers\UserController;
+
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 Route::post('/api/forgot-password', [PasswordResetController::class, 'sendResetEmail']);
 Route::post('/api/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);
-Route::post('/api/login', [UserController::class, 'login']);
-;
+Route::post('/api/login', [UserController::class, 'login']);;
