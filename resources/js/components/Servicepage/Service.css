@@ -131,11 +131,11 @@
 }
 .services-section {
     @apply mt-8 p-12 text-center mb-12;
-    min-height: 80vh;
+    min-height: screen;
 }
 
 .services-title {
-    @apply text-6xl font-bold  text-black;
+    @apply text-6xl font-bold text-black;
 }
 
 
@@ -168,21 +168,26 @@
     }
 }
 .services-container {
-    @apply grid gap-8 px-6 max-w-6xl mt-12 mx-auto justify-center ;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(300px, 1fr)
-    );
-}
-/* Card Styles */
-.service-card1, .service-card2, .service-card3 {
-    @apply bg-white rounded-2xl relative overflow-hidden shadow-lg rounded-lg 
-    outline-offset-2 outline-dashed outline-[#F07900] mt-8 ; /* Allow height to adjust with content */
-    display: flex;
-    flex-direction: column;
-    align-items: center;/* Add padding for spacing */
+    @apply grid gap-8 px-6 max-w-6xl mt-12 mx-auto justify-center 
+           grid-cols-1 lg:grid-cols-3;
 }
 
+/* Service Cards */
+.service-card1, .service-card2, .service-card3 {
+    @apply bg-white rounded-2xl relative overflow-hidden shadow-lg 
+           outline-offset-2 outline-dashed outline-[#F07900] 
+           h-auto w-fit self-center flex flex-col items-center;
+}
+.service-card1 {
+    @apply mt-0 h-auto;
+}
+
+.service-card2{
+    @apply top-12 h-auto ;
+}
+.service-card3{
+    @apply top-24 h-auto ;
+}
 
 
 /* Image Styles */
@@ -210,17 +215,7 @@
 .service-description span span {
     @apply text-custom-orange;
 }
-.service-card1 {
-    @apply mt-[0rem] h-auto max-h-[520px];
-   
-}
 
-.service-card2{
-    @apply mt-[3rem] h-auto max-h-[550px];
-}
-.service-card3{
-    @apply mt-[6rem] h-auto max-h-[600px];
-}
 @media (max-width: 768px) {
     .services-container {
         @apply flex flex-col items-center;
@@ -272,7 +267,7 @@
 
 /* Second service line - dashed with endpoints */
 .service-line2 {
-    @apply max-w-7xl mx-auto my-12;
+    @apply max-w-7xl mx-auto my-28;
     height: 2px;
     background: repeating-linear-gradient(
         90deg,
@@ -322,26 +317,26 @@
 }
 
 .about-text {
-    @apply max-w-4xl mx-auto text-lg text-black mt-10 mb-10 text-center;
+    @apply max-w-4xl mx-auto text-lg text-white mt-10 mb-10 text-center;
 }
 
 .about-container {
-    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-auto max-w-7xl gap-12 place-items-center;
+    @apply grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 mx-auto max-w-7xl gap-12 place-items-center;
 }
 
 .about-card-service {
-    @apply relative bg-black bg-opacity-80 shadow-md flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-full max-w-[250px] h-[250px]; /* Ensure cards are uniform */
+    @apply relative rounded-md  bg-black bg-opacity-80 shadow-md flex flex-col items-center transition-transform duration-300 ease-in-out w-full max-w-[250px] h-[250px]; /* Ensure cards are uniform */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Space out content inside the card */
 }
 
 .about-image-service {
-    @apply w-full h-full opacity-30 object-cover ;
+    @apply w-full h-full opacity-30 object-cover rounded-md ;
 }
 
 .about-card-title-service {
-    @apply absolute py-4 font-bold text-white text-3xl;
+    @apply absolute py-4 font-semibold text-white text-3xl;
     @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
     @apply text-center break-words max-w-full transition-transform duration-300 ease-in-out;
 }
@@ -394,7 +389,7 @@ html {
 }
 
 .feature-content-title {
-    @apply text-[1.8rem] text-custom-orange font-medium mb-5 mt-0;
+    @apply text-[1.8rem] text-custom-orange font-bold mb-5 mt-0;
 }
 
 .feature-content-text {
@@ -419,11 +414,11 @@ html {
 }
 
 .slider-dot {
-    @apply  w-2.5 h-2.5 rounded-full bg-gray-500 cursor-pointer transition-colors duration-300;
+    @apply  w-2.5 h-2.5 rounded-full bg-gray-500 cursor-pointer transition-all duration-300;
 }
 
 .slider-dot.active {
-    @apply bg-custom-orange;
+    @apply bg-custom-orange w-5 ;
 }
 
 /* Responsive styles */

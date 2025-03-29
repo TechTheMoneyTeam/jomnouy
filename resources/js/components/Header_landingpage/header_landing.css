@@ -1,7 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@layer base {
+    html, body {
+        @apply overflow-x-hidden; /* Prevent horizontal scrolling */
+        margin: 0; /* Remove default margins */
+        padding: 0; /* Remove default padding */
+    }
+}
 .nav-wrapper {
     @apply flex  items-center justify-center ; /* Centers the navbar initially */
 }
@@ -42,7 +48,7 @@
 }
 
 .nav-link.active-link {
-    @apply text-custom-orange font-semibold;
+    @apply text-custom-orange font-bold;
 }
 
 .button-group {

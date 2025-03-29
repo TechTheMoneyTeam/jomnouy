@@ -7,9 +7,9 @@ const AboutPage = () => {
   // Define HeroAbout as a component with a return statement
   const HeroAbout = () => {
     return (
-      <section className="about-section1">
-        <h2 className="about-title1">About Us</h2>
-        <p className="about-text1">
+      <section className="about-section1" data-aos="fade-left" data-aos-duration="500">
+        <h2 className="about-title1" data-aos="fade-down" data-aos-duration="800">About Us</h2>
+        <p className="about-text1" data-aos="fade-left" data-aos-delay="800">
           We are a passionate team dedicated to delivering top-notch services.
           Our mission is to empower individuals and businesses by providing high-quality solutions.
         </p>
@@ -17,19 +17,19 @@ const AboutPage = () => {
         <div className="about-container-about ">
           {/* About Cards */}
           <div className="about-card">
-            <div className="about-image" style={{ backgroundImage: "url('http://ishtiaq.sandbox.etdevs.com/corporate/wp-content/uploads/sites/37/2021/12/Rectangle_23.jpeg')" }}></div>
+            <div className="about-image" data-aos="zoom-in" data-aos-duration="1000" style={{ backgroundImage: "url('/img/About2.png')" }}></div>
           </div>
 
           <div className="about-card" id="odd">
-            <div className="about-image" style={{ backgroundImage: "url('https://scontent.fpnh11-1.fna.fbcdn.net/v/t39.30808-6/480243015_613966387903565_2172001186587606247_n.jpg?stp=dst-jpg_p180x540_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFxYvEnFVayxHp_tdPpovVbisjJneMh6FmKyMmd4yHoWb0w1pFfH2_xjvXg5eEWDVCBEq9cZ7hU4UIQqDwDEj4y&_nc_ohc=zvDvnixxI_gQ7kNvgHbhPYV&_nc_oc=AdmV-y0q56WTHlCnZVsY630pi5yFphTKcasp-AftH5pR-fWyEvMfaPJtj9lbIbHQ7aI&_nc_zt=23&_nc_ht=scontent.fpnh11-1.fna&_nc_gid=ctpZwth6Rs6cOJJumRZ3eQ&oh=00_AYG_MJ40tW9ETI6y-uBHL6-JGn35Fu8_G0QqPVB8yK3boQ&oe=67E7051B')" }}></div>
+            <div className="about-image object-cover"  data-aos="zoom-in" data-aos-duration="1000" style={{ backgroundImage: "url('/img/About1.png')" }}></div>
           </div>
 
           <div className="about-card">
-            <div className="about-image" style={{ backgroundImage: "url('https://via.placeholder.com/250')" }}></div>
+            <div className="about-image" data-aos="zoom-in" data-aos-duration="1000" style={{ backgroundImage: "url('/img/About3.png')" }}></div>
           </div>
 
           <div className="about-card" id="odd">
-            <div className="about-image" style={{ backgroundImage: "url('https://via.placeholder.com/250')" }}></div>
+            <div className="about-image"  data-aos="zoom-in" data-aos-duration="1000" style={{ backgroundImage: "url('/img/About4.png')" }}></div>
           </div>
          
         </div>
@@ -37,25 +37,202 @@ const AboutPage = () => {
       </section>
     );
   };
+ const Teampage = () => {
+    return (
+      <div class="parent" data-aos="zoom-in" data-aos-duration="1000">
+              <div class="card1">
+                  <div class="logo1">
+                      <span class="circle circle1"></span>
+                      <span class="circle circle2"></span>
+                      <span class="circle circle3"></span>
+                      <span class="circle circle4"></span>
+                      <span class="circle circle5">
+                          <img class="rounded-full" src="/img/logo.png" alt="" />
+                      </span>
+      
+                  </div>
+                  <div class="glass">
+                    <img class="image1"src="/img/gl.png" alt="" />
+                  </div>
+                  <div class="content">
+                      <span class="text"></span>
+                  </div>
+                  <div class="bottom">
+                      
+                      <div class="social-buttons-container">
+                          <button class="social-button .social-button1">
+                              <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                                </svg></button>
+                            <button class="social-button .social-button2">
+                              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                                </svg>
+                            </button>
+                            <button class="social-button .social-button3">
+                              <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
+                                </svg>
+                            </button>
+                      </div>
+                     
+                  </div>
+              </div>
 
+
+              <div class="card1">
+                  <div class="logo1">
+                      <span class="circle circle1"></span>
+                      <span class="circle circle2"></span>
+                      <span class="circle circle3"></span>
+                      <span class="circle circle4"></span>
+                      <span class="circle circle5">
+                          <img class="rounded-full" src="/img/logo.png" alt="" />
+                      </span>
+      
+                  </div>
+                  <div class="glass">
+                    <img src="/img/sal.jpg" alt="" />
+                  </div>
+                  <div class="content">
+                      <span class="text"></span>
+                  </div>
+                  <div class="bottom">
+                      
+                      <div class="social-buttons-container">
+                          <button class="social-button .social-button1">
+                              <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                                </svg></button>
+                            <button class="social-button .social-button2">
+                              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                                </svg>
+                            </button>
+                            <button class="social-button .social-button3">
+                              <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
+                                </svg>
+                            </button>
+                      </div>
+                     
+                  </div>
+              </div>
+              <div class="card1">
+                  <div class="logo1">
+                      <span class="circle circle1"></span>
+                      <span class="circle circle2"></span>
+                      <span class="circle circle3"></span>
+                      <span class="circle circle4"></span>
+                      <span class="circle circle5">
+                          <img class="rounded-full" src="/img/logo.png" alt="" />
+                      </span>
+      
+                  </div>
+                  <div class="glass">
+                    <img src="/img/nith.jpg" alt="" />
+                  </div>
+                  <div class="content">
+                      <span class="text"></span>
+                  </div>
+                  <div class="bottom">
+                      
+                      <div class="social-buttons-container">
+                          <button class="social-button .social-button1">
+                              <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                                </svg></button>
+                            <button class="social-button .social-button2">
+                              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                                </svg>
+                            </button>
+                            <button class="social-button .social-button3">
+                              <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
+                                </svg>
+                            </button>
+                      </div>
+                     
+                  </div>
+              </div>
+              <div class="card1">
+                  <div class="logo1">
+                     
+                      <span class="circle circle2"></span>
+                      <span class="circle circle3"></span>
+                      <span class="circle circle4"></span>
+                      <span class="circle circle5">
+                          <img class="rounded-full" src="/img/logo.png" alt="" />
+                      </span>
+      
+                  </div>
+                  <div class="glass">
+                    <img class="image4" src="/img/tic.jpg" alt="" />
+                  </div>
+                  <div class="content">
+                      <span class="text"></span>
+                  </div>
+                  <div class="bottom">
+                      
+                      <div class="social-buttons-container">
+                          <button class="social-button .social-button1">
+                              <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                                </svg></button>
+                            <button class="social-button .social-button2">
+                              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                                </svg>
+                            </button>
+                            <button class="social-button .social-button3">
+                              <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                  <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
+                                </svg>
+                            </button>
+                      </div>
+                     
+                  </div>
+              </div>
+          </div>
+
+
+
+
+
+    );
+  }
   // Define Partners as a component with a return statement
   const Partners = () => {
     return (
       <section className="partners-section">
         <h2 className="partners-title">Our Partners</h2>
-        <div className="partners-container">
+        <div className="partners-container1">
           <div className="partner-card">
-            <img className="partner-logo" src="https://logowik.com/content/uploads/images/freepik-new-20237240.logowik.com.webp" alt="Partner 1" />
+            <img className="partner-logo" src="/img/chipmong.png" alt="Partner 1" />
+          </div>
+          <div className="partner-card"><a href="https://freepik.design/"><img className="partner-logo" src="/img/ocic.png" alt="Partner 2" /></a>
+            
           </div>
           <div className="partner-card">
-            <img className="partner-logo" src="https://scontent.fpnh11-2.fna.fbcdn.net/v/t39.30808-6/443819597_122095572290339375_2812049494525244776_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFyynM_fPHQ6ideN4xUFa-owc2pxB72RyHBzanEHvZHIRLw2e3u0cjIgzptM32X0Py3A5ZrfinLkWksQv7e7LvI&_nc_ohc=Nuz8r2bWeLwQ7kNvgEIFw2D&_nc_oc=Adms0jAQ_HstAokroMMa5NgdbowjQJx2docqene9XOfpQnP8BrZ2CHdRRQXq9_B87UE&_nc_zt=23&_nc_ht=scontent.fpnh11-2.fna&_nc_gid=PeBRWAwQYiQuW8F2af7Qzw&oh=00_AYHqC2Nt2_48CmnUvRkR1kKAMW40S5Kx-bs0CIMCVXikKw&oe=67E70541" alt="Partner 2" />
+            <img className="partner-logo" src="https://vueaston.com/wp-content/uploads/2024/04/Vue-Aston-Logo-GoldenFor-Menu-1.png" alt="Partner 3" />
+          </div>
+        
+        </div>
+        <div className="partners-container2">
+        <div className="partner-card">
+            <img className="partner-logo" src="https://download.logo.wine/logo/Binance/Binance-Logo.wine.png" alt="Partner 1" />
+          </div>
+          <div className="partner-card"><a href="https://freepik.design/"><img className="partner-logo" src="https://logos-download.com/wp-content/uploads/2024/09/1XBET_Logo.png" alt="Partner 2" /></a>
+            
           </div>
           <div className="partner-card">
             <img className="partner-logo" src="https://vueaston.com/wp-content/uploads/2024/04/Vue-Aston-Logo-GoldenFor-Menu-1.png" alt="Partner 3" />
           </div>
           <div className="partner-card">
-            <img className="partner-logo" src="https://via.placeholder.com/100" alt="Partner 4" />
+            <img className="partner-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7eosVp4d1-9lFNu_rpvxbEGyv6bN__Je3sQ&s" alt="Partner 3" />
           </div>
+          
         </div>
       </section>
     );
@@ -65,6 +242,9 @@ const AboutPage = () => {
     <div>
       <HeroAbout />
       <Partners />
+      <div className="team-title ">Meet Our Team</div>
+
+      <Teampage  />
     </div>
   );
 };

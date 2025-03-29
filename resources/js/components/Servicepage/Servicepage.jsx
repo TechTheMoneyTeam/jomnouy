@@ -25,7 +25,7 @@ const Service = () => {
                     <img
                         src="/img/serviceimg.png"
                         alt="Customer Service"
-                        className="img" 
+                        className="img"
                         data-aos="fade-down"
                         data-aos-duration="800"
                         onError={(e) => {
@@ -37,20 +37,51 @@ const Service = () => {
 
                 {/* Right: Text Content */}
                 <div className="customer-card-content">
-                    <h2 className="title-service" data-aos="fade-left" data-aos-duration="800">
-                        CUSTOMER <span className="subtitle" data-aos="fade-left" data-aos-duration="800">Service</span>
+                    <h2
+                        className="title-service"
+                        data-aos="fade-left"
+                        data-aos-duration="800"
+                    >
+                        CUSTOMER{" "}
+                        <span
+                            className="subtitle"
+                            data-aos="fade-left"
+                            data-aos-duration="800"
+                        >
+                            Service
+                        </span>
                     </h2>
-                    <p className="description" data-aos="fade-left" data-aos-duration="800">
+                    <p
+                        className="description"
+                        data-aos="fade-left"
+                        data-aos-duration="800"
+                    >
                         We provide 24/7 assistance to ensure a seamless
                         experience. Whether you need product guidance or
                         technical support, our expert team is always ready to
                         help!
                     </p>
-                    <div className="btn-container"data-aos="fade-left" data-aos-duration="800">
-                        <button className="primary-button" data-aos="fade-up" data-aos-duration="800">Become a member </button>
+                    <div
+                        className="btn-container"
+                        data-aos="fade-left"
+                        data-aos-duration="800"
+                    >
+                        <button
+                            className="primary-button"
+                            data-aos="fade-up"
+                            data-aos-duration="800"
+                        >
+                            Become a member{" "}
+                        </button>
                     </div>
 
-                    <p className="website" data-aos="fade-up" data-aos-duration="800">www.<span>ជំនួយ</span>-jomnouy.com</p>
+                    <p
+                        className="website"
+                        data-aos="fade-up"
+                        data-aos-duration="800"
+                    >
+                        www.<span>ជំនួយ</span>-jomnouy.com
+                    </p>
                 </div>
             </div>
         </div>
@@ -69,7 +100,7 @@ const Service = () => {
             <div className="services-container">
                 {/* Service Card 1 */}
                 <div
-                    className="service-card1"
+                    className="service-card1 h-auto "
                     data-aos="fade-up"
                     data-aos-duration="1000"
                 >
@@ -83,11 +114,10 @@ const Service = () => {
                         <span>
                             Jom<span>nouy</span>{" "}
                         </span>
-                        to help entrepreneurs and innovators launch their
-                        projects from the ground up. Whether you're developing a
-                        new product, starting a business, or creating an
-                        innovative service, we provide the tools, resources, and
-                        guidance you need to get started and succeed.
+                        We support entrepreneurs and innovators in launching
+                        their projects by providing essential tools, resources,
+                        and guidance for product development, business startups,
+                        and innovative services.
                     </p>
                 </div>
                 {/* Service Card 2 */}
@@ -106,12 +136,10 @@ const Service = () => {
                         <span>
                             Jom<span>nouy</span>{" "}
                         </span>
-                        is a dedicated platform designed to help businesses,
-                        event organizers, content creators, and startups connect
-                        with potential sponsors. Whether you're looking for
-                        financial backing, product sponsorship, or strategic
-                        partnerships, our platform makes it easy to find and
-                        secure the right sponsors for your needs.
+                        Our platform helps businesses, event organizers, content
+                        creators, and startups connect with the right sponsors
+                        for financial backing, product sponsorship, or strategic
+                        partnerships.
                     </p>
                 </div>
                 {/* Service Card 3 */}
@@ -130,13 +158,10 @@ const Service = () => {
                         <span>
                             Jom<span>nouy</span>{" "}
                         </span>
-                        is a dedicated platform designed to help entrepreneurs,
-                        startups, and growing businesses connect with potential
-                        investors who are looking for exciting opportunities.
-                        Whether you're seeking venture capital, angel investors,
-                        or private equity, our platform makes it easy to find
-                        the right investors who are interested in supporting
-                        innovative projects and business ideas.
+                        Our platform connects entrepreneurs, startups, and
+                        businesses with investors seeking exciting
+                        opportunities, including venture capital, angel
+                        investors, and private equity.
                     </p>
                 </div>
             </div>
@@ -145,7 +170,11 @@ const Service = () => {
     );
 
     const About = () => (
-        <div className="about-section" data-aos="fade-down" data-aos-duration="1000">
+        <div
+            className="about-section"
+            data-aos="fade-down"
+            data-aos-duration="1000"
+        >
             <h2
                 className="about-title"
                 data-aos="fade-up"
@@ -158,7 +187,7 @@ const Service = () => {
                 data-aos="fade-up"
                 data-aos-duration="1000"
             >
-               <span> ជំនួយ-Jomnouy</span> is a dynamic platform that connects
+                <span> ជំនួយ-Jomnouy</span> is a dynamic platform that connects
                 entrepreneurs, startups, and auction organizers with potential
                 investors and sponsors, helping them secure the funding and
                 resources needed to grow and succeed. Whether you're launching a
@@ -202,7 +231,9 @@ const Service = () => {
                             className="about-image-service"
                             alt={card.alt}
                         />
-                        <h3 className="about-card-title-service">{card.title}</h3>
+                        <h3 className="about-card-title-service">
+                            {card.title}
+                        </h3>
                     </div>
                 ))}
             </div>
@@ -218,7 +249,7 @@ const Service = () => {
                     data-aos="fade-up"
                     data-aos-duration="700"
                 >
-                    Premium Features For Your Success
+                    Our Service Features
                 </h2>
 
                 {/* Container 1 - Image on left */}
@@ -230,8 +261,8 @@ const Service = () => {
                     >
                         <ImageSlider
                             images={[
-                                "https://img.freepik.com/free-photo/multiracial-group-young-creative-people-smart-casual-wear-discussing-business-brainstorming-meeting-ideas-mobile-application-software-design-project-modern-office_7861-3067.jpg?t=st=1741938246~exp=1741941846~hmac=c67a19b12913be863f457d9f98b4b8db193279ee196fbe6bc9b5d32e3450f404&w=1380",
-                                "https://img.freepik.com/free-photo/person-using-tablet_53876-13420.jpg?t=st=1741938449~exp=1741942049~hmac=48bb3f726e9928c0a1c186afbdcc1ac3290ee3b18069231f1adda8a383737c61&w=996",
+                                "https://media.licdn.com/dms/image/v2/C4E03AQHUGeMlTDkoEA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1516349497694?e=2147483647&v=beta&t=WRw-19MuHfQnEGeDiB2QW-kHQY0mMHahual1GHFXC1w",
+                                "https://media.licdn.com/dms/image/v2/C4E03AQHUGeMlTDkoEA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1516349497694?e=2147483647&v=beta&t=WRw-19MuHfQnEGeDiB2QW-kHQY0mMHahual1GHFXC1w",
                                 "https://img.freepik.com/free-vector/service-24-7-concept-illustration_114360-7380.jpg?t=st=1742802041~exp=1742805641~hmac=66f4a812c175522997a48f09669f4f5cf9b390fe77d3b79e57347c9522ec8069&w=826",
                                 "https://img.freepik.com/free-vector/service-24-7-concept-illustration_114360-7380.jpg?t=st=1742802041~exp=1742805641~hmac=66f4a812c175522997a48f09669f4f5cf9b390fe77d3b79e57347c9522ec8069&w=826",
                             ]}
@@ -243,14 +274,9 @@ const Service = () => {
                         data-aos-duration="1000"
                     >
                         <h3 className="feature-content-title">
-                            Full Service Meets All Your Needs
+                            All in One service to make it Better
                         </h3>
-                        <p className="feature-content-text">
-                            In addition to the luxurious platform, Jomnouy also
-                            provides you the attentive and thoughtful service
-                            including expert guidance, 24-hr support, business
-                            matchmaking, and more.
-                        </p>
+                        <p className="feature-content-text">Pending ....</p>
                     </div>
                 </div>
 
