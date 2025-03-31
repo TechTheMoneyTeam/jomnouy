@@ -25,14 +25,20 @@ import FavoritesPage from '../components/Favoritepage/Favoritepage';
 import ProjectNearYou from '../components/ProjectCategory/ProjectNear';
 import CategoryPage from '../components/ProjectCategory/ProjectCategory';
 import ProjectEndingSoon from '../components/ProjectCategory/ProjectEndingSoon';
+import Dashboard from '../components/inestorDashboard/investDashboard';
+import UpdateForm from '../components/Myproject/updateReport';
+import CampaignRequestForm from '../components/Myproject/updateProgress';
 
 const Index = () => {
     return (
         <div>
             <Routes>
+                {/* <Route path="/" element={<CampaignRequestForm />} /> */}
+                <Route path="/" element={<Home />} />
+                <Route path="/dashboardInvestor" element={<Dashboard />} />
+
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Service />} />
-                <Route path="/" element={<Home />} />
                 {/* Project Related Routes */}
                 <Route path="/projectlist1" element={<ProjectListing />} />
                 <Route path="/existing" element={<ProjectExisting />} />
@@ -58,8 +64,11 @@ const Index = () => {
 
 
                 <Route path="/project-near-you" element={<ProjectNearYou />} />
-            <Route path="/category/:categoryName" element={<CategoryPage />} />
-            <Route path="/project-ending-soon" element={<ProjectEndingSoon />} />
+                <Route path="/category/:categoryName" element={<CategoryPage />} />
+                <Route path="/project-ending-soon" element={<ProjectEndingSoon />} />
+
+                {/* to update & report projct  */}
+                <Route path="/update/:projectId" element={<UpdateForm />} />
 
             </Routes>
         </div>

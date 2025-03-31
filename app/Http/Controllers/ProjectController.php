@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\FuncCall;
 
 class ProjectController extends Controller
 {
@@ -170,7 +172,6 @@ class ProjectController extends Controller
                 'message' => 'Project created successfully',
                 'project' => $project
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project creation failed',
@@ -199,6 +200,8 @@ class ProjectController extends Controller
         }
     }
 
+    
+    public function getProjectsByCategory($category)
     public function getFilteredProjects(Request $request)
     {
         try {
@@ -242,6 +245,26 @@ class ProjectController extends Controller
 
         return response()->json($projects);
     }
+
+    // Update your controller
+    public function getProjectsByCategoryRelated(Request $request)
+{
+    $category = $request->query('category');
+    Log::info("Category filter received: " . $category);
+    
+    if (!$category) {
+        // If no category is provided, return empty array instead of all projects
+        Log::info("No category provided, returning empty collection");
+        return response()->json([]);
+    }
+    
+    // Try a LIKE query which works for both exact matches and text within comma-separated lists
+    $projects = Project::where('categories', 'LIKE', "%{$category}%")->get();
+    
+    Log::info("Found " . count($projects) . " projects matching category: " . $category);
+    
+    return response()->json($projects);
+}
 
     /**
      * Update the specified project in storage.
@@ -380,7 +403,7 @@ class ProjectController extends Controller
                 'message' => 'Project updated successfully',
                 'project' => $project
             ], 200);
-
+            
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project update failed',
@@ -397,16 +420,19 @@ class ProjectController extends Controller
         try {
             $project = Project::find($id);
 
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
 
+
             // Delete associated files
             if ($project->project_img) {
                 Storage::disk('public')->delete($project->project_img);
             }
+
 
             if ($project->project_video) {
                 Storage::disk('public')->delete($project->project_video);
@@ -418,7 +444,7 @@ class ProjectController extends Controller
             return response()->json([
                 'message' => 'Project deleted successfully'
             ], 200);
-
+            
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Project deletion failed',
@@ -435,6 +461,10 @@ class ProjectController extends Controller
         try {
             // Fetch projects by type
             $projects = Project::where('project_type', $type)
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
                 ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -468,7 +498,6 @@ class ProjectController extends Controller
             return response()->json([
                 'projects' => $projects
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to fetch projects',
@@ -476,34 +505,105 @@ class ProjectController extends Controller
             ], 500);
         }
     }
-
-
-    public function search(Request $request)
+    public function getFilteredProjects(Request $request)
     {
-        $query = $request->input('query');
+        try {
+            // Start building the query
+            $query = Project::query();
 
+            // Apply category filter if provided
+            if ($request->has('category') && $request->category !== 'All categories') {
+                $query->where('categories', $request->category);
+            }
 
-        $projects = Project::where('title', 'LIKE', "%{$query}%")
-            ->get(['project_id as id', 'title as name', 'categories']);
+            // Apply project type filter only if it's not "All projects type"
+            if ($request->has('type') && $request->type !== 'All projects type') {
+                $query->where('project_type', $request->type);
+            }
 
+            // Filter for projects with auction ending within 1 to 7 days
+            $query->whereBetween('auction_end_date', [
+                Carbon::now()->addDays(1)->startOfDay(),
+                Carbon::now()->addDays(7)->endOfDay()
+            ]);
 
-        $categories = Project::where('categories', 'LIKE', "%{$query}%")
-            ->distinct()
-            ->pluck('categories')
-            ->map(function ($category) {
-                return ['type' => 'Category', 'name' => $category];
-            });
+            // Execute query and get results
+            $projects = $query->get();
 
-
-        $results = $projects->map(function ($project) {
-            return [
-                'type' => 'Project',
-                'id' => $project->id,
-                'name' => $project->name,
-                'category' => $project->categories,
-            ];
-        })->merge($categories);
-
-        return response()->json($results);
+            return response()->json($projects);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to retrieve projects',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
+    public function getEndingSoonPrject() 
+    {
+        try {
+            $query = Project::query();
+            $query->whereBetween('auction_end_date',[
+                Carbon::now()->addDays(1)->startOfDay(),
+                Carbon::now()->addDays(7)->endOfDay()
+            ]);
+            $projects =$query->get();
+            return response()->json($projects);
+        }catch
+        (\Exception $e) {
+
+        }
+    }
+    // public function getProjectsByLocation(Request $request)
+    // {
+    //     $city = $request->query('city');
+    //     $country = $request->query('country');
+    //     // Validate required parameters
+    //     if (!$city || !$country) {
+    //         return response()->json([
+    //             'message' => 'City and country parameters are required'
+    //         ], 400);
+    //     }
+       
+    //     $projects = Project::where('project_location', 'LIKE', "%$city%$country%")
+    //         ->orWhere('project_location', 'LIKE', "%$country%$city%")
+    //         ->get();
+    //     return response()->json($projects);
+    // }
+    public function getProjectsByLocation(Request $request)
+    {
+        try {
+            $city = $request->query('city');
+            $country = $request->query('country');
+
+            // Validate required parameters
+            if (!$city || !$country) {
+                return response()->json([
+                    'message' => 'City and country parameters are required'
+                ], 400);
+            }
+
+            // Start building the query
+            $query = Project::where('project_location', 'LIKE', "%$city%$country%")
+                ->orWhere('project_location', 'LIKE', "%$country%$city%");
+            // Apply category filter if provided
+            if ($request->has('category') && $request->category !== 'All categories') {
+                $query->where('categories', $request->category);
+            }
+            // Apply project type filter only if it's not "All projects type"
+            if ($request->has('type') && $request->type !== 'All projects type') {
+                $query->where('project_type', $request->type);
+            }
+
+            // Execute query and get results
+            $projects = $query->get();
+
+            return response()->json($projects);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to retrieve projects',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
 }

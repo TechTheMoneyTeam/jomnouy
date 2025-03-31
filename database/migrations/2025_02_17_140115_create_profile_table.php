@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('profile', function (Blueprint $table) {
             $table->string('username', 50)->nullable();
             $table->integer('profile_id')->primary();
-            $table->integer('user_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable(); // Change to unsignedInteger
             $table->string('contact_info')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('bio', 500)->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('profile');
     }

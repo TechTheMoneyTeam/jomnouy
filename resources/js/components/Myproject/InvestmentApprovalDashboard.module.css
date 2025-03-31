@@ -3,7 +3,7 @@
     --primary-light: #FFB366;
     --primary-dark: #D66800;
     --primary-hover: #E87400;
-    --primary-bg: #FFF1E5;
+    --primary-bg: white;
     --secondary: #2A3444;
     --secondary-light: #4A5466;
     --text-dark: #263238;
@@ -36,7 +36,7 @@
   
   .title {
     font-size: 1.75rem;
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 0.5rem;
     color: var(--secondary);
     display: flex;
@@ -68,7 +68,7 @@
     background-color: var(--primary-bg);
     padding: 1.5rem;
     border-radius: var(--border-radius);
-    border-left: 4px solid var(--primary);
+    /* border-left: 4px solid var(--primary); */
   }
   
   @media (min-width: 768px) {

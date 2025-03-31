@@ -4,15 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateProjectsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->integer('project_id')->primary();
+            $table->unsignedInteger('project_id')->primary();
             $table->integer('user_id')->nullable();
             $table->string('title', 100)->nullable();
             $table->float('funding_goal')->nullable();
@@ -22,16 +19,12 @@ return new class extends Migration
             $table->string('project_img')->nullable();
             $table->float('reserve_price')->nullable();
             $table->integer('project_categoryId')->nullable();
-            $table->timestamps(); 
-  
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('projects');
     }
-};
+}

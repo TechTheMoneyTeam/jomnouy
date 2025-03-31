@@ -6,17 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePaymentsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained();
-            $table->foreignId('investment_id')->nullable()->constrained();
+            $table->unsignedInteger('project_id')->constrained(); // Change to unsignedInteger
+            $table->unsignedBigInteger('investment_id')->nullable(); // Ensure this matches the investments table
             $table->decimal('amount', 15, 2);
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
             $table->string('payment_method');
@@ -27,11 +22,6 @@ class CreatePaymentsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('payments');

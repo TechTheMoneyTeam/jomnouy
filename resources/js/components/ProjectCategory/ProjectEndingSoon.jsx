@@ -5,7 +5,7 @@ import axios from "axios";
 import { Clock } from 'lucide-react';
 import { RxBookmark } from "react-icons/rx";
 import { ChevronDown } from 'lucide-react';
-import Footer from "../footer/footer";
+import Footer1 from "../footer/footer1";
 const Card = ({ className, children }) => (
                <div className={`bg-white rounded-lg overflow-hidden ${className || ''}`}>
                               {children}
@@ -14,27 +14,23 @@ const Card = ({ className, children }) => (
 
 const CardContent = ({ className, children }) => (
                <div className={`p-4 ${className || ''}`}>{children}</div>
-);
+); 
 const ProjectEndingSoon = () => {
                const [projects, setProjects] = useState([]);
                const [loading, setLoading] = useState(true);
                const [visibleCount, setVisibleCount] = useState(6); // Show first 18 projects
-
                const [error, setError] = useState(null);
-
                // Categories state
                const [categoriesOpen, setCategoriesOpen] = useState(false);
-               const [selectedCategory, setSelectedCategory] = useState('All categories');
                const categories = ['All categories', 'Technology', 'Art', 'Design', 'Film', 'Music', 'Publishing',
-                              'Games', 'Food', 'Fashion', 'Crafts', 'Photography', 'Comics',
-                              'Illustration', 'Theater', 'Education', 'Health', 'Environment'];
-
+               'Games', 'Food', 'Fashion', 'Crafts', 'Photography', 'Comics',
+               'Illustration', 'Theater', 'Education', 'Health', 'Environment'];
                // Project type state
                const [typeProjectOpen, setTypeProjectOpen] = useState(false);
+               const [selectedCategory, setSelectedCategory] = useState('All categories');
                const [selectedTypeProject, setSelectedTypeProject] = useState("All projects type");
                const typeProject = ["All projects type","Existing Project", "Start-up Project","General"
                ];
-
                // Toggle functions
                const toggleCategories = () => setCategoriesOpen(!categoriesOpen);
                const toggleTypeProject = () => setTypeProjectOpen(!typeProjectOpen);
@@ -287,7 +283,7 @@ const ProjectEndingSoon = () => {
                                                             </div> */}
                                                             {/*  */}
                                              </div>
-                                             <Footer />
+                                             <Footer1 />
                               </>
                );
 };

@@ -22,7 +22,7 @@ const Navbar4 = () => {
                 <div className={styles.navbarContainer}>
                     <a href="/projectlist1" className={styles.navbarLogo}>
                         <h1 className={styles.logo}>
-                            jom-<span className={styles.logoHighlight}>nouy</span>
+                            JOM-<span className={styles.logoHighlight}>NOUY</span>
                         </h1>
                     </a>
                     

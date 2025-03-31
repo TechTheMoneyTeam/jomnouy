@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer1 = () => {
+const                         Footer1 = () => {
                const currentYear = new Date().getFullYear();
 
                const footerLinks = {
@@ -20,7 +20,7 @@ const Footer1 = () => {
                               ],
                               more: [
                                              { name: 'Newsletters', url: '/newsletters' },
-                                             { name: 'Kickstarter Project Updates', url: '/updates' },
+                                             { name: 'Jomnoouy Project Updates', url: '/updates' },
                                              { name: 'The Creative Independent', url: '/creative-independent' },
                                              { name: 'Mobile apps', url: '/apps' },
                                              { name: 'Research', url: '/research' }
@@ -86,10 +86,11 @@ const Footer1 = () => {
                                                                                           </ul>
                                                                            </div>
                                                             </div>
-                                                            <hr className='w-full'/>
+                                                            <hr className="w-screen absolute left-0" />
+
 
                                                             {/* Bottom footer section */}
-                                                            <div className="border-none pt-6 flex flex-col md:flex-row items-start md:items-center justify-between">
+                                                            <div className="border-none pt-6 pb-6 flex flex-col md:flex-row items-start md:items-center justify-between">
                                                                            <div className="flex items-center mb-4 md:mb-0">
                                                                                           <span className="text-black font-medium text-sm mr-2">
                                                                                                          <span className="font-bold"></span> Jomnouy, PBC © {currentYear}
@@ -159,11 +160,11 @@ const Footer1 = () => {
                                                                                           </div>
                                                                            </div> */}
                                                             </div>
-                                                            <hr />
+                                                            <hr className="w-screen absolute left-0" />
 
                                                             {/* Legal links */}
                                                             <div className="mt-4 border-none pt-6">
-                                                                           <ul className="flex flex-wrap">
+                                                                           <ul className="flex flex-wrap">f
                                                                                           {footerLinks.legal.map((link, index) => (
                                                                                                          <li key={index} className="mr-6 mb-2">
                                                                                                                         <a href={link.url} className="text-gray-600 hover:text-black text-sm">

@@ -27,7 +27,7 @@ const Navbar = () => {
     const scrollRight = () => {
         if (ref.current) {
             ref.current.scrollBy({
-                left: 320,
+                left: 320,  
                 behavior: "smooth",
             });
         }
@@ -259,9 +259,18 @@ const Navbar = () => {
                         <button
                             key={category}
                             onClick={() => handleCategoryClick(category)}
-                            className={`cateBtn ${activeTab === category ? "cateBtn-active" : "cateBtn-inactive"}`}
+                            className={`cateBtn relative ${activeTab === category ? "cateBtn-active" : "cateBtn-inactive"}`}
                         >
                             {category}
+                            {activeTab === category && (
+                                <motion.div
+                                    className="absolute bottom-0 left-0 w-full h-1 bg-orange-500 rounded"
+                                    initial={{ opacity: 0, scaleX: 0 }}
+                                    animate={{ opacity: 1, scaleX: 1 }}
+                                    exit={{ opacity: 0, scaleX: 0 }}
+                                    transition={{ duration: 1, ease: "easeInOut" }}
+                                />
+                            )}
                         </button>
                     ))}
                 </div>

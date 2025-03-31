@@ -14,7 +14,7 @@ Route::get('/api/users/search', [FollowingController::class, 'searchUsers']);
 Route::post('/api/follow', [FollowingController::class, 'followUser']);
 Route::post('/api/unfollow', [FollowingController::class, 'unfollowUser']);
 
-Route::get('/api/profile', [ProfileController::class, 'getProfile']);
+Route::get('/api/profile', [ProfileController::class, 'getProfile']);   
 Route::post('/api/profile/update', [ProfileController::class, 'updateProfile']);
 
 Route::get('/api/settings', [SettingsController::class, 'getSettings']);
@@ -25,9 +25,10 @@ Route::post('/api/projects', [ProjectController::class, 'store']);
 Route::get('/api/projects', [ProjectController::class, 'index']);
 
 use App\Http\Controllers\InvestmentController;
+
 Route::get('/api/investments', [InvestmentController::class, 'index']);
 Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
-    
+
 // Create a new investment
 Route::post('/api/investments', [InvestmentController::class, 'store']);
 
@@ -62,6 +63,7 @@ Route::get('/api/filtered-projects', [ProjectController::class, 'getFilteredProj
 
 // Correct route definition
 Route::get('/api/category/{category}', [ProjectController::class, 'getProjectsByCategory']);
+
 // Route::get('/projects/{id}', function () {
 //     return view('welcome');
 // })->where('id', '[^/]+');
@@ -71,7 +73,7 @@ Route::get('/category/{categoryName}', function () {
 
 
 
- 
+
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/projects/{id}', function () {
     return view('welcome');
@@ -170,11 +172,23 @@ Route::delete('/api/users/{userId}/favorites/{projectId}', [FavoriteController::
 
 
 use App\Http\Controllers\UserController;
+
 Route::post('/api/update-user-type', [UserController::class, 'updateUserType']);
 Route::post('/api/forgot-password', [PasswordResetController::class, 'sendResetEmail']);
 Route::post('/api/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);
-Route::post('/api/login', [UserController::class, 'login']);
+Route::post('/api/login', [UserController::class, 'login']);;
 
-Route::get('/api/search', [ProjectController::class, 'search']);
+use App\Http\Controllers\UpdateController;
+
+Route::post('/api/updates-progress', [UpdateController::class, 'store']);
+// Route::post('/api/updates', [UpdateController::class, 'store']);
+Route::get('/updates/{projectId}', [UpdateController::class, 'index']);
+
+//route for invested project for investor 
+Route::get('/api/investor/{id}/projects', [InvestmentController::class, 'getInvestorData']);
+// Route::get('/api/investor/{id}/investment', [InvestmentController::class, 'getInvestmentsByInvestor']);
+
+//route for update  and report  project for investor 
+Route::get('/api/investor/{investorId}/updates-report', [UpdateController::class, 'getInvestorUpdates1']);

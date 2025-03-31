@@ -93,6 +93,9 @@ const DropdownMenu = () => {
                     <Link to="/settings" className="block px-4 py-2 hover:bg-gray-200 transition">
                         Settings
                     </Link>
+                    <Link to="/dashboardInvestor" className="block px-4 py-2 hover:bg-gray-200 transition">
+                        Dashboard
+                    </Link>
                     <Link to="/logout" className="block px-4 py-2 hover:bg-gray-200 transition">
                         Log out
                     </Link>

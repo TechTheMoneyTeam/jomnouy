@@ -55,16 +55,35 @@ body {
                @apply font-semibold text-sm hover:text-[#F07900] hover:underline transition-all duration-300;
 }
 .cate-bar {
-               @apply w-full bg-transparent p-4 flex items-center space-x-2 overflow-x-scroll pb-2;
+               @apply w-full bg-transparent py-4 flex items-center space-x-2 overflow-x-auto pb-2;
 }
+
+.cate-bar {
+               overflow-x: auto;
+               scrollbar-width: none;
+               /* For Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.cate-bar::-webkit-scrollbar {
+               display: none;
+}
+
 .cateBtn {
-               @apply px-4 py-2 rounded-md font-medium transition-colors;
+               position: relative;
+               padding: 10px 15px;
+               font-size: 16px;
+               cursor: pointer;
+               transition: color 0.3s ease;
 }
+/* Active button: Only change color, no size scaling */
 .cateBtn-active {
-               @apply bg-orange-500/80 text-white flex-1 whitespace-nowrap;
+               @apply bg-orange-500/80 text-white;
 }
+
+/* Inactive button */
 .cateBtn-inactive {
-               @apply px-4 py-2 bg-[#C0C0C0] bg-opacity-15 rounded-md whitespace-nowrap text-sm font-medium transition-colors text-black ;
+               @apply bg-[#C0C0C0] bg-opacity-15 text-black text-sm font-medium transition-colors;
 }
 .navDivider {
     height: 1px;
