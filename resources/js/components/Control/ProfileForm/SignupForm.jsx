@@ -92,9 +92,9 @@ const SignupForm = () => {
             <h1 className="title">
                 JOM-<span className="highlight">NOUY</span>
             </h1>
-            <div className="card-container-signup">
+            <div className="card-container-signup shadow-xl">
                 <div className="card-signup">
-                    <div className="text-left text-2xl">Sign up</div>
+                    <div className="text-left-signup text-2xl py-2">Sign up</div>
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
                             <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">
@@ -202,7 +202,7 @@ const SignupForm = () => {
                             {message}
                         </div>
                     )}
-       
+                
                 </div>
             </div>
         </div>

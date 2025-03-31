@@ -19,22 +19,34 @@
                @apply overflow-hidden font-[montserrate];
 } */
 
-.title {
-               @apply mt-10 mb-8 text-center text-3xl font-bold text-[50px];
+.title-signup {
+               @apply mt-10 text-center text-3xl font-bold ;
 }
 
 .title .highlight {
                @apply text-[#F07900];
 }
 
-.text-left {
-               @apply text-2xl;
+.text-left-signup {
+               @apply  font-semibold left-0 ;
 }
 
 .custom-input {
                @apply border-transparent transition-all duration-300 shadow-md;
 }
+#confirmPassword.custom-input{
+               @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;          
+ }
+ #first_name.custom-input{
+    @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;          
 
+ }
+ #last_name.custom-input{
+    @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;          
+ }
+ #username.custom-input{
+    @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;          
+ }
 /* .custom-input {
                @apply rounded-[20px] shadow-lg transition-all duration-300 border-none;
 } */
