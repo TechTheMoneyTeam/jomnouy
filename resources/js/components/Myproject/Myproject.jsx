@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Clock, DollarSign, BriefcaseBusiness, CheckCircle, AlertCircle, MoreVertical, CircleDashed, UserCheck, CheckCheck } from 'lucide-react';
 import Navbar2 from '../Navbar/Navbarforsubmit';
-import { Clock, DollarSign, BriefcaseBusiness, CheckCircle, AlertCircle, MoreVertical, CircleDashed, UserCheck, CheckCheck } from 'lucide-react';
-import Navbar2 from '../Navbar/Navbarforsubmit';
+
 import styles from './MyProjects.module.css';
 
 const Card = ({ className, children }) => (
