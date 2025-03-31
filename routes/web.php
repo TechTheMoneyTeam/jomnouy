@@ -105,11 +105,17 @@ Route::get('/edit-project/{id}', function () {
 Route::get('/investment-approval-dashboard/{id}', function () {
     return view('welcome');
 })->where('id', '[0-9]+');
+Route::get('/update/{projectid}', function () {
+    return view('welcome');
+})->where('id', '[0-9]+');
 Route::get('/api/users/{userId}/projects', [ProjectController::class, 'getUserProjects']);
 Route::get('/services', function () {
     return view('welcome');
 });
 Route::get('/login', function () {
+    return view('welcome');
+});
+Route::get('/project-near-you', function () {
     return view('welcome');
 });
 Route::get('/reset', function () {
@@ -157,6 +163,18 @@ Route::get('/contact', function () {
 Route::get('/favorites', function () {
     return view('welcome');
 });
+Route::get('/project-ending-soon', function () {
+    return view('welcome');
+});
+Route::get('/dashboardInvestor', function () {
+    return view('welcome');
+});
+Route::get('/api/ip-lookup/{ip}', function ($ip) {
+    $response = Http::get("https://ipapi.co/{$ip}/json/");
+    return $response->json();
+});
+
+
 
 use App\Http\Controllers\FavoriteController;
 

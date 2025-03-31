@@ -23,10 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'http://localhost:8000/api/settings/change-password',
             'http://127.0.0.1:8000/api/profile/update',
             'http://127.0.0.1:8000/api/investments',
+            'https://ipapi.co/110.235.223.76/json/',
+        
             
-
-            
-            
+    
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

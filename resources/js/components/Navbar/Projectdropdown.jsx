@@ -84,6 +84,13 @@ const DropdownMenu = () => {
                             My Project
                         </Link>
                     )}
+                      {userType == 'investor' && (
+                                           <Link to="/dashboardInvestor" className="block px-4 py-2 hover:bg-gray-200 transition">
+                                           Dashboard
+                                       </Link>
+                   
+                        
+                    )}
                     <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200 transition">
                         Profile
                     </Link>

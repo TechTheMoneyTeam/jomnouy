@@ -49,7 +49,7 @@ const Home = () => {
                         "Jom<span>nouy"</span>
                     </p>
                     <button
-                        href="/signup"
+                        onClick={() => (window.location.href = "/signup")}
                         className="hero-button1"
                         data-aos="fade-up"
                         data-aos-duration="1000"

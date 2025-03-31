@@ -16,7 +16,7 @@
 }
 
 .title {
-               @apply mt-10 mb-8 text-center text-3xl font-bold text-[50px];
+               @apply text-center text-[50px] ;
 }
 
 .title .highlight {
@@ -24,11 +24,10 @@
 }
 
 .text-left {
-               @apply text-sm font-medium;
+               @apply text-[15px] text-center ;
 }
 
-.custom-input {
-               @apply border-transparent rounded-lg transition duration-300 shadow-md focus:ring-1 focus:ring-[#ebab6c] focus:border-[#ebab6c] focus:shadow-lg placeholder-opacity-50 placeholder:text-black placeholder:font-montserrate;
+.custom-input1 {
                font-family: 'montserrate', sans-serif;
                /* Add font-family here */
 }
@@ -44,7 +43,7 @@
 }
 
 .card-login {
-    @apply w-full max-w-3xl p-8 bg-white rounded-lg shadow-md ;
+    @apply w-full max-w-2xl p-12 bg-white rounded-lg shadow-lg border-gray-200 border-2;
 }
 
 .form {
@@ -59,8 +58,8 @@
                @apply flex flex-col text-sm;
 }
 
-.submit-btn10 {
-               @apply bg-custom-orange text-white rounded py-2 px-4 mt-2 hover:bg-white border border-custom-orange hover:text-custom-orange text-base font-normal z-10;
+.submit-btn {
+               @apply bg-custom-orange text-white transition-all duration-500 ease-in-out rounded py-2 px-4 mt-2 hover:bg-white border border-custom-orange hover:text-custom-orange text-base font-normal;
 }
 
 .text-end {
@@ -68,5 +67,14 @@
 }
 
 .text-center {
-               @apply flex items-center justify-center space-x-2 font-medium;
+               @apply flex items-center justify-center space-x-2 font-bold p-2 ;
 }
+#email.custom-input{
+      @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;          
+}
+#password.custom-input{
+    @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;          
+}
+.create-account {
+               @apply text-xs font-bold text-custom-orange;
+} 

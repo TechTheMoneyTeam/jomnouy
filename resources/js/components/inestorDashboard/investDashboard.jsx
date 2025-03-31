@@ -70,7 +70,7 @@ const Dashboard = () => {
     <div className="flex h-screen bg-white text-black">
       {/* Sidebar */}
       <div className="w-64 border-r">
-        <div className="flex items-center p-4">
+        <div className="flex items-center p-4 cursor-pointer" onClick={() => (window.location.href = '/projectlist1')}>
           <span className="text-3xl font-bold">
             <span className="text-black">JOM</span>
             <span className="text-orange-500">-NOUY</span>

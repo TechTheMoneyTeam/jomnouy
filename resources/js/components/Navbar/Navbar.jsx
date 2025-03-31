@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './Navbar.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DropdownMenu from './Projectdropdown';
-import { ChevronRight, Search, X } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Search, X } from 'lucide-react';
 import axios from 'axios';
 
 const Navbar = () => {
@@ -14,6 +14,7 @@ const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [showLeftButton, setShowLeftButton] = useState(false);
     const ref = useRef(null);
     const searchRef = useRef(null);
 
@@ -23,17 +24,45 @@ const Navbar = () => {
         'Illustration', 'Theater', 'Education', 'Health', 'Environment'
     ];
 
-  
     const scrollRight = () => {
         if (ref.current) {
             ref.current.scrollBy({
                 left: 320,
                 behavior: "smooth",
             });
+            // Show left scroll button when scrolled right
+            setShowLeftButton(true);
         }
     };
 
-  
+    const scrollLeft = () => {
+        if (ref.current) {
+            ref.current.scrollBy({
+                left: -320,
+                behavior: "smooth",
+            });
+            // Hide left button if scrolled back to start
+            if (ref.current.scrollLeft <= 320) {
+                setShowLeftButton(false);
+            }
+        }
+    };
+
+    // Check scroll position to update button visibility
+    const handleScroll = () => {
+        if (ref.current) {
+            setShowLeftButton(ref.current.scrollLeft > 0);
+        }
+    };
+
+    useEffect(() => {
+        const scrollContainer = ref.current;
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+            return () => scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
+
     const handleCategoryClick = (category) => {
         setActiveTab(category);
         localStorage.setItem('activeCategory', category);
@@ -45,7 +74,6 @@ const Navbar = () => {
         }
     };
 
-    
     const performSearch = async (query) => {
         if (!query) {
             setSearchResults([]);
@@ -65,32 +93,26 @@ const Navbar = () => {
 
             // Fallback local search if API fails
             const localResults = [
-
                 ...categories
                     .filter(cat => cat.toLowerCase().includes(query.toLowerCase()))
                     .map(cat => ({ type: 'Category', name: cat })),
-
-
             ];
 
             setSearchResults(localResults);
         }
     };
 
-   
     const debouncedSearch = React.useCallback(
         debounce((query) => performSearch(query), 300),
         []
     );
 
-    
     const handleSearchChange = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
         debouncedSearch(query);
     };
 
-   
     const handleSearchResultClick = (result) => {
         if (result.type === 'Category') {
             if (result.name === 'All') {
@@ -102,18 +124,15 @@ const Navbar = () => {
             navigate(`/projects/${result.id}`);
         }
 
-     
         setSearchQuery('');
         setSearchResults([]);
     };
 
-   
     const clearSearch = () => {
         setSearchQuery('');
         setSearchResults([]);
     };
 
-  
     useEffect(() => {
         const userData = localStorage.getItem('user');
         if (userData) {
@@ -126,7 +145,6 @@ const Navbar = () => {
             }
         }
 
-      
         const path = location.pathname;
         if (path === '/projectlist1') {
             setActiveTab('All');
@@ -156,7 +174,6 @@ const Navbar = () => {
         }
     }, [location.pathname, categories]);
 
-   
     const renderCreateProjectButton = () => {
         if (userType === 'investor') {
             return (
@@ -254,7 +271,27 @@ const Navbar = () => {
             </nav>
 
             <div className="flex items-center pt-4">
-                <div className="cate-bar flex-1 overflow-x-auto scrollbar-hide z-40" ref={ref}>
+                {showLeftButton && (
+                    <button
+                        className="p-2 mt-2 mr-2 text-black rounded-lg flex items-center justify-center hover:bg-orange-500/70 hover:text-white"
+                        onClick={scrollLeft}
+                        aria-label="Scroll left"
+                    >
+                        <ChevronLeft size={18} />
+                    </button>
+                )}
+                <div 
+                    className="cate-bar flex-1 overflow-x-auto z-40" 
+                    ref={ref}
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                    <style>
+                        {`
+                        .cate-bar::-webkit-scrollbar {
+                            display: none;
+                        }
+                        `}
+                    </style>
                     {categories.map((category) => (
                         <button
                             key={category}

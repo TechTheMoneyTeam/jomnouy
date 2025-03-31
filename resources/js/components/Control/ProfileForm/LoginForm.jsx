@@ -88,26 +88,26 @@ const LoginForm = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center justify-center min-h-screen ">
             <h1 className="title">JOM-<span className="highlight">NOUY</span></h1>
             <div className="card-container-login">
                 <div className="card-login">
-                    <div className="text-left">Welcome back to JOMNOUY</div>
+                    <div className="text-center text-xl text-[">Welcome back to JOMNOUY</div>
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email ">Email</label>
                             <input
                                 type="email"
                                 id="email"
                                 name="email"
                                 className="custom-input"
-                                placeholder="example@gmail.com"
+                                placeholder="Example@gmail.com"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group py-2 ">
                             <label htmlFor="password">Password</label>
                             <input
                                 type="password"
@@ -121,10 +121,10 @@ const LoginForm = () => {
                             />
                         </div>
                         <a href="#" onClick={openForgotPassword} className="text-end underline">Forgot password?</a>
-                        <button type="submit" className="submit-btn10">Login</button>
+                        <button type="submit" className="submit-btn rounded-md">Login</button>
                         <div className="text-center mt-2 text-gray-500 text-xs">
                             <span>Don't have an account? </span>
-                            <Link to="/signup" className="text-blue-600">Create account</Link>
+                            <Link to="/signup" className="create-account">Create account</Link>
                         </div>
                     </form>
                     {message && (
