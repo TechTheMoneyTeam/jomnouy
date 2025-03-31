@@ -201,7 +201,7 @@ class ProjectController extends Controller
     }
 
     
-    public function getProjectsByCategory($category)
+
     public function getFilteredProjects(Request $request)
     {
         try {
@@ -420,19 +420,16 @@ class ProjectController extends Controller
         try {
             $project = Project::find($id);
 
-
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
 
-
             // Delete associated files
             if ($project->project_img) {
                 Storage::disk('public')->delete($project->project_img);
             }
-
 
             if ($project->project_video) {
                 Storage::disk('public')->delete($project->project_video);
@@ -461,10 +458,6 @@ class ProjectController extends Controller
         try {
             // Fetch projects by type
             $projects = Project::where('project_type', $type)
-                ->with('user')
-                ->orderBy('created_at', 'desc')
-                ->get();
-
                 ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -505,105 +498,4 @@ class ProjectController extends Controller
             ], 500);
         }
     }
-    public function getFilteredProjects(Request $request)
-    {
-        try {
-            // Start building the query
-            $query = Project::query();
-
-            // Apply category filter if provided
-            if ($request->has('category') && $request->category !== 'All categories') {
-                $query->where('categories', $request->category);
-            }
-
-            // Apply project type filter only if it's not "All projects type"
-            if ($request->has('type') && $request->type !== 'All projects type') {
-                $query->where('project_type', $request->type);
-            }
-
-            // Filter for projects with auction ending within 1 to 7 days
-            $query->whereBetween('auction_end_date', [
-                Carbon::now()->addDays(1)->startOfDay(),
-                Carbon::now()->addDays(7)->endOfDay()
-            ]);
-
-            // Execute query and get results
-            $projects = $query->get();
-
-            return response()->json($projects);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Failed to retrieve projects',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-    public function getEndingSoonPrject() 
-    {
-        try {
-            $query = Project::query();
-            $query->whereBetween('auction_end_date',[
-                Carbon::now()->addDays(1)->startOfDay(),
-                Carbon::now()->addDays(7)->endOfDay()
-            ]);
-            $projects =$query->get();
-            return response()->json($projects);
-        }catch
-        (\Exception $e) {
-
-        }
-    }
-    // public function getProjectsByLocation(Request $request)
-    // {
-    //     $city = $request->query('city');
-    //     $country = $request->query('country');
-    //     // Validate required parameters
-    //     if (!$city || !$country) {
-    //         return response()->json([
-    //             'message' => 'City and country parameters are required'
-    //         ], 400);
-    //     }
-       
-    //     $projects = Project::where('project_location', 'LIKE', "%$city%$country%")
-    //         ->orWhere('project_location', 'LIKE', "%$country%$city%")
-    //         ->get();
-    //     return response()->json($projects);
-    // }
-    public function getProjectsByLocation(Request $request)
-    {
-        try {
-            $city = $request->query('city');
-            $country = $request->query('country');
-
-            // Validate required parameters
-            if (!$city || !$country) {
-                return response()->json([
-                    'message' => 'City and country parameters are required'
-                ], 400);
-            }
-
-            // Start building the query
-            $query = Project::where('project_location', 'LIKE', "%$city%$country%")
-                ->orWhere('project_location', 'LIKE', "%$country%$city%");
-            // Apply category filter if provided
-            if ($request->has('category') && $request->category !== 'All categories') {
-                $query->where('categories', $request->category);
-            }
-            // Apply project type filter only if it's not "All projects type"
-            if ($request->has('type') && $request->type !== 'All projects type') {
-                $query->where('project_type', $request->type);
-            }
-
-            // Execute query and get results
-            $projects = $query->get();
-
-            return response()->json($projects);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Failed to retrieve projects',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-    
 }
