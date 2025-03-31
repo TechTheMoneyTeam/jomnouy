@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+.thhh{
+    @apply p-3 text-left border-b font-medium;
+}
+.cTable{
+          @apply w-full border-collapse mt-4;
+}
