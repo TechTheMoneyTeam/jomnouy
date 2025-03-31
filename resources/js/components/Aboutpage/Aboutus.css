@@ -2,78 +2,281 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-    .header {
-        @apply bg-white text-white py-4 px-6;
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-    }
-    
-    .nav-container {
-        @apply flex justify-between items-center;
-    }
-    
-    .logo {
-        @apply text-2xl font-bold text-custom-orange;
-        text-decoration: none;
-    }
-    
-    /* .nav-links {
-        @apply flex space-x-6;
-    }
-    
-    .nav-link {
-        @apply text-lg text-custom-orange hover:text-yellow-500 transition-all duration-200;
-        text-decoration: none;
-    }
-    
-    .nav-link:hover {
-        text-decoration: underline;
-    }
-    
-    .active-link {
-        text-decoration: none;
-        border-bottom: 2px solid #F07900;
-        color: #F07900;
-    }
-    
-    .nav-link.active-link:hover {
-        text-decoration: none;
-        color: #F07900;
-    } */
-    
-    .button-group {
-        @apply flex space-x-4 items-center;
-    }
-    
-    button {
-        @apply py-2 px-4 rounded-lg text-white font-semibold transition-all duration-200 ;
-        z-index: 100;
-    }
-    
-    /* .login-button {
-        @apply bg-custom-orange hover:bg-blue-700;
-    } */
-    
-    .search-button {
-        @apply hover:bg-gray-600;
-        color: #F07900;
-    }
-    
-
-    
-    .language-button {
-        @apply hover:bg-green-700;
-        border-radius: 10px;
-        color: #F07900;
-        border-color: black;
-        border-width: 1px;
-    }
-    
-    .flag-icon {
-        @apply mr-2;
-    }
-
+.about-section1 {
+    @apply relative flex flex-col items-center h-screen;
 }
+
+.about-section1 img {
+    @apply absolute w-full h-full z-0; /* Ensure image is behind */
+}
+
+.about-title1 {
+    @apply absolute top-[25%] text-6xl font-bold text-white z-10;
+}
+
+.about-text1 {
+    @apply absolute top-[40%] max-w-4xl text-lg text-white text-center z-10;
+}
+
+/* Remove absolute positioning from container and adjust its position */
+.about-container-about {
+    @apply relative top-[65%] z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+    mx-auto max-w-6xl gap-6 place-items-center px-4;
+}
+
+
+#odd{
+    @apply w-[230px] h-[170px];
+}
+.about-image { 
+    @apply w-full h-full opacity-100 rounded-2xl object-cover;
+    position: relative;  /* Changed from absolute */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain; /* Changed from default cover */
+} 
+
+.about-card { 
+    @apply relative z-10 bg-white bg-opacity-80 rounded-xl shadow-md  
+    flex flex-col items-center justify-center transition-transform duration-300 ease-in-out w-[200px] h-[230px]; 
+    overflow: hidden; /* Ensures image stays within the card1 */
+} 
+
+/* Partners Section Styles */
+.partners-section {
+    @apply relative py-12 text-center min-h-[70vh] mt-20 flex flex-col items-center justify-center w-full;
+}
+
+.partners-title {
+    @apply text-4xl md:text-5xl font-semibold text-custom-orange mb-8;
+}
+
+.partners-container1 {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mx-auto max-w-6xl py-12 px-4 place-items-center w-full;
+}
+
+.partners-container2 {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 mx-auto max-w-7xl py-12 px-4 place-items-center w-full;
+}
+
+.partner-card {
+    @apply flex justify-center items-center rounded-lg shadow-md p-8 w-full h-[200px];
+}
+
+.partner-logo {
+    @apply w-full h-full object-contain transition-all duration-300 ease-in-out hover:scale-110;
+}
+
+
+
+/* From Uiverse.io by Smit-Prajapati */ 
+/* From Uiverse.io by Smit-Prajapati */ 
+.parent {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mx-auto max-w-7xl place-items-center w-full h-[80vh] ;
+  }
+  
+  .card1 {
+    @apply relative w-[300px] h-[400px] flex items-center justify-center;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgb(251, 182, 118) 0%, rgb(237, 114, 0) 100%);
+    transition: all 0.5s ease-in-out;
+    transform-style: preserve-3d;
+  }
+  
+  .glass {
+    transform-style: preserve-3d;
+    position: absolute;
+    inset: 8px;
+    border-radius: 55px;
+    border-top-right-radius: 100%;
+    background: white;
+    transform: translate3d(0px, 0px, 25px);
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    transition: all 0.5s ease-in-out;
+    overflow: hidden; /* Clip the image to the shape */
+  }
+  
+  .glass img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: -20px 20px ;  /* Position the image 30% from the left and 20% from the top */
+  }
+
+  .glass .image4{
+    object-position: -15px 0px ;
+  }
+  .glass .image1{
+    object-position: -15px 0px ;
+  }
+  .content {
+    transform: translate3d(0, 0, 26px);
+
+  }
+  .content .text {
+    display: block;
+    @apply text-lg font-bold text-black pt-[8rem];
+  }
+  
+  .bottom {
+    padding: 10px 12px;
+    transform-style: preserve-3d;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translate3d(0, 0, 26px);
+  }
+    
+  .bottom .social-buttons-container {
+    display: flex;
+    gap: 10px;
+    transform-style: preserve-3d;
+  }
+  
+  .bottom .social-buttons-container .social-button {
+    width: 30px;
+    aspect-ratio: 1;
+    padding: 5px;
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: none;
+    display: grid;
+    place-content: center;
+    box-shadow: rgba(5, 71, 17, 0.5) 0px 7px 5px -5px;
+  }
+  
+  .bottom .social-buttons-container .social-button:first-child {
+    transition: transform 0.2s ease-in-out 0.4s, box-shadow 0.2s ease-in-out 0.4s;
+  }
+  
+  .bottom .social-buttons-container .social-button:nth-child(2) {
+    transition: transform 0.2s ease-in-out 0.6s, box-shadow 0.2s ease-in-out 0.6s;
+  }
+  
+  .bottom .social-buttons-container .social-button:nth-child(3) {
+    transition: transform 0.2s ease-in-out 0.8s, box-shadow 0.2s ease-in-out 0.8s;
+  }
+  
+  .bottom .social-buttons-container .social-button .svg {
+    width: 15px;
+    fill: #F07900;
+  }
+  
+  .bottom .social-buttons-container .social-button:hover {
+    background: black;
+  }
+  
+  .bottom .social-buttons-container .social-button:hover .svg {
+    fill: white;
+  }
+  
+  .bottom .social-buttons-container .social-button:active {
+    background: rgb(255, 234, 0);
+  }
+  
+  .bottom .social-buttons-container .social-button:active .svg {
+    fill: black;
+  }
+  
+  .logo1 {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  
+  .logo1 .circle {
+    display: block;
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    top: 0;
+    right: 0;
+    box-shadow: rgba(100, 100, 111, 0.2) -10px 10px 20px 0px;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background: rgba(255, 111, 0, 0.2);
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .logo1 .circle1 {
+    width: 170px;
+    transform: translate3d(0, 0, 20px);
+    top: 8px;
+    right: 8px;
+  }
+  
+  .logo1 .circle2 {
+    width: 140px;
+    transform: translate3d(0, 0, 40px);
+    top: 10px;
+    right: 10px;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    transition-delay: 0.4s;
+  }
+  
+  .logo1 .circle3 {
+    width: 110px;
+    transform: translate3d(0, 0, 60px);
+    top: 17px;
+    right: 17px;
+    transition-delay: 0.8s;
+  }
+  
+  .logo1 .circle4 {
+    width: 80px;
+    transform: translate3d(0, 0, 80px);
+    top: 23px;
+    right: 23px;
+    transition-delay: 1.2s;
+  }
+  
+  .logo1 .circle5 {
+    width: 50px;
+    transform: translate3d(0, 0, 100px);
+    top: 30px;
+    right: 30px;
+    display: grid;
+    place-content: center;
+    transition-delay: 1.6s;
+  }
+  
+  .logo1 .circle5 .svg {
+    width: 20px;
+    fill: white;
+  }
+  
+  .card1:hover  {
+    transform: rotate3d(1, 1, 0, 30deg);
+    box-shadow: rgba(5, 71, 17, 0.3) 30px 50px 25px -40px, rgba(5, 71, 17, 0.1) 0px 25px 30px 0px;
+  }
+  
+  .card1:hover .bottom .social-buttons-container .social-button {
+    transform: translate3d(0, 0, 50px);
+    box-shadow: rgba(5, 71, 17, 0.2) -5px 20px 10px 0px;
+  }
+  
+  .card1:hover .logo1 .circle2 {
+    transform: translate3d(0, 0, 60px);
+  }
+  
+  .card1:hover .logo1 .circle3 {
+    transform: translate3d(0, 0, 80px);
+  }
+  
+  .card1:hover .logo1 .circle4 {
+    transform: translate3d(0, 0, 100px);
+  }
+  
+  .card1:hover .logo1 .circle5 {
+    transform: translate3d(0, 0, 120px);
+  }
+  .team-title{
+    @apply text-center text-4xl md:text-5xl font-bold text-custom-orange;
+  }

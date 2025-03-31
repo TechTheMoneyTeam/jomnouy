@@ -2,48 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-.hero-service {
-    @apply relative w-full min-h-screen overflow-hidden mt-12 bg-cover bg-center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Customer Card Container */
+.customer-card-container {
+    @apply flex flex-col md:flex-row items-center justify-between bg-white
+    p-10 md:p-16 rounded-3xl w-screen mx-auto h-[90vh];
 }
 
-.hero-service img {
-    @apply absolute top-0 left-0 w-full h-full object-cover opacity-80; /* Ensure the image is fully visible */
+/* Left Side: Image */
+.customer-card-image {
+    @apply w-full md:w-1/2 flex justify-center;
 }
 
-.hero-content-service {
-    @apply absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-10 items-center justify-center h-full text-center text-white;
+.customer-card-image .img {
+    @apply max-w-full h-auto object-cover ;
+    filter: hue-rotate(-10deg) contrast(110%);
 }
 
-.hero-title1,
-.hero-title2 {
-    @apply relative text-6xl font-bold text-black;
+/* Right Side: Text Content */
+.customer-card-content {
+    @apply w-full md:w-1/2 text-center md:text-left px-8;
 }
 
-.hero-text1 {
-    @apply relative text-lg text-black mb-6;
+/* Title & Subtitle */
+.title-service {
+    @apply text-5xl md:text-6xl font-extrabold text-[#F07900] leading-tight drop-shadow-lg;
 }
 
-.hero-btn-primary1 {
-    @apply bg-custom-orange text-white px-10 py-2 rounded-[100px] transition duration-300 border border-custom-orange relative overflow-hidden;
-}
-.hero-btn-primary1:hover{
-    @apply bg-white border border-custom-orange transition-colors duration-300 ease-in-out; 
-}
-.hero-btn-primary1 span {
-    @apply relative z-10 transition-colors duration-300 ease-in-out;
+.subtitle {
+    @apply text-3xl md:text-4xl text-gray-800 font-semibold mt-3;
 }
 
-.hero-btn-primary1:hover span {
-    @apply text-custom-orange;
+/* Description */
+.description {
+    @apply text-gray-700 text-lg md:text-xl mt-5 leading-relaxed tracking-wide;
 }
 
-.hero-btn-secondary1 {
-    @apply bg-white text-custom-orange px-5 py-2 rounded-[100px] transition-all duration-700 border border-gray-500 hover:bg-custom-orange hover:text-white;
+/* Button Container */
+.btn-container {
+    @apply flex justify-center md:justify-start mt-8;
 }
 
-.hero-buttons {
-    @apply flex flex-row space-x-4;
+/* Primary Button */
+.primary-button {
+    @apply px-8 py-4 bg-[#F07900] text-white font-semibold text-lg 
+    rounded-full shadow-md 
+    transition-all duration-300 ease-in-out;
 }
+.primary-button:hover {
+    @apply text-black scale-105 shadow-xl !important;
+}
+/* Website Link */
+.website {
+    @apply mt-6 text-lg text-gray-500 font-medium italic; 
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #F07900; /* Cursor effect */
+    animation: typing 3s steps(30, end) infinite alternate-reverse, blink 0.7s step-end infinite;
+}
+
+/* Typing Effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 38%;
+    }
+}
+
+/* Blinking Cursor Effect */
+@keyframes blink {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #F07900;
+    }
+}
+
+.website span {
+    @apply text-custom-orange font-semibold;
+}
+
 /* Page ending service line with arrow indicator */
 .service-line3 {
     @apply max-w-7xl mx-auto my-16 relative;
@@ -84,6 +129,16 @@
     bottom: -2px;
     left: 15%;
 }
+.services-section {
+    @apply mt-8 p-12 text-center mb-12;
+    min-height: screen;
+}
+
+.services-title {
+    @apply text-6xl font-bold text-black;
+}
+
+
 
 /* Bounce animation for the arrow */
 @keyframes bounceArrow {
@@ -112,67 +167,52 @@
         @apply max-w-full mx-6;
     }
 }
-.services-section {
-    @apply mt-8 p-12 text-center mb-12;
-    min-height: 80vh;
-}
-
-.services-title {
-    @apply text-6xl font-bold mb-4 text-black;
-}
-
 .services-container {
-    @apply grid gap-12 px-6 max-w-7xl mt-8 mx-auto justify-center;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(300px, 1fr)
-    );
+    @apply grid gap-8 px-6 max-w-6xl mt-12 mx-auto justify-center 
+           grid-cols-1 lg:grid-cols-3;
 }
 
-/* Card Styles */
+/* Service Cards */
 .service-card1, .service-card2, .service-card3 {
-    @apply bg-white rounded-2xl shadow-lg relative overflow-hidden;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    @apply bg-white rounded-2xl relative overflow-hidden shadow-lg 
+           outline-offset-2 outline-dashed outline-[#F07900] 
+           h-auto w-fit self-center flex flex-col items-center;
+}
+.service-card1 {
+    @apply mt-0 h-auto;
 }
 
-/* Hover effect for each card individually */
-.service-card1:hover, 
-.service-card2:hover, 
-.service-card3:hover {
-    @apply shadow-2xl hover:-translate-y-2 hover:scale-105 transition-transform duration-300;
+.service-card2{
+    @apply top-12 h-auto ;
+}
+.service-card3{
+    @apply top-24 h-auto ;
 }
 
 
 /* Image Styles */
 .service-card1 img, .service-card2 img, .service-card3 img {
-    @apply w-full h-64 object-cover;
+    @apply w-full h-64 object-cover ;
     flex-shrink: 0;
 }
 
 /* Title Styling */
 .service-title {
-    @apply text-3xl font-bold text-custom-orange p-4;
+    @apply text-3xl font-bold text-custom-orange pt-6;
 }
 
 /* Description Styling - Full description always visible */
-.service-description1, .service-description2, .service-description3 {
-    @apply text-base text-gray-600 p-6;
-    /* Remove line clamping to show full description */
-    display: block;
-    overflow: visible;
-    /* No need for height transition since description is always fully visible */
-}
 
+.service-description{
+    @apply text-sm text-gray-600 p-6;
+
+}
 /* Description Span Styling */
-.service-description1 span, .service-description2 span, .service-description3 span {
+.service-description span  {
     @apply text-lg font-bold text-black;
 }
 
-.service-description1 span span, .service-description2 span span, .service-description3 span span {
+.service-description span span {
     @apply text-custom-orange;
 }
 
@@ -227,7 +267,7 @@
 
 /* Second service line - dashed with endpoints */
 .service-line2 {
-    @apply max-w-7xl mx-auto my-12;
+    @apply max-w-7xl mx-auto my-28;
     height: 2px;
     background: repeating-linear-gradient(
         90deg,
@@ -269,41 +309,45 @@
     }
 }
 .about-section {
-    @apply bg-white p-8 text-center;
+    @apply flex flex-col items-center bg-custom-orange p-12;
 }
 
 .about-title {
-    @apply text-5xl font-semibold mb-4 text-gray-800;
+    @apply text-5xl font-semibold mb-4 text-white;
 }
 
 .about-text {
-    @apply max-w-4xl mx-auto text-lg text-gray-600 mt-10 mb-10 text-center;
+    @apply max-w-4xl mx-auto text-lg text-white mt-10 mb-10 text-center;
 }
 
 .about-container {
-    @apply grid grid-cols-1 sm:grid-cols-2 mx-auto max-w-7xl gap-12 place-items-center;
+    @apply grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 mx-auto max-w-7xl gap-12 place-items-center;
 }
 
-.about-card {
-    @apply relative bg-black bg-opacity-50 rounded-lg shadow-md flex flex-col items-center transition-transform duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 w-[500px] h-[550px];
+.about-card-service {
+    @apply relative rounded-md  bg-black bg-opacity-80 shadow-md flex flex-col items-center transition-transform duration-300 ease-in-out w-full max-w-[250px] h-[250px]; /* Ensure cards are uniform */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out content inside the card */
 }
 
-.about-image {
-    @apply w-full h-full opacity-30 object-cover rounded-lg;
+.about-image-service {
+    @apply w-full h-full opacity-30 object-cover rounded-md ;
 }
 
-.about-card-title {
-    @apply absolute py-4 font-bold text-black text-5xl;
+.about-card-title-service {
+    @apply absolute py-4 font-semibold text-white text-3xl;
     @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
     @apply text-center break-words max-w-full transition-transform duration-300 ease-in-out;
 }
+   
 
 .about-card:hover .about-card-title {
     @apply scale-105 rotate-2;
 }
 
 .about-text span {
-    @apply font-semibold text-custom-orange;
+    @apply font-bold text-xl;
 }
 
 .analytics-image {
@@ -321,7 +365,7 @@ html {
 }
 
 .feature-title {
-    @apply text-[2.5rem] text-[#c19a5b] text-center font-semibold mb-16;
+    @apply text-[2.5rem] text-custom-orange text-center font-semibold mb-16;
 }
 
 .feature-line {
@@ -329,7 +373,7 @@ html {
 }
 
 .feature-container {
-    @apply flex items-center mb-20 gap-10 h-[80vh];
+    @apply flex items-center mb-20 gap-10 h-screen;
 }
 
 #reverse {
@@ -345,7 +389,7 @@ html {
 }
 
 .feature-content-title {
-    @apply text-[1.8rem] text-custom-orange font-medium mb-5 mt-0;
+    @apply text-[1.8rem] text-custom-orange font-bold mb-5 mt-0;
 }
 
 .feature-content-text {
@@ -370,11 +414,11 @@ html {
 }
 
 .slider-dot {
-    @apply  w-2.5 h-2.5 rounded-full bg-gray-500 cursor-pointer transition-colors duration-300;
+    @apply  w-2.5 h-2.5 rounded-full bg-gray-500 cursor-pointer transition-all duration-300;
 }
 
 .slider-dot.active {
-    @apply bg-custom-orange;
+    @apply bg-custom-orange w-5 ;
 }
 
 /* Responsive styles */

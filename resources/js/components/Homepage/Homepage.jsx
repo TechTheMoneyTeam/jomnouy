@@ -9,26 +9,22 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Service from "../Servicepage/Servicepage";
 import Header from "../Header_landingpage/header_landing";
+import AboutUs from "../Aboutpage/Aboutus";
 
 const Home = () => {
     const [language, setLanguage] = useState("en");
-    const [showContactModal, setShowContactModal] = useState(false);
 
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0); // Scroll to the top of the page on mount
     }, []);
-
-    const toggleLanguage = () => {
-        setLanguage((prev) => (prev === "en" ? "km" : "en"));
-    };
 
     const Hero = () => (
         <section className="hero">
-            <div className="hero-background"></div>
+            <div className="hero-background" data-aos="fade-up" data-aos-duration="400"></div>
             <div className="hero-content">
                 <div
                     className="hero-text-section"
-                    data-aos="fade-up"
+                    data-aos="fade-down-left"
                     data-aos-duration="500"
                 >
                     <h1
@@ -52,18 +48,18 @@ const Home = () => {
                     >
                         "Jom<span>nouy"</span>
                     </p>
-                    <a
+                    <button
                         href="/signup"
-                        className="hero-button"
+                        className="hero-button1"
                         data-aos="fade-up"
                         data-aos-duration="1000"
                     >
                         Start now ➜
-                    </a>
+                    </button>
                 </div>
-                <div className="hero-image-wrapper">
+                <div className="hero-image-wrapper" data-aos="fade-down-right" data-aos-duration="600">
                     <img
-                        src="/img/hero.png"
+                        src="/img/img3.png.png"
                         alt="Illustration of investment opportunities"
                         className="analytics-image"
                     />
@@ -272,7 +268,7 @@ const Home = () => {
                     data-aos="fade-up"
                     data-aos-duration="800"
                 >
-                    Featured <span>Projects</span>
+                    Featured <span>Project</span>
                 </div>
                 <div className="content-container">
                     <button onClick={handlePrev} className="arrow-button left">
@@ -346,7 +342,7 @@ const Home = () => {
                     </button>
                 </div>
 
-           
+                {/* Contact Founder Modal */}
                 {showContactModal && currentProject && (
                     <ContactFounder
                         project={currentProject}
@@ -358,7 +354,8 @@ const Home = () => {
     };
 
     return (
-        <div className={showContactModal ? "blur-background" : ""}>
+        <>
+            {" "}
             <Header />
             <section id="home">
                 <Hero />
@@ -368,8 +365,11 @@ const Home = () => {
             <section id="services">
                 <Service />
             </section>
+            <section id="about">
+                <AboutUs />
+            </section>
             <Footer />
-        </div>
+        </>
     );
 };
 

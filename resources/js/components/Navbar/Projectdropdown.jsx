@@ -65,13 +65,14 @@ const DropdownMenu = () => {
     return (
         <div className="relative" ref={dropdownRef}>
             <div onClick={toggleDropdown} className="flex items-center cursor-pointer">
-                <p className="text-lg font-light text-black">{username}</p>
+                
                 <img
-                    className="avatar-image w-10 h-10 rounded-full object-cover ml-2"
+                    className="avatar-image w-10 h-10 rounded-full object-cover mr-2 ml-4"
                     src={getProfileImageSrc()}
                     alt={`${username}'s avatar`}
                     style={{ border: '2px solid #ccc' }} // Optional: Add a border for better visibility
                 />
+                <p className="text-lg font-light text-black">{username}</p>
             </div>
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-100">
