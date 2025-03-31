@@ -9,6 +9,11 @@ use App\Http\Controllers\KycVerificationController;
 use App\Http\Controllers\FollowingController;
 
 
+
+Route::get('/api/projects/by-location', [ProjectController::class, 'getProjectsByLocation']);
+
+Route::get('/api/projects/ending-soon', [ProjectController::class, 'getEndingSoonProject']);
+
 Route::get('/api/following', [FollowingController::class, 'getFollowing']);
 Route::get('/api/users/search', [FollowingController::class, 'searchUsers']);
 Route::post('/api/follow', [FollowingController::class, 'followUser']);
@@ -178,3 +183,16 @@ Route::post('/api/signup', [UserController::class, 'signup']);
 Route::post('/api/login', [UserController::class, 'login']);
 
 Route::get('/api/search', [ProjectController::class, 'search']);
+
+use App\Http\Controllers\UpdateController;
+
+Route::post('/api/updates-progress', [UpdateController::class, 'store']);
+// Route::post('/api/updates', [UpdateController::class, 'store']);
+Route::get('/updates/{projectId}', [UpdateController::class, 'index']);
+
+//route for invested project for investor 
+Route::get('/api/investor/{id}/projects', [InvestmentController::class, 'getInvestorData']);
+// Route::get('/api/investor/{id}/investment', [InvestmentController::class, 'getInvestmentsByInvestor']);
+
+//route for update  and report  project for investor 
+Route::get('/api/investor/{investorId}/updates-report', [UpdateController::class, 'getInvestorUpdates1']);

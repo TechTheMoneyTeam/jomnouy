@@ -41,25 +41,25 @@ const StatusBadge = ({ status }) => {
 // Delete Confirmation Modal Component
 const DeleteModal = ({ isOpen, onClose, onConfirm, projectTitle }) => {
     if (!isOpen) return null;
-    
+
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
                 <h3 className={styles.modalTitle}>Confirm Delete</h3>
                 <p className={styles.modalMessage}>
-                    Are you sure you want to delete the project 
+                    Are you sure you want to delete the project
                     <span className={styles.highlightText}> "{projectTitle}" </span>?
                     This action cannot be undone.
                 </p>
                 <div className={styles.modalActions}>
-                    <button 
-                        className={styles.cancelButton} 
+                    <button
+                        className={styles.cancelButton}
                         onClick={onClose}
                     >
                         Cancel
                     </button>
-                    <button 
-                        className={styles.deleteButton} 
+                    <button
+                        className={styles.deleteButton}
                         onClick={onConfirm}
                     >
                         Delete Project
@@ -84,9 +84,9 @@ const MyProjects = () => {
         projectId: null,
         projectTitle: ''
     });
-      useEffect(() => {
+    useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
+    }, []);
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
@@ -118,7 +118,7 @@ const MyProjects = () => {
                 setOpenDropdown(null);
             }
         };
-        
+
         document.addEventListener('click', handleClickOutside);
         return () => {
             document.removeEventListener('click', handleClickOutside);
@@ -368,7 +368,7 @@ const MyProjects = () => {
                         <h2 className={styles.sectionTitle}>
                             You have <span className={styles.highlight}>{projects.length} projects</span>
                         </h2>
-                        
+
                         <div className={styles.buttonGroup}>
                             <button
                                 onClick={() => window.location.href = '/create'}
@@ -403,7 +403,7 @@ const MyProjects = () => {
                             const investmentStatus = investmentData.pending_count > 0 ? 'pending' :
                                 investmentData.approved_count > 0 ? 'approved' :
                                     investmentData.completed_count > 0 ? 'completed' : 'TBD';
-                            
+
                             const isCompleted = investmentStatus === 'completed' || investmentStatus === 'approved';
 
                             return (
@@ -420,7 +420,7 @@ const MyProjects = () => {
                                             onClick={() => viewProjectDetails(projectId)}
                                         />
                                         <div className={styles.menuContainer}>
-                                            <button 
+                                            <button
                                                 className={styles.menuButton}
                                                 onClick={(e) => toggleDropdown(e, projectId)}
                                             >
@@ -428,25 +428,25 @@ const MyProjects = () => {
                                             </button>
                                             {openDropdown === projectId && (
                                                 <div className={styles.verticalMenu}>
-                                                    <div 
+                                                    <div
                                                         className={styles.menuItem}
                                                         onClick={() => viewProjectDetails(projectId)}
                                                     >
                                                         View Details
                                                     </div>
-                                                    <div 
+                                                    <div
                                                         className={styles.menuItem}
                                                         onClick={() => editProject(projectId)}
                                                     >
                                                         Edit Project
                                                     </div>
-                                                    <div 
+                                                    <div
                                                         className={`${styles.menuItem} ${isCompleted ? styles.disabled : ''}`}
                                                         onClick={() => !isCompleted && openDeleteConfirmation(projectId)}
                                                     >
                                                         Delete Project
                                                     </div>
-                                                    <div 
+                                                    <div
                                                         className={styles.menuItem}
                                                         onClick={() => viewInvestmentApprovalDashboard(projectId)}
                                                     >
@@ -467,7 +467,7 @@ const MyProjects = () => {
                                             {project.description?.slice(0, 100)}
                                             {project.description?.length > 100 ? '...' : ''}
                                         </div>
-                                   
+
                                         <div className={styles.investmentStatus}>
                                             <div className={styles.investmentItem}>
                                                 <CircleDashed size={16} className={styles.statusIcon} />
@@ -480,8 +480,8 @@ const MyProjects = () => {
                                             <div className={styles.investmentItem}>
                                                 <UserCheck size={16} className={styles.statusIcon} />
                                                 <span className={styles.statusCount}>
-                                                    {investmentData.approved_count > 0 
-                                                        ? `${investmentData.approved_count} x` 
+                                                    {investmentData.approved_count > 0
+                                                        ? `${investmentData.approved_count} x`
                                                         : '0'}
                                                 </span>
                                                 <span className={styles.statusLabel}>Approved</span>
@@ -492,8 +492,8 @@ const MyProjects = () => {
                                             <div className={styles.investmentItem}>
                                                 <CheckCheck size={16} className={styles.statusIcon} />
                                                 <span className={styles.statusCount}>
-                                                    {investmentData.completed_count > 0 
-                                                        ? `Done` 
+                                                    {investmentData.completed_count > 0
+                                                        ? `Done`
                                                         : '0'}
                                                 </span>
                                                 <span className={styles.statusLabel}>Completed</span>
@@ -551,7 +551,7 @@ const MyProjects = () => {
                 )}
 
                 {/* Delete Confirmation Modal */}
-                <DeleteModal 
+                <DeleteModal
                     isOpen={deleteModal.isOpen}
                     onClose={closeDeleteModal}
                     onConfirm={deleteProject}
