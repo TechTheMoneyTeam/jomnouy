@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Bell, Grid, Settings, HelpCircle, Package, Users, File, Lock, Inbox, ChevronDown, ChevronRight } from 'lucide-react';
 import { BriefcaseBusiness } from 'lucide-react';
 import Dashboard1 from './dashboard';
 import TaskManagementTable from './myInvestmentTab'; // Import the component
-
+import InvestorProjects from "./myInvestmentTab";
+import InvestorUpdates from './updateAndReport';
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [username, setUsername] = useState('');
 
   const mainNavItems = [
     { id: 'dashboard', icon: <Grid size={20} />, label: 'Overview' },
@@ -25,9 +28,23 @@ const Dashboard = () => {
     setActiveTab(tabId);
   };
 
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        setUsername(user.username); // Assuming 'user_id' is in the user object
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
+
   const tabComponents = {
     dashboard: <Dashboard1 />,
-    'My investment': <TaskManagementTable />,
+    'My investment': <InvestorProjects />,
+    'Milestone': <InvestorProjects />,
+    'Update & Report': <InvestorUpdates />,
   };
 
   const renderNavItem = (item) => {
@@ -71,9 +88,11 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
         {/* Header */}
-        <header className="border-b flex justify-end items-center p-4">
+        <header className="border-b flex justify-between items-center p-4">
+          <h1 className="text-2xl font-medium capitalize">{activeTab}</h1>
+
           <div className="flex items-center space-x-4">
-            <div>Heng Visal</div>
+            <div>{username}</div>
             <button className="bg-orange-500 rounded-full h-8 w-8 flex items-center justify-center">
               <span className="text-xs">US</span>
             </button>
@@ -82,9 +101,7 @@ const Dashboard = () => {
 
         {/* Dashboard Content */}
         <div className="p-4">
-          <div className="mb-6">
-            <h1 className="text-2xl font-semibold capitalize">{activeTab}</h1>
-          </div>
+          
 
           {tabComponents[activeTab] || (
             <div className="bg-gray-800 rounded-lg p-6 flex items-center justify-center">

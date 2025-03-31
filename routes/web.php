@@ -182,3 +182,16 @@ Route::post('/api/reset-password', [PasswordResetController::class, 'resetPasswo
 
 Route::post('/api/signup', [UserController::class, 'signup']);
 Route::post('/api/login', [UserController::class, 'login']);;
+
+use App\Http\Controllers\UpdateController;
+
+Route::post('/api/updates-progress', [UpdateController::class, 'store']);
+// Route::post('/api/updates', [UpdateController::class, 'store']);
+Route::get('/updates/{projectId}', [UpdateController::class, 'index']);
+
+//route for invested project for investor 
+Route::get('/api/investor/{id}/projects', [InvestmentController::class, 'getInvestorData']);
+// Route::get('/api/investor/{id}/investment', [InvestmentController::class, 'getInvestmentsByInvestor']);
+
+//route for update  and report  project for investor 
+Route::get('/api/investor/{investorId}/updates-report', [UpdateController::class, 'getInvestorUpdates1']);

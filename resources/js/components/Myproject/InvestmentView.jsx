@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Check, X, Award, Filter, RefreshCw, Clock, DollarSign, Users, AlertCircle } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  PieChart, Pie, Cell,
+  LineChart, Line,
+  XAxis, YAxis,
+  CartesianGrid, Tooltip,
+  Legend, ResponsiveContainer
+} from 'recharts';
 import styles from './InvestmentApprovalDashboard.module.css';
 import Navbar4 from '../Navbar/Navbarselect';
-
+import { useNavigate } from "react-router-dom";
+import UpdateForm from "./updateReport";
 const InvestmentApprovalDashboard = () => {
+  const navigate = useNavigate();
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,6 +37,13 @@ const InvestmentApprovalDashboard = () => {
   const [sortDirection, setSortDirection] = useState('desc');
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState(null);
+
+  // Colors for pie chart
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+  const handleUpdateClick = (projectId) => {
+    navigate(`/update/${projectId}`); 
+  };
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -121,9 +137,8 @@ const InvestmentApprovalDashboard = () => {
       const completedCount = investmentsData.filter(inv => inv.status === 'completed').length;
       const totalAmount = investmentsData.reduce((sum, inv) => sum + parseFloat(inv.amount || 0), 0);
       const term_1_5_count = investmentsData.filter(inv => inv.investment_term === '1-5').length;
-const term_5_10_count = investmentsData.filter(inv => inv.investment_term === '5-10').length;
-const term_10_plus_count = investmentsData.filter(inv => inv.investment_term === '10+').length;
-
+      const term_5_10_count = investmentsData.filter(inv => inv.investment_term === '5-10').length;
+      const term_10_plus_count = investmentsData.filter(inv => inv.investment_term === '10+').length;
 
       setStats({
         total: investmentsData.length,
@@ -134,8 +149,8 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
         totalAmount: totalAmount,
         uniqueInvestors: uniqueInvestors,
         term_1_5: term_1_5_count,
-  term_5_10: term_5_10_count,
-  term_10_plus: term_10_plus_count
+        term_5_10: term_5_10_count,
+        term_10_plus: term_10_plus_count
       });
 
       setError(null);
@@ -208,8 +223,46 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
     });
   };
 
+  // Prepare data for pie chart
+  const pieChartData = [
+    { name: 'Pending', value: stats.pending, color: '#FFBB28' },
+    { name: 'Approved', value: stats.approved, color: '#00C49F' },
+    { name: 'Rejected', value: stats.rejected, color: '#FF8042' },
+    { name: 'Completed', value: stats.completed, color: '#0088FE' }
+  ].filter(item => item.value > 0);
+
+  // Prepare data for line chart - group investments by date
+  const prepareLineChartData = () => {
+    const dataMap = new Map();
+
+    investments.forEach(inv => {
+      const date = formatDate(inv.created_at);
+      const amount = parseFloat(inv.amount || 0);
+
+      if (dataMap.has(date)) {
+        dataMap.set(date, {
+          date,
+          totalAmount: dataMap.get(date).totalAmount + amount,
+          count: dataMap.get(date).count + 1
+        });
+      } else {
+        dataMap.set(date, {
+          date,
+          totalAmount: amount,
+          count: 1
+        });
+      }
+    });
+
+    // Convert map to array and sort by date
+    return Array.from(dataMap.values())
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+  };
+
   return (
-    <><Navbar4 /><div className={styles.container}>
+    <>
+      <Navbar4 />
+      <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Investment Approval Dashboard</h1>
         <p className={styles.subtitle}>
@@ -217,129 +270,201 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
         </p>
       </div>
 
-      <div className={styles.controls}>
-        <div className={styles.selectWrapper}>
-          <label htmlFor="project-select" className={styles.selectLabel}>
-            Select Your Project
-          </label>
-          <select
-            id="project-select"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-            className={styles.select}
-            disabled={projects.length === 0}
-          >
-            {projects.length > 0 ? (
-              projects.map(project => (
-                <option key={project.project_id || project.id} value={project.project_id || project.id}>
-                  {project.title}
-                </option>
-              ))
-            ) : (
-              <option value="">No projects available</option>
-            )}
-          </select>
-        </div>
-
-        <div className={styles.filterControls}>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className={styles.statusFilter}
-          >
-            <option value="all">All Statuses</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-            <option value="completed">Completed</option>
-          </select>
-
-          <button
-            onClick={() => fetchInvestments(projectId)}
-            className={styles.refreshButton}
-            disabled={!projectId}
-          >
-            <RefreshCw size={16} />
-            Refresh
-          </button>
-        </div>
-      </div>
-
-      <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <div className={styles.statContent}>
-            <div>
-              <p className={styles.statLabel}>Total Investments</p>
-              <p className={styles.statValue}>{stats.total}</p>
+        <div className="bg-gray-200 p-5 rounded-lg">
+          <div className={styles.controls}>
+            <div className={styles.selectWrapper}>
+              <label htmlFor="project-select" className={styles.selectLabel}>
+                Select Your Project
+              </label>
+              <select
+                id="project-select"
+                value={projectId}
+                onChange={(e) => setProjectId(e.target.value)}
+                className={styles.select}
+                disabled={projects.length === 0}
+              >
+                {projects.length > 0 ? (
+                  projects.map(project => (
+                    <option key={project.project_id || project.id} value={project.project_id || project.id}>
+                      {project.title}
+                    </option>
+                  ))
+                ) : (
+                  <option value="">No projects available</option>
+                )}
+              </select>
             </div>
-            <div className={`${styles.iconContainer} ${styles.iconBlue}`}>
-              <DollarSign size={20} />
+
+            <div className={styles.filterControls}>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className={styles.statusFilter}
+              >
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                <option value="completed">Completed</option>
+              </select>
+
+              <button
+                onClick={() => fetchInvestments(projectId)}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50 flex items-center gap-2"
+                disabled={!projectId}
+              >
+                <RefreshCw size={16} />
+                Refresh
+              </button>
+
+              {/* <button
+                onClick={() => fetchInvestments(projectId)}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:opacity-50 flex items-center whitespace-nowrap gap-2"
+                disabled={!projectId}
+              >
+                <RefreshCw size={16} />
+                <span className="truncate">Update & Report</span>
+              </button> */}
+              <button
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:opacity-50 flex items-center whitespace-nowrap gap-2"
+
+                onClick={() => handleUpdateClick(projectId)}// Fixed the event
+              >
+                Update & Report
+              </button>
+
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-5">
+
+            <div className="bg-white p-4 rounded-md shadow">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-600">Total Investments Offered</p>
+                  <p className="text-xl font-bold">{stats.total}</p>
+                </div>
+                <div className="text-blue-500">
+                  <DollarSign size={20} />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-4 rounded-md shadow">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-600">Pending</p>
+                  <p className="text-xl font-bold">{stats.pending}</p>
+                </div>
+                <div className="text-yellow-500">
+                  <Clock size={20} />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-4 rounded-md shadow">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-600">Investors Amount</p>
+                  <p className="text-xl font-bold">{stats.uniqueInvestors}</p>
+                </div>
+                <div className="text-green-500">
+                  <Users size={20} />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-4 rounded-md shadow">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-600">Approved</p>
+                  <p className="text-xl font-bold">{stats.approved}</p>
+                </div>
+                <div className="text-green-500">
+                  <Check size={20} />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-4 rounded-md shadow">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-600">Total Amount Offered</p>
+                  <p className="text-xl font-bold">{formatCurrency(stats.totalAmount)}</p>
+                </div>
+                <div className="text-orange-500">
+                  <DollarSign size={20} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className={styles.statCard}>
-          <div className={styles.statContent}>
-            <div>
-              <p className={styles.statLabel}>Pending</p>
-              <p className={styles.statValue}>{stats.pending}</p>
-            </div>
-            <div className={`${styles.iconContainer} ${styles.iconYellow}`}>
-              <Clock size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statContent}>
-            <div>
-              <p className={styles.statLabel}>Unique Investors</p>
-              <p className={styles.statValue}>{stats.uniqueInvestors}</p>
-            </div>
-            <div className={`${styles.iconContainer} ${styles.iconGreen}`}>
-              <Users size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statContent}>
-            <div>
-              <p className={styles.statLabel}>Approved</p>
-              <p className={styles.statValue}>{stats.approved}</p>
-            </div>
-            <div className={`${styles.iconContainer} ${styles.iconGreen}`}>
-              <Check size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statContent}>
-            <div>
-              <p className={styles.statLabel}>Total Amount</p>
-              <p className={styles.statValue}>{formatCurrency(stats.totalAmount)}</p>
-            </div>
-            <div className={`${styles.iconContainer} ${styles.iconOrange}`}>
-              <DollarSign size={20} />
-            </div>
-          </div>
-        </div>
-      </div>
 
       {investments.length > 0 && (
-        <div className={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={investments}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="user_id" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="amount" fill="#F07900" />
-              <Bar dataKey="equity_percentage" fill="#FFB366" />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className={styles.chartsContainer}>
+          {/* Pie Chart */}
+          <div className={styles.chartContainer}>
+            <h3 className={styles.chartTitle}>Investment Status Distribution</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieChartData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={true}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                >
+                  {pieChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [`${value}`, 'Count']} />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Line Chart */}
+          <div className={styles.chartContainer}>
+            <h3 className={styles.chartTitle}>Investment Trends Over Time</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={prepareLineChartData()}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+                <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="totalAmount"
+                  name="Investment Amount"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="count"
+                  name="Number of Investments"
+                  stroke="#82ca9d"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
 
@@ -479,42 +604,49 @@ const term_10_plus_count = investmentsData.filter(inv => inv.investment_term ===
                     </td>
                     <td className={styles.tableCell}>
                       <div className={styles.actionButtons}>
-                        <button
-                          onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
-                          disabled={investment.status === 'approved'}
-                          className={`
-                            ${styles.actionButton}
-                            ${styles.approveButton}
-                            ${investment.status === 'approved' ? styles.buttonDisabled : ''}
-                          `}
-                          title="Approve"
-                        >
-                          <Check size={16} />
-                        </button>
-                        <button
-                          onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
-                          disabled={investment.status === 'rejected'}
-                          className={`
-                            ${styles.actionButton}
-                            ${styles.rejectButton}
-                            ${investment.status === 'rejected' ? styles.buttonDisabled : ''}
-                          `}
-                          title="Reject"
-                        >
-                          <X size={16} />
-                        </button>
-                        <button
-                          onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
-                          disabled={investment.status === 'completed' || investment.status === 'rejected'}
-                          className={`
-                            ${styles.actionButton}
-                            ${styles.completeButton}
-                            ${investment.status === 'completed' || investment.status === 'rejected' ? styles.buttonDisabled : ''}
-                          `}
-                          title="Complete"
-                        >
-                          <Award size={16} />
-                        </button>
+                        {investment.status === 'completed' ? (
+                          <span className={styles.completeText}>Complete</span>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
+                              disabled={investment.status === 'approved'}
+                              className={`
+                                ${styles.actionButton}
+                                ${styles.approveButton}
+                                ${investment.status === 'approved' ? styles.buttonDisabled : ''}
+                              `}
+                              title="Approve"
+                            >
+                              <Check size={16} />
+                            </button>
+                            <button
+                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
+                              disabled={investment.status === 'rejected'}
+                              className={`
+                                ${styles.actionButton}
+                                ${styles.rejectButton}
+                                ${investment.status === 'rejected' ? styles.buttonDisabled : ''}
+                              `}
+                              title="Reject"
+                            >
+                              <X size={16} />
+                            </button>
+                            <button
+                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
+                              disabled={investment.status === 'completed' || investment.status === 'rejected'}
+                              className={`
+                                ${styles.actionButton}
+                                ${styles.completeButton}
+                                ${investment.status === 'completed' ? styles.buttonBright : ''}
+                                ${investment.status === 'completed' || investment.status === 'rejected' ? styles.buttonDisabled : ''}
+                              `}
+                              title="Complete"
+                            >
+                              <Award size={16} />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>

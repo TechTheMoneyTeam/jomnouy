@@ -1,118 +1,19 @@
-import React from 'react';
-import { Users } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const tasks = [
-               {
-                              createdBy: {
-                                             name: 'Jhon Clavio',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Blog Writing',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Open',
-                              privacy: 'Private',
-                              createdAt: 'April 14, 2022 5:20 PM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Alex Smith',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Article',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Open',
-                              privacy: 'Private',
-                              createdAt: 'April 10, 2022 4:22 PM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Saleh Mohasoy',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Productivity',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Open',
-                              privacy: 'Public',
-                              createdAt: 'April 05, 2022 5:20 PM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Power Boy',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Verfication',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Pending',
-                              privacy: 'Private',
-                              createdAt: 'April 04, 2022 6:30 PM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Ruhan Ibn Tajul',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Refund Policy',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Pending',
-                              privacy: 'Public',
-                              createdAt: 'April 02, 2022 10:20 AM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Kilan James',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Lifetime Deals',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Open',
-                              privacy: 'Private',
-                              createdAt: 'March 18, 2022 5:20 PM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Thomas Flechture',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'Blog Writing',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Pending',
-                              privacy: 'Private',
-                              createdAt: 'March 14, 2022 4:20 PM'
-               },
-               {
-                              createdBy: {
-                                             name: 'Hamidi Ibrahim',
-                                             role: 'Product Designer',
-                                             avatar: '/api/placeholder/40/40'
-                              },
-                              subject: 'FAQ',
-                              ticket: '#210452',
-                              assignedTo: 'Simply Web',
-                              status: 'Pending',
-                              privacy: 'Private',
-                              createdAt: 'March 10, 2022 1:20 PM'
-               }
-];
+const InvestorProjects = () => {
+               const [projects, setProjects] = useState([]);
+               const [user_id, setUserId] = useState(null);  // Initialize as null
+               // const [investment, setInvestments] = useState([]);
+               const capitalizeFirstLetter = (string) => {
+                              return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+               };
 
-const TaskManagementTable = () => {
                const getStatusColor = (status) => {
                               switch (status) {
-                                             case 'Open': return 'bg-green-500';
-                                             case 'Pending': return 'bg-yellow-500';
+                                             case 'approve': return 'bg-[#2ecc71]';
+                                             case 'pending': return 'bg-[#f7dc6f]';
+                                             case 'reject': return 'bg-red-500';
                                              default: return 'bg-gray-500';
                               }
                };
@@ -122,69 +23,90 @@ const TaskManagementTable = () => {
                                              ? 'text-red-500 border-red-500'
                                              : 'text-green-500 border-green-500';
                };
+               useEffect(() => {
+                              const userData = localStorage.getItem('user');
+                              if (userData) {
+                                             try {
+                                                            const user = JSON.parse(userData);
+                                                            setUserId(user.user_id);  // Assuming 'user_id' is in the user object
+                                             } catch (error) {
+                                                            console.error("Error parsing user data:", error);
+                                             }
+                              }
+               }, []);
+               const [investments, setInvestments] = useState([]);
+
+            
+
+               useEffect(() => {
+                              if (user_id) {
+                                             const fetchInvestments = async () => {
+                                                            try {
+                                                                           const response = await axios.get(`/api/investor/${user_id}/projects`);
+                                                                           setInvestments(response.data);
+                                                            } catch (error) {
+                                                                           console.error("Error fetching investments:", error.response ? error.response.data : error.message);
+                                                            }
+                                             };
+
+                                             fetchInvestments();
+                              } else {
+                                             console.log("No user_id found in localStorage");
+                              }
+               }, [user_id]); // Only run when user_id changes
 
                return (
-                              <div className="container mx-auto p-4 bg-white">
-                                             <div className="overflow-x-auto">
-                                                            <table className="w-full border-collapse">
+                              <div className="overflow-x-auto">
+                                             {investments.length > 0 ? (
+                                                            <table className="w-full border-collapse mt-4">
                                                                            <thead className="bg-gray-100">
                                                                                           <tr>
                                                                                                          <th className="p-3 text-left">Project Title</th>
-                                                                                                         {/* <th className="p-3 text-left">Subject</th> */}
-                                                                                                         {/* <th className="p-3 text-left">Assigned</th> */}
+                                                                                                         <th className="p-3 text-left">Investment Amount</th>
+                                                                                                         <th className="p-3 text-left">Equity Percentage</th>
                                                                                                          <th className="p-3 text-left">Status</th>
-                                                                                                         <th className="p-3 text-left">Date</th>
+                                                                                                         <th className="p-3 text-left">Investment Term</th>
+                                                                                                         <th className="p-3 text-left">Investment Date</th>
                                                                                                          <th className="p-3 text-left">Action</th>
                                                                                           </tr>
                                                                            </thead>
                                                                            <tbody>
-                                                                                          {tasks.map((task, index) => (
-                                                                                                         <tr
-                                                                                                                        key={index}
-                                                                                                                        className="border-b hover:bg-gray-50 transition-colors"
-                                                                                                         >
-                                                                                                                        <td className="p-3">
-                                                                                                                                       <div className="flex items-center">
-                                                                                                                                                      <img
-                                                                                                                                                                     src={task.createdBy.avatar}
-                                                                                                                                                                     alt={task.createdBy.name}
-                                                                                                                                                                     className="w-10 h-10 rounded-full mr-3"
-                                                                                                                                                      />
-                                                                                                                                                      <div>
-                                                                                                                                                                     <div className="font-semibold">{task.createdBy.name}</div>
-                                                                                                                                                                     <div className="text-sm text-gray-500">
-                                                                                                                                                                                    {task.createdBy.role}
-                                                                                                                                                                     </div>
-                                                                                                                                                      </div>
-                                                                                                                                       </div>
+                                                                                          {investments.map((investment) => (
+                                                                                                         <tr key={investment.id} className="border-b hover:bg-gray-50 transition-colors mt-4">
+                                                                                                                        <td className="p-4 text-sm text-gray-500">
+                                                                                                                                       {investment.project ? investment.project.title : "N/A"}
                                                                                                                         </td>
-                                                                                                                        {/* <td className="p-3">
-                                                                                                                                       <div className="font-medium">{task.subject}</div>
-                                                                                                                                       <div className="text-sm text-gray-500">{task.ticket}</div>
-                                                                                                                        </td> */}
-                                                                                                                        {/* <td className="p-3 text-gray-600">{task.assignedTo}</td> */}
-                                                                                                                        <td className="p-3">
-                                                                                                                                       <span
-                                                                                                                                                      className={`px-2 py-1 rounded-full text-white text-xs ${getStatusColor(task.status)}`}
-                                                                                                                                       >
-                                                                                                                                                      {task.status}
+                                                                                                                        <td className="p-4 text-sm text-gray-500">$ {parseInt(investment.amount)}</td>
+                                                                                                                        {/* <td className="p-3">{investment.status}</td> */}
+                                                                                                                        <td className="p-4 text-sm text-gray-500">{investment.equity_percentage} %</td>
+                                                                                                                        <td className="p-4 text-sm text-gray-500">
+                                                                                                                                       <span className={`px-4 py-2 rounded-full text-white text-xs ${getStatusColor(investment.status)}`}>
+                                                                                                                                                      {capitalizeFirstLetter(investment.status)}
                                                                                                                                        </span>
                                                                                                                         </td>
-                                                                                                                        <td className="p-3">
-                                                                                                                                       <span
-                                                                                                                                                      className={`border rounded-full px-2 py-1 text-xs ${getPrivacyIcon(task.privacy)}`}
-                                                                                                                                       >
-                                                                                                                                                      {task.privacy}
-                                                                                                                                       </span>
+                                                                                                                        <td className="p-4 text-sm text-gray-500">{investment.investment_term} year (s)</td>
+
+
+                                                                                                                        <td className="p-4 text-sm text-gray-500">
+                                                                                                                                       {new Date(investment.created_at).toLocaleDateString('en-US', {
+                                                                                                                                                      year: 'numeric',
+                                                                                                                                                      month: 'long',
+                                                                                                                                                      day: 'numeric',
+                                                                                                                                                      // hour: '2-digit',
+                                                                                                                                                      // minute: '2-digit',
+                                                                                                                                                      // second: '2-digit',
+                                                                                                                                                      hour12: true
+                                                                                                                                       })}
                                                                                                                         </td>
-                                                                                                                        <td className="p-3 text-gray-600">{task.createdAt}</td>
+
                                                                                                          </tr>
                                                                                           ))}
                                                                            </tbody>
                                                             </table>
-                                             </div>
+                                             ) : (
+                                                            <p>No investments found</p>
+                                             )}
                               </div>
                );
 };
-
-export default TaskManagementTable;
+export default InvestorProjects;

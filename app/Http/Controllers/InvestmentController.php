@@ -494,4 +494,28 @@ class InvestmentController extends Controller
         ], 500);
     }
 }
+    public function getProjectsByInvestor($investorId)
+    {
+        $projects = Investment::with('project') 
+            ->where('user_id', $investorId) // Use 'user_id' instead of 'investor_id'
+            ->get() // Retrieve all the investments by the investor
+            ->pluck('project'); // Extract the project data from the investment
+
+        return response()->json($projects); // Return the projects as JSON
+    }
+    public function getInvestmentsByInvestor($investorId)
+    {
+        $investments = Investment::where('user_id', $investorId) // Fetch investments for the investor
+            ->get(); // Retrieve all investment records
+
+        return response()->json($investments); // Return investment records as JSON
+    }
+    public function getInvestorData($investorId)
+    {
+        $investments = Investment::with('project') // Load related project data
+            ->where('user_id', $investorId)
+            ->get(); // Retrieve all investments with their projects
+
+        return response()->json($investments); // Return merged data
+    }
 }

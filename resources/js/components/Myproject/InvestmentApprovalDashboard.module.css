@@ -3,7 +3,7 @@
     --primary-light: #FFB366;
     --primary-dark: #D66800;
     --primary-hover: #E87400;
-    --primary-bg: #FFF1E5;
+    --primary-bg: white;
     --secondary: #2A3444;
     --secondary-light: #4A5466;
     --text-dark: #263238;
@@ -36,7 +36,7 @@
   
   .title {
     font-size: 1.75rem;
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 0.5rem;
     color: var(--secondary);
     display: flex;
@@ -68,7 +68,7 @@
     background-color: var(--primary-bg);
     padding: 1.5rem;
     border-radius: var(--border-radius);
-    border-left: 4px solid var(--primary);
+    /* border-left: 4px solid var(--primary); */
   }
   
   @media (min-width: 768px) {
@@ -154,6 +154,12 @@
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(240, 121, 0, 0.2);
   }
+  .buttonBright {
+    background-color: #007bff; /* Brighter blue */
+    color: #fff;
+    border: 1px solid #0056b3;
+  }
+  
   
   .refreshButton {
     display: flex;
@@ -438,13 +444,8 @@
   }
   
   .buttonDisabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .buttonDisabled:hover {
-    transform: none;
-    box-shadow: none;
+    opacity: 0.5; /* Makes the button appear lighter */
+    pointer-events: none; /* Ensures the button is not clickable */
   }
   
   .emptyState {
@@ -529,4 +530,11 @@
       transform: none;
       box-shadow: none;
     }
+  }
+
+  .completeText {
+    color: var(--info); /* Blue color */
+    font-weight: bold;
+    font-size: 0.875rem;
+    text-transform: uppercase;
   }

@@ -6,7 +6,7 @@ import { Clock } from 'lucide-react';
 import { RxBookmark } from "react-icons/rx";
 import { ChevronDown } from 'lucide-react';
 import Footer1 from "../footer/footer1";
-import useNearbyProjects from "../ProjectCategory/projectNearHook/useNearbyProjects";
+import useNearbyProjects from '../ProjectCategory/project/useNearbyProjects';
 const Card = ({ className, children }) => (
                <div className={`bg-white rounded-lg overflow-hidden ${className || ''}`}>
                               {children}

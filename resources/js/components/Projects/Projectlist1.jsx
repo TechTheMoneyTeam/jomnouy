@@ -9,7 +9,7 @@ import Footer1 from '../footer/footer1';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
-import useNearbyProjects from '../ProjectCategory/projectNearHook/useNearbyProjects';
+import useNearbyProjects from '../ProjectCategory/project/useNearbyProjects';
 const Card = ({ className, children }) => (
   <div className={`bg-white rounded-lg overflow-hidden ${className || ''}`}>
     {children}
