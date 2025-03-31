@@ -19,7 +19,7 @@ class UpdateController extends Controller
                {
                               // Validate input
                               $request->validate([
-                                             'project_id' => 'required|integer|exists:projects,id',
+                                             'project_id' => 'required|integer|exists:projects,project_id',
                                              'title' => 'required|string|max:255',
                                              'description' => 'required|string',
                                              'update_date' => 'required|date',

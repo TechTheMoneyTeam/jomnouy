@@ -16,7 +16,7 @@
 }
 
 .title {
-               @apply mt-10 mb-8 text-center text-3xl font-bold text-[50px];
+               @apply mt-10 mb-8 text-center text-4xl font-bold ;
 }
 
 .title .highlight {
@@ -24,7 +24,7 @@
 }
 
 .text-left {
-               @apply text-sm font-medium;
+               @apply text-sm font-bold text-center;
 }
 
 .custom-input {
