@@ -39,7 +39,7 @@ const useNearbyProjects = () => {
 
                const fetchIpInfo = async (ip) => {
                               try {
-                                             const response = await fetch(`https://ipapi.co/${ip}/json/`);
+                                             const response = await fetch(`https://cors-anywhere.herokuapp.com/https://ipapi.co/203.95.199.47/json/`);
                                              const data = await response.json();
 
                                              console.log(" User's Country:", data.country_name);

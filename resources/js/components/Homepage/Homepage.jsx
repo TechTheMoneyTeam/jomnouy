@@ -319,11 +319,7 @@ const Home = () => {
                             {currentProject.funding_goal?.toLocaleString() ||
                                 "Not specified"}
                         </p>
-                        <p className="project-min">
-                            <strong>Min Investment : </strong> $
-                            {currentProject.reserve_price?.toLocaleString() ||
-                                "Not specified"}
-                        </p>
+                  
 
                         <div className="button-container">
                             <button

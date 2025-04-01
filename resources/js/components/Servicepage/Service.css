@@ -9,7 +9,7 @@
 /* Customer Card Container */
 .customer-card-container {
     @apply flex flex-col md:flex-row items-center justify-between bg-white
-    p-10 md:p-16 rounded-3xl w-screen mx-auto h-[90vh];
+    p-10 md:p-16 rounded-3xl w-screen mx-auto h-[90vh] mt-[15rem] ;
 }
 
 /* Left Side: Image */
