@@ -315,7 +315,7 @@ const Home = () => {
                             </strong>
                         </p>
                         <p className="project-goal">
-                            <strong>Investment Goal : </strong> $
+                            <strong>Investments Goal : </strong> $
                             {currentProject.funding_goal?.toLocaleString() ||
                                 "Not specified"}
                         </p>
