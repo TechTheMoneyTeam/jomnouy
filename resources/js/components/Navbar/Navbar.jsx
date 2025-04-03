@@ -176,15 +176,7 @@ const Navbar = () => {
 
     const renderCreateProjectButton = () => {
         if (userType === 'investor') {
-            return (
-                <button
-                    className="create-btn opacity-50 cursor-not-allowed"
-                    disabled={true}
-                    title="Investors cannot create projects"
-                >
-                    Create project
-                </button>
-            );
+            return null; 
         } else {
             return (
                 <Link to="/create">

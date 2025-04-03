@@ -52,6 +52,7 @@ Route::get('/api/projects/{projectId}/investments', [InvestmentController::class
 // Get all investments for a specific user
 Route::get('/api/users/{userId}/investments', [InvestmentController::class, 'getUserInvestments']);
 Route::get('/api/project-investments/{projectId}', [InvestmentController::class, 'getProjectInvestments']);
+Route::get('/api/investments/user/{userId}', [InvestmentController::class, 'getUserTransactions']);
 
 Route::get('/investments', function () {
     return view('welcome');

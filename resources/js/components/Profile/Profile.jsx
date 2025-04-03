@@ -242,15 +242,7 @@ const ProfileDisplay = () => {
               >
                 About
               </button>
-              <button
-                style={{
-                  ...styles.navButton,
-                  ...(activeSection === 'invested' ? styles.activeNavButton : {})
-                }}
-                onClick={() => setActiveSection('invested')}
-              >
-                Invested <span style={styles.badge}>{investments.length}</span>
-              </button>
+       
             </div>
 
             {activeSection === 'about' && (
@@ -258,7 +250,7 @@ const ProfileDisplay = () => {
                 <div style={styles.detailsSection}>
                   <h3 style={styles.sectionTitle}>Details</h3>
                   <p style={styles.detailText}>{formatDate(userInfo.created_at)}</p>
-                  <p style={styles.detailText}>Invested {investments.length} projects</p>
+           
                   <p style={styles.detailText}>User Type: {userInfo.user_type || 'No type found'}</p>
                 </div>
 
@@ -315,22 +307,6 @@ const ProfileDisplay = () => {
               </>
             )}
 
-            {activeSection === 'invested' && (
-              <div style={styles.detailsSection}>
-                <h3 style={styles.sectionTitle}>Investments</h3>
-                {investments.length > 0 ? (
-                  investments.map((investment) => (
-                    <div key={investment.project_id} style={styles.detailText}>
-                      <p>Project: {investment.project.title}</p>
-                      <p>Total Amount Invested: ${investment.total_amount}</p>
-                      <p>Number of Investments: {investment.investment_count}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p style={styles.detailText}>No investments yet</p>
-                )}
-              </div>
-            )}
           </>
         )}
       </div>

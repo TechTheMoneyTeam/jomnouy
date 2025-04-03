@@ -6,6 +6,8 @@ import Dashboard1 from './dashboard';
 import TaskManagementTable from './myInvestmentTab'; // Import the component
 import InvestorProjects from "./myInvestmentTab";
 import InvestorUpdates from './updateAndReport';
+import TransactionDetails from './transactionDetails'; // Import the new component
+
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [username, setUsername] = useState('');
@@ -45,6 +47,7 @@ const Dashboard = () => {
     'My investment': <InvestorProjects />,
     'Milestone': <InvestorProjects />,
     'Update & Report': <InvestorUpdates />,
+    'Transaction': <TransactionDetails />, // Add the new component for the Transaction tab
   };
 
   const renderNavItem = (item) => {
