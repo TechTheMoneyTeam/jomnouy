@@ -10,6 +10,7 @@ use App\Http\Controllers\FollowingController;
 
 
 
+
 Route::get('/api/projects/by-location', [ProjectController::class, 'getProjectsByLocation']);
 
 Route::get('/api/projects/ending-soon', [ProjectController::class, 'getEndingSoonProject']);
@@ -74,7 +75,6 @@ Route::get('/api/category/{category}', [ProjectController::class, 'getProjectsBy
 Route::get('/category/{categoryName}', function () {
     return view('welcome');  // Ensure this view contains your React app
 })->where('categoryName', '[^/]+');  // Match any category name
-
 
 
  
@@ -204,6 +204,8 @@ Route::post('/api/login', [UserController::class, 'login']);
 Route::get('/api/search', [ProjectController::class, 'search']);
 
 use App\Http\Controllers\UpdateController;
+Route::get('/api/updates/{investorId}', [UpdateController::class, 'getInvestorUpdates1']);
+
 
 Route::post('/api/updates-progress', [UpdateController::class, 'store']);
 // Route::post('/api/updates', [UpdateController::class, 'store']);

@@ -9,6 +9,7 @@ const UpdateForm = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [updateDate, setUpdateDate] = useState('');
+    const [profitAmount, setProfitAmount] = useState('');
     const [file, setFile] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
@@ -23,6 +24,7 @@ const UpdateForm = () => {
         formData.append("title", title);
         formData.append("description", description);
         formData.append("update_date", updateDate);
+        formData.append("profit_amount", profitAmount);
 
         if (file) {
             formData.append("file", file);
@@ -94,7 +96,7 @@ const UpdateForm = () => {
                             />
                         </div>
 
-                        {/* Update Date */}
+                        {/* Update Date and Profit Amount */}
                         <div className="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -108,34 +110,49 @@ const UpdateForm = () => {
                                         className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                                         placeholder="YYYY-MM-DD"
                                     />
-                                  
                                 </div>
                             </div>
 
-                            {/* Attach File */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                                    Attach File (optional)
+                                    Profit Amount
                                 </label>
-                                <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                                <div className="relative">
                                     <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        id="file-upload"
-                                        className="hidden"
-                                        onChange={handleFileChange}
+                                        type="number"
+                                        step="0.01"
+                                        value={profitAmount}
+                                        onChange={(e) => setProfitAmount(e.target.value)}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Enter profit amount"
                                     />
-                                    <div className="flex-grow px-3 py-2 text-gray-700 text-md font-base">
-                                        {selectedFile ? selectedFile.name : 'No file selected'}
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="bg-none text-orange-500/70 font-medium px-6 py-3 transition-colors hover:text-orange-500"
-                                        onClick={handleUpload}
-                                    >
-                                        Upload
-                                    </button>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Attach File */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-3">
+                                Attach File (optional)
+                            </label>
+                            <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    id="file-upload"
+                                    className="hidden"
+                                    onChange={handleFileChange}
+                                />
+                                <div className="flex-grow px-3 py-2 text-gray-700 text-md font-base">
+                                    {selectedFile ? selectedFile.name : 'No file selected'}
+                                </div>
+                                <button
+                                    type="button"
+                                    className="bg-none text-orange-500/70 font-medium px-6 py-3 transition-colors hover:text-orange-500"
+                                    onClick={handleUpload}
+                                >
+                                    Upload
+                                </button>
                             </div>
                         </div>
 
