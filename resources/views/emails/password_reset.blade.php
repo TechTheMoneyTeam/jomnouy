@@ -5,7 +5,6 @@
     <title>Reset Your Password</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f4f4f4;
             padding: 20px;
@@ -19,7 +18,7 @@
             margin: auto;
         }
         .btn {
-            background-color: rgb(255, 145, 0);
+            background-color: #F07900; /* Orange color */
             color: white;
             padding: 14px 20px;
             text-align: center;
@@ -29,10 +28,17 @@
             font-size: 16px;
         }
         p {
-            color: #000000;
+            color: #333;
+        }
+        .container .eng{
+            font-family: 'Main-Font', sans-serif;
+        }
+        .container .kh{
+            font-family: 'khmerFont', sans-serif;
+          
         }
         .logo {
-            font-family: Arial, sans-serif;
+            font-family: 'Main-Font', sans-serif;
             font-size: 48px;
             font-weight: bold;
         }
@@ -42,22 +48,36 @@
         .second-part {
             color: #FF8C00;
         }
+        @font-face {
+            font-family: 'Main-Font';
+            src: url('./font/Montserrat-VariableFont_wght.ttf')
+        }
+        @font-face {
+            font-family: 'khmerFont';
+            src: url('./font/Siemreap-Regular.ttf')
+        }
+        .btn .eng{
+            font-family: 'Main-Font', sans-serif;
+        }
+        .btn .eng .kh{
+            font-family: 'khmerFont', sans-serif;
+        }
     </style>
 </head>
 <body>
     <div class="container">
     <div class="logo">
-        <span class="first-part">jom-</span><span class="second-part">nouy</span>
+        <span class="first-part">JOM-</span><span class="second-part">NOUY</span>
     </div>
-        <h1>Reset Your Password</h1>
-        <h2>ផ្លាស់ប្តូរពាក្យសម្ងាត់របស់អតិថិជន</h2>
-        <p>You are receiving this email because we received a password reset request for your account.</p>
-        <p>អ្នកកំពុងទទួលអ៊ីមែលនេះ ព្រោះយើងបានទទួលសំណើផ្លាស់ប្តូរពាក្យសម្ងាត់សម្រាប់គណនីរបស់អតិថិជន។</p>
-        <p>Click the button below to reset your password:</p>
-        <p>សូមចុចប៊ូតុងខាងក្រោម ដើម្បីផ្លាស់ប្តូរពាក្យសម្ងាត់របស់អ្នក៖</p>
-        <a href="http://localhost:8000/reset" class="btn">Reset Password | ផ្លាស់ប្តូរពាក្យសម្ងាត់</a>
-        <p>If you did not request a password reset, no further action is required.</p>
-        <p>ប្រសិនបើអ្នកមិនបានស្នើសុំផ្លាស់ប្តូរពាក្យសម្ងាត់ទេ មិនចាំបាច់ធ្វើអ្វីបន្ថែមទៀតឡើយ។</p>
+        <h1 class="eng">Reset Your Password</h1>
+        <h2 class="kh">ផ្លាស់ប្តូរពាក្យសម្ងាត់របស់អតិថិជន</h2>
+        <p class="eng">You are receiving this email because we received a password reset request for your account.</p>
+        <p class="kh">អ្នកកំពុងទទួលអ៊ីមែលនេះ ព្រោះយើងបានទទួលសំណើផ្លាស់ប្តូរពាក្យសម្ងាត់សម្រាប់គណនីរបស់អតិថិជន។</p>
+        <p class="eng">Click the button below to reset your password:</p>
+        <p class="kh">សូមចុចប៊ូតុងខាងក្រោម ដើម្បីផ្លាស់ប្តូរពាក្យសម្ងាត់របស់អ្នក៖</p>
+        <a href="http://localhost:8000/reset" class="btn"><span class="eng">Reset Password | <span class="kh">ផ្លាស់ប្តូរពាក្យសម្ងាត់</span></a>
+        <p class="eng">If you did not request a password reset, no further action is required.</p>
+        <p class="kh">ប្រសិនបើអ្នកមិនបានស្នើសុំផ្លាស់ប្តូរពាក្យសម្ងាត់ទេ មិនចាំបាច់ធ្វើអ្វីបន្ថែមទៀតឡើយ។</p>
     </div>
 </body>
 </html>
