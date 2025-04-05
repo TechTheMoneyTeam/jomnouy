@@ -480,40 +480,6 @@ class InvestmentController extends Controller
         }
     }
 
-    public function getProjectTotalInvestment($projectId)
-    {
-        try {
-            // Verify project exists
-            $project = Project::find($projectId);
-            
-            if (!$project) {
-                return response()->json([
-                    'message' => 'Project not found'
-                ], 404);
-            }
-
-            $investments = Investment::where('project_id', $projectId)->get();
-
-            // Calculate total investment amount
-            $totalInvestmentAmount = $investments->sum('amount');
-            $totalApprovedAmount = $investments->where('status', 'approved')->sum('amount');
-            $totalCompletedAmount = $investments->where('status', 'completed')->sum('amount');
-
-            return response()->json([
-                'total_amount' => $totalInvestmentAmount,
-                'total_approved_amount' => $totalApprovedAmount,
-                'total_completed_amount' => $totalCompletedAmount,
-                'active_amount' => $totalApprovedAmount + $totalCompletedAmount
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to fetch investment total',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
     public function getProjectsByInvestor($investorId)
     {
         $projects = Investment::with('project') 
@@ -523,7 +489,6 @@ class InvestmentController extends Controller
 
         return response()->json($projects); // Return the projects as JSON
     }
-
     public function getInvestmentsByInvestor($investorId)
     {
         $investments = Investment::where('user_id', $investorId) // Fetch investments for the investor
@@ -531,7 +496,6 @@ class InvestmentController extends Controller
 
         return response()->json($investments); // Return investment records as JSON
     }
-
     public function getInvestorData($investorId)
     {
         $investments = Investment::with('project') // Load related project data

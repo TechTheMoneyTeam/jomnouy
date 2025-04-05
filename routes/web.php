@@ -8,6 +8,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\KycVerificationController;
 use App\Http\Controllers\FollowingController;
 
+use Illuminate\Support\Facades\Http;
 
 
 
@@ -199,13 +200,9 @@ Route::post('/api/forgot-password', [PasswordResetController::class, 'sendResetE
 Route::post('/api/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 Route::post('/api/signup', [UserController::class, 'signup']);
-Route::post('/api/login', [UserController::class, 'login']);
-
-Route::get('/api/search', [ProjectController::class, 'search']);
+Route::post('/api/login', [UserController::class, 'login']);;
 
 use App\Http\Controllers\UpdateController;
-Route::get('/api/updates/{investorId}', [UpdateController::class, 'getInvestorUpdates1']);
-
 
 Route::post('/api/updates-progress', [UpdateController::class, 'store']);
 // Route::post('/api/updates', [UpdateController::class, 'store']);

@@ -562,33 +562,6 @@ class ProjectController extends Controller
             ], 500);
         }
     }
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-
-        $projects = Project::where('title', 'LIKE', "%{$query}%")
-            ->get(['project_id as id', 'title as name', 'categories']);
-
-
-        $categories = Project::where('categories', 'LIKE', "%{$query}%")
-            ->distinct()
-            ->pluck('categories')
-            ->map(function ($category) {
-                return ['type' => 'Category', 'name' => $category];
-            });
-
-
-        $results = $projects->map(function ($project) {
-            return [
-                'type' => 'Project',
-                'id' => $project->id,
-                'name' => $project->name,
-                'category' => $project->categories,
-            ];
-        })->merge($categories);
-
-        return response()->json($results);
-    }
+    
 }
     
