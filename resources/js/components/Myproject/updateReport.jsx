@@ -3,7 +3,8 @@ import { Calendar } from 'lucide-react';
 import { useParams } from "react-router-dom";
 import Navbar4 from '../Navbar/Navbarselect';
 import axios from 'axios';
-import { toast, Toaster } from 'sonner';  
+import { toast, Toaster } from 'sonner'; 
+import { useNavigate } from 'react-router-dom';
 
 const UpdateForm = () => {
                const [title, setTitle] = useState('');
@@ -13,6 +14,7 @@ const UpdateForm = () => {
                const [selectedFile, setSelectedFile] = useState(null);
                const fileInputRef = useRef(null);
                const { projectId } = useParams(); // Get projectId from URL
+               const navigate = useNavigate();
 
 
                const handleSubmit = async (e) => {
@@ -33,6 +35,9 @@ const UpdateForm = () => {
 
                                              // Show success toast
                                              toast.success(response.data.message || "Update submitted successfully!");
+                                             setTimeout(() => {
+                                                            navigate('/investment-approval-dashboard/:id'); // Replace with your actual navigation function
+                                             }, 3000);
                               } catch (error) {
                                              console.error("Error submitting update:", error);
 

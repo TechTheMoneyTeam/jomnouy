@@ -42,7 +42,7 @@ const InvestmentApprovalDashboard = () => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   const handleUpdateClick = (projectId) => {
-    navigate(`/update/${projectId}`); 
+    navigate(`/update/${projectId}`);
   };
 
   useEffect(() => {
@@ -263,12 +263,12 @@ const InvestmentApprovalDashboard = () => {
     <>
       <Navbar4 />
       <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Investment Approval Dashboard</h1>
-        <p className={styles.subtitle}>
-          Review and manage investments for your projects
-        </p>
-      </div>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Investment Approval Dashboard</h1>
+          <p className={styles.subtitle}>
+            Review and manage investments for your projects
+          </p>
+        </div>
 
         <div className="bg-gray-200 p-5 rounded-lg">
           <div className={styles.controls}>
@@ -401,268 +401,268 @@ const InvestmentApprovalDashboard = () => {
         </div>
 
 
-      {investments.length > 0 && (
-        <div className={styles.chartsContainer}>
-          {/* Pie Chart */}
-          <div className={styles.chartContainer}>
-            <h3 className={styles.chartTitle}>Investment Status Distribution</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={pieChartData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={true}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+        {investments.length > 0 && (
+          <div className={styles.chartsContainer}>
+            {/* Pie Chart */}
+            <div className={styles.chartContainer}>
+              <h3 className={styles.chartTitle}>Investment Status Distribution</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={pieChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  >
+                    {pieChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => [`${value}`, 'Count']} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Line Chart */}
+            <div className={styles.chartContainer}>
+              <h3 className={styles.chartTitle}>Investment Trends Over Time</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart
+                  data={prepareLineChartData()}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
                 >
-                  {pieChartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => [`${value}`, 'Count']} />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+                  <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="totalAmount"
+                    name="Investment Amount"
+                    stroke="#8884d8"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="count"
+                    name="Number of Investments"
+                    stroke="#82ca9d"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
+        )}
 
-          {/* Line Chart */}
-          <div className={styles.chartContainer}>
-            <h3 className={styles.chartTitle}>Investment Trends Over Time</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart
-                data={prepareLineChartData()}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
-                <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  yAxisId="left"
-                  type="monotone"
-                  dataKey="totalAmount"
-                  name="Investment Amount"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="count"
-                  name="Number of Investments"
-                  stroke="#82ca9d"
-                />
-              </LineChart>
-            </ResponsiveContainer>
+        {error && (
+          <div className={styles.errorAlert}>
+            <AlertCircle size={20} />
+            {error}
           </div>
-        </div>
-      )}
+        )}
 
-      {error && (
-        <div className={styles.errorAlert}>
-          <AlertCircle size={20} />
-          {error}
-        </div>
-      )}
-
-      {loading ? (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-        </div>
-      ) : (
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('investment_id')}
-                >
-                  ID
-                  {sortField === 'investment_id' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('user_id')}
-                >
-                  Investor
-                  {sortField === 'user_id' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('amount')}
-                >
-                  Amount
-                  {sortField === 'amount' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('equity_percentage')}
-                >
-                  Equity %
-                  {sortField === 'equity_percentage' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('payment_method')}
-                >
-                  Payment Method
-                  {sortField === 'payment_method' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('investment_term')}
-                >
-                  Term
-                  {sortField === 'investment_term' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('created_at')}
-                >
-                  Date
-                  {sortField === 'created_at' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th
-                  className={styles.tableHeader}
-                  onClick={() => handleSort('status')}
-                >
-                  Status
-                  {sortField === 'status' && (
-                    <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </th>
-                <th className={styles.tableHeader}>
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {investments.length > 0 ? (
-                investments.map((investment) => (
-                  <tr key={investment.investment_id || investment.id} className={styles.tableRow}>
-                    <td className={styles.tableCell}>
-                      {investment.investment_id || investment.id}
-                    </td>
-                    <td className={styles.tableCell}>
-                      {investment.user ?
-                        `${investment.user.username || investment.user.name || 'User'} (${investment.user_id})` :
-                        investment.user_id}
-                    </td>
-                    <td className={`${styles.tableCell} ${styles.amountCell}`}>
-                      {formatCurrency(investment.amount)}
-                    </td>
-                    <td className={styles.tableCell}>
-                      {parseFloat(investment.equity_percentage).toFixed(2)}%
-                    </td>
-                    <td className={styles.tableCell}>
-                      {investment.payment_method}
-                    </td>
-                    <td className={styles.tableCell}>
-                      {investment.investment_term === '1-5' ? '1-5 Years' :
-                        investment.investment_term === '5-10' ? '5-10 Years' :
-                          investment.investment_term === '10+' ? '10+ Years' :
-                            investment.investment_term}
-                    </td>
-                    <td className={styles.tableCell}>
-                      {formatDate(investment.created_at)}
-                    </td>
-                    <td className={styles.tableCell}>
-                      <span className={`
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+          </div>
+        ) : (
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('investment_id')}
+                  >
+                    ID
+                    {sortField === 'investment_id' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('user_id')}
+                  >
+                    Investor
+                    {sortField === 'user_id' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('amount')}
+                  >
+                    Amount
+                    {sortField === 'amount' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('equity_percentage')}
+                  >
+                    Equity %
+                    {sortField === 'equity_percentage' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('payment_method')}
+                  >
+                    Payment Method
+                    {sortField === 'payment_method' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('investment_term')}
+                  >
+                    Term
+                    {sortField === 'investment_term' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('created_at')}
+                  >
+                    Date
+                    {sortField === 'created_at' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th
+                    className={styles.tableHeader}
+                    onClick={() => handleSort('status')}
+                  >
+                    Status
+                    {sortField === 'status' && (
+                      <span className={styles.sortIndicator}>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    )}
+                  </th>
+                  <th className={styles.tableHeader}>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {investments.length > 0 ? (
+                  investments.map((investment) => (
+                    <tr key={investment.investment_id || investment.id} className={styles.tableRow}>
+                      <td className={styles.tableCell}>
+                        {investment.investment_id || investment.id}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {investment.user ?
+                          `${investment.user.username || investment.user.name || 'User'} (${investment.user_id})` :
+                          investment.user_id}
+                      </td>
+                      <td className={`${styles.tableCell} ${styles.amountCell}`}>
+                        {formatCurrency(investment.amount)}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {parseFloat(investment.equity_percentage).toFixed(2)}%
+                      </td>
+                      <td className={styles.tableCell}>
+                        {investment.payment_method}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {investment.investment_term === '1-5' ? '1-5 Years' :
+                          investment.investment_term === '5-10' ? '5-10 Years' :
+                            investment.investment_term === '10+' ? '10+ Years' :
+                              investment.investment_term}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {formatDate(investment.created_at)}
+                      </td>
+                      <td className={styles.tableCell}>
+                        <span className={`
                         ${styles.statusBadge}
                         ${investment.status === 'pending' ? styles.statusPending : ''}
                         ${investment.status === 'approved' ? styles.statusApproved : ''}
                         ${investment.status === 'rejected' ? styles.statusRejected : ''}
                         ${investment.status === 'completed' ? styles.statusCompleted : ''}
                       `}>
-                        {investment.status}
-                      </span>
-                    </td>
-                    <td className={styles.tableCell}>
-                      <div className={styles.actionButtons}>
-                        {investment.status === 'completed' ? (
-                          <span className={styles.completeText}>Complete</span>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
-                              disabled={investment.status === 'approved'}
-                              className={`
+                          {investment.status}
+                        </span>
+                      </td>
+                      <td className={styles.tableCell}>
+                        <div className={styles.actionButtons}>
+                          {investment.status === 'completed' ? (
+                            <span className={styles.completeText}>Complete</span>
+                          ) : (
+                            <>
+                              <button
+                                onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'approved')}
+                                disabled={investment.status === 'approved'}
+                                className={`
                                 ${styles.actionButton}
                                 ${styles.approveButton}
                                 ${investment.status === 'approved' ? styles.buttonDisabled : ''}
                               `}
-                              title="Approve"
-                            >
-                              <Check size={16} />
-                            </button>
-                            <button
-                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
-                              disabled={investment.status === 'rejected'}
-                              className={`
+                                title="Approve"
+                              >
+                                <Check size={16} />
+                              </button>
+                              <button
+                                onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'rejected')}
+                                disabled={investment.status === 'rejected'}
+                                className={`
                                 ${styles.actionButton}
                                 ${styles.rejectButton}
                                 ${investment.status === 'rejected' ? styles.buttonDisabled : ''}
                               `}
-                              title="Reject"
-                            >
-                              <X size={16} />
-                            </button>
-                            <button
-                              onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
-                              disabled={investment.status === 'completed' || investment.status === 'rejected'}
-                              className={`
+                                title="Reject"
+                              >
+                                <X size={16} />
+                              </button>
+                              <button
+                                onClick={() => updateInvestmentStatus(investment.investment_id || investment.id, 'completed')}
+                                disabled={investment.status === 'completed' || investment.status === 'rejected'}
+                                className={`
                                 ${styles.actionButton}
                                 ${styles.completeButton}
                                 ${investment.status === 'completed' ? styles.buttonBright : ''}
                                 ${investment.status === 'completed' || investment.status === 'rejected' ? styles.buttonDisabled : ''}
                               `}
-                              title="Complete"
-                            >
-                              <Award size={16} />
-                            </button>
-                          </>
-                        )}
-                      </div>
+                                title="Complete"
+                              >
+                                <Award size={16} />
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="9" className={`${styles.tableCell} ${styles.emptyState}`}>
+                      No investments found for this project.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="9" className={`${styles.tableCell} ${styles.emptyState}`}>
-                    No investments found for this project.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div></>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div></>
   );
 };
 

@@ -43,6 +43,8 @@ const InvestorUpdates = () => {
                                              <ul>
                                                             {updates.map(update => (
                                                                            <li key={update.id}>
+                                                                                          <h3>{update.project_id}</h3>
+
                                                                                           <h3>{update.title}</h3>
                                                                                           <p>{update.description}</p>
                                                                                           {update.file_path && <a href={`/storage/${update.file_path}`} download>Download File</a>}

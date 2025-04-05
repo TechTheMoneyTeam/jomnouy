@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar3 from '../Navbar/Navbarcreate';
 import styles from './Projectupload.module.css';
+import { toast, Toaster } from 'sonner';  
+import { useNavigate } from 'react-router-dom';
 
 const ProjectStartup = () => {
 
@@ -70,6 +72,7 @@ const ProjectStartup = () => {
     const [previewImg, setPreviewImg] = useState(null);
     const [previewVideo, setPreviewVideo] = useState(null);
     const [currentStep, setCurrentStep] = useState('basic');
+    const navigate = useNavigate();
 
     // Get logged in user on component mount
     useEffect(() => {
@@ -177,11 +180,16 @@ const ProjectStartup = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
+            toast.success(response.data.message || "Project uploaded successfully!");
+            setTimeout(() => {
+                navigate('/projectlist1'); // Replace with your actual navigation function
+            }, 2000);
 
-            setMessage({
-                text: 'Project submitted successfully!',
-                type: 'success'
-            });
+
+            // setMessage({
+            //     text: 'Project submitted successfully!',
+            //     type: 'success'
+            // });
 
             setFormData({
                 user_id: currentUser?.user_id || '',
@@ -215,10 +223,12 @@ const ProjectStartup = () => {
 
             console.log('Project submitted:', response.data);
         } catch (error) {
-            setMessage({
-                text: error.response?.data?.message || 'Error submitting project!',
-                type: 'error'
-            });
+            // setMessage({
+            //     text: error.response?.data?.message || 'Error submitting project!',
+            //     type: 'error'
+            // });
+            toast.error("Error uploading project. Please try again.");
+
             console.error('Submission error:', error.response?.data);
         }
     };
@@ -258,6 +268,7 @@ const ProjectStartup = () => {
     return (
         <>
             <Navbar3 />
+            <Toaster richColors position="top-center" duration={3000} />
             <div className={styles.formWrapper}>
                 {/* Progress tabs */}
                 <div className={styles.progressTabs}>

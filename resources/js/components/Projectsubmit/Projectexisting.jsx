@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar3 from '../Navbar/Navbarcreate';
 import styles from './Projectupload.module.css';
+import { toast, Toaster } from 'sonner';  
+import { useNavigate } from 'react-router-dom';
 
 const ProjectExisting = () => {
     // Predefined options arrays
@@ -77,6 +79,7 @@ const ProjectExisting = () => {
     const [previewImg, setPreviewImg] = useState(null);
     const [previewVideo, setPreviewVideo] = useState(null);
     const [currentStep, setCurrentStep] = useState('basic');
+    const navigate = useNavigate();
 
     // Get logged in user on component mount
     useEffect(() => {
@@ -239,11 +242,16 @@ const ProjectExisting = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
+            toast.success(response.data.message || "Project uploaded successfully!");
+            setTimeout(() => {
+                navigate('/projectlist1'); // Replace with your actual navigation function
+            }, 2000);
 
-            setMessage({
-                text: 'Project submitted successfully!',
-                type: 'success'
-            });
+
+            // setMessage({
+            //     text: 'Project submitted successfully!',
+            //     type: 'success'
+            // });
 
             // Reset form
             setFormData({
@@ -281,7 +289,9 @@ const ProjectExisting = () => {
                 text: error.response?.data?.message || 'Error submitting project!',
                 type: 'error'
             });
-            console.error('Submission error:', error.response?.data);
+            toast.error("Error uploading project. Please try again.");
+
+            // console.error('Submission error:', error.response?.data);
         }
     };
 
@@ -1065,7 +1075,9 @@ const ProjectExisting = () => {
                                 </button>
                             </div>
                         </div>
+                        
                     )}
+                    <Toaster richColors position="top-center" duration={4000} />
                 </form>
             </div>
         </>

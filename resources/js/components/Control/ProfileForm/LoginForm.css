@@ -1,72 +1,94 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer components {
-               .font-montserrate {
-                              font-family: 'montserrate', sans-serif;
-               }
+    .font-montserrate {
+        font-family: 'montserrate', sans-serif;
+    }
 }
+
 @font-face {
-               font-family: 'montserrate';
-               src: url('../../font/Montserrat-VariableFont_wght.ttf');
+    font-family: 'montserrate';
+    src: url('../../font/Montserrat-VariableFont_wght.ttf');
 }
 
 * {
-               font-family: 'montserrate', sans-serif;
+    font-family: 'montserrate', sans-serif;
 }
 
 .title {
-               @apply mt-10 mb-8 text-center text-4xl font-bold ;
+    @apply text-center text-[50px];
 }
 
 .title .highlight {
-               @apply text-custom-orange;
+    @apply text-custom-orange;
 }
 
 .text-left {
-               @apply text-sm font-bold text-center;
+    @apply text-[15px] text-center;
 }
 
-.custom-input {
-               @apply border-transparent rounded-lg transition duration-300 shadow-md focus:ring-1 focus:ring-[#ebab6c] focus:border-[#ebab6c] focus:shadow-lg placeholder-opacity-50 placeholder:text-black placeholder:font-montserrate;
-               font-family: 'montserrate', sans-serif;
-               /* Add font-family here */
+.custom-input1 {
+    font-family: 'montserrate', sans-serif;
+    /* Add font-family here */
 }
+
 .card-container-signup {
-               @apply flex justify-center items-center ;
+    @apply flex justify-center items-center;
 }
 
 .card-signup {
-               @apply w-full max-w-3xl p-5 bg-white rounded-lg shadow-md;
+    @apply w-full max-w-3xl p-5 bg-white rounded-lg shadow-md;
 }
+
 .card-container-login {
-    @apply flex justify-center items-center ;
+    @apply flex justify-center items-center;
 }
 
 .card-login {
-    @apply w-full max-w-3xl p-8 bg-white rounded-lg shadow-md ;
+    @apply w-full max-w-2xl p-12 bg-white rounded-lg shadow-lg border-gray-200 border-2;
 }
 
 .form {
-               @apply flex flex-col gap-4 pt-2;
+    @apply flex flex-col gap-4 pt-2;
 }
 
 .form-row {
-               @apply flex justify-between gap-1;
+    @apply flex justify-between gap-1;
 }
 
 .form-group {
-               @apply flex flex-col text-sm;
+    @apply flex flex-col text-sm;
 }
 
 .submit-btn {
-               @apply bg-custom-orange text-white rounded py-2 px-4 mt-2 hover:bg-white border border-custom-orange hover:text-custom-orange text-base font-normal;
+    @apply bg-custom-orange text-white transition-all duration-500 ease-in-out rounded py-2 px-4 mt-2 hover:bg-white border border-custom-orange hover:text-custom-orange text-base font-normal;
 }
 
 .text-end {
-               @apply font-semibold text-custom-orange text-sm text-right;
+    @apply font-semibold text-custom-orange text-sm text-right;
 }
 
 .text-center {
-               @apply flex items-center justify-center space-x-2 font-medium;
+    @apply flex items-center justify-center space-x-2 font-bold p-2;
 }
+
+#email.custom-input {
+    @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;
+}
+
+#password.custom-input {
+    @apply shadow-md border-white my-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-transparent;
+}
+
+.create-account {
+    @apply text-xs font-bold text-custom-orange;
+}
+/* 
+body {
+    @apply bg-cover;
+    background-image: url(/img/bg.jpg);
+
+} */
+

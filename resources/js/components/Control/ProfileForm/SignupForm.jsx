@@ -202,9 +202,9 @@ const SignupForm = () => {
                             {message}
                         </div>
                     )}
-                    <a href="#" className="text-center mt-4">
+                    {/* <a href="#" className="text-center mt-4">
                                                                                                          <FaFacebook size="20" /><span> Continue with Facebook</span>
-                                                                                          </a>
+                                                                                          </a> */}
                 </div>
             </div>
         </div>

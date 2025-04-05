@@ -6,6 +6,7 @@ import Dashboard1 from './dashboard';
 import TaskManagementTable from './myInvestmentTab'; // Import the component
 import InvestorProjects from "./myInvestmentTab";
 import InvestorUpdates from './updateAndReport';
+import CustomerBillingInterface from './test';
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [username, setUsername] = useState('');
@@ -45,6 +46,7 @@ const Dashboard = () => {
     'My investment': <InvestorProjects />,
     'Milestone': <InvestorProjects />,
     'Update & Report': <InvestorUpdates />,
+    'Transaction': <CustomerBillingInterface />,
   };
 
   const renderNavItem = (item) => {

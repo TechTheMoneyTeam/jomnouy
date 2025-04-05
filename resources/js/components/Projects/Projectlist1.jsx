@@ -21,10 +21,10 @@ const CardContent = ({ className, children }) => (
 );
 const ProjectListing = () => {
   const { projectss, loadingss, errors, geoInfor } = useNearbyProjects();
-  const [visibleCount, setVisibleCount] = useState(8); // Show first 18 projects
+  const [visibleCount, setVisibleCount] = useState(9); // Show first 18 projects
   const [visibleCount2, setVisibleCount2] = useState(4); // Show first 18 projects
   const loadMore = () => {
-    setVisibleCount((prevCount) => prevCount + 8); // Load 18 more projects on each click
+    setVisibleCount((prevCount) => prevCount + 9); // Load 18 more projects on each click
   };
   const carouselContainerRef = useRef(null);
   const [currentScrollPosition, setCurrentScrollPosition] = useState(0);

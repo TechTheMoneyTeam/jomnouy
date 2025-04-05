@@ -53,15 +53,15 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await axios.post('/api/forgot-password', { 
+            const response = await axios.post('/api/forgot-password', {
                 email: forgotEmail
             });
-            
+
             // Save the email to localStorage when reset instructions are sent
             localStorage.setItem('forgotPasswordEmail', forgotEmail);
-            
+
             setForgotSuccess('Reset instructions have been sent to your email');
-            
+
         } catch (err) {
             setForgotError(err.response?.data?.message || 'Failed to send reset instructions');
         } finally {
@@ -72,7 +72,7 @@ const LoginForm = () => {
     const openForgotPassword = (e) => {
         e.preventDefault();
         setShowForgotPassword(true);
-        
+
         // Pre-fill the forgot password email field with the value from localStorage if available
         const savedEmail = localStorage.getItem('forgotPasswordEmail');
         if (savedEmail) {
@@ -92,22 +92,22 @@ const LoginForm = () => {
             <h1 className="title">JOM-<span className="highlight">NOUY</span></h1>
             <div className="card-container-login">
                 <div className="card-login">
-                    <div className="text-left">Welcome back to JOMNOUY</div>
+                    <div className="text-center text-xl text-[">Welcome back to JOMNOUY</div>
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email ">Email</label>
                             <input
                                 type="email"
                                 id="email"
                                 name="email"
                                 className="custom-input"
-                                placeholder="example@gmail.com"
+                                placeholder="Example@gmail.com"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group py-2 ">
                             <label htmlFor="password">Password</label>
                             <input
                                 type="password"
@@ -121,10 +121,10 @@ const LoginForm = () => {
                             />
                         </div>
                         <a href="#" onClick={openForgotPassword} className="text-end underline">Forgot password?</a>
-                        <button type="submit" className="submit-btn">Login</button>
+                        <button type="submit" className="submit-btn rounded-md">Login</button>
                         <div className="text-center mt-2 text-gray-500 text-xs">
                             <span>Don't have an account? </span>
-                            <Link to="/signup" className="text-blue-600">Create account</Link>
+                            <Link to="/signup" className="create-account">Create account</Link>
                         </div>
                     </form>
                     {message && (
