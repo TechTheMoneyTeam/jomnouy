@@ -1,6 +1,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import nesting from '@tailwindcss/nesting';
+import scrollbarHide from 'tailwind-scrollbar-hide';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -23,5 +24,5 @@ export default {
         },
     },
 
-    plugins: [forms, nesting],
+    plugins: [forms, nesting, scrollbarHide], // Added scrollbarHide plugin
 };

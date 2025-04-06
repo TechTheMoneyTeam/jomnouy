@@ -243,7 +243,6 @@ const ProjectListing = () => {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center">
                           {/* <div className="h-10 w-10 bg-gray-200 rounded-full overflow-hidden mr-4">
-                                                                                                                                                                                                                  <img src={featuredProject.logo} alt="Company logo" className="h-full w-full object-cover" />
                                                                                                                                                                                                    </div> */}
                           <div className="profile-avatar">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -353,7 +352,7 @@ const ProjectListing = () => {
                         </div>
                       </div>
                       {/* Hidden description, shown on hover */}
-                      <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-24 transition-all duration-300">
+                        <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[150px] transition-all duration-300">
                         <p className="text-xs text-black/80 font-normal">{project.project_des}</p>
                         <div className="flex flex-wrap gap-2 mt-2">
                           <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">
@@ -588,7 +587,7 @@ const ProjectListing = () => {
                         </div>
                       </div>
                       {/* Hidden description, shown on hover */}
-                      <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[100px] transition-all duration-300">
+                      <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[150px] transition-all duration-300">
                         <p className="text-xs text-black/80 font-normal">{project.project_des}</p>
                         <div className="flex flex-wrap gap-2 mt-2">
                           <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">
@@ -660,7 +659,7 @@ const ProjectListing = () => {
                         <span>•</span>
                         <span>{formatFunding(project.funding_goal)} Funded</span>
                       </div>
-                      <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[100px] transition-all duration-300">
+                      <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[150px] transition-all duration-300">
                         <p className="text-xs text-black/80 font-normal">{project.project_des}</p>
                         <div className="flex flex-wrap gap-2 mt-2">
                           <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">

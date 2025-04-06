@@ -10,10 +10,26 @@ import "aos/dist/aos.css";
 import Service from "../Servicepage/Servicepage";
 import Header from "../Header_landingpage/header_landing";
 import AboutUs from "../Aboutpage/Aboutus";
-
+import { Clock } from 'lucide-react';
+import { RxBookmark } from "react-icons/rx";
 const Home = () => {
     const [language, setLanguage] = useState("en");
 
+    const formatFunding = (amount) => {
+        if (amount >= 1000000) {
+            return `${(amount / 1000000).toFixed(1)}M`;
+        } else if (amount >= 1000) {
+            return `${(amount / 1000).toFixed(1)}K`;
+        }
+        return amount;
+    };
+
+    const getDaysLeft = (endDate) => {
+        const today = new Date();
+        const end = new Date(endDate);
+        const timeDiff = end - today;
+        return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+    };
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
     }, []);
@@ -144,54 +160,65 @@ const Home = () => {
                         <ArrowRight />
                     </button>
                 </div>
+               
 
                 {/* Project Cards - Centered and Limited to 5 */}
                 <div className="project-grid">
                     {visibleProjects.map((project, index) => {
-                        // Check for user data in different possible formats
-                        const userName =
-                            project.user?.username ||
-                            project.user?.name ||
-                            project.user?.full_name ||
-                            "Unknown User";
-
                         return (
-                            <div
-                                key={index}
-                                className="project-card"
-                                data-aos="flip-up"
-                                data-aos-duration="1000"
-                            >
-                                <img
-                                    src={
-                                        project.project_img
-                                            ? `/storage/${project.project_img}`
-                                            : "/img/default-project.png"
-                                    }
-                                    alt={project.title}
-                                    className="project-image "
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src =
-                                            "/img/default-project.png";
-                                    }}
-                                />
-                                <h3 className="project-title-card">
-                                    {" "}
-                                    {project.title || "Untitled Project"}
-                                </h3>
-                                <p className="project-username">
-                                    Owner : <b>{userName}</b>
-                                </p>
-                                <p className="project-description2">
-                                    {" "}
-                                    {project.project_des ||
-                                        "No description available"}
-                                </p>
-                            </div>
+                            <Link to={`/projects/${project.project_id}`} key={project.project_id}>
+                                <div className="bg-white rounded-lg overflow-hidden mb-4 py-2 group hover:bg-gray-100 hover:shadow-md transition-all duration-300">
+                                    <div className="flex justify-center items-center">
+                                        <div className="relative w-full h-full overflow-hidden rounded-lg">
+                                            <img
+                                                src={project.project_img ? `/storage/${project.project_img}` : "/api/placeholder/400/200"}
+                                                alt={project.title}
+                                                className="pro-image1"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center">
+                                                <div className="profile-avatar">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
+                                                    </svg>
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="text-lg font-semibold">{project.title}</h3>
+                                                    {project.user?.username || project.user?.name || project.user?.full_name || "Unknown Creator"}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center text-sm text-gray-500 mb-2 ml-md">
+                                            <div className="flex items-center gap-1 text-sm text-gray-600">
+                                                <Clock size={16} />
+                                                <span>{getDaysLeft(project.auction_end_date)} days left</span>
+                                                <span>•</span>
+                                                <span>{formatFunding(project.funding_goal)} Funded</span>
+                                            </div>
+                                        </div>
+                                        <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[150px] transition-all duration-300">
+                                            <p className="text-xs text-black/80 font-normal">{project.project_des}</p>
+                                            <div className="flex flex-wrap gap-2 mt-2">
+                                                <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">
+                                                    {project.project_location}
+                                                </button>
+                                                <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">
+                                                    {project.categories}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
                         );
                     })}
                 </div>
+
+
+
 
                 {/* Explore More Button */}
                 <div className="flex justify-center mt-8">
@@ -203,7 +230,7 @@ const Home = () => {
         );
     };
 
-    const FeaturedProject = () => {
+    const project = () => {
         const [projects, setProjects] = useState([]);
         const [currentIndex, setCurrentIndex] = useState(0);
         const [loading, setLoading] = useState(true);
@@ -356,7 +383,7 @@ const Home = () => {
             <section id="home">
                 <Hero />
                 <ProjectShow />
-                <FeaturedProject />
+                <project />
             </section>
             <section id="services">
                 <Service />

@@ -497,3 +497,6 @@
 .arrow-button.right:hover {
   @apply bg-gray-800 bg-opacity-50 scale-110;
 }
+.pro-image1{
+  @apply w-full h-48 object-cover;
+}

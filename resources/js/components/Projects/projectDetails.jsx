@@ -6,6 +6,8 @@ import './projectDetails.css';
 import CommentSection from '../tab_bar/comment';
 import { Link } from 'react-router-dom';
 import InvestmentForm from './InvestmentForm';
+import { Clock } from 'lucide-react';
+
 import KYCForm from './Kycform';
 import PaymentPage from './PaymentPage';
 import { FaRegBookmark } from "react-icons/fa6";
@@ -15,16 +17,30 @@ import { FaRegClock } from "react-icons/fa";
 import { Users, BriefcaseBusiness, CalendarRange } from "lucide-react";
 import FAQAccordion from "../tab_bar/faq";
 import TermsAndConditions from "./TermsAndConditions";
+const Card = ({ className, children }) => (
+    <div className={`bg-white rounded-lg overflow-hidden ${className || ''}`}>
+        {children}
+    </div>
+);
 
-
-const getDaysSinceCreation = (createdAt) => {
-    const created = new Date(createdAt);
-    const now = new Date();
-    const diffTime = Math.abs(now - created);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+const CardContent = ({ className, children }) => (
+    <div className={`p-4 ${className || ''}`}>{children}</div>
+);
+const formatFunding = (amount) => {
+    if (amount >= 1000000) {
+        return `${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+        return `${(amount / 1000).toFixed(1)}K`;
+    }
+    return amount;
 };
 
+const getDaysLeft = (endDate) => {
+    const today = new Date();
+    const end = new Date(endDate);
+    const timeDiff = end - today;
+    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+};
 const getDaysRemaining = (endDate, startDate) => {
     if (!endDate || !startDate) return 0;
 
@@ -109,7 +125,38 @@ const ProjectDetails = () => {
     const [totalInvestments, setTotalInvestments] = useState(0);
     const [uniqueInvestors, setUniqueInvestors] = useState(0);
     const tabRef = useRef();
+    const [favoriteProjects, setFavoriteProjects] = useState([]);
 
+    const fetchFavorites = async () => {
+        try {
+            const userData = localStorage.getItem('user');
+            if (!userData) return;
+            const user = JSON.parse(userData);
+            const response = await axios.get(`/api/users/${user.user_id}/favorites`);
+            setFavoriteProjects(response.data.map((fav) => fav.project_id));
+        } catch (error) {
+            console.error('Error fetching favorite projects:', error);
+        }
+    };
+    const handleSaveToFavorites = async (projectId) => {
+        try {
+            const userData = localStorage.getItem('user');
+            if (!userData) return;
+            const user = JSON.parse(userData);
+
+            if (favoriteProjects.includes(projectId)) {
+                // Remove from favorites
+                await axios.delete(`/api/users/${user.user_id}/favorites/${projectId}`);
+                setFavoriteProjects((prev) => prev.filter((id) => id !== projectId));
+            } else {
+                // Add to favorites
+                await axios.post(`/api/users/${user.user_id}/favorites`, { project_id: projectId });
+                setFavoriteProjects((prev) => [...prev, projectId]);
+            }
+        } catch (error) {
+            console.error('Error updating favorite projects:', error);
+        }
+    };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -360,57 +407,72 @@ const ProjectDetails = () => {
                         </button></Link>
 
                 </div>
-                <div className="related-project m-4">
-                    {loading ? (
-                        <p>Loading projects...</p>
-                    ) : projects.length > 0 ? (
-                        projects.slice(0, 4).map((project) => (
-                            <div key={project.project_id} className="rounded-lg overflow-hidden group relative mb-4 transition-shadow duration-300 hover:shadow-lg">
-                                <div className="project-image relative flex items-center justify-center px-2 pt-2">
+               
+                <div className="cate-bar1 flex-1 overflow-x-auto scrollbar-hide">
+                    <div className="flex gap-6 pl-2">
+                        {projects.map((project, index) => (
+                            <Link to={`/projects/${project.project_id}`} key={project.project_id}>
+                                <Card className="rounded-lg overflow-hidden group relative w-80 transform transition-transform hover:scale-105 mb-4 transition-shadow duration-300 h-full">
                                     <img
-                                        src={project.project_img_url || "/api/placeholder/400/320"}
+                                        src={project.project_img ? `/storage/${project.project_img}` : "/api/placeholder/400/200"}
                                         alt={project.title}
-                                        className="project-image w-full h-40 object-cover rounded-lg"
+                                        className="pro-image w-full h-48 object-cover"
+                                        onError={(e) => {
+                                            e.target.src = "/api/placeholder/400/200";
+                                        }}
                                     />
-                                </div>
-                                <div className="px-2 py-4">
-                                    <div className="flex items-center mb-3">
-                                        <div className="profile-avatar">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                fill="currentColor"
-                                                className="w-5 h-5"
-                                            >
-                                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
-                                            </svg>
-                                        </div>
-                                        <div className="ml-1 flex flex-col flex-grow">
-                                            <h3 className="font-medium text-md">{project.title}</h3>
-                                            <div className="text-gray-500 text-xs">
-                                                {project.user?.username || project.user?.name || project.user?.full_name || 'Unknown Creator'}
+                                    <CardContent>
+                                        <div className="flex items-center mb-3">
+                                            <div className="profile-avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
+                                                </svg>
+                                            </div>
+                                            <div className="ml-1 flex flex-col flex-grow">
+                                                <h3 className="font-medium text-md">{project.title}</h3>
+                                                <div className="text-gray-500 text-xs">
+                                                    {project.user?.username || project.user?.name || project.user?.full_name || "Unknown Creator"}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-end">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault(); // Prevent navigation
+                                                        handleSaveToFavorites(project.project_id);
+                                                    }}
+                                                    className={`text-gray-500 hover:text-orange-500 ${favoriteProjects.includes(project.project_id) ? 'text-orange-500' : ''
+                                                        }`}
+                                                >
+                                                    <RxBookmark size={24} />
+                                                </button>
                                             </div>
                                         </div>
-                                        <div className="flex justify-end">
-                                            <RxBookmark />
+                                        <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
+                                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                                                <Clock size={16} />
+                                                <span>{getDaysLeft(project.auction_end_date)} days ago</span>
+                                                <span>•</span>
+                                                <span>{formatFunding(project.funding_goal)} Funded</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
-                                        <div className="flex items-center mr-4">
-                                            <FaRegClock className="w-4 h-4 mr-1 text-black/70" />
-                                            <span className='text-black/70 font-semibold overflow-hidden whitespace-nowrap text-ellipsis'>{getDaysSinceCreation(project.created_at)}
-                                                <span className='font-medium'>  days ago • </span>
-                                                {project.categories || 0}
-                                                <span className='font-medium'></span>
-                                            </span>
+                                        {/* Hidden description, shown on hover */}
+                                        <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[150px] transition-all duration-300">
+                                            <p className="text-xs text-black/80 font-normal">{project.project_des}</p>
+                                            <div className="flex flex-wrap gap-2 mt-2">
+                                                <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">
+                                                    {project.project_location}
+                                                </button>
+                                                <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300">
+                                                    {project.categories}
+                                                </button>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No projects found.</p>
-                    )}
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         );

@@ -1,21 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
-    html, body {
-        @apply overflow-x-hidden; /* Prevent horizontal scrolling */
-        margin: 0; /* Remove default margins */
-        padding: 0; /* Remove default padding */
+
+    html,
+    body {
+        @apply overflow-x-hidden;
+        /* Prevent horizontal scrolling */
+        margin: 0;
+        /* Remove default margins */
+        padding: 0;
+        /* Remove default padding */
     }
 }
+
+html {
+    @apply scroll-smooth;
+}
+
 .nav-wrapper {
-    @apply flex  items-center justify-center ; /* Centers the navbar initially */
+    @apply flex items-center justify-center;
+    /* Centers the navbar initially */
 }
 
 .nav-container {
-    @apply fixed top-0 bg-white  flex gap-4 justify-between 
-    items-center z-20 w-auto max-w-screen-xl mx-auto px-10 py-2 top-2 transition-all 
-    duration-500 ease-in-out rounded-bl-2xl rounded-br-2xl;
+    @apply fixed top-0 bg-white flex gap-4 justify-between items-center z-20 w-auto max-w-screen-xl mx-auto px-10 py-2 top-2 transition-all duration-500 ease-in-out rounded-bl-2xl rounded-br-2xl;
 }
 
 .logo {
@@ -23,6 +33,7 @@
     text-decoration: none;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
+
 .nouy {
     @apply text-custom-orange;
 }
@@ -34,7 +45,8 @@
 
 .nav-link {
     @apply relative text-lg text-black transition-all duration-200;
-    text-decoration: none; /* This is important */
+    text-decoration: none;
+    /* This is important */
 }
 
 .nav-link::after {
@@ -61,7 +73,8 @@ button {
 
 .login-button {
     @apply relative overflow-hidden bg-custom-orange text-white border border-custom-orange px-3 py-1 rounded-lg;
-    @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
+    @apply bottom-[2px];
+    /* Tailwind's utility for bottom positioning */
 }
 
 .login-button::before {
@@ -88,7 +101,8 @@ button {
 
 .login-button1 {
     @apply relative overflow-hidden bg-white text-black border border-black px-3 py-1 rounded-lg;
-    @apply bottom-[2px]; /* Tailwind's utility for bottom positioning */
+    @apply bottom-[2px];
+    /* Tailwind's utility for bottom positioning */
 }
 
 .login-button1::before {

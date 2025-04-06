@@ -12,9 +12,17 @@ const ResetPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
 
+    const getLocalStorageItem = (key) => {
+        try {
+            return localStorage.getItem(key);
+        } catch (error) {
+            console.error('Error accessing localStorage:', error);
+            return null;
+        }
+    };
+
     useEffect(() => {
-        // Get email from localStorage
-        const storedEmail = localStorage.getItem('forgotPasswordEmail');
+        const storedEmail = getLocalStorageItem('forgotPasswordEmail');
         if (storedEmail) {
             setEmail(storedEmail);
         }
@@ -30,7 +38,7 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         setIsLoading(true);
         setMessage('');
         setIsSuccess(false);
@@ -51,31 +59,31 @@ const ResetPassword = () => {
 
         try {
             console.log('Submitting password reset');
-            
+
             // Send the email with the request
             const response = await axios.post('/api/settings/change-password1', {
                 email: email,  // Include the email from state
                 new_password: newPassword,
                 new_password_confirmation: confirmPassword
             });
-            
+
             setIsSuccess(true);
             setMessage('Password reset successful! You will be redirected to login page.');
-            
+
             // Clear the stored data after successful reset
             localStorage.removeItem('forgotPasswordEmail');
-            
+
             // Redirect to login page after successful reset
             setTimeout(() => {
                 navigate('/login');
             }, 1500);
         } catch (error) {
             let errorMsg = 'Failed to reset password. Please try again.';
-            
+
             if (error.response && error.response.data && error.response.data.message) {
                 errorMsg = error.response.data.message;
             }
-            
+
             console.error('Password reset error:', error);
             setIsSuccess(false);
             setMessage(errorMsg);
@@ -95,7 +103,7 @@ const ResetPassword = () => {
                             Reset password for: <span className="font-bold">{email}</span>
                         </div>
                     )}
-                    
+
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
                             <label htmlFor="newPassword">New Password</label>
@@ -110,7 +118,7 @@ const ResetPassword = () => {
                                 required
                             />
                         </div>
-                        
+
                         <div className="form-group mt-4">
                             <label htmlFor="confirmPassword">Confirm Password</label>
                             <input
@@ -124,21 +132,21 @@ const ResetPassword = () => {
                                 required
                             />
                         </div>
-                        
+
                         {/* Password requirements */}
                         <div className="mt-2 text-sm text-gray-600">
                             Password must have at least 6 characters
                         </div>
-                        
+
                         {/* Display any message */}
                         {message && (
                             <div className={`mt-4 text-center ${isSuccess ? "text-green-600" : "text-red-600"}`}>
                                 {message}
                             </div>
                         )}
-                        
-                        <button 
-                            type="submit" 
+
+                        <button
+                            type="submit"
                             className="submit-btn mt-4"
                             disabled={isLoading}
                         >
