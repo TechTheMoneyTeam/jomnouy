@@ -34,10 +34,10 @@ const getDaysRemaining = (endDate, startDate) => {
 
     try {
         const end = new Date(endDate);
+        const start = new Date(startDate); // ✅ You forgot this line!
         const now = new Date();
 
         if (isNaN(end.getTime()) || isNaN(start.getTime())) return 0;
-
 
         if (now < start) {
             const diffTime = end - start;
@@ -45,9 +45,7 @@ const getDaysRemaining = (endDate, startDate) => {
             return diffDays > 0 ? diffDays : 0;
         }
 
-
         if (now > end) return 0;
-
 
         const diffTime = end - now;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -57,6 +55,7 @@ const getDaysRemaining = (endDate, startDate) => {
         return 0;
     }
 };
+
 
 const hasAuctionStarted = (startDate) => {
     if (!startDate) return true; // Default to true if no start date

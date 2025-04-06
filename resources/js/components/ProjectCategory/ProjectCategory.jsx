@@ -18,6 +18,7 @@ const CardContent = ({ className, children }) => (
 const CategoryPage = () => {
                const [projects, setProjects] = useState([]);
                const [loading, setLoading] = useState(true);
+               const [favoriteProjects, setFavoriteProjects] = useState([]);
                const { categoryName } = useParams(); // Get category from URL
                const navigate = useNavigate();
                const [visibleCount, setVisibleCount] = useState(6); // Show first 18 projects
@@ -27,7 +28,7 @@ const CategoryPage = () => {
                useEffect(() => {
                               setProjects([]);
                               setLoading(true);
-
+                              fetchFavorites();
                               const fetchProjects = async () => {
                                              try {
                                                             if (!categoryName) {
@@ -65,6 +66,37 @@ const CategoryPage = () => {
                                              return `${(amount / 1000).toFixed(1)}K`;
                               }
                               return amount;
+               };
+
+               const handleSaveToFavorites = async (projectId) => {
+                              try {
+                                             const userData = localStorage.getItem('user');
+                                             if (!userData) return;
+                                             const user = JSON.parse(userData);
+
+                                             if (favoriteProjects.includes(projectId)) {
+                                                            // Remove from favorites
+                                                            await axios.delete(`/api/users/${user.user_id}/favorites/${projectId}`);
+                                                            setFavoriteProjects((prev) => prev.filter((id) => id !== projectId));
+                                             } else {
+                                                            // Add to favorites
+                                                            await axios.post(`/api/users/${user.user_id}/favorites`, { project_id: projectId });
+                                                            setFavoriteProjects((prev) => [...prev, projectId]);
+                                             }
+                              } catch (error) {
+                                             console.error('Error updating favorite projects:', error);
+                              }
+               };
+               const fetchFavorites = async () => {
+                              try {
+                                             const userData = localStorage.getItem('user');
+                                             if (!userData) return;
+                                             const user = JSON.parse(userData);
+                                             const response = await axios.get(`/api/users/${user.user_id}/favorites`);
+                                             setFavoriteProjects(response.data.map((fav) => fav.project_id));
+                              } catch (error) {
+                                             console.error('Error fetching favorite projects:', error);
+                              }
                };
                return (
                               <>
@@ -119,7 +151,7 @@ const CategoryPage = () => {
                                                                                                                                                                                                                                  <div className="flex items-center mb-3">
                                                                                                                                                                                                                                                 <div className="profile-avatar">
                                                                                                                                                                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                                                                                                                                                                                                                                                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
+                                                                                                                                                                                                                                                                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
                                                                                                                                                                                                                                                                </svg>
                                                                                                                                                                                                                                                 </div>
                                                                                                                                                                                                                                                 <div className="ml-2 flex flex-col flex-grow">
@@ -129,7 +161,16 @@ const CategoryPage = () => {
                                                                                                                                                                                                                                                                </div>
                                                                                                                                                                                                                                                 </div>
                                                                                                                                                                                                                                                 <div className="flex justify-end">
-                                                                                                                                                                                                                                                               <RxBookmark />
+                                                                                                                                                                                                                                                               <button
+                                                                                                                                                                                                                                                                              onClick={(e) => {
+                                                                                                                                                                                                                                                                                             e.preventDefault(); // Prevent navigation
+                                                                                                                                                                                                                                                                                             handleSaveToFavorites(project.project_id);
+                                                                                                                                                                                                                                                                              }}
+                                                                                                                                                                                                                                                                              className={`text-gray-500 hover:text-orange-500 ${favoriteProjects.includes(project.project_id) ? 'text-orange-500' : ''
+                                                                                                                                                                                                                                                                                             }`}
+                                                                                                                                                                                                                                                               >
+                                                                                                                                                                                                                                                                              <RxBookmark size={24} />
+                                                                                                                                                                                                                                                               </button>
                                                                                                                                                                                                                                                 </div>
                                                                                                                                                                                                                                  </div>
                                                                                                                                                                                                                                  <div className="flex items-center text-sm text-gray-500 mb-2">

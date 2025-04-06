@@ -1,4 +1,6 @@
-import React from "react";
+// import React from "react";
+import React, { useEffect, useState, useRef } from 'react';
+
 import { RxBookmark } from "react-icons/rx";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
@@ -18,7 +20,13 @@ const CardContent = ({ className, children }) => (
 const RelatedProjects = ({ projectRelated, loading }) => {
 
                const [favoriteProjects, setFavoriteProjects] = useState([]);
+               useEffect(() => {
+                              const fetchData = async () => {
+                                             await fetchFavorites();
+                              };
 
+                              fetchData();
+               }, []);
                const handleSaveToFavorites = async (projectId) => {
                               try {
                                              const userData = localStorage.getItem('user');
