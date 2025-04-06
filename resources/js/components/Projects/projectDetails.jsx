@@ -232,6 +232,11 @@ const ProjectDetails = () => {
                     const user = JSON.parse(userData);
                     setIsProjectCreator(projectData.user_id === user.user_id);
                 }
+                if (projectData.categories) {
+                    console.log("Fetching related projects with category:", projectData.categories);
+                    fetchRelatedProjects(projectData.categories);
+                }
+                
 
                 setLoading(false);
 
