@@ -57,8 +57,12 @@ const LoginForm = () => {
                 email: forgotEmail
             });
             
-            // Save the email to localStorage when reset instructions are sent
-            localStorage.setItem('forgotPasswordEmail', forgotEmail);
+            // Save the email to localStorage with a try-catch for compatibility
+            try {
+                localStorage.setItem('forgotPasswordEmail', forgotEmail);
+            } catch (storageError) {
+                console.error('Error saving to localStorage:', storageError);
+            }
             
             setForgotSuccess('Reset instructions have been sent to your email');
             
@@ -74,9 +78,13 @@ const LoginForm = () => {
         setShowForgotPassword(true);
         
         // Pre-fill the forgot password email field with the value from localStorage if available
-        const savedEmail = localStorage.getItem('forgotPasswordEmail');
-        if (savedEmail) {
-            setForgotEmail(savedEmail);
+        try {
+            const savedEmail = localStorage.getItem('forgotPasswordEmail');
+            if (savedEmail) {
+                setForgotEmail(savedEmail);
+            }
+        } catch (storageError) {
+            console.error('Error accessing localStorage:', storageError);
         }
     };
 

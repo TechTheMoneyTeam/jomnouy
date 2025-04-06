@@ -12,9 +12,17 @@ const ResetPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
 
+    const getLocalStorageItem = (key) => {
+        try {
+            return localStorage.getItem(key);
+        } catch (error) {
+            console.error('Error accessing localStorage:', error);
+            return null;
+        }
+    };
+
     useEffect(() => {
-        // Get email from localStorage
-        const storedEmail = localStorage.getItem('forgotPasswordEmail');
+        const storedEmail = getLocalStorageItem('forgotPasswordEmail');
         if (storedEmail) {
             setEmail(storedEmail);
         }

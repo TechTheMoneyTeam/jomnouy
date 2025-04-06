@@ -336,7 +336,7 @@ const ProjectListing = () => {
                               e.preventDefault(); // Prevent navigation
                               handleSaveToFavorites(project.project_id);
                             }}
-                            className={`text-gray-500 hover:text-orange-500 ${
+                            className={`text-gray-500  ${
                               favoriteProjects.includes(project.project_id) ? 'text-orange-500' : ''
                             }`}
                           >

@@ -103,18 +103,7 @@ const FavoritesPage = () => {
                         >
                             All Projects
                         </button>
-                        <button 
-                            className={`${styles.filterButton} ${filterActive === 'funded' ? styles.active : ''}`}
-                            onClick={() => setFilterActive('funded')}
-                        >
-                            Fully Funded
-                        </button>
-                        <button 
-                            className={`${styles.filterButton} ${filterActive === 'in-progress' ? styles.active : ''}`}
-                            onClick={() => setFilterActive('in-progress')}
-                        >
-                            In Progress
-                        </button>
+                    
                     </div>
                     <div className={styles.stats}>
                         <div className={styles.statItem}>

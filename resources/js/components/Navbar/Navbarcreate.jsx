@@ -32,12 +32,7 @@ const Navbar3 = () => {
                         </div>
                     </form>
                     <div className="flex items-center gap-8 ">
-                        <Link to="/#" className="login-button1">
-                            <button style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                                <Eye size={18} />
-                                <span>Preview</span>
-                            </button>
-                        </Link>
+                     
                         <div className="profile flex items-center gap-4 cursor-pointer z-[999]">
                             <DropdownMenu />
                         </div>

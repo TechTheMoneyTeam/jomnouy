@@ -36,7 +36,7 @@ const Dashboard = () => {
   }, []);
 
   const tabComponents = {
-    'Dashboard': <ProfitDashboard />, // Renamed 'Overview' to 'Dashboard'
+    'Dashboard': <ProfitDashboard />, 
     'My investment': <InvestorProjects />,
     'Milestone': <InvestorProjects />,
     'Update & Report': <InvestorUpdates />,
