@@ -366,16 +366,16 @@ const MyProjects = () => {
                 <div className={styles.projectsContainer}>
                     <div className={styles.projectsHeader}>
                         <h2 className={styles.sectionTitle}>
-                            You have <span className={styles.highlight}>{projects.length} projects</span>
+                            Total :  <span className={styles.highlight}>{projects.length} projects</span>
                         </h2>
 
                         <div className={styles.buttonGroup}>
-                            <button
+                            {/* <button
                                 onClick={() => window.location.href = '/create'}
                                 className={styles.createButton}
                             >
                                 Create New Project
-                            </button>
+                            </button> */}
                             <button
                                 onClick={() => window.location.href = '/investment-approval-dashboard/1'}
                                 className={styles.dashboardButton}
@@ -468,16 +468,46 @@ const MyProjects = () => {
                                             {project.description?.length > 100 ? '...' : ''}
                                         </div>
 
-                                        <div className={styles.investmentStatus}>
-                                            <div className={styles.investmentItem}>
+
+
+                                        {/* <div className={styles.investmentStatus}> */}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                            <div className="p-4 text-center rounded-xl flex flex-col items-center justify-center bg-[#f9e79f]/50">
+                                                {/* <CircleDashed size={22} /> */}
+                                                <span className="font-medium">{investmentData.pending_count}</span>
+                                                <span className="font-medium text-md">Pending</span>
+                                                <span className="font-medium text-sm">
+                                                    {formatFunding(investmentData.total_pending_amount)}
+                                                </span>
+                                            </div>
+                                        
+
+                                            <div className="p-4 text-center rounded-xl flex flex-col bg-[#66BB6A]/40">
+                                                {/* <CircleDashed size={16} className={styles.statusIcon} /> */}
+                                                <span className={styles.statusCount}>{investmentData.pending_count}</span>
+                                                <span className={styles.statusLabel}>Approved</span>
+                                                <span className={styles.statusAmount}>
+                                                    {formatFunding(investmentData.total_pending_amount)}
+                                                </span>
+                                            </div>
+                                            <div className="p-4 text-center rounded-xl flex flex-col bg-[#27ae60]/30">
+                                                {/* <CircleDashed size={16} className={styles.statusIcon} /> */}
+                                                <span className={styles.statusCount}>{investmentData.pending_count}</span>
+                                                <span className={styles.statusLabel}>Completed</span>
+                                                <span className={styles.statusAmount}>
+                                                    {formatFunding(investmentData.total_pending_amount)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {/* <div className="table-cell p-4 text-center align-middle  bg-[#8e44ad]/20">
                                                 <CircleDashed size={16} className={styles.statusIcon} />
                                                 <span className={styles.statusCount}>{investmentData.pending_count}</span>
                                                 <span className={styles.statusLabel}>Pending</span>
                                                 <span className={styles.statusAmount}>
                                                     {formatFunding(investmentData.total_pending_amount)}
                                                 </span>
-                                            </div>
-                                            <div className={styles.investmentItem}>
+                                            </div> */}
+                                        {/* <div className={styles.investmentItem}>
                                                 <UserCheck size={16} className={styles.statusIcon} />
                                                 <span className={styles.statusCount}>
                                                     {investmentData.approved_count > 0
@@ -500,25 +530,33 @@ const MyProjects = () => {
                                                 <span className={styles.statusAmount}>
                                                     {formatFunding(investmentData.total_completed_amount)}
                                                 </span>
-                                            </div>
-                                        </div>
+                                            </div> */}
+                                        {/* </div> */}
                                         <div className={styles.statsRow}>
                                             <div className={styles.stat}>
-                                                <DollarSign size={16} className={styles.statIcon} />
+                                                <DollarSign
+                                                    size={26}
+                                                    className="rounded-full  p-1 border-gray-400 bg-[#f7dc6f]/50 text-[#f4d03f] "
+                                                />
+
                                                 <span className={styles.statValue}>
                                                     {formatFunding(project.funding_goal || project.funding || 0)}
                                                 </span>
                                                 <span className={styles.statLabel}>Goal</span>
                                             </div>
                                             <div className={styles.stat}>
-                                                <BriefcaseBusiness size={16} className={styles.statIcon} />
+                                                <BriefcaseBusiness
+                                                    size={26}
+                                                    className="rounded-full  p-1 border-gray-400 bg-[#2ecc71]/40 text-[#2ecc71]"
+                                                />
                                                 <span className={styles.statValue}>
                                                     {investmentData.total_investment_count || 0}
                                                 </span>
                                                 <span className={styles.statLabel}>Investments</span>
                                             </div>
                                             <div className={styles.stat}>
-                                                <Clock size={16} className={styles.statIcon} />
+                                                <Clock size={24}
+                                                    className="rounded-full  p-1 border-gray-400 bg-[#2e86c1]/40 text-[#2e86c1]" />
                                                 <span className={styles.statValue}>
                                                     {getDaysSinceCreation(project.created_at)}
                                                 </span>

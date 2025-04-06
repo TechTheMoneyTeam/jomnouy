@@ -16,7 +16,7 @@
 
 .title {
   font-size: 2.25rem;
-  font-weight: 800;
+  font-weight:700;
   color: #1a1a2e;
   margin: 0;
 }
@@ -215,8 +215,8 @@
 }
 
 .statValue {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 500;
   color: #1a1a2e;
 }
 
@@ -693,7 +693,7 @@
 }
 
 .dashboardButton {
-  background-color: #000000;
+  background-color:#FF9B3D;
   color: white;
   border: none;
   padding: 0.75rem 1.25rem;

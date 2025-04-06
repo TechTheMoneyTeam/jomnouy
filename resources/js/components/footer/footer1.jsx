@@ -159,7 +159,7 @@ const Footer1 = () => {
                                                                                           </div>
                                                                            </div> */}
                                                             </div>
-                                                            <hr />
+                                                            <hr  className='mt-6'/>
 
                                                             {/* Legal links */}
                                                             <div className="mt-4 border-none pt-6">

@@ -20,8 +20,10 @@ import Footer1 from '../footer/footer1';
 import { IoLocationSharp } from "react-icons/io5";
 import { BiSolidCategory } from "react-icons/bi";
 import { FaStar } from "react-icons/fa";
-
+import { FacebookShareButton } from 'react-share';
 import RelatedProjects from './relatedProject';
+
+import ShareButton from './shareButton';
 const getDaysSinceCreation = (createdAt) => {
     const created = new Date(createdAt);
     const now = new Date();
@@ -111,7 +113,8 @@ const ProjectDetails = () => {
     const [totalInvestments, setTotalInvestments] = useState(0);
     const [uniqueInvestors, setUniqueInvestors] = useState(0);
     const tabRef = useRef();
-    
+    const [showInvestmentPerksModal, setShowInvestmentPerksModal] = useState(false);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -146,36 +149,36 @@ const ProjectDetails = () => {
     }, [id]);
 
     useEffect(() => {
-    axios.get(`/api/projects/${id}`)
-        .then(response => {
-            const projectData = response.data;
-            setProject(projectData);
-            setProjectStory(projectData.project_story || "No story available for this project.");
-            setFaq(projectData.faq || []);
-            const projectComments = projectData.comments || [];
-            setComments(projectComments);
-            setCommentCount(projectComments.length);
+        axios.get(`/api/projects/${id}`)
+            .then(response => {
+                const projectData = response.data;
+                setProject(projectData);
+                setProjectStory(projectData.project_story || "No story available for this project.");
+                setFaq(projectData.faq || []);
+                const projectComments = projectData.comments || [];
+                setComments(projectComments);
+                setCommentCount(projectComments.length);
 
-            // Check if auction has started
-            const started = hasAuctionStarted(projectData.auction_start_date);
-            setAuctionStarted(started);
+                // Check if auction has started
+                const started = hasAuctionStarted(projectData.auction_start_date);
+                setAuctionStarted(started);
 
-            // Calculate days remaining between start and end dates
-            setDaysRemaining(getDaysRemaining(projectData.auction_end_date, projectData.auction_start_date));
+                // Calculate days remaining between start and end dates
+                setDaysRemaining(getDaysRemaining(projectData.auction_end_date, projectData.auction_start_date));
 
-            // Check if current user is the project creator
-            const userData = localStorage.getItem('user');
-            if (userData) {
-                const user = JSON.parse(userData);
-                setIsProjectCreator(projectData.user_id === user.user_id);
-            }
+                // Check if current user is the project creator
+                const userData = localStorage.getItem('user');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    setIsProjectCreator(projectData.user_id === user.user_id);
+                }
 
-            if (projectData.categories) {
-                console.log("Fetching related projects with category:", projectData.categories);
-                fetchRelatedProjects(projectData.categories);
-            }
+                if (projectData.categories) {
+                    console.log("Fetching related projects with category:", projectData.categories);
+                    fetchRelatedProjects(projectData.categories);
+                }
 
-            console.log(projectData.categories); // ✅ Ensure it's logging correctly
+                console.log(projectData.categories); // ✅ Ensure it's logging correctly
                 setLoading(false);
                 // First get the total investment amount using the correct endpoint
                 axios.get(`/api/projects/${id}/investments/total`)
@@ -320,6 +323,13 @@ const ProjectDetails = () => {
         setKycData(null);
         setInvestmentData(null);
     };
+    const handleOpenInvestmentPerks = () => {
+        setShowInvestmentPerksModal(true);
+    };
+
+    const handleCloseInvestmentPerks = () => {
+        setShowInvestmentPerksModal(false);
+    };
 
     const handleInvestClick = () => {
 
@@ -365,7 +375,9 @@ const ProjectDetails = () => {
         }
     }, [showPaymentPage]);
 
-    
+
+    const url = window.location.href;
+    const title = document.title;
 
 
 
@@ -386,11 +398,11 @@ const ProjectDetails = () => {
                         />
                         <div className="flex flex-wrap gap-2 mt-6">
                             <button className="px-4 py-2 rounded-full border border-none text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300 flex items-center space-x-1">
-                                <IoLocationSharp size={18}/>
+                                <IoLocationSharp size={18} />
                                 <span className='text-base font-medium'>{project.project_location}</span>
                             </button>
                             <button className="px-4 py-2 rounded-full border-none text-gray-700 text-xs bg-white hover:bg-gray-100 transition-all duration-300 flex items-center space-x-1">
-                                <BiSolidCategory size={18}/>
+                                <BiSolidCategory size={18} />
                                 <span className='text-base font-semibold'>
                                     {project.categories}
                                 </span>
@@ -400,29 +412,77 @@ const ProjectDetails = () => {
 
                     <div className="right-container p-4">
                         <ProgressBar progress={investmentProgress} />
-                        <p className="text-funding mt-2 text-black">US$ {totalInvested.toLocaleString()}</p>
-                        <p className="mt-2 text-black">Pledged of US$ {project.funding_goal?.toLocaleString()} goal</p>
-                        <div className="mt-2 flex items-center">
-                            {/* <Users className="mr-2" size={20} /> */}
-                            <p className="text-black text-2xl font-normal">{uniqueInvestors}</p>
-                        </div>
-                        <p className="mt-1 text-gray-600 font-semibold">Investors</p>
+                        <p className="text-funding mt-2 text-gray-600">Goal of US$ {project.funding_goal?.toLocaleString()}</p>
+                        <p className="text-lg font-semibold mt-2 text-gray-600">For Base Equity of {project.equity_offered} %</p>
+
+                        <p className="text-gray-600 text-md font-medium mt-3">Total US$ {totalInvested.toLocaleString()} Offered</p>
+
 
                         <div className="mt-2 flex items-center">
-                            {/* <BriefcaseBusiness className="mr-2" size={20} /> */}
-                            <p className="text-black text-2xl font-normal">{totalInvestments}</p>
+                            <Users className="mr-2" size={20} />
+                            <p className="text-gray-600 text-xl font-medium">{uniqueInvestors}</p>
                         </div>
-                        <p className="mt-1 text-gray-600 font-semibold">Total Investments Made</p>
+                        <p className="mt-1 text-gray-600">Unique Investors</p>
 
                         <div className="mt-2 flex items-center">
-                            {/* <CalendarRange className="mr-2" size={20} /> */}
-                            <p className="text-black text-2xl font-normal">{daysRemaining}</p>
+                            <BriefcaseBusiness className="mr-2" size={20} />
+                            <p className="text-gray-600 text-xl font-medium">{totalInvestments}</p>
                         </div>
-                        <p className="mt-1 text-gray-600 font-semibold">Days Remaining</p>
+                        <p className="mt-1 text-gray-600">Total Investments Made</p>
+
+                        <div className="mt-2 flex items-center">
+                            <CalendarRange className="mr-2" size={20} />
+                            <p className="text-gray-600 text-xl font-medium">{daysRemaining}</p>
+                        </div>
+                        <p className="mt-1 text-gray-600">Days Remaining</p>
+                        <button className="mt-2 bg-transparent text-custom-orange rounded font-medium" onClick={handleOpenInvestmentPerks}>
+                            View Investment Perks
+                        </button>
+                        {showInvestmentPerksModal && (
+                            <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                                <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
+                                    <button
+                                        className="absolute top-2 right-2 text-2xl text-gray-600 hover:text-gray-900"
+                                        onClick={handleCloseInvestmentPerks}
+                                    >
+                                        &times;
+                                    </button>
+                                    <h2 className="text-xl font-bold mb-4">Investment Perks</h2>
+                                    <div className="space-y-3">
+                                        <div className="bg-gray-100 p-3 rounded-md">
+                                            <h3 className="font-semibold">1-5 Years Investment</h3>
+                                            <p className="text-gray-600">
+                                                + {project.return_1_5_years || 'N/A'}% Equity Return
+                                            </p>
+                                        </div>
+                                        <div className="bg-gray-100 p-3 rounded-md">
+                                            <h3 className="font-semibold">5-10 Years Investment</h3>
+                                            <p className="text-gray-600">
+                                                + {project.return_5_10_years || 'N/A'}% Equity Return
+                                            </p>
+                                        </div>
+                                        <div className="bg-gray-100 p-3 rounded-md">
+                                            <h3 className="font-semibold">Over 10 Years Investment</h3>
+                                            <p className="text-gray-600">
+                                                + {project.return_10_plus_years || 'N/A'}% Equity Return
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* <p className="mt-1 text-gray-600">Investment 1-5 years + {project.return_1_5_years} of equity</p>
+                        <p className="mt-1 text-gray-600">Investment 5-10 years + {project.return_1_5_years}</p>
+                        <p className="mt-1 text-gray-600">Investment Over 10 years + {project.return_1_5_years}</p> */}
+
+
+
+
                         {isProjectCreator ? (
                             <div className="disabled-button-container">
                                 <button
-                                    className="invest-button disabled-button border-none font-semibold"
+                                    className="invest-button disabled-button"
                                     disabled={true}
                                 >
                                     You cannot invest in your own project
@@ -450,32 +510,7 @@ const ProjectDetails = () => {
 
                         <p className="c-text">This project will receive funding only if it meets its goal by {new Date(project.auction_end_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}</p>
                         <div className="buttons-container">
-                            
-                            {isFavorite ? (
-                                <motion.button
-                                    className="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md"
-                                    onClick={handleToggleFavorite}
-                                    disabled={savingToFavorites}
-                                    whileTap={{ scale: 0.8 }} // Smooth press effect
-                                    transition={{ type: "spring", stiffness: 300, damping: 15 }} // Bouncy effect
-                                >
-                                    <FaStar className="text-orange-500 text-xl" />
-                                </motion.button>
-
-                            ) : (
-                                <motion.button
-                                    className="action-buttons"
-                                    onClick={handleToggleFavorite}
-                                    disabled={savingToFavorites}
-                                    whileTap={{ scale: 0.8 }} // Smooth press effect
-                                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                                >
-                                    <FaRegBookmark className="icon-button" color="red" />
-                                    <span>Add to favorite</span>
-                                </motion.button>
-                            )}
-
-                            {/* <button
+                            <button
                                 className="action-buttons"
                                 onClick={handleToggleFavorite}
                                 disabled={savingToFavorites}
@@ -485,12 +520,21 @@ const ProjectDetails = () => {
                                 ) : (
                                     <FaRegBookmark className="icon-button" />
                                 )}
-                                <span>{isFavorite ? "Saved to favorites" : "Add to favorite"}</span>
-                            </button> */}
-                            <button className="action-buttons">
+                                <span>{isFavorite ? "Saved to favorites" : "Save for later"}</span>
+                            </button>
+                            {/* <button className="action-buttons">
                                 <PiShareFat className="icon-button" />
                                 <span>Share</span>
-                            </button>
+
+                            </button> */}
+                            <ShareButton project={project} />
+                            {/* <FacebookShareButton
+                                url={url}
+                                quote={title}
+                                className="mr-4"
+                            >
+                                Share to facebook
+                            </FacebookShareButton> */}
                         </div>
                     </div>
                 </div>
@@ -514,12 +558,12 @@ const ProjectDetails = () => {
                 <div ref={tabRef}>
                     {activeTab === "story" && (
                         <div className="tab-content flex min-h-screen flex-col">
-                            <div className="max-w-2xl text-left">
+                            <div className="max-w-2xl text-left font-normal">
                                 <div dangerouslySetInnerHTML={{ __html: projectStory }} />
                             </div>
 
                             <div className="flex flex-col items-start mt-8">
-                                <p className="mb-2">
+                                <p className="mb-2 font-medium">
                                     Questions about this project?{' '}
                                     <a href="/faq" className="text-black-900 font-semibold underline">Check out the FAQ</a>
                                 </p>
