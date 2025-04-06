@@ -126,7 +126,23 @@ const ProjectDetails = () => {
     const [uniqueInvestors, setUniqueInvestors] = useState(0);
     const tabRef = useRef();
     const [favoriteProjects, setFavoriteProjects] = useState([]);
+    const [projectRelated, setProjectRelated] = useState([]);
 
+    const fetchRelatedProjects = (categoryId) => {
+        axios.get('/api/projects')  // Fetch all projects
+            .then(response => {
+                // Filter related projects based on the same category but excluding the current project
+                const related = response.data.filter(
+                    (p) => p.categories === categoryId && p.project_id !== id
+                );
+
+                // Set the related projects to the state
+                setProjectRelated(related);
+            })
+            .catch(error => {
+                console.error('Error fetching related projects:', error);
+            });
+    };
     const fetchFavorites = async () => {
         try {
             const userData = localStorage.getItem('user');
@@ -189,6 +205,7 @@ const ProjectDetails = () => {
             }
         }
     }, [id]);
+    
 
     useEffect(() => {
         axios.get(`/api/projects/${id}`)
