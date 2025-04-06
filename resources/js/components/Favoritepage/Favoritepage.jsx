@@ -141,11 +141,7 @@ const FavoritesPage = () => {
                                                 alt={project.title}
                                                 className={styles.cardImage}
                                             />
-                                            {isFunded && (
-                                                <div className={styles.fundedBadge}>
-                                                    Fully Funded
-                                                </div>
-                                            )}
+                                            
                                         </Link>
                                         <button
                                             className={styles.removeButton}

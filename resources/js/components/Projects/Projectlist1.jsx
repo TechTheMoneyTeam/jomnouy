@@ -247,7 +247,7 @@ const ProjectListing = () => {
                                                                                                                                                                                                    </div> */}
                           <div className="profile-avatar">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
                             </svg>
                           </div>
                           <div className="flex-1">
@@ -347,7 +347,11 @@ const ProjectListing = () => {
                       <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                           <Clock size={16} />
-                          <span>{getDaysLeft(project.auction_end_date)} days left</span>
+                          {getDaysLeft(project.auction_end_date) <= 0 ? (
+                            <span className="text-red-500">Project Ended</span>
+                          ) : (
+                            <span>{Math.max(0, getDaysLeft(project.auction_end_date))} days ago</span>
+                          )}
                           <span>•</span>
                           <span>{formatFunding(project.funding_goal)} Funded</span>
                         </div>
@@ -470,7 +474,11 @@ const ProjectListing = () => {
                       <div className="flex items-center text-sm text-gray-500 mb-2">
                         <div className="flex items-center gap-2 text-sm text-gray-600 font-medium">
                           <Clock size={16} />
-                          <span>{getDaysLeft(project.auction_end_date)} days ago</span>
+                          {getDaysLeft(project.auction_end_date) <= 0 ? (
+                            <span className="text-red-500">Project Ended</span>
+                          ) : (
+                            <span>{Math.max(0, getDaysLeft(project.auction_end_date))} days ago</span>
+                          )}
                           <span>•</span>
                           <span>{formatFunding(project.funding_goal)} Funded</span>
                         </div>
@@ -582,7 +590,11 @@ const ProjectListing = () => {
                       <div className="flex items-center text-sm text-gray-500 mb-2 ml-2">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                           <Clock size={16} />
-                          <span>{getDaysLeft(project.auction_end_date)} days ago</span>
+                          {getDaysLeft(project.auction_end_date) <= 0 ? (
+                            <span className="text-red-500">Project Ended</span>
+                          ) : (
+                            <span>{Math.max(0, getDaysLeft(project.auction_end_date))} days ago</span>
+                          )}
                           <span>•</span>
                           <span>{formatFunding(project.funding_goal)} Funded</span>
                         </div>
@@ -656,7 +668,11 @@ const ProjectListing = () => {
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Clock size={16} />
-                        <span>{getDaysLeft(project.auction_end_date)} days ago</span>
+                        {getDaysLeft(project.auction_end_date) <= 0 ? (
+                          <span className="text-red-500">Project Ended</span>
+                        ) : (
+                          <span>{Math.max(0, getDaysLeft(project.auction_end_date))} days ago</span>
+                        )}
                         <span>•</span>
                         <span>{formatFunding(project.funding_goal)} Funded</span>
                       </div>

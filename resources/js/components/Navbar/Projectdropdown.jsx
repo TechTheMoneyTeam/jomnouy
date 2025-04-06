@@ -67,7 +67,7 @@ const DropdownMenu = () => {
             <div onClick={toggleDropdown} className="flex items-center cursor-pointer">
                 
                 <img
-                    className="avatar-image w-10 h-10 rounded-full object-cover mr-2 ml-4"
+                    className="avatar-image w-10 h-10 rounded-full object-cover mr-2 ml-4 transition-transform duration-300 ease-in-out hover:scale-105"
                     src={getProfileImageSrc()}
                     alt={`${username}'s avatar`}
                     style={{ border: '2px solid #ccc' }} // Optional: Add a border for better visibility

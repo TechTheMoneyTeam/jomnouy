@@ -261,10 +261,10 @@ const Service = () => {
                     >
                         <ImageSlider
                             images={[
-                                "https://media.licdn.com/dms/image/v2/C4E03AQHUGeMlTDkoEA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1516349497694?e=2147483647&v=beta&t=WRw-19MuHfQnEGeDiB2QW-kHQY0mMHahual1GHFXC1w",
-                                "https://media.licdn.com/dms/image/v2/C4E03AQHUGeMlTDkoEA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1516349497694?e=2147483647&v=beta&t=WRw-19MuHfQnEGeDiB2QW-kHQY0mMHahual1GHFXC1w",
+                                "https://midias-blog-mkt.s3.amazonaws.com/uploads/2022/03/ESM-scaled.jpg",
+                                "https://media.istockphoto.com/id/1366023601/photo/cropped-shot-of-an-attractive-young-female-call-center-agent-working-in-her-office.jpg?s=612x612&w=0&k=20&c=qvv5Fnh0eE5S0n8ARf0ZTqfFPGSs-nX41xnGsABfOZg=",
                                 "https://img.freepik.com/free-vector/service-24-7-concept-illustration_114360-7380.jpg?t=st=1742802041~exp=1742805641~hmac=66f4a812c175522997a48f09669f4f5cf9b390fe77d3b79e57347c9522ec8069&w=826",
-                                "https://img.freepik.com/free-vector/service-24-7-concept-illustration_114360-7380.jpg?t=st=1742802041~exp=1742805641~hmac=66f4a812c175522997a48f09669f4f5cf9b390fe77d3b79e57347c9522ec8069&w=826",
+                                "https://st2.depositphotos.com/3591429/7699/i/450/depositphotos_76994273-stock-photo-customer-service-support-concept.jpg",
                             ]}
                         />
                     </div>
@@ -276,7 +276,7 @@ const Service = () => {
                         <h3 className="feature-content-title">
                             All in One service to make it Better
                         </h3>
-                        <p className="feature-content-text">Pending ....</p>
+                        <p className="feature-content-text">Take control of your financial future with All in One - the comprehensive investment platform designed for investors at every level. Our intuitive web app consolidates everything you need to build, manage, and grow your portfolio in a single, powerful interface.</p>
                     </div>
                 </div>
 
