@@ -96,7 +96,7 @@ const FavoritesPage = () => {
 
             <div className={styles.container}>
                 <div className={styles.filterSection}>
-                    <div className={styles.filterButtons}>
+                    {/* <div className={styles.filterButtons}>
                         <button 
                             className={`${styles.filterButton} ${filterActive === 'all' ? styles.active : ''}`}
                             onClick={() => setFilterActive('all')}
@@ -115,7 +115,7 @@ const FavoritesPage = () => {
                         >
                             In Progress
                         </button>
-                    </div>
+                    </div> */}
                     <div className={styles.stats}>
                         <div className={styles.statItem}>
                             <span className={styles.statValue}>{favorites.length}</span>

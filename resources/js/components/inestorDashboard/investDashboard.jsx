@@ -15,7 +15,7 @@ const Dashboard = () => {
   const mainNavItems = [
     { id: 'Dashboard', icon: <Bell size={20} />, label: 'Dashboard' }, // Renamed 'Overview' to 'Dashboard'
     { id: 'My investment', icon: <BriefcaseBusiness size={20} />, label: 'My investment' },
-    { id: 'Milestone', icon: <Inbox size={20} />, label: 'Milestone' },
+    // { id: 'Milestone', icon: <Inbox size={20} />, label: 'Milestone' },
     { id: 'Update & Report', icon: <Package size={20} />, label: 'Update & Report', hasChildren: true },
     { id: 'Transaction', icon: <Users size={20} />, label: 'Transaction', hasChildren: true },
     
@@ -38,7 +38,7 @@ const Dashboard = () => {
   const tabComponents = {
     'Dashboard': <ProfitDashboard />, 
     'My investment': <InvestorProjects />,
-    'Milestone': <InvestorProjects />,
+    // 'Milestone': <InvestorProjects />,
     'Update & Report': <InvestorUpdates />,
     'Transaction': <TransactionDetails />,
   

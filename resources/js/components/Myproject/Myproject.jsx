@@ -23,9 +23,9 @@ const StatusBadge = ({ status }) => {
             case 'completed':
                 return styles.statusCompleted;
             case 'approved':
-                return styles.statusApproved;
+                return 'bg-green-50 text-[#27ae60]'
             case 'pending':
-                return styles.statusPending;
+                return 'bg-yello-50 text-[#f1c40f]';
             default:
                 return styles.statusDefault;
         }
@@ -339,7 +339,6 @@ const MyProjects = () => {
             </div>
         );
     }
-
     return (
         <>
             <Navbar2 />
@@ -362,7 +361,6 @@ const MyProjects = () => {
                         </button>
                     </div>
                 )}
-
                 <div className={styles.projectsContainer}>
                     <div className={styles.projectsHeader}>
                         <h2 className={styles.sectionTitle}>
@@ -409,7 +407,7 @@ const MyProjects = () => {
                             return (
                                 <Card key={projectId} className={styles.projectCard}>
                                     <div className={styles.cardHeader}>
-                                        <StatusBadge status={investmentStatus} />
+                                        {/* <StatusBadge status={investmentStatus} /> */}
                                         <img
                                             src={project.project_img_url || project.image_url || "/api/placeholder/400/200"}
                                             alt={project.title}
@@ -472,38 +470,43 @@ const MyProjects = () => {
 
                                         {/* <div className={styles.investmentStatus}> */}
                                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                                            <div className="p-4 text-center rounded-xl flex flex-col items-center justify-center bg-[#f9e79f]/50">
+                                            <div className="p-4 text-center rounded-xl flex flex-col items-center justify-center bg-yellow-50">
                                                 {/* <CircleDashed size={22} /> */}
-                                                <span className="font-medium">{investmentData.pending_count}</span>
-                                                <span className="font-medium text-md">Pending</span>
-                                                <span className="font-medium text-sm">
+                                                <span className="font-normal">{investmentData.pending_count}</span>
+                                                <span className="text-sm font-medium text-[#f1c40f]">Pending</span>
+                                                <span className="font-medium text-sm pt-3">
                                                     {formatFunding(investmentData.total_pending_amount)}
                                                 </span>
                                             </div>
-                                        
+                                            {/* case 'approved': return 'bg-green-50';
+                                            case 'pending': return 'bg-yellow-50';
+                                            case 'rejected': return 'bg-red-50'; */}
 
-                                            <div className="p-4 text-center rounded-xl flex flex-col bg-[#66BB6A]/40">
+                                            <div className="p-4 text-center rounded-xl flex flex-col bg-green-50">
                                                 {/* <CircleDashed size={16} className={styles.statusIcon} /> */}
-                                                <span className={styles.statusCount}>{investmentData.pending_count}</span>
-                                                <span className={styles.statusLabel}>Approved</span>
-                                                <span className={styles.statusAmount}>
+                                                <span className="font-normal">{investmentData.pending_count}</span>
+
+                                                <span className="text-sm font-medium text-[#27ae60]">Approved</span>
+                                                <span className="font-medium text-sm pt-3">
                                                     {formatFunding(investmentData.total_pending_amount)}
                                                 </span>
                                             </div>
-                                            <div className="p-4 text-center rounded-xl flex flex-col bg-[#27ae60]/30">
+                                            <div className="p-4 text-center rounded-xl flex flex-col bg-blue-50">
                                                 {/* <CircleDashed size={16} className={styles.statusIcon} /> */}
-                                                <span className={styles.statusCount}>{investmentData.pending_count}</span>
-                                                <span className={styles.statusLabel}>Completed</span>
-                                                <span className={styles.statusAmount}>
+                                                <span className="font-normal">{investmentData.pending_count}</span>
+
+                                                <span className="text-sm font-medium text-[#2e86c1]">Completed</span>
+                                                <span className="font-medium text-sm pt-3">
                                                     {formatFunding(investmentData.total_pending_amount)}
                                                 </span>
                                             </div>
                                         </div>
                                         {/* <div className="table-cell p-4 text-center align-middle  bg-[#8e44ad]/20">
                                                 <CircleDashed size={16} className={styles.statusIcon} />
-                                                <span className={styles.statusCount}>{investmentData.pending_count}</span>
+                                                                                                <span className="font-normal">{investmentData.pending_count}</span>
+
                                                 <span className={styles.statusLabel}>Pending</span>
-                                                <span className={styles.statusAmount}>
+                                                <span className="font-normal">
                                                     {formatFunding(investmentData.total_pending_amount)}
                                                 </span>
                                             </div> */}
@@ -515,7 +518,7 @@ const MyProjects = () => {
                                                         : '0'}
                                                 </span>
                                                 <span className={styles.statusLabel}>Approved</span>
-                                                <span className={styles.statusAmount}>
+                                                <span className="font-normal">
                                                     {formatFunding(investmentData.total_approved_amount)}
                                                 </span>
                                             </div>
@@ -527,7 +530,7 @@ const MyProjects = () => {
                                                         : '0'}
                                                 </span>
                                                 <span className={styles.statusLabel}>Completed</span>
-                                                <span className={styles.statusAmount}>
+                                                <span className="font-normal">
                                                     {formatFunding(investmentData.total_completed_amount)}
                                                 </span>
                                             </div> */}
@@ -535,19 +538,18 @@ const MyProjects = () => {
                                         <div className={styles.statsRow}>
                                             <div className={styles.stat}>
                                                 <DollarSign
-                                                    size={26}
-                                                    className="rounded-full  p-1 border-gray-400 bg-[#f7dc6f]/50 text-[#f4d03f] "
+                                                    size={13}
+                                                    className="w-10 h-10 rounded-full  p-2 border-gray-400 bg-[#f7dc6f]/50 text-[#f4d03f] "
                                                 />
-
                                                 <span className={styles.statValue}>
                                                     {formatFunding(project.funding_goal || project.funding || 0)}
                                                 </span>
-                                                <span className={styles.statLabel}>Goal</span>
+                                                <span className={styles.statLabel}>Funding Goal</span>
                                             </div>
                                             <div className={styles.stat}>
                                                 <BriefcaseBusiness
-                                                    size={26}
-                                                    className="rounded-full  p-1 border-gray-400 bg-[#2ecc71]/40 text-[#2ecc71]"
+                                                    size={13}
+                                                    className="w-10 h-10 rounded-full  p-2 border-gray-400 bg-[#2ecc71]/40 text-[#2ecc71]"
                                                 />
                                                 <span className={styles.statValue}>
                                                     {investmentData.total_investment_count || 0}
@@ -555,8 +557,11 @@ const MyProjects = () => {
                                                 <span className={styles.statLabel}>Investments</span>
                                             </div>
                                             <div className={styles.stat}>
-                                                <Clock size={24}
-                                                    className="rounded-full  p-1 border-gray-400 bg-[#2e86c1]/40 text-[#2e86c1]" />
+                                                <Clock
+                                                    size={16} // You can tweak this
+                                                    className="w-10 h-10 rounded-full p-2  border-gray-400 bg-blue-50 text-[#2e86c1]"
+                                                />
+
                                                 <span className={styles.statValue}>
                                                     {getDaysSinceCreation(project.created_at)}
                                                 </span>
