@@ -41,30 +41,30 @@ class InvestmentController extends Controller
                 'investment_notes' => 'nullable|string|max:1000',
                 'investment_term' => 'required|string|in:1-5,5-10,10+',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'message' => 'Validation failed',
                     'errors' => $validator->errors()
                 ], 422);
             }
-    
+
             $validatedData = $validator->validated();
-            
+
             // Verify project exists
             $project = Project::find($validatedData['project_id']);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
                 ], 404);
             }
-            
+
             // Check auction dates to determine if project is accepting investments
             $currentDate = Carbon::now();
             $auctionStartDate = $project->auction_start_date ? Carbon::parse($project->auction_start_date) : null;
             $auctionEndDate = $project->auction_end_date ? Carbon::parse($project->auction_end_date) : null;
-    
+
             // Check if project is within auction dates
             if ($auctionStartDate && $auctionEndDate) {
                 if ($currentDate->lt($auctionStartDate)) {
@@ -72,7 +72,7 @@ class InvestmentController extends Controller
                         'message' => 'This project is not yet open for investment. Auction starts on ' . $auctionStartDate->format('M d, Y')
                     ], 400);
                 }
-                
+
                 if ($currentDate->gt($auctionEndDate)) {
                     return response()->json([
                         'message' => 'This project is no longer accepting investments. Auction ended on ' . $auctionEndDate->format('M d, Y')
@@ -86,16 +86,16 @@ class InvestmentController extends Controller
                     ], 400);
                 }
             }
-            
+
             // Verify user exists
             $user = User::where('user_id', $validatedData['user_id'])->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
                 ], 404);
             }
-            
+
             // Check if investment amount meets minimum funding goal
             if (floatval($validatedData['amount']) < floatval($project->funding_goal)) {
                 return response()->json([
@@ -105,10 +105,10 @@ class InvestmentController extends Controller
                     ]
                 ], 422);
             }
-            
+
             // Calculate equity percentage based on investment amount
             $baseEquityPercentage = $validatedData['equity_percentage'] ?? 0;
-            
+
             // Get base equity from project
             if ($project->equity_offered) {
                 $baseEquityPercentage = floatval($project->equity_offered);
@@ -129,23 +129,23 @@ class InvestmentController extends Controller
                     // If error parsing tiers, use provided equity percentage
                 }
             }
-            
+
             // Calculate additional equity for amounts over funding goal based on project data
             if (floatval($validatedData['amount']) > floatval($project->funding_goal)) {
                 $amountOverFundingGoal = floatval($validatedData['amount']) - floatval($project->funding_goal);
                 $fundingGoal = floatval($project->funding_goal);
-                
+
                 // Get equity per dollar from project's equity offered and funding goal
                 $equityPerDollar = $baseEquityPercentage / $fundingGoal;
-                
+
                 // Calculate additional equity based on the same ratio
                 $additionalEquity = $equityPerDollar * $amountOverFundingGoal;
-                
+
                 $validatedData['equity_percentage'] = $baseEquityPercentage + $additionalEquity;
             } else {
                 $validatedData['equity_percentage'] = $baseEquityPercentage;
             }
-            
+
             // Create the investment
             $investment = Investment::create([
                 'project_id' => $validatedData['project_id'],
@@ -159,15 +159,15 @@ class InvestmentController extends Controller
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-    
+
             // Load the relationships
             $investment->load(['project', 'user']);
-    
+
             return response()->json([
                 'message' => 'Investment submitted successfully',
                 'investment' => $investment
             ], 201);
-    
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Investment submission failed',
@@ -183,13 +183,13 @@ class InvestmentController extends Controller
     {
         try {
             $investment = Investment::with(['project', 'user'])->find($id);
-            
+
             if (!$investment) {
                 return response()->json([
                     'message' => 'Investment not found'
                 ], 404);
             }
-            
+
             return response()->json($investment, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch investment: ' . $e->getMessage()], 500);
@@ -203,13 +203,13 @@ class InvestmentController extends Controller
     {
         try {
             $investment = Investment::find($id);
-            
+
             if (!$investment) {
                 return response()->json([
                     'message' => 'Investment not found'
                 ], 404);
             }
-            
+
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'amount' => 'nullable|numeric|min:0',
@@ -226,12 +226,12 @@ class InvestmentController extends Controller
                     'errors' => $validator->errors()
                 ], 422);
             }
-            
+
             // Check if amount is being updated
             if ($request->has('amount') && $request->amount != $investment->amount) {
                 // Get project to recalculate equity
                 $project = Project::find($investment->project_id);
-                
+
                 if ($project) {
                     // Ensure amount meets minimum
                     if (floatval($request->amount) < floatval($project->funding_goal)) {
@@ -242,10 +242,10 @@ class InvestmentController extends Controller
                             ]
                         ], 422);
                     }
-                    
+
                     // Recalculate equity percentage
                     $baseEquityPercentage = 0;
-                    
+
                     if ($project->equity_offered) {
                         $baseEquityPercentage = floatval($project->equity_offered);
                     } elseif ($project->equity_tiers) {
@@ -264,50 +264,52 @@ class InvestmentController extends Controller
                             $baseEquityPercentage = $investment->equity_percentage;
                         }
                     }
-                    
+
                     // Calculate additional equity for amounts over funding goal based on project data
                     if (floatval($request->amount) > floatval($project->funding_goal)) {
                         $amountOverFundingGoal = floatval($request->amount) - floatval($project->funding_goal);
                         $fundingGoal = floatval($project->funding_goal);
-                        
+
                         // Get equity per dollar from project's equity offered and funding goal
                         $equityPerDollar = $baseEquityPercentage / $fundingGoal;
-                        
+
                         // Calculate additional equity based on the same ratio
                         $additionalEquity = $equityPerDollar * $amountOverFundingGoal;
-                        
+
                         $investment->equity_percentage = $baseEquityPercentage + $additionalEquity;
                     } else {
                         $investment->equity_percentage = $baseEquityPercentage;
                     }
                 }
-                
+
                 $investment->amount = $request->amount;
             }
-            
+
             // Update fields if provided
             $fieldList = [
-                'payment_method', 'investment_notes', 'investment_term'
+                'payment_method',
+                'investment_notes',
+                'investment_term'
             ];
-            
+
             foreach ($fieldList as $field) {
                 if ($request->has($field)) {
                     $investment->{$field} = $request->{$field};
                 }
             }
-            
+
             // Only update equity percentage directly if not updating amount (to prevent overriding calculated value)
             if ($request->has('equity_percentage') && !$request->has('amount')) {
                 $investment->equity_percentage = $request->equity_percentage;
             }
-            
+
             // Handle status changes and timestamps
             if ($request->has('status')) {
                 $oldStatus = $investment->status;
                 $newStatus = $request->status;
-                
+
                 $investment->status = $newStatus;
-                
+
                 // Set appropriate timestamps based on status change
                 if ($oldStatus != $newStatus) {
                     if ($newStatus == 'approved') {
@@ -319,18 +321,18 @@ class InvestmentController extends Controller
                     }
                 }
             }
-            
+
             $investment->updated_at = now();
             $investment->save();
-            
+
             // Load the relationships
             $investment->load(['project', 'user']);
-            
+
             return response()->json([
                 'message' => 'Investment updated successfully',
                 'investment' => $investment
             ], 200);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Investment update failed',
@@ -346,27 +348,27 @@ class InvestmentController extends Controller
     {
         try {
             $investment = Investment::find($id);
-            
+
             if (!$investment) {
                 return response()->json([
                     'message' => 'Investment not found'
                 ], 404);
             }
-            
+
             // Don't allow deletion of approved/completed investments
             if (in_array($investment->status, ['approved', 'completed'])) {
                 return response()->json([
                     'message' => 'Cannot delete an approved or completed investment'
                 ], 400);
             }
-            
+
             // Delete the investment
             $investment->delete();
-            
+
             return response()->json([
                 'message' => 'Investment deleted successfully'
             ], 200);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Investment deletion failed',
@@ -383,7 +385,7 @@ class InvestmentController extends Controller
         try {
             // Verify project exists
             $project = Project::find($projectId);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
@@ -391,9 +393,9 @@ class InvestmentController extends Controller
             }
 
             $investments = Investment::where('project_id', $projectId)
-                                  ->with('user')
-                                  ->orderBy('created_at', 'desc')
-                                  ->get();
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             // Calculate total investment amount
             $totalInvestmentAmount = $investments->sum('amount');
@@ -406,7 +408,7 @@ class InvestmentController extends Controller
                 'total_approved_amount' => $totalApprovedAmount,
                 'total_completed_amount' => $totalCompletedAmount,
                 'funding_goal' => $project->funding_goal,
-                'funding_percentage' => $project->funding_goal > 0 
+                'funding_percentage' => $project->funding_goal > 0
                     ? round(($totalApprovedAmount + $totalCompletedAmount) / $project->funding_goal * 100, 2)
                     : 0
             ]);
@@ -427,7 +429,7 @@ class InvestmentController extends Controller
         try {
             // Verify user exists
             $user = User::where('user_id', $userId)->first();
-            
+
             if (!$user) {
                 return response()->json([
                     'message' => 'User not found'
@@ -435,9 +437,9 @@ class InvestmentController extends Controller
             }
 
             $investments = Investment::where('user_id', $userId)
-                                  ->with('project')
-                                  ->orderBy('created_at', 'desc')
-                                  ->get();
+                ->with('project')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             // Calculate investment statistics
             $totalInvestmentAmount = $investments->sum('amount');
@@ -467,7 +469,7 @@ class InvestmentController extends Controller
         try {
             $transactions = Investment::where('user_id', $userId)
                 ->with('project:project_id,title')
-                ->select('investment_id', 'project_id', 'amount', 'payment_method', 'created_at') 
+                ->select('investment_id', 'project_id', 'amount', 'payment_method', 'created_at')
                 ->orderBy('created_at', 'desc')
                 ->get();
 
@@ -485,7 +487,7 @@ class InvestmentController extends Controller
         try {
             // Verify project exists
             $project = Project::find($projectId);
-            
+
             if (!$project) {
                 return response()->json([
                     'message' => 'Project not found'
@@ -516,7 +518,7 @@ class InvestmentController extends Controller
 
     public function getProjectsByInvestor($investorId)
     {
-        $projects = Investment::with('project') 
+        $projects = Investment::with('project')
             ->where('user_id', $investorId) // Use 'user_id' instead of 'investor_id'
             ->get() // Retrieve all the investments by the investor
             ->pluck('project'); // Extract the project data from the investment
@@ -539,5 +541,32 @@ class InvestmentController extends Controller
             ->get(); // Retrieve all investments with their projects
 
         return response()->json($investments); // Return merged data
+    }
+    public function getUserProjects($userId)
+    {
+        try {
+
+            $user = User::where('user_id', $userId)->first();
+
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+
+            $projects = Project::whereHas('investments', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+                ->select('project_id', 'title', 'project_des', 'status', 'created_at')
+                ->get();
+
+            return response()->json($projects, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch user projects',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

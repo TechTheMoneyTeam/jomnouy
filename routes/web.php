@@ -33,7 +33,7 @@ Route::get('/api/projects', [ProjectController::class, 'index']);
 use App\Http\Controllers\InvestmentController;
 Route::get('/api/investments', [InvestmentController::class, 'index']);
 Route::get('/api/projects/{projectId}/investments/total', [InvestmentController::class, 'getProjectTotalInvestment']);
-    
+
 // Create a new investment
 Route::post('/api/investments', [InvestmentController::class, 'store']);
 
@@ -62,6 +62,9 @@ Route::get('/investments/{id}', function () {
     return view('welcome');
 });
 
+
+Route::get('/api/investments/user/{userId}/projects', [InvestmentController::class, 'getUserProjects']);
+
 // project multi filter
 Route::get('/api/filtered-projects', [ProjectController::class, 'getFilteredProjects']);
 // project ending soon
@@ -77,7 +80,7 @@ Route::get('/category/{categoryName}', function () {
 })->where('categoryName', '[^/]+');  // Match any category name
 
 
- 
+
 Route::get('/api/projects/{id}', [ProjectController::class, 'show']);
 Route::get('/projects/{id}', function () {
     return view('welcome');

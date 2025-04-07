@@ -86,6 +86,10 @@ class Project extends Model
         }
         return url('storage/' . $this->project_video);
     }
+    public function investments()
+{
+    return $this->hasMany(Investment::class, 'project_id', 'project_id');
+}
 
     /**
      * Get the attributes that should be appended to array forms of the model.
