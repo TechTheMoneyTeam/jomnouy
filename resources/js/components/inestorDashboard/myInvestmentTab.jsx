@@ -11,14 +11,33 @@ const InvestorProjects = () => {
     };
 
     // Status color function
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'approve': return 'bg-[#2ecc71]';
-            case 'pending': return 'bg-[#f7dc6f]';
-            case 'reject': return 'bg-red-500';
-            default: return 'bg-gray-500';
-        }
-    };
+
+
+const getBorderColor = (status) => {
+               switch (status) {
+                              case 'approved': return 'border-[#2ecc71]';
+                              case 'pending': return 'border-[#f7dc6f]';
+                              case 'rejected': return 'border-red-500';
+                              default: return 'border-red-500';
+               }
+};
+const getBgColor = (status) => {
+               switch (status) {
+                              case 'approved': return 'bg-green-50';
+                              case 'pending': return 'bg-yellow-50';
+                              case 'rejected': return 'bg-red-50';
+                              default: return 'border-gray-500';
+               }
+};
+
+const getTextColor = (status) => {
+               switch (status) {
+                              case 'approved': return 'text-green-600';
+                              case 'pending': return 'text-yellow-600';
+                              case 'rejected': return 'text-red-600';
+                              default: return 'text-gray-500';
+               }
+};
 
     // Fetch user_id from localStorage
     useEffect(() => {
@@ -78,8 +97,10 @@ const InvestorProjects = () => {
                                 </td>
                                 <td className="p-4 text-sm text-gray-500">${parseInt(investment.amount)}</td>
                                 <td className="p-4 text-sm text-gray-500">{investment.equity_percentage} %</td>
-                                <td className="p-4 text-sm text-gray-500">
-                                    <span className={`px-4 py-2 rounded-full text-white text-xs ${getStatusColor(investment.status)}`}>
+                                                      <td className="p-4 text-xs text-gray-500">
+                                                                     <span className={`px-4 py-2 rounded-full ${getBgColor(investment.status)}  ${getTextColor(investment.status)}`}>
+
+                                    {/* <span className={`px-4 py-2 rounded-full text-white text-xs ${getStatusColor(investment.status)}`}> */}
                                         {capitalizeFirstLetter(investment.status)}
                                     </span>
                                 </td>

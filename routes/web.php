@@ -218,3 +218,4 @@ Route::get('/api/investor/{id}/projects', [InvestmentController::class, 'getInve
 
 //route for update  and report  project for investor 
 Route::get('/api/investor/{investorId}/updates-report', [UpdateController::class, 'getInvestorUpdates1']);
+Route::get('/api/investments/user/{userId}/projects', [InvestmentController::class, 'getUserProjects']);

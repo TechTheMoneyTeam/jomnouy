@@ -26,10 +26,11 @@
     font-size: 1rem;
   }
   
-  .activeTab {
-    color: #f97316;
-    border-bottom: 2px solid #f97316;
-  }
+.activeTab {
+    color: #F07900;
+    border-bottom: 2px solid #F07900;
+    border-radius: 0;
+}
   
 
 

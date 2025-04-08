@@ -35,6 +35,9 @@ const UpdateForm = () => {
 
             // Show success toast
             toast.success(response.data.message || "Update submitted successfully!");
+            setTimeout(() => {
+                window.location.href = "/projectlist1";
+            }, 2000);
         } catch (error) {
             console.error("Error submitting update:", error);
 

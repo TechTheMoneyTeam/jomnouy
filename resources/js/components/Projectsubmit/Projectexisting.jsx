@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar3 from '../Navbar/Navbarcreate';
 import styles from './Projectupload.module.css';
+import { toast, Toaster } from 'sonner';
 
 const ProjectExisting = () => {
     // Predefined options arrays
@@ -240,10 +241,10 @@ const ProjectExisting = () => {
                 }
             });
 
-            setMessage({
-                text: 'Project submitted successfully!',
-                type: 'success'
-            });
+            // setMessage({
+            //     text: 'Project submitted successfully!',
+            //     type: 'success'
+            // });
 
             // Reset form
             setFormData({
@@ -276,11 +277,18 @@ const ProjectExisting = () => {
             setPreviewVideo(null);
 
             console.log('Project submitted:', response.data);
+            toast.success(response.data.message || "Update submitted successfully!");
+            setTimeout(() => {
+                window.location.href = "/projectlist1";
+            }, 2000);
+
         } catch (error) {
-            setMessage({
-                text: error.response?.data?.message || 'Error submitting project!',
-                type: 'error'
-            });
+            toast.error("Error submitting update. Please try again.");
+
+            // setMessage({
+            //     text: error.response?.data?.message || 'Error submitting project!',
+            //     type: 'error'
+            // });
             console.error('Submission error:', error.response?.data);
         }
     };
@@ -559,6 +567,7 @@ const ProjectExisting = () => {
                                                     value={formData.auction_start_date}
                                                     onChange={handleChange}
                                                     className={styles.dateInput}
+                                                    min={new Date().toISOString().split('T')[0]} // Set minimum date to today
                                                     required
                                                 />
                                                 <span className={styles.calendarIcon}>📅</span>
@@ -573,7 +582,8 @@ const ProjectExisting = () => {
                                                     value={formData.auction_end_date}
                                                     onChange={handleChange}
                                                     className={styles.dateInput}
-                                                    min={formData.auction_start_date}
+                                                    min={new Date().toISOString().split('T')[0]} // Set minimum date to today
+
                                                     required
                                                 />
                                                 <span className={styles.calendarIcon}>📅</span>
@@ -1066,8 +1076,10 @@ const ProjectExisting = () => {
                             </div>
                         </div>
                     )}
+            <Toaster richColors position="top-center" duration={4000} />
                 </form>
             </div>
+
         </>
     );
 };

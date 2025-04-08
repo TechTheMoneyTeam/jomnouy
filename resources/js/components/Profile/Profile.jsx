@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar2 from '../Navbar/Navbarforsubmit';
 import '../Navbar/Navbar.css';
+import { orange } from '@mui/material/colors';
 
 const ProfileDisplay = () => {
   const [userInfo, setUserInfo] = useState({});
@@ -80,15 +81,19 @@ const ProfileDisplay = () => {
   };
 
   const styles = {
+    
     container: {
-      maxWidth: '800px',
+      maxWidth: '1200px',
       margin: '0 auto',
-      padding: '24px'
+      padding: '2rem'
     },
+  //   font- size: 2rem;
+  // font - weight: bold;
+  // margin - bottom: 2rem;
     title: {
-      fontSize: '24px',
+      fontSize: ' 2rem',
       fontWeight: 'bold',
-      marginBottom: '32px'
+      marginBottom: '2rem'
     },
     profileSection: {
       display: 'flex',
@@ -142,6 +147,7 @@ const ProfileDisplay = () => {
       color: '#111827',
       borderBottom: '2px solid #111827'
     },
+
     badge: {
       backgroundColor: '#fff7ed',
       color: '#f97316',
@@ -234,15 +240,25 @@ const ProfileDisplay = () => {
 
             <div style={styles.navigation}>
               <button
-                style={{
-                  ...styles.navButton,
-                  ...(activeSection === 'about' ? styles.activeNavButton : {})
+                  style={{
+                    color: '#f97316',
+                    fontWeight:'700',
+                  padding: '8px 16px',
+                  borderTop: 'none',
+                  borderRight: 'none',
+                    borderBottom: '2px solid #f97316',
+                  borderLeft: 'none',
+                  background: 'none',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  borderRadius: 0
                 }}
                 onClick={() => setActiveSection('about')}
               >
                 About
               </button>
-       
+
+
             </div>
 
             {activeSection === 'about' && (
@@ -250,7 +266,7 @@ const ProfileDisplay = () => {
                 <div style={styles.detailsSection}>
                   <h3 style={styles.sectionTitle}>Details</h3>
                   <p style={styles.detailText}>{formatDate(userInfo.created_at)}</p>
-           
+
                   <p style={styles.detailText}>User Type: {userInfo.user_type || 'No type found'}</p>
                 </div>
 

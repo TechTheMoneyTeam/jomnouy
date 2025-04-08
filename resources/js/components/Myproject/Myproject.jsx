@@ -495,7 +495,7 @@ const MyProjects = () => {
                                                 {/* <CircleDashed size={16} className={styles.statusIcon} /> */}
                                                 <span className="font-normal">{investmentData.pending_count}</span>
 
-                                                <span className="text-sm font-medium text-[#2e86c1]">Completed</span>
+                                                <span className="text-sm font-medium    ">Completed</span>
                                                 <span className="font-medium text-sm pt-3">
                                                     {formatFunding(investmentData.total_pending_amount)}
                                                 </span>

@@ -29,9 +29,10 @@
   }
   
   .activeTab {
-    color: #000;
+    color: #F07900;
     font-weight: 600;
     border-bottom: 2px solid #F07900;
+    border-radius: 0;
   }
   
   .formSection {
@@ -232,6 +233,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
+    
   }
   
   .nextButton:hover, .submitButton:hover {

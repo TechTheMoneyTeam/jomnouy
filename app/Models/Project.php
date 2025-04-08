@@ -93,4 +93,8 @@ class Project extends Model
      * @var array
      */
     protected $appends = ['project_img_url', 'project_video_url'];
+    public function investments()
+    {
+        return $this->hasMany(Investment::class, 'project_id', 'project_id');
+    }
 }

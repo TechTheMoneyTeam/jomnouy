@@ -270,7 +270,7 @@ const InvestmentApprovalDashboard = () => {
         </p>
       </div>
 
-        <div className="bg-gray-200 p-5 rounded-lg">
+        <div className="bg-[#f8f9f9]/80 p-5 rounded-lg">
           <div className={styles.controls}>
             <div className={styles.selectWrapper}>
               <label htmlFor="project-select" className={styles.selectLabel}>
@@ -308,14 +308,14 @@ const InvestmentApprovalDashboard = () => {
                 <option value="completed">Completed</option>
               </select>
 
-              <button
+              {/* <button
                 onClick={() => fetchInvestments(projectId)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50 flex items-center gap-2"
                 disabled={!projectId}
               >
                 <RefreshCw size={16} />
                 Refresh
-              </button>
+              </button> */}
 
               {/* <button
                 onClick={() => fetchInvestments(projectId)}
@@ -326,7 +326,7 @@ const InvestmentApprovalDashboard = () => {
                 <span className="truncate">Update & Report</span>
               </button> */}
               <button
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:opacity-50 flex items-center whitespace-nowrap gap-2"
+                className="bg-[#F07900] text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:opacity-50 flex items-center whitespace-nowrap gap-2"
 
                 onClick={() => handleUpdateClick(projectId)}// Fixed the event
               >
@@ -338,23 +338,23 @@ const InvestmentApprovalDashboard = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-5">
 
-            <div className="bg-white p-4 rounded-md shadow">
+            <div className="bg-blue-100 p-4 rounded-md ">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-gray-600">Total Investments Offered</p>
-                  <p className="text-xl font-bold">{stats.total}</p>
+                  <p className="text-[#2e86c1] font-medium">Total Investments Offered</p>
+                  <p className="pt-1 text-lg font-normal">{stats.total}</p>
                 </div>
                 <div className="text-blue-500">
-                  <DollarSign size={20} />
+                  <DollarSign size={20} color='#2e86c1' />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-md shadow">
+            <div className="bg-yellow-100 p-4 rounded-md ">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-gray-600">Pending</p>
-                  <p className="text-xl font-bold">{stats.pending}</p>
+                  <p className="text-[#f1c40f] font-medium">Pending</p>
+                  <p className="pt-1 text-lg font-normal">{stats.pending}</p>
                 </div>
                 <div className="text-yellow-500">
                   <Clock size={20} />
@@ -362,23 +362,23 @@ const InvestmentApprovalDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-md shadow">
+            <div className="bg-purple-100 p-4 rounded-md ">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-gray-600">Investors Amount</p>
-                  <p className="text-xl font-bold">{stats.uniqueInvestors}</p>
+                  <p className="text-[#8e44ad] font-medium">Investors Amount</p>
+                  <p className="pt-1 text-lg font-normal">{stats.uniqueInvestors}</p>
                 </div>
                 <div className="text-green-500">
-                  <Users size={20} />
+                  <Users size={20} color='#8e44ad' />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-md shadow">
+            <div className="bg-green-100 p-4 rounded-md ">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-gray-600">Approved</p>
-                  <p className="text-xl font-bold">{stats.approved}</p>
+                  <p className="text-[#27ae60] font-medium">Approved</p>
+                  <p className="pt-1 text-lg font-normal">{stats.approved}</p>
                 </div>
                 <div className="text-green-500">
                   <Check size={20} />
@@ -386,11 +386,11 @@ const InvestmentApprovalDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-md shadow">
+            <div className="bg-orange-100 p-4 rounded-md ">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-gray-600">Total Amount Offered</p>
-                  <p className="text-xl font-bold">{formatCurrency(stats.totalAmount)}</p>
+                  <p className="text-custom-orange font-medium">Total Amount Offered</p>
+                  <p className="pt-1 text-lg font-normal">{formatCurrency(stats.totalAmount)}</p>
                 </div>
                 <div className="text-orange-500">
                   <DollarSign size={20} />

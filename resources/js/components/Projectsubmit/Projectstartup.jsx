@@ -177,11 +177,15 @@ const ProjectStartup = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
+            toast.success(response.data.message || "Update submitted successfully!");
+            setTimeout(() => {
+                window.location.href = "/projectlist1";
+            }, 2000);
 
-            setMessage({
-                text: 'Project submitted successfully!',
-                type: 'success'
-            });
+            // setMessage({
+            //     text: 'Project submitted successfully!',
+            //     type: 'success'
+            // });
 
             setFormData({
                 user_id: currentUser?.user_id || '',
@@ -215,10 +219,9 @@ const ProjectStartup = () => {
 
             console.log('Project submitted:', response.data);
         } catch (error) {
-            setMessage({
-                text: error.response?.data?.message || 'Error submitting project!',
-                type: 'error'
-            });
+            // 
+            toast.error("Error submitting update. Please try again.");
+
             console.error('Submission error:', error.response?.data);
         }
     };

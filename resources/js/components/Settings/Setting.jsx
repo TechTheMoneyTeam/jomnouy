@@ -65,7 +65,9 @@ export default function Settings() {
   };
 
   return (
-    <><Navbar2 /><div className={styles.container}>
+    <>
+      <Navbar2 />
+      <div className={styles.container}>
                 <h1 className={styles.title}>Settings</h1>
                 
                 <div className={styles.tabContainer}>

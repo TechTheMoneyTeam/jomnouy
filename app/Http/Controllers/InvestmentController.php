@@ -536,4 +536,31 @@ class InvestmentController extends Controller
             ], 500);
         }
     }
+    public function getUserProjects($userId)
+    {
+        try {
+
+            $user = User::where('user_id', $userId)->first();
+
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+
+            $projects = Project::whereHas('investments', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+                ->select('project_id', 'title', 'project_des', 'status', 'created_at')
+                ->get();
+
+            return response()->json($projects, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch user projects',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

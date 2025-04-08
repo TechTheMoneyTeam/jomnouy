@@ -1,8 +1,8 @@
 .container {
-    max-width: 42rem;
-    margin: 0 auto;
-    padding: 1.5rem;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
   .title {
     font-size: 2rem;
     font-weight: bold;
@@ -24,11 +24,11 @@
     cursor: pointer;
     font-size: 1rem;
   }
-  
-  .activeTab {
-    color: #f97316;
-    border-bottom: 2px solid #f97316;
-  }
+.activeTab {
+  color: #F07900;
+  border-bottom: 2px solid #F07900;
+  border-radius: 0;
+}
   
   .errorAlert {
     margin-bottom: 1rem;
