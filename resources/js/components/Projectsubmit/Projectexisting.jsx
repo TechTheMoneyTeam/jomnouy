@@ -559,6 +559,7 @@ const ProjectExisting = () => {
                                                     value={formData.auction_start_date}
                                                     onChange={handleChange}
                                                     className={styles.dateInput}
+                                                    min={new Date().toISOString().split('T')[0]} // Set minimum date to today
                                                     required
                                                 />
                                                 <span className={styles.calendarIcon}>📅</span>
